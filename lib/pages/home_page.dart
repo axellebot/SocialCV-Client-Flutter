@@ -5,8 +5,8 @@ import 'package:cv/services/local_data_repository.dart';
 class HomePage extends StatefulWidget {
   final String title = "Resume Page";
 
-  double defaultChipSpacing = 4.0;
-  double defaultElevation = 2.0;
+  final double defaultChipSpacing = 4.0;
+  final double defaultElevation = 2.0;
 
   HomePage({Key key}) : super(key: key);
 
