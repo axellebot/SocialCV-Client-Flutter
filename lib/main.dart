@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:cv/pages/login_page.dart';
+import 'package:flutter/services.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-void main() => runApp(new CVApp());
+import 'app.dart';
+import 'models/app_state_model.dart';
 
-class CVApp extends StatelessWidget {
-  final String title = 'Social CV';
-  final ThemeData theme = new ThemeData(
-    primarySwatch: Colors.blue,
-    accentColor: Colors.deepOrange,
-    // Set background color
-    backgroundColor: Colors.white30,
+void main() {
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  AppStateModel model = AppStateModel();
+
+  runApp(
+    ScopedModel<AppStateModel>(
+      model: model,
+      child: CVApp(),
+    ),
   );
-
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: title,
-      theme: theme,
-      home: new LoginPage(),
-    );
-  }
 }
