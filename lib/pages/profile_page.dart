@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:cv/models/skill_group.dart';
 import 'package:cv/services/local_data_repository.dart';
 
-class HomePage extends StatefulWidget {
-  final String title = "Resume Page";
+class ProfilePage extends StatefulWidget {
+  final String title = "Profile";
 
   final double defaultChipSpacing = 4.0;
   final double defaultElevation = 2.0;
 
-  HomePage({Key key}) : super(key: key);
+  ProfilePage({Key key}) : super(key: key);
 
   @override
-  _MainPageState createState() => new _MainPageState();
+  _ProfilePageState createState() => new _ProfilePageState();
 }
 
-class _MainPageState extends State<HomePage> {
+class _ProfilePageState extends State<ProfilePage> {
   LocalDataRepository repository;
 
-  _MainPageState() {
+  _ProfilePageState() {
     repository = new LocalDataRepository();
   }
 
