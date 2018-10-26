@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cv/widgets/password_form_field.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -8,60 +9,6 @@ class LoginPage extends StatefulWidget {
 
   @override
   _LoginPageState createState() => new _LoginPageState();
-}
-
-class PasswordField extends StatefulWidget {
-  const PasswordField({
-    this.fieldKey,
-    this.hintText,
-    this.labelText,
-    this.helperText,
-    this.onSaved,
-    this.validator,
-    this.onFieldSubmitted,
-  });
-
-  final Key fieldKey;
-  final String hintText;
-  final String labelText;
-  final String helperText;
-  final FormFieldSetter<String> onSaved;
-  final FormFieldValidator<String> validator;
-  final ValueChanged<String> onFieldSubmitted;
-
-  @override
-  _PasswordFieldState createState() => _PasswordFieldState();
-}
-
-class _PasswordFieldState extends State<PasswordField> {
-  bool _obscureText = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      key: widget.fieldKey,
-      obscureText: _obscureText,
-      maxLength: 8,
-      onSaved: widget.onSaved,
-      validator: widget.validator,
-      onFieldSubmitted: widget.onFieldSubmitted,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        filled: false,
-        hintText: widget.hintText,
-        labelText: widget.labelText,
-        helperText: widget.helperText,
-        suffixIcon: GestureDetector(
-          onTap: () {
-            setState(() {
-              _obscureText = !_obscureText;
-            });
-          },
-          child: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
-        ),
-      ),
-    );
-  }
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -94,10 +41,16 @@ class _LoginPageState extends State<LoginPage> {
 
   String _validateEmail(String value) {
     _formWasEdited = true;
-    if (value.isEmpty) return 'Name is required.';
+    if (value.isEmpty) return 'E-mail is required.';
     final RegExp nameExp =
         RegExp(r'^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$');
     if (!nameExp.hasMatch(value)) return 'Please enter a real e-mail.';
+    return null;
+  }
+
+  String _validatePassword(String value) {
+    _formWasEdited = true;
+    if (value.isEmpty) return 'Password is required.';
     return null;
   }
 
@@ -135,9 +88,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
       body: SafeArea(
         top: false,
         bottom: false,
@@ -153,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 80.0),
                 Column(
                   children: <Widget>[
-                    Image.asset('assets/account_card_details-blue.png'),
+                    Image.asset('images/account_card_details-blue.png'),
                     SizedBox(height: 16.0),
                     Text(
                       'SOCIAL CV',
@@ -161,24 +111,21 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 120.0),
+                const SizedBox(height: 120.0),
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   validator: _validateEmail,
                   decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
                     hintText: 'username@example.com',
                     labelText: 'E-mail *',
                   ),
                   maxLines: 1,
                 ),
                 const SizedBox(height: 12.0),
-                PasswordField(
+                PasswordFormField(
                   fieldKey: _passwordFieldKey,
+                  validator: _validatePassword,
                   labelText: 'Password *',
-                  onFieldSubmitted: (String value) {
-                    setState(() {});
-                  },
                 ),
                 ButtonBar(
                   children: <Widget>[
