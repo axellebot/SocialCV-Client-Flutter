@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:cv/pages/home_page.dart';
+import 'package:flutter/services.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-void main() => runApp(new CVApp());
+import 'app.dart';
+import 'models/app_state_model.dart';
 
-class CVApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Flutter Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-        accentColor: Colors.deepOrange,
-        // Set background color
-        backgroundColor: Colors.white30,
-      ),
-      home: new HomePage(),
-    );
-  }
+void main() {
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  AppStateModel model = AppStateModel();
+
+  runApp(
+    ScopedModel<AppStateModel>(
+      model: model,
+      child: CVApp(),
+    ),
+  );
 }

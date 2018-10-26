@@ -14,7 +14,7 @@ class LocalDataRepository implements IDataRepository {
 
   Future loadCV({force: false}) async {
     if (!force && jsonCV != null) return Future.value(null);
-    return rootBundle.loadString('assets/data/cv.json').then((value) {
+    return rootBundle.loadString('images/data/cv.json').then((value) {
       jsonCV = json.decode(value);
     });
   }
