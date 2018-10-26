@@ -1,9 +1,10 @@
+import 'package:cv/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'colors.dart';
 import 'package:cv/pages/login_page.dart';
-import 'package:cv/pages/home_page.dart';
+import 'package:cv/pages/account_page.dart';
 
 class CVApp extends StatefulWidget {
   @override
@@ -30,7 +31,13 @@ class _CVAppState extends State<CVApp> with SingleTickerProviderStateMixin {
     return new MaterialApp(
       title: "CV Flutter",
       theme: _kCVTheme,
-      home: LoginPage(),
+      home: AccountPage(),
+      initialRoute: '/account',
+      routes: <String, WidgetBuilder>{
+        '/login': (context) => LoginPage(),
+        '/profile': (context) => ProfilePage(),
+        '/account': (context) => AccountPage(),
+      },
     );
   }
 }
