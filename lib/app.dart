@@ -1,3 +1,5 @@
+import 'package:cv/pages/home_page.dart';
+import 'package:cv/pages/main_page.dart';
 import 'package:cv/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,9 +33,9 @@ class _CVAppState extends State<CVApp> with SingleTickerProviderStateMixin {
     return new MaterialApp(
       title: "CV Flutter",
       theme: _kCVTheme,
-      home: AccountPage(),
-      initialRoute: '/account',
+      home: MainPage(),
       routes: <String, WidgetBuilder>{
+        '/home': (context) => HomePage(),
         '/login': (context) => LoginPage(),
         '/profile': (context) => ProfilePage(),
         '/account': (context) => AccountPage(),
