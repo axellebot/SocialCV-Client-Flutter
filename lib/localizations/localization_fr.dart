@@ -39,6 +39,8 @@ class LocalizationFR implements Localization {
   String get loginForgotPasswordCTA => "Mot de passe oublié ?";
   @override
   String get loginNoAccountCTA => "Vous n'avez pas de compte ? Inscrivez-vous";
+  @override
+  String get loginOr => "Ou";
 
   @override
   String get forgotPasswordTitle => "Retrouvez votre mot de passe";
@@ -65,6 +67,14 @@ class LocalizationFR implements Localization {
   String get homeWelcome => "Bienvenue sur notre nouveau réseau social de CV !";
 
   @override
+  String get profileMyResume => "Mes CVs";
+
+  @override
+  String get settingsTitle => "Parametres";
+  @override
+  String get settingsToS => "Lire les termes et conditions";
+
+  @override
   String get email => "Email";
   @override
   String get password => "Mot de passe";
@@ -80,6 +90,8 @@ class LocalizationFR implements Localization {
   String get logout => "Déconnection";
   @override
   String get home => "Accueil";
+  @override
+  String get resume => "CV";
   @override
   String get profile => "Profil";
   @override

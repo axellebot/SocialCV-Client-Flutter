@@ -28,6 +28,7 @@ abstract class Localization {
   String get loginSignInCTA;
   String get loginForgotPasswordCTA;
   String get loginNoAccountCTA;
+  String get loginOr;
 
   String get forgotPasswordTitle;
   String get forgotPasswordExplain;
@@ -40,6 +41,11 @@ abstract class Localization {
   String get homeTitle;
   String get homeWelcome;
 
+  String get profileMyResume;
+
+  String get settingsTitle;
+  String get settingsToS;
+
   String get email;
   String get password;
   String get cancel;
@@ -48,6 +54,7 @@ abstract class Localization {
   String get login;
   String get logout;
   String get home;
+  String get resume;
   String get profile;
   String get search;
   String get history;

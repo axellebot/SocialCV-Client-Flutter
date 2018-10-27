@@ -89,61 +89,104 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       key: _scaffoldKey,
-      body: SafeArea(
-        top: false,
-        bottom: false,
-        child: Form(
-          key: _formKey,
-          autovalidate: _autovalidate,
-          onWillPop: _warnUserAboutInvalidData,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                SizedBox(height: 80.0),
-                Column(
-                  children: <Widget>[
-                    Image.asset('images/account_card_details-blue.png'),
-                    SizedBox(height: 16.0),
-                    Text(
-                      Localization.of(context).appName,
-                      style: Theme.of(context).textTheme.headline,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 120.0),
-                TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  validator: _validateEmail,
-                  decoration: InputDecoration(
-                    hintText: 'username@example.com',
-                    labelText: Localization.of(context).email + ' *',
+      body: ListView(
+        children: <Widget>[
+          Form(
+            key: _formKey,
+            autovalidate: _autovalidate,
+            onWillPop: _warnUserAboutInvalidData,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  SizedBox(height: 80.0),
+                  Column(
+                    children: <Widget>[
+                      Image.asset('images/account_card_details-blue.png'),
+                      SizedBox(height: 16.0),
+                      Text(
+                        Localization.of(context).appName,
+                        style: Theme.of(context).textTheme.headline,
+                      ),
+                    ],
                   ),
-                  maxLines: 1,
-                ),
-                const SizedBox(height: 12.0),
-                PasswordFormField(
-                  fieldKey: _passwordFieldKey,
-                  validator: _validatePassword,
-                  labelText: Localization.of(context).password + ' *',
-                ),
-                ButtonBar(
-                  children: <Widget>[
-                    RaisedButton(
-                      child: Text(Localization.of(context).loginSignUp),
-                      onPressed: _handleSignUp,
+                  const SizedBox(height: 120.0),
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    validator: _validateEmail,
+                    decoration: InputDecoration(
+                      hintText: 'username@example.com',
+                      labelText: Localization.of(context).email + ' *',
                     ),
-                    RaisedButton(
-                      child: Text(Localization.of(context).login),
-                      onPressed: _handleSubmitted,
-                    ),
-                  ],
-                ),
-              ],
+                    maxLines: 1,
+                  ),
+                  const SizedBox(height: 12.0),
+                  PasswordFormField(
+                    fieldKey: _passwordFieldKey,
+                    validator: _validatePassword,
+                    labelText: Localization.of(context).password + ' *',
+                  ),
+                  ButtonBar(
+                    children: <Widget>[
+                      RaisedButton(
+                        child: Text(Localization.of(context).loginSignUp),
+                        onPressed: _handleSignUp,
+                      ),
+                      RaisedButton(
+                        child: Text(Localization.of(context).loginSignIn),
+                        onPressed: _handleSubmitted,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  height: 2.0,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).textTheme.title.color,
+                  ),
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(left: 16.0)),
+              Text(
+                Localization.of(context).loginOr,
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  fontFamily: "Google Sans",
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(left: 16.0)),
+              Expanded(
+                child: Container(
+                  height: 2.0,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).textTheme.title.color,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const Padding(padding: EdgeInsets.only(top: 25.0)),
+          Center(
+            child: RaisedButton(
+              onPressed: () {},
+              child: Text(Localization.of(context).loginSignInGoogleCTA),
+            ),
+          ),
+          const Padding(padding: EdgeInsets.only(top: 16.0)),
+          Center(
+            child: RaisedButton(
+              onPressed: () {},
+              child: Text(Localization.of(context).loginSignInFacebookCTA),
+            ),
+          ),
+        ],
       ),
     );
   }

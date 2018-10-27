@@ -1,108 +1,26 @@
 import 'package:cv/localizations/localization.dart';
 import 'package:flutter/material.dart';
-import 'package:cv/models/skill_group.dart';
-import 'package:cv/services/local_data_repository.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String title = "Profile";
-
-  final double defaultChipSpacing = 4.0;
-  final double defaultElevation = 2.0;
-
   ProfilePage({Key key}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => new _ProfilePageState();
+  _ProfilePageSate createState() => _ProfilePageSate();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  LocalDataRepository repository;
-
-  _ProfilePageState() {
-    repository = new LocalDataRepository();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Widget _buildSkillGroupChips(List<String> skillTags) {
-    if (skillTags == null) {
-      return new Text("null");
-    }
-
-    List<Widget> _skillWidgets = [];
-    skillTags.forEach((element) {
-      _skillWidgets.add(
-        new Chip(
-          label: new Text((element != null) ? element : "null"),
-        ),
-      );
-    });
-    return new Wrap(
-      spacing: widget.defaultChipSpacing, // gap between adjacent chips
-      runSpacing: widget.defaultChipSpacing, // gap between lines
-      children: _skillWidgets,
-    );
-  }
-
-  Widget _buildSkillsPart() {
-    return new Card(
-      elevation: widget.defaultElevation,
-      child: new Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: new FutureBuilder(
-            future: repository.getSkillGroups(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasError) {
-                return new Text(
-                  Localization.of(context).errorOccurred,
-                );
-              } else if (snapshot.hasData == false) {
-                return new CircularProgressIndicator();
-              } else {
-                List<SkillGroup> skillGroups = snapshot.data;
-                List<Widget> skillWidgets = [];
-
-                skillGroups.forEach((skillGroup) {
-                  skillWidgets.add(
-                    new Text(
-                      (skillGroup.label != null) ? skillGroup.label : "null",
-                    ),
-                  );
-                  skillWidgets.add(_buildSkillGroupChips(skillGroup.skills));
-                });
-
-                return new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: skillWidgets,
-                );
-              }
-            }),
-      ),
-    );
-  }
-
+class _ProfilePageSate extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
-      ),
-      body: new SingleChildScrollView(
-        padding: const EdgeInsets.all(5.0),
-        child: new Row(children: <Widget>[
-          new Expanded(
-            child: new Column(
-              children: <Widget>[
-                _buildSkillsPart(),
-              ],
-            ),
-          ),
-        ]),
-      ),
+    return ListView(
+      children: [
+        ListTile(
+          leading: Icon(MdiIcons.accountBoxMultiple),
+          title: Text(Localization.of(context).profileMyResume),
+          onTap: () => Navigator.of(context).pushNamed('/resume'),
+          trailing: Icon(Icons.keyboard_arrow_right),
+        ),
+      ],
     );
   }
 }
