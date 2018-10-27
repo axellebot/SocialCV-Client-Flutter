@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cv/localizations/localization.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,6 @@ class HomePage extends StatefulWidget {
 class _HomePageSate extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Text('Home test');
+    return Text(Localization.of(context).homeWelcome);
   }
 }

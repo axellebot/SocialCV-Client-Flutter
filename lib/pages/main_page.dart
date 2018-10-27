@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
+import 'package:cv/localizations/localization.dart';
 import 'package:cv/pages/account_page.dart';
 import 'package:cv/pages/home_page.dart';
-import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key}) : super(key: key);
@@ -30,13 +32,13 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Social CV'),
+        title: Text(Localization.of(context).appName),
         centerTitle: true,
       ),
       body: _buildBody(),
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.search),
-        label: Text('Search'),
+        label: Text(Localization.of(context).search),
         backgroundColor: Theme.of(context).accentColor,
         foregroundColor: Colors.white,
         onPressed: () {},
@@ -88,7 +90,7 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             activeIcon: Icon(Icons.home),
-            title: Text("Home"),
+            title: Text(Localization.of(context).home),
           ),
           const BottomNavigationBarItem(
             // Fake item
@@ -98,7 +100,7 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             activeIcon: Icon(Icons.account_circle),
-            title: Text("Account"),
+            title: Text(Localization.of(context).account),
           ),
         ],
       ),

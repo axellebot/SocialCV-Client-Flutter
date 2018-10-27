@@ -1,3 +1,4 @@
+import 'package:cv/localizations/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:cv/models/skill_group.dart';
 import 'package:cv/services/local_data_repository.dart';
@@ -56,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasError) {
                 return new Text(
-                  "Error",
+                  Localization.of(context).errorOccurred,
                 );
               } else if (snapshot.hasData == false) {
                 return new CircularProgressIndicator();

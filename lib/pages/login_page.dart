@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:cv/localizations/localization.dart';
 import 'package:cv/widgets/password_form_field.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  final String title = "Login Page";
   LoginPage({Key key}) : super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       showInSnackBar('Please fix the errors in red before submitting.');
     } else {
       form.save();
-      showInSnackBar('Logged');
+      showInSnackBar(Localization.of(context).logged);
     }
   }
 
@@ -41,16 +41,17 @@ class _LoginPageState extends State<LoginPage> {
 
   String _validateEmail(String value) {
     _formWasEdited = true;
-    if (value.isEmpty) return 'E-mail is required.';
+    if (value.isEmpty) return Localization.of(context).loginNoEmailTitle;
     final RegExp nameExp =
         RegExp(r'^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$');
-    if (!nameExp.hasMatch(value)) return 'Please enter a real e-mail.';
+    if (!nameExp.hasMatch(value))
+      return Localization.of(context).loginNotEmailExplain;
     return null;
   }
 
   String _validatePassword(String value) {
     _formWasEdited = true;
-    if (value.isEmpty) return 'Password is required.';
+    if (value.isEmpty) return Localization.of(context).loginNoPasswordTitle;
     return null;
   }
 
@@ -66,13 +67,13 @@ class _LoginPageState extends State<LoginPage> {
               content: const Text('Really leave this form?'),
               actions: <Widget>[
                 FlatButton(
-                  child: const Text('YES'),
+                  child: Text(Localization.of(context).yes),
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
                 ),
                 FlatButton(
-                  child: const Text('NO'),
+                  child: Text(Localization.of(context).no),
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
@@ -106,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                     Image.asset('images/account_card_details-blue.png'),
                     SizedBox(height: 16.0),
                     Text(
-                      'SOCIAL CV',
+                      Localization.of(context).appName,
                       style: Theme.of(context).textTheme.headline,
                     ),
                   ],
@@ -115,9 +116,9 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   validator: _validateEmail,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'username@example.com',
-                    labelText: 'E-mail *',
+                    labelText: Localization.of(context).email + ' *',
                   ),
                   maxLines: 1,
                 ),
@@ -125,16 +126,16 @@ class _LoginPageState extends State<LoginPage> {
                 PasswordFormField(
                   fieldKey: _passwordFieldKey,
                   validator: _validatePassword,
-                  labelText: 'Password *',
+                  labelText: Localization.of(context).password + ' *',
                 ),
                 ButtonBar(
                   children: <Widget>[
                     RaisedButton(
-                      child: Text('SIGN UP'),
+                      child: Text(Localization.of(context).loginSignUp),
                       onPressed: _handleSignUp,
                     ),
                     RaisedButton(
-                      child: Text('LOGIN'),
+                      child: Text(Localization.of(context).login),
                       onPressed: _handleSubmitted,
                     ),
                   ],

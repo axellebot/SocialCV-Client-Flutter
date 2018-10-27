@@ -1,9 +1,10 @@
+import 'package:cv/localizations/localization.dart';
 import 'package:cv/pages/home_page.dart';
 import 'package:cv/pages/main_page.dart';
 import 'package:cv/pages/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
+import 'package:flutter/foundation.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'colors.dart';
 import 'package:cv/pages/login_page.dart';
 import 'package:cv/pages/account_page.dart';
@@ -30,8 +31,13 @@ class _CVAppState extends State<CVApp> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // Set-up error reporting
+//    FlutterError.onError = (FlutterErrorDetails error) {
+//      printException(error.exception, error.stack, error.context);
+//    };
+
     return new MaterialApp(
-      title: "CV Flutter",
+      title: 'Social CV',
       theme: _kCVTheme,
       home: MainPage(),
       routes: <String, WidgetBuilder>{
@@ -40,6 +46,16 @@ class _CVAppState extends State<CVApp> with SingleTickerProviderStateMixin {
         '/profile': (context) => ProfilePage(),
         '/account': (context) => AccountPage(),
       },
+      localizationsDelegates: [
+        const CVLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('fr'),
+      ],
+      debugShowCheckedModeBanner: false,
     );
   }
 }
