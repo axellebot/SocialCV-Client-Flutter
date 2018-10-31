@@ -41,7 +41,9 @@ abstract class Localization {
   String get homeTitle;
   String get homeWelcome;
 
-  String get profileMyResume;
+  String get accountMyProfile;
+
+  String get profileTitle;
 
   String get settingsTitle;
   String get settingsToS;

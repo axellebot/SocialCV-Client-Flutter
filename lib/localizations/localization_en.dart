@@ -38,7 +38,7 @@ class LocalizationEN implements Localization {
   @override
   String get loginNoAccountCTA => "Don't have an account yet? Sign-up";
   @override
-  String get loginOr => "Or";
+  String get loginOr => "OR";
 
   @override
   String get forgotPasswordTitle => "Retrieve password";
@@ -64,7 +64,10 @@ class LocalizationEN implements Localization {
   String get homeWelcome => "Welcome on our new resume social network !";
 
   @override
-  String get profileMyResume => "My resumes";
+  String get accountMyProfile => "My profiles";
+
+  @override
+  String get profileTitle => "Profile";
 
   @override
   String get settingsTitle => "Settings";

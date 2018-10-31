@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:cv/localizations/localization.dart';
-import 'package:cv/pages/profile_page.dart';
+import 'package:cv/pages/account_page.dart';
 import 'package:cv/pages/home_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -66,7 +66,7 @@ class _MainPageState extends State<MainPage> {
             offstage: currentIndex != _TAB_ACCOUNT_INDEX,
             child: TickerMode(
               enabled: currentIndex == _TAB_ACCOUNT_INDEX,
-              child: ProfilePage(),
+              child: AccountPage(),
             ),
           ),
         ],

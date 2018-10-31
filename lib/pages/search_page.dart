@@ -12,31 +12,31 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Container(
-            padding: new EdgeInsets.only(right: 12.0),
-            child: new TextField(
+    return Scaffold(
+        appBar: AppBar(
+          title: Container(
+            padding: EdgeInsets.only(right: 12.0),
+            child: TextField(
                 onSubmitted: (query) {
                   setState(() {
                     _query = query;
                   });
                 },
                 autofocus: true,
-                decoration: new InputDecoration(
+                decoration: InputDecoration(
                   hintText: "Search resume...",
-                  hintStyle: new TextStyle(
-                    color: new Color.fromARGB(255, 255, 255, 255),
+                  hintStyle: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
                     fontSize: 18.0,
                     fontWeight: FontWeight.normal,
                   ),
                 ),
-                style: new TextStyle(
+                style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
                     fontWeight: FontWeight.normal)),
           ),
         ),
-        body: _query.isEmpty ? new Container() : new Container());
+        body: _query.isEmpty ? Container() : Container());
   }
 }

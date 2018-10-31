@@ -6,8 +6,8 @@ import 'app.dart';
 import 'models/app_state_model.dart';
 
 void main() {
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+//  SystemChrome.setPreferredOrientations(
+//      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   AppStateModel model = AppStateModel();
 
   runApp(

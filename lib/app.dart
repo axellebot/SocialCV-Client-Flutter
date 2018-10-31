@@ -2,7 +2,7 @@ import 'package:cv/commons/exception_print.dart';
 import 'package:cv/localizations/localization.dart';
 import 'package:cv/pages/home_page.dart';
 import 'package:cv/pages/main_page.dart';
-import 'package:cv/pages/resume_page.dart';
+import 'package:cv/pages/profile_page.dart';
 import 'package:cv/pages/search_page.dart';
 import 'package:cv/pages/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'colors.dart';
 import 'package:cv/pages/login_page.dart';
-import 'package:cv/pages/profile_page.dart';
+import 'package:cv/pages/account_page.dart';
 
 class CVApp extends StatefulWidget {
   @override
@@ -37,8 +37,8 @@ class _CVAppState extends State<CVApp> with SingleTickerProviderStateMixin {
       routes: <String, WidgetBuilder>{
         '/home': (context) => HomePage(),
         '/login': (context) => LoginPage(),
-        '/resume': (context) => ResumePage(),
         '/profile': (context) => ProfilePage(),
+        '/account': (context) => AccountPage(),
         '/settings': (context) => SettingsPage(),
         '/search': (context) => SearchPage(),
       },
