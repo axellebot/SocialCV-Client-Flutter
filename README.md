@@ -1,6 +1,6 @@
-# cv
+# Social CV
 
-A new Flutter application.
+A new Flutter application about "resumes".
 
 ## Getting Started
 

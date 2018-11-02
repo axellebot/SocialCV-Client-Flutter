@@ -1,7 +1,7 @@
-import 'package:cv/localizations/localization.dart';
+import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/models/skill_group.dart';
+import 'package:cv/src/services/local_data_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:cv/models/skill_group.dart';
-import 'package:cv/services/local_data_repository.dart';
 
 class ProfilePage extends StatefulWidget {
   final double defaultChipSpacing = 4.0;

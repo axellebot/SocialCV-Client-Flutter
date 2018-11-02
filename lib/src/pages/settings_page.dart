@@ -1,6 +1,8 @@
-import 'package:cv/localizations/localization.dart';
+import 'package:cv/src/blocs/auth_bloc.dart';
+import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/pages/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({Key key}) : super(key: key);
@@ -45,14 +47,6 @@ class _SettingsPageSate extends State<SettingsPage> {
             ),
           ),
           const Padding(padding: EdgeInsets.only(top: 14.0)),
-          Center(
-            child: FlatButton(
-              child: Text(Localization.of(context).logout),
-              onPressed: () {
-                Navigator.of(context).pushNamed('/login');
-              },
-            ),
-          ),
         ],
       ),
     );

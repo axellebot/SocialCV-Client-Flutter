@@ -1,9 +1,9 @@
+import 'dart:async' show Future;
 import 'dart:convert';
 
-import 'package:cv/models/skill_group.dart';
-import 'package:cv/services/data_repository.dart';
+import 'package:cv/src/models/skill_group.dart';
+import 'package:cv/src/services/data_repository.dart';
 import 'package:flutter/services.dart';
-import 'dart:async' show Future;
 
 class LocalDataRepository implements IDataRepository {
   Map<String, dynamic> jsonCV;
