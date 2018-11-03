@@ -1,5 +1,6 @@
 import 'package:cv/src/blocs/auth_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/validators.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/auth_model.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,10 @@ class _LoginPageState extends State<LoginPage> {
     _showInSnackBar('Not implemented yet !');
   }
 
+  void _navigateToMain() {
+    Navigator.of(context).pushNamed('/home');
+  }
+
   @override
   Widget build(BuildContext context) {
     print('build');
@@ -37,13 +42,11 @@ class _LoginPageState extends State<LoginPage> {
     return SafeArea(
       child: Stack(
         children: <Widget>[
-          StreamBuilder(
-            stream: loginBloc.isWorking,
+          StreamBuilder<bool>(
+            stream: loginBloc.isWorkingStream,
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data == true) {
-                  return LinearProgressIndicator();
-                }
+              if (snapshot.data == true) {
+                return LinearProgressIndicator();
               }
               return Container();
             },
@@ -70,13 +73,24 @@ class _LoginPageState extends State<LoginPage> {
                   stream: loginBloc.emailStream,
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    String error;
+                    if (snapshot.hasError) {
+                      ValidationErrors errorType = snapshot.error;
+                      if (errorType == ValidationErrors.ERROR_LOGIN_NO_EMAIL) {
+                        error = Localization.of(context).loginNoEmailExplain;
+                      } else if (errorType ==
+                          ValidationErrors.ERROR_LOGIN_NOT_EMAIL) {
+                        error = Localization.of(context).loginNotEmailExplain;
+                      }
+                    }
+
                     return TextField(
                       onChanged: loginBloc.changeEmail,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: Localization.of(context).email + ' *',
                         hintText: 'username@example.com',
-                        errorText: snapshot.error,
+                        errorText: error,
                       ),
                     );
                   },
@@ -86,12 +100,20 @@ class _LoginPageState extends State<LoginPage> {
                   stream: loginBloc.passwordStream,
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    String error;
+                    if (snapshot.hasError) {
+                      ValidationErrors errorType = snapshot.error;
+                      if (errorType ==
+                          ValidationErrors.ERROR_LOGIN_NO_PASSWORD) {
+                        error = Localization.of(context).loginNoPasswordExplain;
+                      }
+                    }
                     return TextField(
                       onChanged: loginBloc.changePassword,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                           labelText: Localization.of(context).password + ' *',
-                          errorText: snapshot.error,
+                          errorText: error,
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
@@ -106,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   },
                 ),
-                StreamBuilder(
+                StreamBuilder<AuthLoginResponseModel>(
                   stream: loginBloc.connectionStream,
                   builder: (BuildContext context,
                       AsyncSnapshot<AuthLoginResponseModel> snapshot) {
@@ -114,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                       if (snapshot.data.error) {
                         return Text(snapshot.data.message);
                       } else {
-                        return Text(snapshot.data.token);
+                        return Text('Hello ${snapshot.data.user.username}');
                       }
                     }
                     return Container();
@@ -126,13 +148,16 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(Localization.of(context).loginSignUpCTA),
                       onPressed: _handleNotImplementedYet,
                     ),
-                    StreamBuilder(
+                    StreamBuilder<bool>(
+                      initialData: false,
                       stream: loginBloc.submitLoginStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<dynamic> snapshot) {
+                      builder:
+                          (BuildContext context, AsyncSnapshot<bool> snapshot) {
                         return RaisedButton(
                           child: Text(Localization.of(context).loginSignInCTA),
-                          onPressed: snapshot.hasData ? loginBloc.login : null,
+                          onPressed: snapshot.hasData && snapshot.data
+                              ? loginBloc.login
+                              : null,
                         );
                       },
                     ),

@@ -22,10 +22,10 @@ class AuthBloc extends BlocBase with Validators {
 
   // Streams
   Observable<String> get emailStream =>
-      _emailController.stream.transform(performEmailValidation(context));
+      _emailController.stream.transform(validateEmail);
 
   Observable<String> get passwordStream =>
-      _passwordController.stream.transform(performPasswordValidation(context));
+      _passwordController.stream.transform(validatePassword);
 
   Observable<bool> get submitLoginStream =>
       Observable.combineLatest2(emailStream, passwordStream, (e, p) {
@@ -39,12 +39,17 @@ class AuthBloc extends BlocBase with Validators {
   Observable<bool> get isAuthenticatedStream =>
       _isAuthenticatedController.stream;
 
-  Observable<bool> get isWorking => _isWorkingController.stream;
+  Observable<bool> get isWorkingStream => _isWorkingController.stream;
 
   // Sinks
-  Function(String) get changeEmail => _emailController.sink.add;
+  Sink<String> get email => _emailController.sink;
+  Sink<String> get password => _passwordController.sink;
 
-  Function(String) get changePassword => _passwordController.sink.add;
+  /* Functions */
+
+  // Human functions
+  Function(String) get changeEmail => email.add;
+  Function(String) get changePassword => password.add;
 
   login() async {
     if (!_isWorkingController.value) {
@@ -69,7 +74,7 @@ class AuthBloc extends BlocBase with Validators {
 
   logout() async {
     SharedPreferencesService.deleteAuthToken();
-    _isAuthenticatedController.sink.add(false);
+    _isAuthenticatedController.add(false);
   }
 
   dispose() {
