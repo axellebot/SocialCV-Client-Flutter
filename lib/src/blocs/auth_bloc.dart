@@ -1,19 +1,24 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/validators.dart';
-import 'package:cv/src/models/login_model.dart';
+import 'package:cv/src/models/auth_model.dart';
 import 'package:cv/src/services/api_service.dart';
+import 'package:cv/src/services/shared_preferences_service.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AuthBloc extends BlocBase with Validators {
-  ApiService apiProvider = ApiService();
+  AuthBloc() : super() {
+    _isAuthenticatedController.value = false;
+    _isWorkingController.value = false;
+  }
 
-  AuthBloc() : super();
+  ApiService apiProvider = ApiService();
 
   // Reactive variables
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
-
-  final _tokenFetcher = PublishSubject<LoginResponseModel>();
+  final _connectionController = BehaviorSubject<AuthLoginResponseModel>();
+  final _isAuthenticatedController = BehaviorSubject<bool>();
+  final _isWorkingController = BehaviorSubject<bool>();
 
   // Streams
   Observable<String> get emailStream =>
@@ -28,28 +33,50 @@ class AuthBloc extends BlocBase with Validators {
         return true;
       });
 
-  Observable<LoginResponseModel> get tokenStream => _tokenFetcher.stream;
+  Observable<AuthLoginResponseModel> get connectionStream =>
+      _connectionController.stream;
+
+  Observable<bool> get isAuthenticatedStream =>
+      _isAuthenticatedController.stream;
+
+  Observable<bool> get isWorking => _isWorkingController.stream;
 
   // Sinks
   Function(String) get changeEmail => _emailController.sink.add;
 
   Function(String) get changePassword => _passwordController.sink.add;
 
-  submit() async {
-    final validEmail = _emailController.value;
-    final validPassword = _passwordController.value;
-    print('Submit $validEmail and $validPassword');
+  login() async {
+    if (!_isWorkingController.value) {
+      _isWorkingController.add(true);
 
-    LoginResponseModel loginResponseModel =
-        await apiProvider.login(LoginModel(validEmail, validPassword));
+      final validEmail = _emailController.value;
+      final validPassword = _passwordController.value;
 
-    print('Token $loginResponseModel');
-    _tokenFetcher.sink.add(loginResponseModel);
+      AuthLoginResponseModel loginResponseModel =
+          await apiProvider.login(AuthLoginModel(validEmail, validPassword));
+
+      _connectionController.add(loginResponseModel);
+
+      if (!loginResponseModel.error && loginResponseModel.token.isNotEmpty) {
+        SharedPreferencesService.setAuthToken(loginResponseModel.token);
+        _isAuthenticatedController.add(true);
+      }
+
+      _isWorkingController.add(false);
+    }
+  }
+
+  logout() async {
+    SharedPreferencesService.deleteAuthToken();
+    _isAuthenticatedController.sink.add(false);
   }
 
   dispose() {
     _emailController.close();
     _passwordController.close();
-    _tokenFetcher.close();
+    _connectionController.close();
+    _isAuthenticatedController.close();
+    _isWorkingController.close();
   }
 }

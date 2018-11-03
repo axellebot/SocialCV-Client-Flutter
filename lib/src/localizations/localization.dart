@@ -26,7 +26,7 @@ abstract class Localization {
 
   String get loginCreateYourAccount;
 
-  String get loginSignUp;
+  String get loginSignUpCTA;
 
   String get loginPrivacyExplain;
 

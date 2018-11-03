@@ -26,7 +26,7 @@ class LocalizationEN implements Localization {
   String get loginCreateYourAccount => "Create your account";
 
   @override
-  String get loginSignUp => "Sign-up";
+  String get loginSignUpCTA => "Sign-up";
 
   @override
   String get loginPrivacyExplain =>

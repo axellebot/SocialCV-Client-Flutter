@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:cv/src/models/login_model.dart';
+import 'package:cv/src/models/auth_model.dart';
 import 'package:http/http.dart';
 
 class ApiService {
@@ -13,7 +13,7 @@ class ApiService {
     'Accept': 'application/json',
   };
 
-  Future<LoginResponseModel> login(LoginModel loginModel) async {
+  Future<AuthLoginResponseModel> login(AuthLoginModel loginModel) async {
     final response = await client.post(
       "$_baseUrl/auth/login",
       headers: headers,
@@ -22,6 +22,6 @@ class ApiService {
     Map<String, dynamic> json = jsonDecode(response.body);
 
     // If that call was not successful, throw an error.
-    return LoginResponseModel.fromJson(json);
+    return AuthLoginResponseModel.fromJson(json);
   }
 }

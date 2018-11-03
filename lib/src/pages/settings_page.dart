@@ -1,7 +1,4 @@
-import 'package:cv/src/blocs/auth_bloc.dart';
-import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/localizations/localization.dart';
-import 'package:cv/src/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
