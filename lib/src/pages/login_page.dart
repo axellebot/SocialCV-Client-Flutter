@@ -5,45 +5,34 @@ import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/auth_model.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _LoginPageState();
-}
+class LoginPage extends StatelessWidget {
+  LoginPage() : super();
 
-class _LoginPageState extends State<LoginPage> {
-  bool _passwordObscured = true;
-  AuthBloc loginBloc;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  void _showInSnackBar(String value) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(value)));
-  }
-
-  void _handleNotImplementedYet() {
-    _showInSnackBar('Not implemented yet !');
-  }
-
-  void _navigateToMain() {
-    Navigator.of(context).pushNamed('/home');
-  }
+  final bool _passwordObscured = true;
 
   @override
   Widget build(BuildContext context) {
-    print('build');
-    loginBloc = BlocProvider.of<AuthBloc>(context);
+    print('Building LoginPage');
     return new Scaffold(
-      key: _scaffoldKey,
       appBar: _buildAppBar(context),
       body: _buildBody(context),
     );
   }
 
+  Widget _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text(Localization.of(context).loginTitle),
+      centerTitle: true,
+    );
+  }
+
   Widget _buildBody(BuildContext context) {
+    AuthBloc _loginBloc = BlocProvider.of<AuthBloc>(context);
     return SafeArea(
       child: Stack(
         children: <Widget>[
           StreamBuilder<bool>(
-            stream: loginBloc.isWorkingStream,
+            stream: _loginBloc.isWorkingStream,
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.data == true) {
                 return LinearProgressIndicator();
@@ -70,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 120.0),
                 StreamBuilder(
-                  stream: loginBloc.emailStream,
+                  stream: _loginBloc.emailStream,
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     String error;
@@ -83,9 +72,8 @@ class _LoginPageState extends State<LoginPage> {
                         error = Localization.of(context).loginNotEmailExplain;
                       }
                     }
-
                     return TextField(
-                      onChanged: loginBloc.changeEmail,
+                      onChanged: _loginBloc.changeEmail,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: Localization.of(context).email + ' *',
@@ -97,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 12.0),
                 StreamBuilder(
-                  stream: loginBloc.passwordStream,
+                  stream: _loginBloc.passwordStream,
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     String error;
@@ -109,16 +97,16 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     }
                     return TextField(
-                      onChanged: loginBloc.changePassword,
+                      onChanged: _loginBloc.changePassword,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                           labelText: Localization.of(context).password + ' *',
                           errorText: error,
                           suffixIcon: GestureDetector(
                             onTap: () {
-                              setState(() {
-                                _passwordObscured = !_passwordObscured;
-                              });
+//                              setState(() {
+//                                _passwordObscured = !_passwordObscured;
+//                              });
                             },
                             child: Icon(_passwordObscured
                                 ? Icons.visibility
@@ -129,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 StreamBuilder<AuthLoginResponseModel>(
-                  stream: loginBloc.connectionStream,
+                  stream: _loginBloc.connectionStream,
                   builder: (BuildContext context,
                       AsyncSnapshot<AuthLoginResponseModel> snapshot) {
                     if (snapshot.hasData) {
@@ -146,17 +134,17 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     RaisedButton(
                       child: Text(Localization.of(context).loginSignUpCTA),
-                      onPressed: _handleNotImplementedYet,
+                      onPressed: () => _handleNotImplementedYet(context),
                     ),
                     StreamBuilder<bool>(
                       initialData: false,
-                      stream: loginBloc.submitLoginStream,
+                      stream: _loginBloc.submitLoginStream,
                       builder:
                           (BuildContext context, AsyncSnapshot<bool> snapshot) {
                         return RaisedButton(
                           child: Text(Localization.of(context).loginSignInCTA),
                           onPressed: snapshot.hasData && snapshot.data
-                              ? loginBloc.login
+                              ? _loginBloc.login
                               : null,
                         );
                       },
@@ -195,30 +183,29 @@ class _LoginPageState extends State<LoginPage> {
                 const Padding(padding: EdgeInsets.only(top: 25.0)),
                 Center(
                   child: RaisedButton(
-                    onPressed: _handleNotImplementedYet,
+                    onPressed: () => _handleNotImplementedYet(context),
                     child: Text(Localization.of(context).loginSignInGoogleCTA),
                   ),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 16.0)),
                 Center(
                   child: RaisedButton(
-                    onPressed: _handleNotImplementedYet,
+                    onPressed: () => _handleNotImplementedYet(context),
                     child:
                         Text(Localization.of(context).loginSignInFacebookCTA),
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text(Localization.of(context).loginTitle),
-      centerTitle: true,
-    );
+  void _handleNotImplementedYet(BuildContext context) {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text('Not implemented yet !'),
+    ));
   }
 }

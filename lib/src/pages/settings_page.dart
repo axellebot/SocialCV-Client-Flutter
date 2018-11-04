@@ -1,16 +1,12 @@
 import 'package:cv/src/localizations/localization.dart';
 import 'package:flutter/material.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends StatelessWidget {
   SettingsPage({Key key}) : super(key: key);
 
   @override
-  _SettingsPageSate createState() => _SettingsPageSate();
-}
-
-class _SettingsPageSate extends State<SettingsPage> {
-  @override
   Widget build(BuildContext context) {
+    print('Building SettingsPage');
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(

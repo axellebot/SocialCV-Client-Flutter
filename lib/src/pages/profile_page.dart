@@ -25,6 +25,28 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    print('Building ProfilePage');
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(Localization.of(context).profileTitle),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(5.0),
+        child: Row(children: <Widget>[
+          Expanded(
+            child: Column(
+              children: <Widget>[
+                _buildSkillsPart(),
+              ],
+            ),
+          ),
+        ]),
+      ),
+    );
+  }
+
   Widget _buildSkillGroupChips(List<String> skillTags) {
     if (skillTags == null) {
       return Text("null");
@@ -77,27 +99,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               }
             }),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(Localization.of(context).profileTitle),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(5.0),
-        child: Row(children: <Widget>[
-          Expanded(
-            child: Column(
-              children: <Widget>[
-                _buildSkillsPart(),
-              ],
-            ),
-          ),
-        ]),
       ),
     );
   }

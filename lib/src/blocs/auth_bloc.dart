@@ -7,11 +7,11 @@ import 'package:rxdart/rxdart.dart';
 
 class AuthBloc extends BlocBase with Validators {
   AuthBloc() : super() {
-    _isAuthenticatedController.value = false;
-    _isWorkingController.value = false;
+    _isAuthenticatedController.add(false);
+    _isWorkingController.add(false);
   }
 
-  ApiService apiProvider = ApiService();
+  ApiService apiService = ApiService();
 
   // Reactive variables
   final _emailController = BehaviorSubject<String>();
@@ -58,8 +58,8 @@ class AuthBloc extends BlocBase with Validators {
       final validEmail = _emailController.value;
       final validPassword = _passwordController.value;
 
-      AuthLoginResponseModel loginResponseModel =
-          await apiProvider.login(AuthLoginModel(validEmail, validPassword));
+      AuthLoginResponseModel loginResponseModel = await apiService
+          .login(AuthLoginModel(login: validEmail, password: validPassword));
 
       _connectionController.add(loginResponseModel);
 
@@ -77,6 +77,7 @@ class AuthBloc extends BlocBase with Validators {
     _isAuthenticatedController.add(false);
   }
 
+  @override
   dispose() {
     _emailController.close();
     _passwordController.close();

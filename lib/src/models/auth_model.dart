@@ -7,7 +7,7 @@ part 'auth_model.g.dart';
 
 @JsonSerializable()
 class AuthLoginModel {
-  AuthLoginModel(this.login, this.password);
+  AuthLoginModel({this.login, this.password});
 
   String login;
   String password;

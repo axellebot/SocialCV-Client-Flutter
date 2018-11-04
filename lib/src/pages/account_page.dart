@@ -2,16 +2,12 @@ import 'package:cv/src/localizations/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class AccountPage extends StatefulWidget {
+class AccountPage extends StatelessWidget {
   AccountPage({Key key}) : super(key: key);
 
   @override
-  _AccountPageSate createState() => _AccountPageSate();
-}
-
-class _AccountPageSate extends State<AccountPage> {
-  @override
   Widget build(BuildContext context) {
+    print('Building AccountPage');
     return ListView(
       children: <Widget>[
         ExpansionTile(

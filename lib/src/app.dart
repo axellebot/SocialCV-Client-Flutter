@@ -1,10 +1,13 @@
 import 'package:cv/src/blocs/auth_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/main_bloc.dart';
+import 'package:cv/src/blocs/settings_bloc.dart';
 import 'package:cv/src/commons/exception_print.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/pages/account_page.dart';
 import 'package:cv/src/pages/home_page.dart';
 import 'package:cv/src/pages/login_page.dart';
+import 'package:cv/src/pages/main_page.dart';
 import 'package:cv/src/pages/profile_page.dart';
 import 'package:cv/src/pages/search_page.dart';
 import 'package:cv/src/pages/settings_page.dart';
@@ -15,7 +18,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'colors.dart';
 
-class CVApp extends StatelessWidget {
+class CVApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _CVAppState();
+}
+
+class _CVAppState extends State<CVApp> {
+  final MainBloc _mainBloc = MainBloc();
+  final AuthBloc _authBloc = AuthBloc();
+  final SettingsBloc _settingsBloc = SettingsBloc();
+
   @override
   Widget build(BuildContext context) {
     // Set-up error reporting
@@ -31,16 +43,30 @@ class CVApp extends StatelessWidget {
       onGenerateTitle: (BuildContext context) =>
           Localization.of(context).appName,
       theme: _kCVTheme,
-      home: BlocProvider<AuthBloc>(
-        bloc: AuthBloc(),
-        child: LoginPage(),
+      home: BlocProvider<MainBloc>(
+        bloc: _mainBloc,
+        child: MainPage(),
       ),
       routes: <String, WidgetBuilder>{
-        '/home': (context) => HomePage(),
-        '/login': (context) => LoginPage(),
+        '/main': (context) {
+          return BlocProvider<MainBloc>(
+            bloc: _mainBloc,
+            child: MainPage(),
+          );
+        },
+        '/login': (context) {
+          return BlocProvider<AuthBloc>(
+            bloc: _authBloc,
+            child: LoginPage(),
+          );
+        },
         '/profile': (context) => ProfilePage(),
-        '/account': (context) => AccountPage(),
-        '/settings': (context) => SettingsPage(),
+        '/settings': (context) {
+          return BlocProvider<SettingsBloc>(
+            bloc: _settingsBloc,
+            child: SettingsPage(),
+          );
+        },
         '/search': (context) => SearchPage(),
       },
       localizationsDelegates: [
@@ -82,10 +108,6 @@ ThemeData _buildCVTheme() {
   );
 }
 
-IconThemeData _customIconTheme(IconThemeData original) {
-  return original.copyWith(color: kCVWhite);
-}
-
 TextTheme _buildCVTextTheme(TextTheme base) {
   return base
       .copyWith(
@@ -116,4 +138,8 @@ TextTheme _buildCVTextTheme(TextTheme base) {
       .apply(
         fontFamily: 'Google Sans',
       );
+}
+
+IconThemeData _customIconTheme(IconThemeData original) {
+  return original.copyWith(color: kCVWhite);
 }

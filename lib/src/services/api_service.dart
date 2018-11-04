@@ -14,14 +14,22 @@ class ApiService {
   };
 
   Future<AuthLoginResponseModel> login(AuthLoginModel loginModel) async {
-    final response = await client.post(
-      "$_baseUrl/auth/login",
-      headers: headers,
-      body: jsonEncode(loginModel),
-    );
-    Map<String, dynamic> json = jsonDecode(response.body);
-
-    // If that call was not successful, throw an error.
-    return AuthLoginResponseModel.fromJson(json);
+    return client
+        .post(
+          "$_baseUrl/auth/login",
+          headers: headers,
+          body: jsonEncode(loginModel),
+        )
+        .timeout(Duration(seconds: 5))
+        .then((onValue) {
+      Map<String, dynamic> json = jsonDecode(onValue.body);
+      return AuthLoginResponseModel.fromJson(json);
+    }).catchError((error) {
+      AuthLoginResponseModel response =
+          AuthLoginResponseModel(token: null, user: null);
+      response.error = true;
+      response.message = error.toString();
+      return response;
+    });
   }
 }
