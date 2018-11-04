@@ -5,10 +5,13 @@ import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/auth_model.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage() : super();
+class LoginPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _LoginPageState();
+}
 
-  final bool _passwordObscured = true;
+class _LoginPageState extends State<LoginPage> {
+  bool _passwordObscured = true;
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +31,11 @@ class LoginPage extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     AuthBloc _loginBloc = BlocProvider.of<AuthBloc>(context);
+
     return SafeArea(
       child: Stack(
         children: <Widget>[
-          StreamBuilder<bool>(
-            stream: _loginBloc.isWorkingStream,
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.data == true) {
-                return LinearProgressIndicator();
-              }
-              return Container();
-            },
-          ),
+          _buildProgressBar(_loginBloc),
           SingleChildScrollView(
             padding:
                 const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
@@ -58,78 +54,10 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 120.0),
-                StreamBuilder(
-                  stream: _loginBloc.emailStream,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    String error;
-                    if (snapshot.hasError) {
-                      ValidationErrors errorType = snapshot.error;
-                      if (errorType == ValidationErrors.ERROR_LOGIN_NO_EMAIL) {
-                        error = Localization.of(context).loginNoEmailExplain;
-                      } else if (errorType ==
-                          ValidationErrors.ERROR_LOGIN_NOT_EMAIL) {
-                        error = Localization.of(context).loginNotEmailExplain;
-                      }
-                    }
-                    return TextField(
-                      onChanged: _loginBloc.changeEmail,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        labelText: Localization.of(context).email + ' *',
-                        hintText: 'username@example.com',
-                        errorText: error,
-                      ),
-                    );
-                  },
-                ),
+                _buildEmailInput(_loginBloc),
                 const SizedBox(height: 12.0),
-                StreamBuilder(
-                  stream: _loginBloc.passwordStream,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    String error;
-                    if (snapshot.hasError) {
-                      ValidationErrors errorType = snapshot.error;
-                      if (errorType ==
-                          ValidationErrors.ERROR_LOGIN_NO_PASSWORD) {
-                        error = Localization.of(context).loginNoPasswordExplain;
-                      }
-                    }
-                    return TextField(
-                      onChanged: _loginBloc.changePassword,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          labelText: Localization.of(context).password + ' *',
-                          errorText: error,
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-//                              setState(() {
-//                                _passwordObscured = !_passwordObscured;
-//                              });
-                            },
-                            child: Icon(_passwordObscured
-                                ? Icons.visibility
-                                : Icons.visibility_off),
-                          )),
-                      obscureText: _passwordObscured,
-                    );
-                  },
-                ),
-                StreamBuilder<AuthLoginResponseModel>(
-                  stream: _loginBloc.connectionStream,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<AuthLoginResponseModel> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data.error) {
-                        return Text(snapshot.data.message);
-                      } else {
-                        return Text('Hello ${snapshot.data.user.username}');
-                      }
-                    }
-                    return Container();
-                  },
-                ),
+                _buildPasswordInput(_loginBloc),
+                _buildMessageLabel(_loginBloc),
                 ButtonBar(
                   children: <Widget>[
                     RaisedButton(
@@ -200,6 +128,95 @@ class LoginPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  StreamBuilder<bool> _buildProgressBar(AuthBloc _loginBloc) {
+    return StreamBuilder<bool>(
+      stream: _loginBloc.isWorkingStream,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.data == true) {
+          return LinearProgressIndicator();
+        }
+        return Container();
+      },
+    );
+  }
+
+  StreamBuilder<String> _buildEmailInput(AuthBloc _loginBloc) {
+    return StreamBuilder(
+      stream: _loginBloc.emailStream,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        String error;
+        if (snapshot.hasError) {
+          ValidationErrors errorType = snapshot.error;
+          if (errorType == ValidationErrors.ERROR_LOGIN_NO_EMAIL) {
+            error = Localization.of(context).loginNoEmailExplain;
+          } else if (errorType == ValidationErrors.ERROR_LOGIN_NOT_EMAIL) {
+            error = Localization.of(context).loginNotEmailExplain;
+          }
+        }
+        return TextField(
+          onChanged: _loginBloc.changeEmail,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            labelText: Localization.of(context).email + ' *',
+            hintText: 'username@example.com',
+            errorText: error,
+          ),
+        );
+      },
+    );
+  }
+
+  StreamBuilder<String> _buildPasswordInput(AuthBloc _loginBloc) {
+    return StreamBuilder(
+      stream: _loginBloc.passwordStream,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        String error;
+        if (snapshot.hasError) {
+          ValidationErrors errorType = snapshot.error;
+          if (errorType == ValidationErrors.ERROR_LOGIN_NO_PASSWORD) {
+            error = Localization.of(context).loginNoPasswordExplain;
+          }
+        }
+        return TextField(
+          onChanged: _loginBloc.changePassword,
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+              labelText: Localization.of(context).password + ' *',
+              errorText: error,
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _passwordObscured = !_passwordObscured;
+                  });
+                },
+                child: Icon(_passwordObscured
+                    ? Icons.visibility
+                    : Icons.visibility_off),
+              )),
+          obscureText: _passwordObscured,
+        );
+      },
+    );
+  }
+
+  StreamBuilder<AuthLoginResponseModel> _buildMessageLabel(
+      AuthBloc _loginBloc) {
+    return StreamBuilder<AuthLoginResponseModel>(
+      stream: _loginBloc.connectionStream,
+      builder: (BuildContext context,
+          AsyncSnapshot<AuthLoginResponseModel> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data.error) {
+            return Text(snapshot.data.message);
+          } else {
+            return Text('Hello ${snapshot.data.user.username}');
+          }
+        }
+        return Container();
+      },
     );
   }
 

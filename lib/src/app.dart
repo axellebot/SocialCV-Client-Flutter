@@ -1,22 +1,18 @@
-import 'package:cv/src/blocs/auth_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
-import 'package:cv/src/blocs/settings_bloc.dart';
+import 'package:cv/src/colors.dart';
 import 'package:cv/src/commons/exception_print.dart';
 import 'package:cv/src/localizations/localization.dart';
-import 'package:cv/src/pages/account_page.dart';
-import 'package:cv/src/pages/home_page.dart';
 import 'package:cv/src/pages/login_page.dart';
 import 'package:cv/src/pages/main_page.dart';
 import 'package:cv/src/pages/profile_page.dart';
 import 'package:cv/src/pages/search_page.dart';
 import 'package:cv/src/pages/settings_page.dart';
+import 'package:cv/src/paths.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import 'colors.dart';
 
 class CVApp extends StatefulWidget {
   @override
@@ -25,8 +21,6 @@ class CVApp extends StatefulWidget {
 
 class _CVAppState extends State<CVApp> {
   final MainBloc _mainBloc = MainBloc();
-  final AuthBloc _authBloc = AuthBloc();
-  final SettingsBloc _settingsBloc = SettingsBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -48,26 +42,22 @@ class _CVAppState extends State<CVApp> {
         child: MainPage(),
       ),
       routes: <String, WidgetBuilder>{
-        '/main': (context) {
+        kPathHome: (context) {
           return BlocProvider<MainBloc>(
             bloc: _mainBloc,
             child: MainPage(),
           );
         },
-        '/login': (context) {
-          return BlocProvider<AuthBloc>(
-            bloc: _authBloc,
-            child: LoginPage(),
+        kPathAccount: (context) {
+          return BlocProvider<MainBloc>(
+            bloc: _mainBloc,
+            child: MainPage(),
           );
         },
-        '/profile': (context) => ProfilePage(),
-        '/settings': (context) {
-          return BlocProvider<SettingsBloc>(
-            bloc: _settingsBloc,
-            child: SettingsPage(),
-          );
-        },
-        '/search': (context) => SearchPage(),
+        kPathLogin: (context) => LoginPage(),
+        kPathProfile: (context) => ProfilePage(),
+        kPathSettings: (context) => SettingsPage(),
+        kPathSearch: (context) => SearchPage(),
       },
       localizationsDelegates: [
         const CVLocalizationsDelegate(),
@@ -79,6 +69,7 @@ class _CVAppState extends State<CVApp> {
         const Locale('fr'),
       ],
       debugShowCheckedModeBanner: false,
+//      showSemanticsDebugger: true,
     );
   }
 }

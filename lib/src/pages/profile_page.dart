@@ -32,7 +32,13 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text(Localization.of(context).profileTitle),
       ),
-      body: SingleChildScrollView(
+      body: _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
+    return SafeArea(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.all(5.0),
         child: Row(children: <Widget>[
           Expanded(

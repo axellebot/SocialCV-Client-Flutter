@@ -105,10 +105,16 @@ class LocalizationFR implements Localization {
   String get settingsToS => "Lire les termes et conditions";
 
   @override
+  String get username => "Nom d'utilisateur";
+
+  @override
   String get email => "Email";
 
   @override
   String get password => "Mot de passe";
+
+  @override
+  String get token => "Jeton";
 
   @override
   String get cancel => "Annuler";
@@ -123,7 +129,13 @@ class LocalizationFR implements Localization {
   String get login => "Se connecter";
 
   @override
-  String get logout => "Déconnection";
+  String get loginCTA => "Se connecter";
+
+  @override
+  String get logout => "Se déconnecter";
+
+  @override
+  String get logoutCTA => "Se déconnecter";
 
   @override
   String get home => "Accueil";

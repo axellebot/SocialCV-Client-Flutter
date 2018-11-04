@@ -3,6 +3,7 @@ import 'package:cv/src/blocs/main_bloc.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/pages/account_page.dart';
 import 'package:cv/src/pages/home_page.dart';
+import 'package:cv/src/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -18,7 +19,7 @@ class MainPage extends StatelessWidget {
         label: Text(Localization.of(context).search),
         backgroundColor: Theme.of(context).accentColor,
         foregroundColor: Colors.white,
-        onPressed: () => _fabPressed(context),
+        onPressed: () => _navigateToSearch(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _buildBottomNavigationBar(context),
@@ -107,37 +108,26 @@ class MainPage extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context, bool authenticated) {
     final List<Widget> actions = List();
-    if (authenticated) {
-      actions.add(PopupMenuButton<String>(
-          // overflow menu
-          icon: const Icon(Icons.more_vert),
-          onSelected: (menu) {
-            switch (menu) {
-              case "settings":
-                _navigateToSettings(context);
-                break;
-              case "login":
-                _navigateToLogin(context);
-                break;
-            }
-          },
-          itemBuilder: (BuildContext context) {
-            return [
-              PopupMenuItem<String>(
-                value: "settings",
-                child: Text(
-                  Localization.of(context).settings,
-                ),
+    actions.add(PopupMenuButton<String>(
+        // overflow menu
+        icon: const Icon(Icons.more_vert),
+        onSelected: (menu) {
+          switch (menu) {
+            case "settings":
+              _navigateToSettings(context);
+              break;
+          }
+        },
+        itemBuilder: (BuildContext context) {
+          return [
+            PopupMenuItem<String>(
+              value: "settings",
+              child: Text(
+                Localization.of(context).settings,
               ),
-              PopupMenuItem<String>(
-                value: "login",
-                child: Text(
-                  Localization.of(context).login,
-                ),
-              )
-            ];
-          }));
-    }
+            ),
+          ];
+        }));
 
     return AppBar(
       title: Text(Localization.of(context).appName),
@@ -146,15 +136,11 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  void _fabPressed(BuildContext context) {
-    Navigator.of(context).pushNamed('/search');
+  void _navigateToSearch(BuildContext context) {
+    Navigator.of(context).pushNamed(kPathSearch);
   }
 
   void _navigateToSettings(BuildContext context) {
-    Navigator.of(context).pushNamed('/settings');
-  }
-
-  void _navigateToLogin(BuildContext context) {
-    Navigator.of(context).pushNamed('/login');
+    Navigator.of(context).pushNamed(kPathSettings);
   }
 }

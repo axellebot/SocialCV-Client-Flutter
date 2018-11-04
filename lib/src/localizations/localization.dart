@@ -74,9 +74,13 @@ abstract class Localization {
 
   String get settingsToS;
 
+  String get username;
+
   String get email;
 
   String get password;
+
+  String get token;
 
   String get cancel;
 
@@ -86,7 +90,11 @@ abstract class Localization {
 
   String get login;
 
+  String get loginCTA;
+
   String get logout;
+
+  String get logoutCTA;
 
   String get home;
 

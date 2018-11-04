@@ -102,10 +102,16 @@ class LocalizationEN implements Localization {
   String get settingsToS => "Read terms and conditions";
 
   @override
+  String get username => "Username";
+
+  @override
   String get email => "Email";
 
   @override
   String get password => "Password";
+
+  @override
+  String get token => "Token";
 
   @override
   String get cancel => "Cancel";
@@ -120,7 +126,13 @@ class LocalizationEN implements Localization {
   String get login => "Login";
 
   @override
+  String get loginCTA => "Login";
+
+  @override
   String get logout => "Logout";
+
+  @override
+  String get logoutCTA => "Logout";
 
   @override
   String get home => "Home";

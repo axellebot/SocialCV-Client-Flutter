@@ -43,12 +43,14 @@ class AuthBloc extends BlocBase with Validators {
 
   // Sinks
   Sink<String> get email => _emailController.sink;
+
   Sink<String> get password => _passwordController.sink;
 
   /* Functions */
 
   // Human functions
   Function(String) get changeEmail => email.add;
+
   Function(String) get changePassword => password.add;
 
   login() async {
@@ -73,8 +75,13 @@ class AuthBloc extends BlocBase with Validators {
   }
 
   logout() async {
-    SharedPreferencesService.deleteAuthToken();
-    _isAuthenticatedController.add(false);
+    if (!_isWorkingController.value) {
+      _isWorkingController.add(true);
+      await SharedPreferencesService.deleteAuthToken();
+      _connectionController.add(null);
+      _isAuthenticatedController.add(false);
+      _isWorkingController.add(false);
+    }
   }
 
   @override
