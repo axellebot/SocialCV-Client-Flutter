@@ -1,13 +1,9 @@
-import 'dart:async';
-import 'dart:math' as math;
-import 'package:flutter/material.dart';
+import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/pages/account_page.dart';
+import 'package:cv/src/pages/home_page.dart';
 import 'package:flutter/foundation.dart';
-
+import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
-import 'package:cv/localizations/localization.dart';
-import 'package:cv/pages/account_page.dart';
-import 'package:cv/pages/home_page.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key}) : super(key: key);
@@ -37,8 +33,8 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(authenticated: true),
-      body: _buildBody(),
+      appBar: _buildAppBar(context, true),
+      body: _buildBody(context),
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.search),
         label: Text(Localization.of(context).search),
@@ -47,11 +43,11 @@ class _MainPageState extends State<MainPage> {
         onPressed: _fabPressed,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: _buildBottomNavigationBar(),
+      bottomNavigationBar: _buildBottomNavigationBar(context),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     return Container(
       child: Stack(
         children: <Widget>[
@@ -74,7 +70,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _buildBottomNavigationBar() {
+  Widget _buildBottomNavigationBar(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
         // sets the background color of the `BottomNavigationBar`
@@ -110,7 +106,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  AppBar _buildAppBar({bool authenticated}) {
+  AppBar _buildAppBar(BuildContext context, bool authenticated) {
     final List<Widget> actions = List();
     if (authenticated) {
       actions.add(PopupMenuButton<String>(

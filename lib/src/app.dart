@@ -1,24 +1,21 @@
-import 'package:cv/commons/exception_print.dart';
-import 'package:cv/localizations/localization.dart';
-import 'package:cv/pages/home_page.dart';
-import 'package:cv/pages/main_page.dart';
-import 'package:cv/pages/profile_page.dart';
-import 'package:cv/pages/search_page.dart';
-import 'package:cv/pages/settings_page.dart';
-import 'package:flutter/material.dart';
+import 'package:cv/src/blocs/auth_bloc.dart';
+import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/exception_print.dart';
+import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/pages/account_page.dart';
+import 'package:cv/src/pages/home_page.dart';
+import 'package:cv/src/pages/login_page.dart';
+import 'package:cv/src/pages/profile_page.dart';
+import 'package:cv/src/pages/search_page.dart';
+import 'package:cv/src/pages/settings_page.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'colors.dart';
-import 'package:cv/pages/login_page.dart';
-import 'package:cv/pages/account_page.dart';
 
-class CVApp extends StatefulWidget {
-  @override
-  _CVAppState createState() => _CVAppState();
-}
-
-class _CVAppState extends State<CVApp> with SingleTickerProviderStateMixin {
+class CVApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Set-up error reporting
@@ -30,10 +27,14 @@ class _CVAppState extends State<CVApp> with SingleTickerProviderStateMixin {
       statusBarColor: kCVPrimaryColor, //or set color with: Color(0xFF0000FF)
     ));
 
-    return new MaterialApp(
-      title: 'Social CV',
+    return MaterialApp(
+      onGenerateTitle: (BuildContext context) =>
+          Localization.of(context).appName,
       theme: _kCVTheme,
-      home: MainPage(),
+      home: BlocProvider<AuthBloc>(
+        bloc: AuthBloc(),
+        child: LoginPage(),
+      ),
       routes: <String, WidgetBuilder>{
         '/home': (context) => HomePage(),
         '/login': (context) => LoginPage(),
