@@ -1,4 +1,6 @@
+import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/login_bloc.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
 import 'package:cv/src/colors.dart';
 import 'package:cv/src/commons/exception_print.dart';
@@ -20,7 +22,15 @@ class CVApp extends StatefulWidget {
 }
 
 class _CVAppState extends State<CVApp> {
+  // Blocs
   final MainBloc _mainBloc = MainBloc();
+  final LoginBloc _loginBloc = LoginBloc();
+  final AccountBloc _accountBloc = AccountBloc();
+
+  // Pages
+  final MainPage _mainPage = MainPage();
+
+  BlocProvider<MainBloc> _mainPageProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -29,32 +39,34 @@ class _CVAppState extends State<CVApp> {
       printException(error.exception, error.stack, error.context);
     };
 
+    // Set status bar color
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: kCVPrimaryColor, //or set color with: Color(0xFF0000FF)
     ));
+
+    _mainPageProvider = BlocProvider<MainBloc>(
+      bloc: _mainBloc,
+      child: _mainPage,
+    );
 
     return MaterialApp(
       onGenerateTitle: (BuildContext context) =>
           Localization.of(context).appName,
       theme: _kCVTheme,
-      home: BlocProvider<MainBloc>(
-        bloc: _mainBloc,
-        child: MainPage(),
-      ),
+      home: _mainPageProvider,
       routes: <String, WidgetBuilder>{
         kPathHome: (context) {
-          return BlocProvider<MainBloc>(
-            bloc: _mainBloc,
-            child: MainPage(),
-          );
+          return _mainPageProvider;
         },
         kPathAccount: (context) {
-          return BlocProvider<MainBloc>(
-            bloc: _mainBloc,
-            child: MainPage(),
+          return _mainPageProvider;
+        },
+        kPathLogin: (context) {
+          return BlocProvider<LoginBloc>(
+            bloc: _loginBloc,
+            child: LoginPage(),
           );
         },
-        kPathLogin: (context) => LoginPage(),
         kPathProfile: (context) => ProfilePage(),
         kPathSettings: (context) => SettingsPage(),
         kPathSearch: (context) => SearchPage(),

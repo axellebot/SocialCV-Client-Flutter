@@ -1,8 +1,10 @@
-import 'package:cv/src/blocs/auth_bloc.dart';
+import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/localizations/localization.dart';
-import 'package:cv/src/models/auth_model.dart';
+import 'package:cv/src/models/api_models.dart';
+import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/paths.dart';
+import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -13,13 +15,13 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print('Building AccountPage');
 
-    AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
+    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
 
     return SafeArea(
       child: Stack(
         children: <Widget>[
           StreamBuilder<bool>(
-            stream: _authBloc.isWorkingStream,
+            stream: _accountBloc.isFetchingStream,
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.data == true) {
                 return LinearProgressIndicator();
@@ -28,7 +30,7 @@ class AccountPage extends StatelessWidget {
             },
           ),
           StreamBuilder<bool>(
-            stream: _authBloc.isAuthenticatedStream,
+            stream: _accountBloc.isAuthenticatedStream,
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data == true)
@@ -45,60 +47,49 @@ class AccountPage extends StatelessWidget {
   }
 
   Widget _buildConnectedAccount(context) {
-    AuthBloc _authBloc = BlocProvider.of<AuthBloc>(context);
-    // TODO : Fetch data from AccountBloc ?
-    return StreamBuilder<AuthLoginResponseModel>(
-      stream: _authBloc.connectionStream,
+    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
+
+    _accountBloc.fetchAccountDetails();
+
+    return StreamBuilder<ResponseModel<UserModel>>(
+      stream: _accountBloc.fetchAccountDetailsStream,
       builder: (BuildContext context,
-          AsyncSnapshot<AuthLoginResponseModel> snapshot) {
-        String username = "";
-        String token = "";
-        String email = "";
-        String pictureUrl = "";
-        List<String> profileIds = [];
+          AsyncSnapshot<ResponseModel<UserModel>> snapshot) {
         if (snapshot.hasData) {
-          username = snapshot.data.user.username;
-          email = snapshot.data.user.email;
-          token = snapshot.data.token;
-          profileIds = snapshot.data.user.profileIds;
-          pictureUrl = snapshot.data.user.picture;
+          UserModel userModel = snapshot.data.data;
+          return _buildAccountDetails(context, userModel);
+        } else {
+          return Container();
         }
-        return ListView(
-          children: <Widget>[
-            ListTile(
-              title: Text(Localization.of(context).username),
-              subtitle: Text(username),
-              leading: (pictureUrl != "")
-                  ? Tab(icon: Image.network(pictureUrl))
-                  : Icon(Icons.account_circle),
-            ),
-            Divider(),
-            ListTile(
-              title: Text(Localization.of(context).email),
-              subtitle: Text(email),
-              leading: Icon(MdiIcons.email),
-            ),
-            Divider(),
-            ListTile(
-              title: Text(Localization.of(context).token),
-              subtitle: Text(token),
-              leading: Icon(MdiIcons.coins),
-            ),
-            Divider(),
-            ExpansionTile(
-              leading: Icon(MdiIcons.accountBoxMultiple),
-              title: Text(Localization.of(context).accountMyProfile),
-              children: _buildProfiles(context, profileIds),
-            ),
-            Center(
-              child: RaisedButton(
-                child: Text(Localization.of(context).logoutCTA),
-                onPressed: _authBloc.logout,
-              ),
-            ),
-          ],
-        );
       },
+    );
+  }
+
+  Center _buildNotConnectedAccount(BuildContext context) {
+    return Center(
+      child: RaisedButton(
+        child: Text(Localization.of(context).loginCTA),
+        onPressed: () => _navigateToLogin(context),
+      ),
+    );
+  }
+
+  Widget _buildAccountDetails(BuildContext context, UserModel userModel) {
+    return ListView(
+      children: <Widget>[
+        ListTile(
+          title: Text(userModel.username),
+          subtitle: Text(userModel.email),
+          leading: InitialCircleAvatar(
+              text: userModel.username,
+              backgroundImage: NetworkImage(userModel.picture)),
+        ),
+        ExpansionTile(
+          leading: Icon(MdiIcons.accountBoxMultiple),
+          title: Text(Localization.of(context).accountMyProfile),
+          children: _buildProfiles(context, userModel.profileIds),
+        ),
+      ],
     );
   }
 
@@ -116,15 +107,6 @@ class AccountPage extends StatelessWidget {
       ));
     });
     return _widgets;
-  }
-
-  Center _buildNotConnectedAccount(BuildContext context) {
-    return Center(
-      child: RaisedButton(
-        child: Text(Localization.of(context).loginCTA),
-        onPressed: () => _navigateToLogin(context),
-      ),
-    );
   }
 
   void _navigateToLogin(BuildContext context) {

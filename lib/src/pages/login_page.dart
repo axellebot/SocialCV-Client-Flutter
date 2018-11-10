@@ -1,8 +1,9 @@
-import 'package:cv/src/blocs/auth_bloc.dart';
+import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/login_bloc.dart';
 import 'package:cv/src/blocs/validators.dart';
 import 'package:cv/src/localizations/localization.dart';
-import 'package:cv/src/models/auth_model.dart';
+import 'package:cv/src/models/api_models.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -30,7 +31,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    AuthBloc _loginBloc = BlocProvider.of<AuthBloc>(context);
+    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
+    LoginBloc _loginBloc = BlocProvider.of<LoginBloc>(context);
 
     return SafeArea(
       child: Stack(
@@ -57,7 +59,8 @@ class _LoginPageState extends State<LoginPage> {
                 _buildEmailInput(_loginBloc),
                 const SizedBox(height: 12.0),
                 _buildPasswordInput(_loginBloc),
-                _buildMessageLabel(_loginBloc),
+                const SizedBox(height: 12.0),
+                _buildMessageLabel(context),
                 ButtonBar(
                   children: <Widget>[
                     RaisedButton(
@@ -70,11 +73,14 @@ class _LoginPageState extends State<LoginPage> {
                       builder:
                           (BuildContext context, AsyncSnapshot<bool> snapshot) {
                         return RaisedButton(
-                          child: Text(Localization.of(context).loginSignInCTA),
-                          onPressed: snapshot.hasData && snapshot.data
-                              ? _loginBloc.login
-                              : null,
-                        );
+                            child:
+                                Text(Localization.of(context).loginSignInCTA),
+                            onPressed: () {
+                              return snapshot.hasData && snapshot.data
+                                  ? _accountBloc.login(_loginBloc.emailValue,
+                                      _loginBloc.passwordValue)
+                                  : null;
+                            });
                       },
                     ),
                   ],
@@ -131,9 +137,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  StreamBuilder<bool> _buildProgressBar(AuthBloc _loginBloc) {
+  StreamBuilder<bool> _buildProgressBar(LoginBloc _loginBloc) {
+    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
     return StreamBuilder<bool>(
-      stream: _loginBloc.isWorkingStream,
+      stream: _accountBloc.isLogingStream,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.data == true) {
           return LinearProgressIndicator();
@@ -143,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  StreamBuilder<String> _buildEmailInput(AuthBloc _loginBloc) {
+  StreamBuilder<String> _buildEmailInput(LoginBloc _loginBloc) {
     return StreamBuilder(
       stream: _loginBloc.emailStream,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -169,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  StreamBuilder<String> _buildPasswordInput(AuthBloc _loginBloc) {
+  StreamBuilder<String> _buildPasswordInput(LoginBloc _loginBloc) {
     return StreamBuilder(
       stream: _loginBloc.passwordStream,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -203,17 +210,16 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   StreamBuilder<AuthLoginResponseModel> _buildMessageLabel(
-      AuthBloc _loginBloc) {
+      BuildContext context) {
+    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
     return StreamBuilder<AuthLoginResponseModel>(
-      stream: _loginBloc.connectionStream,
+      stream: _accountBloc.connectionStream,
       builder: (BuildContext context,
           AsyncSnapshot<AuthLoginResponseModel> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data.error) {
-            return Text(snapshot.data.message);
-          } else {
-            return Text('Hello ${snapshot.data.user.username}');
-          }
+        if (snapshot.hasError) {
+          return Text(snapshot.error);
+        } else if (snapshot.hasData) {
+          return Text('Hello ${snapshot.data.user.username}');
         }
         return Container();
       },

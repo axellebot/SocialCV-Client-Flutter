@@ -1,4 +1,4 @@
-import 'package:cv/src/models/api_base_model.dart';
+import 'package:cv/src/models/api_models.dart';
 import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 

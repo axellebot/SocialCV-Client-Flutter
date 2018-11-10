@@ -1,4 +1,4 @@
-import 'package:cv/src/blocs/auth_bloc.dart';
+import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/application_bloc.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,8 @@ Future<void> main() async {
   runApp(
     BlocProvider<ApplicationBloc>(
       bloc: ApplicationBloc(),
-      child: BlocProvider<AuthBloc>(
-        bloc: AuthBloc(),
+      child: BlocProvider<AccountBloc>(
+        bloc: AccountBloc(),
         child: CVApp(),
       ),
     ),
