@@ -77,13 +77,6 @@ class AccountPage extends StatelessWidget {
   Widget _buildAccountDetails(BuildContext context, UserModel userModel) {
     return ListView(
       children: <Widget>[
-        ListTile(
-          title: Text(userModel.username),
-          subtitle: Text(userModel.email),
-          leading: InitialCircleAvatar(
-              text: userModel.username,
-              backgroundImage: NetworkImage(userModel.picture)),
-        ),
         ExpansionTile(
           leading: Icon(MdiIcons.accountBoxMultiple),
           title: Text(Localization.of(context).accountMyProfile),

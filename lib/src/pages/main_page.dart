@@ -7,6 +7,7 @@ import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/pages/account_page.dart';
 import 'package:cv/src/pages/home_page.dart';
 import 'package:cv/src/paths.dart';
+import 'package:cv/src/tags.dart';
 import 'package:cv/src/widgets/bottom_sheet_menu_widget.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class MainPage extends StatelessWidget {
       appBar: _buildAppBar(context, true),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: kHeroSearchFAB,
         icon: Icon(Icons.search),
         label: Text(Localization.of(context).search),
         backgroundColor: Theme.of(context).accentColor,

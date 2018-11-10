@@ -1,3 +1,5 @@
+import 'package:cv/src/colors.dart';
+import 'package:cv/src/tags.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -8,35 +10,32 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  String _query = "";
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Hero(
+      tag: kHeroSearchFAB,
+      child: Scaffold(
+        backgroundColor: kCVAccentColor,
         appBar: AppBar(
-          title: Container(
-            padding: EdgeInsets.only(right: 12.0),
-            child: TextField(
-                onSubmitted: (query) {
-                  setState(() {
-                    _query = query;
-                  });
-                },
-                autofocus: true,
-                decoration: InputDecoration(
-                  hintText: "Search resume...",
-                  hintStyle: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.normal)),
+          title: TextField(
+            onSubmitted: (query) {
+              print(query);
+            },
+            autofocus: true,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              prefixIcon: Icon(Icons.search),
+              hintText: "Search resume...",
+            ),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+              fontWeight: FontWeight.normal,
+            ),
           ),
         ),
-        body: _query.isEmpty ? Container() : Container());
+        body: Container(),
+      ),
+    );
   }
 }

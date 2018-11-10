@@ -112,9 +112,12 @@ class _BottomSheetMenuState extends State<BottomSheetMenu> {
   }
 
   Widget _buildNotConnectedAccount(BuildContext context) {
-    return FlatButton(
-      child: Text(Localization.of(context).loginCTA),
-      onPressed: () => _navigateToLogin(context),
+    return GestureDetector(
+      child: ListTile(
+        title: Text(Localization.of(context).loginCTA),
+        trailing: Icon(MdiIcons.login),
+      ),
+      onTap: () => _navigateToLogin(context),
     );
   }
 
