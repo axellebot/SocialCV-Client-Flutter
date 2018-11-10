@@ -54,19 +54,23 @@ class AccountPage extends StatelessWidget {
         String username = "";
         String token = "";
         String email = "";
+        String pictureUrl = "";
         List<String> profileIds = [];
         if (snapshot.hasData) {
           username = snapshot.data.user.username;
           email = snapshot.data.user.email;
           token = snapshot.data.token;
           profileIds = snapshot.data.user.profileIds;
+          pictureUrl = snapshot.data.user.picture;
         }
         return ListView(
           children: <Widget>[
             ListTile(
               title: Text(Localization.of(context).username),
               subtitle: Text(username),
-              leading: Icon(MdiIcons.account),
+              leading: (pictureUrl != "")
+                  ? Tab(icon: Image.network(pictureUrl))
+                  : Icon(Icons.account_circle),
             ),
             Divider(),
             ListTile(

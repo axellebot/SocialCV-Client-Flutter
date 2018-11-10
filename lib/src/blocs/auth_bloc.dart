@@ -67,6 +67,7 @@ class AuthBloc extends BlocBase with Validators {
 
       if (!loginResponseModel.error && loginResponseModel.token.isNotEmpty) {
         SharedPreferencesService.setAuthToken(loginResponseModel.token);
+        SharedPreferencesService.setAuthConnected(true);
         _isAuthenticatedController.add(true);
       }
 
@@ -78,6 +79,7 @@ class AuthBloc extends BlocBase with Validators {
     if (!_isWorkingController.value) {
       _isWorkingController.add(true);
       await SharedPreferencesService.deleteAuthToken();
+      await SharedPreferencesService.deleteAuthConnected();
       _connectionController.add(null);
       _isAuthenticatedController.add(false);
       _isWorkingController.add(false);

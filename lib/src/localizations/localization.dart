@@ -72,7 +72,11 @@ abstract class Localization {
 
   String get settingsTitle;
 
-  String get settingsToS;
+  String get menuPP;
+
+  String get menuToS;
+
+  String get middleDot;
 
   String get username;
 

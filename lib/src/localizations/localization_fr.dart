@@ -102,7 +102,13 @@ class LocalizationFR implements Localization {
   String get settingsTitle => "Parametres";
 
   @override
-  String get settingsToS => "Lire les termes et conditions";
+  String get menuPP => "Politique de confidentialité";
+
+  @override
+  String get menuToS => "Termes de Service";
+
+  @override
+  String get middleDot => "·";
 
   @override
   String get username => "Nom d'utilisateur";

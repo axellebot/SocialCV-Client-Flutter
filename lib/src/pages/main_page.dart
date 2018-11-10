@@ -4,6 +4,7 @@ import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/pages/account_page.dart';
 import 'package:cv/src/pages/home_page.dart';
 import 'package:cv/src/paths.dart';
+import 'package:cv/src/widgets/bottom_sheet_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -107,32 +108,15 @@ class MainPage extends StatelessWidget {
   }
 
   AppBar _buildAppBar(BuildContext context, bool authenticated) {
-    final List<Widget> actions = List();
-    actions.add(PopupMenuButton<String>(
-        // overflow menu
-        icon: const Icon(Icons.more_vert),
-        onSelected: (menu) {
-          switch (menu) {
-            case "settings":
-              _navigateToSettings(context);
-              break;
-          }
-        },
-        itemBuilder: (BuildContext context) {
-          return [
-            PopupMenuItem<String>(
-              value: "settings",
-              child: Text(
-                Localization.of(context).settings,
-              ),
-            ),
-          ];
-        }));
-
     return AppBar(
       title: Text(Localization.of(context).appName),
       centerTitle: true,
-      actions: actions,
+      actions: [
+        IconButton(
+          onPressed: () => _openBottomSheet(context),
+          icon: Icon(Icons.account_circle),
+        ),
+      ],
     );
   }
 
@@ -140,7 +124,10 @@ class MainPage extends StatelessWidget {
     Navigator.of(context).pushNamed(kPathSearch);
   }
 
-  void _navigateToSettings(BuildContext context) {
-    Navigator.of(context).pushNamed(kPathSettings);
+  void _openBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => BottomSheetMenu(),
+    );
   }
 }

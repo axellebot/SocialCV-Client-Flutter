@@ -96,6 +96,7 @@ ThemeData _buildCVTheme() {
     primaryTextTheme: _buildCVTextTheme(base.primaryTextTheme),
     accentTextTheme: _buildCVTextTheme(base.accentTextTheme),
     iconTheme: _customIconTheme(base.iconTheme),
+    canvasColor: Colors.transparent, // Used for bottom sheet rounded
   );
 }
 

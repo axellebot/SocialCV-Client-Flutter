@@ -99,7 +99,13 @@ class LocalizationEN implements Localization {
   String get settingsTitle => "Settings";
 
   @override
-  String get settingsToS => "Read terms and conditions";
+  String get menuPP => "Privacy Policy";
+
+  @override
+  String get menuToS => "Terms of Service";
+
+  @override
+  String get middleDot => "·";
 
   @override
   String get username => "Username";

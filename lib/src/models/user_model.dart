@@ -9,8 +9,9 @@ class UserModel extends BaseModel {
   UserModel(
       {Key key,
       this.disabled,
-      this.username,
       this.email,
+      this.username,
+      this.picture,
       this.profileIds,
       this.permission})
       : super(key: key);
@@ -18,9 +19,11 @@ class UserModel extends BaseModel {
   bool disabled;
   String email;
   String username;
+  String picture;
 
   @JsonKey(name: 'profiles')
   List<String> profileIds;
+
   String permission;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
