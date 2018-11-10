@@ -28,6 +28,9 @@ class MainPage extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
+    HomePage _homePage = HomePage();
+    AccountPage _accountPage = AccountPage();
+
     MainBloc _mainBloc = BlocProvider.of<MainBloc>(context);
     return StreamBuilder<TabType>(
       stream: _mainBloc.tabStream,
@@ -38,11 +41,11 @@ class MainPage extends StatelessWidget {
               children: <Widget>[
                 Offstage(
                   offstage: snapshot.data != TabType.HOME_TAB,
-                  child: HomePage(),
+                  child: _homePage,
                 ),
                 Offstage(
                   offstage: snapshot.data != TabType.ACCOUNT_TAB,
-                  child: AccountPage(),
+                  child: _accountPage,
                 ),
               ],
             ),
