@@ -99,13 +99,13 @@ class LocalizationFR implements Localization {
   String get profileTitle => "Profil";
 
   @override
-  String get settingsTitle => "Parametres";
+  String get settingsTitle => "Paramètres";
 
   @override
-  String get menuPP => "Politique de confidentialité";
+  String get menuPPCTA => "Politique de confidentialité";
 
   @override
-  String get menuToS => "Termes de Service";
+  String get menuToSCTA => "Termes de Service";
 
   @override
   String get middleDot => "·";
@@ -126,7 +126,7 @@ class LocalizationFR implements Localization {
   String get cancel => "Annuler";
 
   @override
-  String get settings => "Paramètres";
+  String get settingsCTA => "Paramètres";
 
   @override
   String get settingsThemeCTA => "Mode Sombre";
@@ -187,4 +187,61 @@ class LocalizationFR implements Localization {
 
   @override
   String get logged => "Connecté";
+
+  // Api Error
+  String get apiErrorWrongPasswordError => "Mauvais mot de passe";
+
+  String get apiErrorUserNotFoundError => "Utilisateur introuvable";
+
+  // Server Error : HTTP 400
+  String get httpClientErrorBadRequest => "Mauvaise requete";
+
+  String get httpClientErrorPaymentRequired => "Paiement requis";
+
+  String get httpClientErrorForbidden => "Interdit";
+
+  String get httpClientErrorNotFound => "Introuvable";
+
+  String get httpClientErrorMethodNotAllowed => "Non autorisé";
+
+  String get httpClientErrorNotAcceptable => "Non acceptable";
+
+  String get httpClientErrorRequestTimeout => "Requete expirée";
+
+  String get httpClientErrorConflict => "Conflit";
+
+  String get httpClientErrorGone => "Disparu";
+
+  String get httpClientErrorLengthRequired => "Taille requise";
+
+  String get httpClientErrorPayloadTooLarge => "Payload trop large";
+
+  String get httpClientErrorURITooLong => "Lien trop long";
+
+  String get httpClientErrorUnsupportedMediaType =>
+      "Type de média non supporté";
+
+  String get httpClientErrorExpectationFailed => "Échoué";
+
+  String get httpClientErrorUpgradeRequired => "Mise à jour requise";
+
+  // Server Error : HTTP 500
+  @override
+  String get httpServerErrorInternalServerError => "Erreur Serveur interne";
+
+  @override
+  String get httpServerErrorNotImplemented => "Non implementé";
+
+  @override
+  String get httpServerErrorBadGateway => "Mauvaise passerelle";
+
+  @override
+  String get httpServerErrorServiceUnavailable => "Service non disponible ";
+
+  @override
+  String get httpServerErrorGatewayTimeout => "Temps ecoulé";
+
+  @override
+  String get httpServerErrorHttpVersionNotSupported =>
+      "Version HTTP non supporté";
 }

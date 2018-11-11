@@ -1,5 +1,5 @@
-import 'package:cv/src/colors.dart';
-import 'package:cv/src/tags.dart';
+import 'package:cv/src/commons/colors.dart';
+import 'package:cv/src/commons/tags.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {

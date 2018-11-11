@@ -80,9 +80,9 @@ abstract class Localization {
 
   String get settingsThemeDark;
 
-  String get menuPP;
+  String get menuPPCTA;
 
-  String get menuToS;
+  String get menuToSCTA;
 
   String get middleDot;
 
@@ -96,7 +96,7 @@ abstract class Localization {
 
   String get cancel;
 
-  String get settings;
+  String get settingsCTA;
 
   String get account;
 
@@ -129,6 +129,55 @@ abstract class Localization {
   String get no;
 
   String get logged;
+
+  // Api Error
+  String get apiErrorWrongPasswordError;
+
+  String get apiErrorUserNotFoundError;
+
+  // Server Error : HTTP 400
+  String get httpClientErrorBadRequest;
+
+  String get httpClientErrorPaymentRequired;
+
+  String get httpClientErrorForbidden;
+
+  String get httpClientErrorNotFound;
+
+  String get httpClientErrorMethodNotAllowed;
+
+  String get httpClientErrorNotAcceptable;
+
+  String get httpClientErrorRequestTimeout;
+
+  String get httpClientErrorConflict;
+
+  String get httpClientErrorGone;
+
+  String get httpClientErrorLengthRequired;
+
+  String get httpClientErrorPayloadTooLarge;
+
+  String get httpClientErrorURITooLong;
+
+  String get httpClientErrorUnsupportedMediaType;
+
+  String get httpClientErrorExpectationFailed;
+
+  String get httpClientErrorUpgradeRequired;
+
+  // Server Error : HTTP 500
+  String get httpServerErrorInternalServerError;
+
+  String get httpServerErrorNotImplemented;
+
+  String get httpServerErrorBadGateway;
+
+  String get httpServerErrorServiceUnavailable;
+
+  String get httpServerErrorGatewayTimeout;
+
+  String get httpServerErrorHttpVersionNotSupported;
 }
 
 class CVLocalizationsDelegate extends LocalizationsDelegate<Localization> {

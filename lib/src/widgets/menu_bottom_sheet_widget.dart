@@ -1,11 +1,11 @@
+import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/localizations/localization.dart';
-import 'package:cv/src/paths.dart';
 import 'package:cv/src/widgets/account_tile_widget.dart';
 import 'package:cv/src/widgets/theme_switch_tile_widget.dart';
 import 'package:flutter/material.dart';
 
-class BottomSheetMenu extends StatefulWidget {
-  const BottomSheetMenu(
+class MenuBottomSheet extends StatefulWidget {
+  const MenuBottomSheet(
       {Key key,
       this.backgroundColor,
       this.height = 275.0,
@@ -19,10 +19,10 @@ class BottomSheetMenu extends StatefulWidget {
   final BorderRadius borderRadius;
 
   @override
-  State<StatefulWidget> createState() => _BottomSheetMenuState();
+  State<StatefulWidget> createState() => _MenuBottomSheetState();
 }
 
-class _BottomSheetMenuState extends State<BottomSheetMenu> {
+class _MenuBottomSheetState extends State<MenuBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +47,7 @@ class _BottomSheetMenuState extends State<BottomSheetMenu> {
         ThemeSwitchTile(),
         ListTile(
           leading: Icon(Icons.settings),
-          title: Text(Localization.of(context).settings),
+          title: Text(Localization.of(context).settingsCTA),
           onTap: () => _navigateToSettings(context),
         ),
         Divider(),
@@ -55,12 +55,12 @@ class _BottomSheetMenuState extends State<BottomSheetMenu> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             MaterialButton(
-              child: Text(Localization.of(context).menuPP),
+              child: Text(Localization.of(context).menuPPCTA),
               onPressed: () {},
             ),
             Text(Localization.of(context).middleDot),
             MaterialButton(
-              child: Text(Localization.of(context).menuToS),
+              child: Text(Localization.of(context).menuToSCTA),
               onPressed: () {},
             ),
           ],

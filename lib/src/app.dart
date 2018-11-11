@@ -2,18 +2,17 @@ import 'package:cv/src/blocs/application_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/login_bloc.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
-import 'package:cv/src/colors.dart';
-import 'package:cv/src/commons/exception_print.dart';
+import 'package:cv/src/commons/colors.dart';
+import 'package:cv/src/commons/paths.dart';
+import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/pages/login_page.dart';
 import 'package:cv/src/pages/main_page.dart';
 import 'package:cv/src/pages/profile_page.dart';
 import 'package:cv/src/pages/search_page.dart';
 import 'package:cv/src/pages/settings_page.dart';
-import 'package:cv/src/paths.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class CVApp extends StatefulWidget {
@@ -91,46 +90,25 @@ class _CVAppState extends State<CVApp> {
       base = ThemeData.dark();
     }
 
-    if (theme != THEME.DARK) {
-      return base.copyWith(
-        primaryColor: kCVPrimaryColor,
-        primaryColorLight: kCVPrimaryColorLight,
-        primaryColorDark: kCVPrimaryColorDark,
-        accentColor: kCVAccentColor,
-        buttonColor: kCVWhite,
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(),
-        ),
-        textTheme: _buildCVTextTheme(base.textTheme),
-        primaryTextTheme: _buildCVTextTheme(base.primaryTextTheme),
-        accentTextTheme: _buildCVTextTheme(base.accentTextTheme),
-        canvasColor: Colors.transparent, // Used for bottom sheet rounded
-      );
-    } else {
-      return base.copyWith(
-        primaryColor: kCVPrimaryColor,
-        primaryColorLight: kCVPrimaryColorLight,
-        primaryColorDark: kCVPrimaryColorDark,
-        accentColor: kCVAccentColor,
-        buttonColor: kCVPrimaryColorDark,
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(),
-        ),
-        textTheme: _buildCVTextTheme(base.textTheme),
-        primaryTextTheme: _buildCVTextTheme(base.primaryTextTheme),
-        accentTextTheme: _buildCVTextTheme(base.accentTextTheme),
-        canvasColor: Colors.transparent, // Used for bottom sheet rounded
-      );
-    }
+    return base.copyWith(
+      primaryColor: kCVPrimaryColor,
+      primaryColorLight: kCVPrimaryColorLight,
+      primaryColorDark: kCVPrimaryColorDark,
+      accentColor: kCVAccentColor,
+      buttonColor: (theme != THEME.DARK) ? kCVWhite : kCVPrimaryColorDark,
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(),
+      ),
+      textTheme: _buildCVTextTheme(base.textTheme),
+      primaryTextTheme: _buildCVTextTheme(base.primaryTextTheme),
+      accentTextTheme: _buildCVTextTheme(base.accentTextTheme),
+      canvasColor: Colors.transparent, // Used for bottom sheet rounded
+    );
   }
 
   TextTheme _buildCVTextTheme(TextTheme base) {
     return base.apply(
       fontFamily: 'Google Sans',
     );
-  }
-
-  IconThemeData _customIconTheme(IconThemeData original) {
-    return original.copyWith(color: kCVWhite);
   }
 }

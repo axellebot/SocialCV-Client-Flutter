@@ -1,9 +1,8 @@
 import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/localizations/localization.dart';
-import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/user_model.dart';
-import 'package:cv/src/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -50,14 +49,12 @@ class AccountPage extends StatelessWidget {
 
   Widget _buildConnectedAccount(context) {
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
-    _accountBloc.fetchAccountDetails();
 
-    return StreamBuilder<ResponseModel<UserModel>>(
+    return StreamBuilder<UserModel>(
       stream: _accountBloc.fetchAccountDetailsStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<ResponseModel<UserModel>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
         if (snapshot.hasData) {
-          UserModel userModel = snapshot.data.data;
+          UserModel userModel = snapshot.data;
           return _buildAccountDetails(context, userModel);
         } else if (snapshot.hasError) {
           return Container(

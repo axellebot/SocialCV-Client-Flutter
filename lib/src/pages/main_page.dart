@@ -1,15 +1,10 @@
-import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
+import 'package:cv/src/commons/paths.dart';
+import 'package:cv/src/commons/tags.dart';
 import 'package:cv/src/localizations/localization.dart';
-import 'package:cv/src/models/api_models.dart';
-import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/pages/account_page.dart';
 import 'package:cv/src/pages/home_page.dart';
-import 'package:cv/src/paths.dart';
-import 'package:cv/src/tags.dart';
-import 'package:cv/src/widgets/bottom_sheet_menu_widget.dart';
-import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:cv/src/widgets/menu_icon_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
