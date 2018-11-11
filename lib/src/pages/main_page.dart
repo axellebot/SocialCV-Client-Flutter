@@ -10,6 +10,7 @@ import 'package:cv/src/paths.dart';
 import 'package:cv/src/tags.dart';
 import 'package:cv/src/widgets/bottom_sheet_menu_widget.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
+import 'package:cv/src/widgets/menu_icon_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -24,7 +25,6 @@ class MainPage extends StatelessWidget {
         heroTag: kHeroSearchFAB,
         icon: Icon(Icons.search),
         label: Text(Localization.of(context).search),
-        backgroundColor: Theme.of(context).accentColor,
         foregroundColor: Colors.white,
         onPressed: () => _navigateToSearch(context),
       ),
@@ -70,10 +70,8 @@ class MainPage extends StatelessWidget {
         // sets the background color of the `BottomNavigationBar`
         canvasColor: Theme.of(context).primaryColor,
         // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-        primaryColor: Colors.white,
-        textTheme: Theme.of(context).textTheme.copyWith(
-              caption: new TextStyle(color: Colors.white),
-            ),
+        primaryColor: Theme.of(context).selectedRowColor,
+        textTheme: Theme.of(context).primaryTextTheme,
       ), // sets the inactive color of the `BottomNavigationBar`
       child: StreamBuilder(
         stream: _mainBloc.tabStream,
@@ -121,67 +119,12 @@ class MainPage extends StatelessWidget {
       title: Text(Localization.of(context).appName),
       centerTitle: true,
       actions: [
-        _buildMenuItem(context),
+        MenuIconButton(),
       ],
-    );
-  }
-
-  Widget _buildMenuItem(BuildContext context) {
-    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
-
-    return StreamBuilder<bool>(
-      stream: _accountBloc.isAuthenticatedStream,
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data == true) return _buildConnectedMenuItem(context);
-          if (snapshot.data == false)
-            return _buildNotConnectedMenuItem(context);
-        }
-        return Container();
-      },
-    );
-  }
-
-  Widget _buildConnectedMenuItem(BuildContext context) {
-    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
-
-    return StreamBuilder<ResponseModel<UserModel>>(
-      stream: _accountBloc.fetchAccountDetailsStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<ResponseModel<UserModel>> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data.data != null) {
-            UserModel userModel = snapshot.data.data;
-            return Padding(
-                padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
-                child: IconButton(
-                  onPressed: () => _openBottomSheet(context),
-                  icon: InitialCircleAvatar(
-                      text: userModel.username,
-                      backgroundImage: NetworkImage(userModel.picture)),
-                ));
-          }
-        }
-        return Container();
-      },
-    );
-  }
-
-  Widget _buildNotConnectedMenuItem(BuildContext context) {
-    return IconButton(
-      onPressed: () => _openBottomSheet(context),
-      icon: Icon(Icons.menu),
     );
   }
 
   void _navigateToSearch(BuildContext context) {
     Navigator.of(context).pushNamed(kPathSearch);
-  }
-
-  void _openBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => BottomSheetMenu(),
-    );
   }
 }

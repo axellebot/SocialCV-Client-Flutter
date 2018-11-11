@@ -4,7 +4,6 @@ import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/paths.dart';
-import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -37,6 +36,9 @@ class AccountPage extends StatelessWidget {
                   return _buildConnectedAccount(context);
                 if (snapshot.data == false)
                   return _buildNotConnectedAccount(context);
+              } else if (snapshot.hasError) {
+                return Container(
+                    child: Text("Could not verify data ${snapshot.error}"));
               }
               return Container();
             },
@@ -48,7 +50,6 @@ class AccountPage extends StatelessWidget {
 
   Widget _buildConnectedAccount(context) {
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
-
     _accountBloc.fetchAccountDetails();
 
     return StreamBuilder<ResponseModel<UserModel>>(
@@ -58,9 +59,11 @@ class AccountPage extends StatelessWidget {
         if (snapshot.hasData) {
           UserModel userModel = snapshot.data.data;
           return _buildAccountDetails(context, userModel);
-        } else {
-          return Container();
+        } else if (snapshot.hasError) {
+          return Container(
+              child: Text("Could not retrieve data ${snapshot.error}"));
         }
+        return Container();
       },
     );
   }

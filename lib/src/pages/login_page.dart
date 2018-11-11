@@ -98,10 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                     const Padding(padding: EdgeInsets.only(left: 16.0)),
                     Text(
                       Localization.of(context).loginOr,
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: "Google Sans",
-                      ),
+                      style: const TextStyle(fontSize: 18.0),
                     ),
                     const Padding(padding: EdgeInsets.only(left: 16.0)),
                     Expanded(

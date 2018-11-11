@@ -126,7 +126,19 @@ class LocalizationFR implements Localization {
   String get cancel => "Annuler";
 
   @override
-  String get settings => "Paramètre";
+  String get settings => "Paramètres";
+
+  @override
+  String get settingsThemeCTA => "Mode Sombre";
+
+  @override
+  String get settingsThemeDefault => "Défaut";
+
+  @override
+  String get settingsThemeLight => "Claire";
+
+  @override
+  String get settingsThemeDark => "Sombre";
 
   @override
   String get account => "Compte";
