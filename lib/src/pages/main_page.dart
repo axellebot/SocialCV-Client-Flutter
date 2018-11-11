@@ -1,46 +1,32 @@
+import 'package:cv/src/blocs/account_bloc.dart';
+import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/main_bloc.dart';
 import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/models/api_models.dart';
+import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/pages/account_page.dart';
 import 'package:cv/src/pages/home_page.dart';
-import 'package:flutter/foundation.dart';
+import 'package:cv/src/paths.dart';
+import 'package:cv/src/tags.dart';
+import 'package:cv/src/widgets/bottom_sheet_menu_widget.dart';
+import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class MainPage extends StatefulWidget {
-  MainPage({Key key}) : super(key: key);
-
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  static const _TAB_HOME_INDEX = 0;
-  static const _TAB_ACCOUNT_INDEX = 2;
-
-  int currentIndex = 0;
-
-  void _selectTab(int index) {
-    if (index == _TAB_HOME_INDEX || index == _TAB_ACCOUNT_INDEX) {
-      setState(() {
-        currentIndex = index;
-      });
-    }
-  }
-
-  void _fabPressed() {
-    Navigator.of(context).pushNamed('/search');
-  }
-
+class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('Building MainPage');
     return Scaffold(
       appBar: _buildAppBar(context, true),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: kHeroSearchFAB,
         icon: Icon(Icons.search),
         label: Text(Localization.of(context).search),
         backgroundColor: Theme.of(context).accentColor,
         foregroundColor: Colors.white,
-        onPressed: _fabPressed,
+        onPressed: () => _navigateToSearch(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: _buildBottomNavigationBar(context),
@@ -48,29 +34,37 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: <Widget>[
-          Offstage(
-            offstage: currentIndex != _TAB_HOME_INDEX,
-            child: TickerMode(
-              enabled: currentIndex == _TAB_HOME_INDEX,
-              child: HomePage(),
+    HomePage _homePage = HomePage();
+    AccountPage _accountPage = AccountPage();
+
+    MainBloc _mainBloc = BlocProvider.of<MainBloc>(context);
+    return StreamBuilder<TabType>(
+      stream: _mainBloc.tabStream,
+      builder: (BuildContext context, AsyncSnapshot<TabType> snapshot) {
+        if (snapshot.hasData) {
+          return Container(
+            child: Stack(
+              children: <Widget>[
+                Offstage(
+                  offstage: snapshot.data != TabType.HOME_TAB,
+                  child: _homePage,
+                ),
+                Offstage(
+                  offstage: snapshot.data != TabType.ACCOUNT_TAB,
+                  child: _accountPage,
+                ),
+              ],
             ),
-          ),
-          Offstage(
-            offstage: currentIndex != _TAB_ACCOUNT_INDEX,
-            child: TickerMode(
-              enabled: currentIndex == _TAB_ACCOUNT_INDEX,
-              child: AccountPage(),
-            ),
-          ),
-        ],
-      ),
+          );
+        } else {
+          return Container();
+        }
+      },
     );
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
+    MainBloc _mainBloc = BlocProvider.of<MainBloc>(context);
     return Theme(
       data: Theme.of(context).copyWith(
         // sets the background color of the `BottomNavigationBar`
@@ -81,60 +75,113 @@ class _MainPageState extends State<MainPage> {
               caption: new TextStyle(color: Colors.white),
             ),
       ), // sets the inactive color of the `BottomNavigationBar`
-      child: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: _selectTab,
-        type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(MdiIcons.homeOutline),
-            activeIcon: Icon(MdiIcons.home),
-            title: Text(Localization.of(context).home),
-          ),
-          const BottomNavigationBarItem(
-            // Fake item
-            icon: SizedBox(),
-            title: SizedBox(),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(MdiIcons.accountOutline),
-            activeIcon: Icon(MdiIcons.account),
-            title: Text(Localization.of(context).account),
-          ),
-        ],
+      child: StreamBuilder(
+        stream: _mainBloc.tabStream,
+        builder: (BuildContext context, AsyncSnapshot<TabType> snapshot) {
+          var index = 0;
+          if (snapshot.hasData) {
+            if (snapshot.data == TabType.HOME_TAB) index = 0;
+            if (snapshot.data == TabType.ACCOUNT_TAB) index = 2;
+          }
+          return BottomNavigationBar(
+            currentIndex: index,
+            onTap: (index) {
+              if (index == 0) {
+                _mainBloc.changeTab(TabType.HOME_TAB);
+              } else if (index == 2) {
+                _mainBloc.changeTab(TabType.ACCOUNT_TAB);
+              }
+            },
+            type: BottomNavigationBarType.fixed,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(MdiIcons.homeOutline),
+                activeIcon: Icon(MdiIcons.home),
+                title: Text(Localization.of(context).home),
+              ),
+              const BottomNavigationBarItem(
+                // Fake item
+                icon: SizedBox(),
+                title: SizedBox(),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(MdiIcons.accountOutline),
+                activeIcon: Icon(MdiIcons.account),
+                title: Text(Localization.of(context).account),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
   AppBar _buildAppBar(BuildContext context, bool authenticated) {
-    final List<Widget> actions = List();
-    if (authenticated) {
-      actions.add(PopupMenuButton<String>(
-          // overflow menu
-          icon: const Icon(Icons.more_vert),
-          onSelected: (menu) {
-            switch (menu) {
-              case "settings":
-                Navigator.of(context).pushNamed('/settings');
-                break;
-            }
-          },
-          itemBuilder: (BuildContext context) {
-            return [
-              PopupMenuItem<String>(
-                value: "settings",
-                child: Text(
-                  Localization.of(context).settings,
-                ),
-              )
-            ];
-          }));
-    }
-
     return AppBar(
       title: Text(Localization.of(context).appName),
       centerTitle: true,
-      actions: actions,
+      actions: [
+        _buildMenuItem(context),
+      ],
+    );
+  }
+
+  Widget _buildMenuItem(BuildContext context) {
+    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
+
+    return StreamBuilder<bool>(
+      stream: _accountBloc.isAuthenticatedStream,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data == true) return _buildConnectedMenuItem(context);
+          if (snapshot.data == false)
+            return _buildNotConnectedMenuItem(context);
+        }
+        return Container();
+      },
+    );
+  }
+
+  Widget _buildConnectedMenuItem(BuildContext context) {
+    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
+
+    return StreamBuilder<ResponseModel<UserModel>>(
+      stream: _accountBloc.fetchAccountDetailsStream,
+      builder: (BuildContext context,
+          AsyncSnapshot<ResponseModel<UserModel>> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data.data != null) {
+            UserModel userModel = snapshot.data.data;
+            return Padding(
+                padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
+                child: IconButton(
+                  onPressed: () => _openBottomSheet(context),
+                  icon: InitialCircleAvatar(
+                      text: userModel.username,
+                      backgroundImage: NetworkImage(userModel.picture)),
+                ));
+          }
+        }
+        return Container();
+      },
+    );
+  }
+
+  Widget _buildNotConnectedMenuItem(BuildContext context) {
+    return IconButton(
+      onPressed: () => _openBottomSheet(context),
+      icon: Icon(Icons.menu),
+    );
+  }
+
+  void _navigateToSearch(BuildContext context) {
+    Navigator.of(context).pushNamed(kPathSearch);
+  }
+
+  void _openBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => BottomSheetMenu(),
     );
   }
 }

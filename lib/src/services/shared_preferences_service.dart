@@ -2,16 +2,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
   static final String KEY_AUTH_TOKEN = "AUTH_TOKEN";
+  static final String KEY_AUTH_CONNECTED = "AUTH_CONNECTED";
 
   static Future<SharedPreferences> get _prefs =>
       SharedPreferences.getInstance();
 
   /// ----------------------------------------------------------
+  /// ------------------------- Token --------------------------
+  /// ----------------------------------------------------------
+
+  /// ----------------------------------------------------------
   /// Method that returns the token from Shared Preferences
   /// ----------------------------------------------------------
-  Future<String> getAuthToken() async {
+  static Future<String> getAuthToken() async {
     final SharedPreferences prefs = await _prefs;
-
     return prefs.getString(KEY_AUTH_TOKEN) ?? '';
   }
 
@@ -20,7 +24,6 @@ class SharedPreferencesService {
   /// ----------------------------------------------------------
   static Future<bool> setAuthToken(String token) async {
     final SharedPreferences prefs = await _prefs;
-
     return prefs.setString(KEY_AUTH_TOKEN, token);
   }
 
@@ -29,7 +32,25 @@ class SharedPreferencesService {
   /// ----------------------------------------------------------
   static Future<bool> deleteAuthToken() async {
     final SharedPreferences prefs = await _prefs;
-
     return prefs.remove(KEY_AUTH_TOKEN);
+  }
+
+  /// ----------------------------------------------------------
+  /// ----------------------- Connected ------------------------
+  /// ----------------------------------------------------------
+
+  static Future<bool> isAuthConnected() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getBool(KEY_AUTH_CONNECTED) ?? false;
+  }
+
+  static Future<bool> setAuthConnected(bool connected) async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.setBool(KEY_AUTH_CONNECTED, connected) ?? false;
+  }
+
+  static Future<bool> deleteAuthConnected() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.remove(KEY_AUTH_CONNECTED);
   }
 }

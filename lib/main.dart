@@ -1,9 +1,20 @@
+import 'package:cv/src/blocs/account_bloc.dart';
+import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/application_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:cv/src/app.dart';
 
-void main() {
-//  SystemChrome.setPreferredOrientations(
-//      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+Future<void> main() async {
+  //  SystemChrome.setPreferredOrientations(
+  //      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(CVApp());
+  runApp(
+    BlocProvider<ApplicationBloc>(
+      bloc: ApplicationBloc(),
+      child: BlocProvider<AccountBloc>(
+        bloc: AccountBloc(),
+        child: CVApp(),
+      ),
+    ),
+  );
 }

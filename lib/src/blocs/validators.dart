@@ -1,8 +1,5 @@
 import 'dart:async';
 
-import 'package:cv/src/localizations/localization.dart';
-import 'package:flutter/material.dart';
-
 enum ValidationErrors {
   ERROR_LOGIN_NO_EMAIL,
   ERROR_LOGIN_NOT_EMAIL,
@@ -24,6 +21,7 @@ class Validators {
       sink.add(email);
     }
   });
+
   final validatePassword = StreamTransformer<String, String>.fromHandlers(
       handleData: (password, sink) {
     print('PerformPasswordValidation : $password');

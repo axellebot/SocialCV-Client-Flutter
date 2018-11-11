@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 
 abstract class BlocBase {
-  BuildContext context;
-
   BlocBase();
 
   void dispose();

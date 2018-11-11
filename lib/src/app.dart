@@ -1,21 +1,37 @@
-import 'package:cv/src/blocs/auth_bloc.dart';
+import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/login_bloc.dart';
+import 'package:cv/src/blocs/main_bloc.dart';
+import 'package:cv/src/colors.dart';
 import 'package:cv/src/commons/exception_print.dart';
 import 'package:cv/src/localizations/localization.dart';
-import 'package:cv/src/pages/account_page.dart';
-import 'package:cv/src/pages/home_page.dart';
 import 'package:cv/src/pages/login_page.dart';
+import 'package:cv/src/pages/main_page.dart';
 import 'package:cv/src/pages/profile_page.dart';
 import 'package:cv/src/pages/search_page.dart';
 import 'package:cv/src/pages/settings_page.dart';
+import 'package:cv/src/paths.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'colors.dart';
+class CVApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _CVAppState();
+}
 
-class CVApp extends StatelessWidget {
+class _CVAppState extends State<CVApp> {
+  // Blocs
+  final MainBloc _mainBloc = MainBloc();
+  final LoginBloc _loginBloc = LoginBloc();
+  final AccountBloc _accountBloc = AccountBloc();
+
+  // Pages
+  final MainPage _mainPage = MainPage();
+
+  BlocProvider<MainBloc> _mainPageProvider;
+
   @override
   Widget build(BuildContext context) {
     // Set-up error reporting
@@ -23,25 +39,37 @@ class CVApp extends StatelessWidget {
       printException(error.exception, error.stack, error.context);
     };
 
+    // Set status bar color
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: kCVPrimaryColor, //or set color with: Color(0xFF0000FF)
     ));
+
+    _mainPageProvider = BlocProvider<MainBloc>(
+      bloc: _mainBloc,
+      child: _mainPage,
+    );
 
     return MaterialApp(
       onGenerateTitle: (BuildContext context) =>
           Localization.of(context).appName,
       theme: _kCVTheme,
-      home: BlocProvider<AuthBloc>(
-        bloc: AuthBloc(),
-        child: LoginPage(),
-      ),
+      home: _mainPageProvider,
       routes: <String, WidgetBuilder>{
-        '/home': (context) => HomePage(),
-        '/login': (context) => LoginPage(),
-        '/profile': (context) => ProfilePage(),
-        '/account': (context) => AccountPage(),
-        '/settings': (context) => SettingsPage(),
-        '/search': (context) => SearchPage(),
+        kPathHome: (context) {
+          return _mainPageProvider;
+        },
+        kPathAccount: (context) {
+          return _mainPageProvider;
+        },
+        kPathLogin: (context) {
+          return BlocProvider<LoginBloc>(
+            bloc: _loginBloc,
+            child: LoginPage(),
+          );
+        },
+        kPathProfile: (context) => ProfilePage(),
+        kPathSettings: (context) => SettingsPage(),
+        kPathSearch: (context) => SearchPage(),
       },
       localizationsDelegates: [
         const CVLocalizationsDelegate(),
@@ -53,6 +81,7 @@ class CVApp extends StatelessWidget {
         const Locale('fr'),
       ],
       debugShowCheckedModeBanner: false,
+//      showSemanticsDebugger: true,
     );
   }
 }
@@ -79,11 +108,8 @@ ThemeData _buildCVTheme() {
     primaryTextTheme: _buildCVTextTheme(base.primaryTextTheme),
     accentTextTheme: _buildCVTextTheme(base.accentTextTheme),
     iconTheme: _customIconTheme(base.iconTheme),
+    canvasColor: Colors.transparent, // Used for bottom sheet rounded
   );
-}
-
-IconThemeData _customIconTheme(IconThemeData original) {
-  return original.copyWith(color: kCVWhite);
 }
 
 TextTheme _buildCVTextTheme(TextTheme base) {
@@ -116,4 +142,8 @@ TextTheme _buildCVTextTheme(TextTheme base) {
       .apply(
         fontFamily: 'Google Sans',
       );
+}
+
+IconThemeData _customIconTheme(IconThemeData original) {
+  return original.copyWith(color: kCVWhite);
 }

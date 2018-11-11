@@ -11,9 +11,18 @@ class HomePage extends StatefulWidget {
 class _HomePageSate extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    print('Building HomePage');
     return SafeArea(
-      child: Container(
-        child: Text(Localization.of(context).homeWelcome),
+      child: Center(
+        child: Card(
+          child: Container(
+            padding: EdgeInsets.all(25.0),
+            child: Text(
+              Localization.of(context).homeWelcome,
+              style: Theme.of(context).textTheme.body2,
+            ),
+          ),
+        ),
       ),
     );
   }
