@@ -15,19 +15,14 @@ class AccountBloc extends BlocBase {
   ApiService apiService = ApiService();
 
   // Reactive variables
-  final _fetchAccountDetailsController =
-      BehaviorSubject<ResponseModel<UserModel>>();
-  final _connectionController = BehaviorSubject<AuthLoginResponseModel>();
+  final _accountDetailsController = BehaviorSubject<UserModel>();
   final _isAuthenticatedController = BehaviorSubject<bool>();
   final _isLogingController = BehaviorSubject<bool>();
   final _isFetchingController = BehaviorSubject<bool>();
 
   // Streams
-  Observable<ResponseModel<UserModel>> get fetchAccountDetailsStream =>
-      _fetchAccountDetailsController.stream;
-
-  Observable<AuthLoginResponseModel> get connectionStream =>
-      _connectionController.stream;
+  Observable<UserModel> get fetchAccountDetailsStream =>
+      _accountDetailsController.stream;
 
   Observable<bool> get isAuthenticatedStream =>
       _isAuthenticatedController.stream;
@@ -41,16 +36,20 @@ class AccountBloc extends BlocBase {
     if (!_isLogingController.value) {
       _isLogingController.add(true);
 
-      AuthLoginResponseModel loginResponseModel = await apiService
-          .login(AuthLoginModel(login: login, password: password));
-
-      _connectionController.add(loginResponseModel);
-
-      if (!loginResponseModel.error && loginResponseModel.token.isNotEmpty) {
-        SharedPreferencesService.setAuthToken(loginResponseModel.token);
-        SharedPreferencesService.setAuthConnected(true);
-        _isAuthenticatedController.add(true);
-      }
+      await apiService
+          .login(AuthLoginModel(login: login, password: password))
+          .then((AuthLoginResponseModel response) {
+        if (response.error == false) {
+          if (response.token != null) {
+            SharedPreferencesService.setAuthToken(response.token);
+            SharedPreferencesService.setAuthConnected(true);
+            _isAuthenticatedController.add(true);
+          }
+          return _accountDetailsController.add(response.user);
+        } else {
+          throw Exception(response.message);
+        }
+      }).catchError(_accountDetailsController.addError);
 
       _isLogingController.add(false);
     }
@@ -62,7 +61,7 @@ class AccountBloc extends BlocBase {
       _isLogingController.add(true);
       await SharedPreferencesService.deleteAuthToken();
       await SharedPreferencesService.deleteAuthConnected();
-      _connectionController.add(null);
+      _accountDetailsController.add(null);
       _isAuthenticatedController.add(false);
       _isLogingController.add(false);
     }
@@ -72,9 +71,15 @@ class AccountBloc extends BlocBase {
     if (!_isFetchingController.value) {
       _isFetchingController.add(true);
 
-      SharedPreferencesService.getAuthToken()
+      await SharedPreferencesService.getAuthToken()
           .then(apiService.fetchAccountDetails)
-          .then(_fetchAccountDetailsController.add);
+          .then((ResponseModel<UserModel> response) {
+        if (response.error == false) {
+          return _accountDetailsController.add(response.data);
+        } else {
+          throw Exception(response.message);
+        }
+      }).catchError(_accountDetailsController.addError);
 
       _isFetchingController.add(false);
     }
@@ -82,9 +87,8 @@ class AccountBloc extends BlocBase {
 
   @override
   void dispose() {
-    _connectionController.close();
     _isAuthenticatedController.close();
-    _fetchAccountDetailsController.close();
+    _accountDetailsController.close();
     _isLogingController.close();
     _isFetchingController.close();
   }

@@ -111,10 +111,10 @@ class LocalizationEN implements Localization {
   String get settingsThemeDark => "Dark";
 
   @override
-  String get menuPP => "Privacy Policy";
+  String get menuPPCTA => "Privacy Policy";
 
   @override
-  String get menuToS => "Terms of Service";
+  String get menuToSCTA => "Terms of Service";
 
   @override
   String get middleDot => "·";
@@ -135,7 +135,7 @@ class LocalizationEN implements Localization {
   String get cancel => "Cancel";
 
   @override
-  String get settings => "Settings";
+  String get settingsCTA => "Settings";
 
   @override
   String get account => "Account";
@@ -184,4 +184,60 @@ class LocalizationEN implements Localization {
 
   @override
   String get logged => "Logged";
+
+  // Api Error
+  String get apiErrorWrongPasswordError => "Wrong password";
+
+  String get apiErrorUserNotFoundError => "User not found";
+
+  // Server Error : HTTP 400
+  String get httpClientErrorBadRequest => "Bad request";
+
+  String get httpClientErrorPaymentRequired => "Payment required";
+
+  String get httpClientErrorForbidden => "Forbidden";
+
+  String get httpClientErrorNotFound => "Not found";
+
+  String get httpClientErrorMethodNotAllowed => "Not allowed";
+
+  String get httpClientErrorNotAcceptable => "Not acceptable";
+
+  String get httpClientErrorRequestTimeout => "Request timeout";
+
+  String get httpClientErrorConflict => "Conflict";
+
+  String get httpClientErrorGone => "Gone";
+
+  String get httpClientErrorLengthRequired => "Length required";
+
+  String get httpClientErrorPayloadTooLarge => "Payload too large";
+
+  String get httpClientErrorURITooLong => "URI too long";
+
+  String get httpClientErrorUnsupportedMediaType => "Unsupported media type";
+
+  String get httpClientErrorExpectationFailed => "Expectation Failed";
+
+  String get httpClientErrorUpgradeRequired => "Upgrade required";
+
+  // Server Error : HTTP 500
+  @override
+  String get httpServerErrorInternalServerError => "Internal Server Error";
+
+  @override
+  String get httpServerErrorNotImplemented => "Not implemented";
+
+  @override
+  String get httpServerErrorBadGateway => "Bad Gateway";
+
+  @override
+  String get httpServerErrorServiceUnavailable => "Service Unavailable";
+
+  @override
+  String get httpServerErrorGatewayTimeout => "Gateway Timeout";
+
+  @override
+  String get httpServerErrorHttpVersionNotSupported =>
+      "HTTP Version Not Supported";
 }

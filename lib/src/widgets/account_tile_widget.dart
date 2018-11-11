@@ -1,9 +1,8 @@
 import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/localizations/localization.dart';
-import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/user_model.dart';
-import 'package:cv/src/paths.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -26,12 +25,11 @@ class AccountTile extends StatelessWidget {
 
   Widget _buildConnectedAccount(BuildContext context) {
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
-    return StreamBuilder<ResponseModel<UserModel>>(
+    return StreamBuilder<UserModel>(
       stream: _accountBloc.fetchAccountDetailsStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<ResponseModel<UserModel>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
         if (snapshot.hasData) {
-          UserModel userModel = snapshot.data.data;
+          UserModel userModel = snapshot.data;
           return ListTile(
             leading: InitialCircleAvatar(
                 text: userModel.username,
@@ -43,9 +41,10 @@ class AccountTile extends StatelessWidget {
               onPressed: () => _accountBloc.logout(),
             ),
           );
-        } else {
-          return Container();
+        } else if (snapshot.hasError) {
+          return Container(child: Text("${snapshot.error}"));
         }
+        return Container();
       },
     );
   }
