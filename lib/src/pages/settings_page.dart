@@ -1,4 +1,5 @@
 import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/widgets/theme_switch_tile_widget.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -22,11 +23,9 @@ class SettingsPage extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     return SafeArea(
       child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
         children: [
-          const Padding(padding: EdgeInsets.only(top: 30.0)),
-          Text("Account page"),
-          const Padding(padding: EdgeInsets.only(top: 10.0)),
+          ThemeSwitchTile(),
+          const Padding(padding: EdgeInsets.only(top: 8.0)),
         ],
       ),
     );

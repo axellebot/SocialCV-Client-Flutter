@@ -72,6 +72,14 @@ abstract class Localization {
 
   String get settingsTitle;
 
+  String get settingsThemeCTA;
+
+  String get settingsThemeDefault;
+
+  String get settingsThemeLight;
+
+  String get settingsThemeDark;
+
   String get menuPP;
 
   String get menuToS;

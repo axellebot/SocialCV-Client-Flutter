@@ -99,6 +99,18 @@ class LocalizationEN implements Localization {
   String get settingsTitle => "Settings";
 
   @override
+  String get settingsThemeCTA => "Dark Mode";
+
+  @override
+  String get settingsThemeDefault => "Default";
+
+  @override
+  String get settingsThemeLight => "Light";
+
+  @override
+  String get settingsThemeDark => "Dark";
+
+  @override
   String get menuPP => "Privacy Policy";
 
   @override

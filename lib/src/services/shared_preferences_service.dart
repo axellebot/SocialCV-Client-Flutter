@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferencesService {
   static final String KEY_AUTH_TOKEN = "AUTH_TOKEN";
   static final String KEY_AUTH_CONNECTED = "AUTH_CONNECTED";
+  static final String KEY_APP_THEME = "APP_THEME";
 
   static Future<SharedPreferences> get _prefs =>
       SharedPreferences.getInstance();
@@ -52,5 +53,24 @@ class SharedPreferencesService {
   static Future<bool> deleteAuthConnected() async {
     final SharedPreferences prefs = await _prefs;
     return prefs.remove(KEY_AUTH_CONNECTED);
+  }
+
+  /// ----------------------------------------------------------
+  /// ------------------------- Theme --------------------------
+  /// ----------------------------------------------------------
+
+  static Future<String> getAppTheme() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.getString(KEY_APP_THEME);
+  }
+
+  static Future<bool> setAppTheme(String theme) async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.setString(KEY_APP_THEME, theme);
+  }
+
+  static Future<bool> deleteAppTheme() async {
+    final SharedPreferences prefs = await _prefs;
+    return prefs.remove(KEY_APP_THEME);
   }
 }
