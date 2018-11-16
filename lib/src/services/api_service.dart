@@ -7,16 +7,28 @@ import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:http/http.dart';
 
-class ApiService {
-  Client client = Client();
-  final String _baseUrl = "https://api.cv.lebot.me";
-  final int _timeoutSecond = 5;
+class JsonClient extends BaseClient {
+  final Client _client = Client();
+
   final Map<String, String> headers = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
   };
 
-  Future<Response> _filterStatusCode(Response response) async {
+  JsonClient({this.timeoutSecond = 5}) : super();
+
+  int timeoutSecond;
+
+  @override
+  Future<StreamedResponse> send(BaseRequest request) {
+    request.headers.addAll(headers);
+    return _client
+        .send(request)
+        .timeout(Duration(seconds: this.timeoutSecond))
+        .then(_filterStatusCode);
+  }
+
+  Future<StreamedResponse> _filterStatusCode(StreamedResponse response) async {
     switch (response.statusCode) {
       case 501:
         throw HttpServerErrorNotImplementedError();
@@ -31,16 +43,18 @@ class ApiService {
     }
     return response;
   }
+}
+
+class ApiService {
+  Client client = JsonClient();
+  final String _baseUrl = "https://api.cv.lebot.me";
 
   Future<AuthLoginResponseModel> login(AuthLoginModel loginModel) async {
     return client
         .post(
-          "$_baseUrl/auth/login",
-          headers: headers,
-          body: jsonEncode(loginModel),
-        )
-        .timeout(Duration(seconds: _timeoutSecond))
-        .then(_filterStatusCode)
+      "$_baseUrl/auth/login",
+      body: jsonEncode(loginModel),
+    )
         .then((Response response) {
       switch (response.statusCode) {
         case 400:
@@ -55,11 +69,8 @@ class ApiService {
   Future<ResponseModel<UserModel>> fetchAccountDetails(String token) async {
     return client
         .get(
-          "$_baseUrl/me?token=$token",
-          headers: headers,
-        )
-        .timeout(Duration(seconds: _timeoutSecond))
-        .then(_filterStatusCode)
+      "$_baseUrl/me?token=$token",
+    )
         .then((Response response) {
       return ResponseModel<UserModel>.fromJson(json.decode(response.body));
     });
