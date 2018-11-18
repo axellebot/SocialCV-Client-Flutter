@@ -11,12 +11,16 @@ class LoginBloc extends BlocBase with Validators {
   final _passwordController = BehaviorSubject<String>();
   final _connectionController = BehaviorSubject<AuthLoginResponseModel>();
 
+  bool _obscureValue = true;
+
   // Streams
   Observable<String> get emailStream =>
       _emailController.stream.transform(validateEmail);
+  // Causing usable when stream closed (on bloc disposed)
 
   Observable<String> get passwordStream =>
       _passwordController.stream.transform(validatePassword);
+  // Causing usable when stream closed (on bloc disposed)
 
   Observable<bool> get submitLoginStream =>
       Observable.combineLatest2(emailStream, passwordStream, (e, p) {
@@ -35,9 +39,16 @@ class LoginBloc extends BlocBase with Validators {
 
   Function(String) get changePassword => password.add;
 
+  bool get obscureValue => _obscureValue;
+
   String get emailValue => _emailController.value;
 
   String get passwordValue => _passwordController.value;
+
+  void toggleObscure() {
+    _obscureValue = !obscureValue;
+    _passwordController.add(passwordValue);
+  }
 
   @override
   dispose() {
