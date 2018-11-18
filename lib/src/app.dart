@@ -2,6 +2,7 @@ import 'package:cv/src/blocs/application_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/login_bloc.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
+import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/commons/colors.dart';
 import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/commons/utils.dart';
@@ -24,6 +25,7 @@ class _CVAppState extends State<CVApp> {
   // Blocs
   final MainBloc _mainBloc = MainBloc();
   final LoginBloc _loginBloc = LoginBloc();
+  final ProfileBloc _profileBloc = ProfileBloc();
 
   // Pages
   final MainPage _mainPage = MainPage();
@@ -63,7 +65,12 @@ class _CVAppState extends State<CVApp> {
                   child: LoginPage(),
                 );
               },
-              kPathProfile: (context) => ProfilePage(),
+              kPathProfile: (context) {
+                return BlocProvider<ProfileBloc>(
+                  bloc: _profileBloc,
+                  child: ProfilePage(),
+                );
+              },
               kPathSettings: (context) => SettingsPage(),
               kPathSearch: (context) => SearchPage(),
             },
