@@ -1,3 +1,4 @@
+import 'package:cv/src/models/profile_group_model.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/models/profile_part_model.dart';
 import 'package:cv/src/models/user_model.dart';
@@ -39,8 +40,9 @@ class ResponseModel<T> {
 T _dataFromJson<T>(Map<String, dynamic> input) {
   if (T == UserModel) return UserModel.fromJson(input) as T;
   if (T == ProfileModel) return ProfileModel.fromJson(input) as T;
-  if (T == ProfilePartModel)
-    return ProfilePartModel.fromJson(input) as T;
+  if (T == ProfilePartModel) return ProfilePartModel.fromJson(input) as T;
+  if (T == ProfileGroupModel)
+    return ProfileGroupModel.fromJson(input) as T;
   else
     throw Exception("Unknown type $T in RepsonseModel._dataFromJson");
 }

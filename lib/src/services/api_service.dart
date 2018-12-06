@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:cv/src/errors/api_errors.dart';
 import 'package:cv/src/errors/http_errors.dart';
 import 'package:cv/src/models/api_models.dart';
+import 'package:cv/src/models/profile_group_model.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/models/profile_part_model.dart';
 import 'package:cv/src/models/user_model.dart';
@@ -98,6 +99,18 @@ class ApiService {
     )
         .then((Response response) {
       return ResponseModel<ProfilePartModel>.fromJson(
+          json.decode(response.body));
+    });
+  }
+
+  Future<ResponseModel<ProfileGroupModel>> fetchProfileGroup(
+      String token, String profileGroupId) async {
+    return client
+        .get(
+      "$_baseUrl/groups/$profileGroupId?token=$token",
+    )
+        .then((Response response) {
+      return ResponseModel<ProfileGroupModel>.fromJson(
           json.decode(response.body));
     });
   }
