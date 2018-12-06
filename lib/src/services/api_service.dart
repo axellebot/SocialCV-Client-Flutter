@@ -5,6 +5,7 @@ import 'package:cv/src/errors/api_errors.dart';
 import 'package:cv/src/errors/http_errors.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/profile_model.dart';
+import 'package:cv/src/models/profile_part_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:http/http.dart';
 
@@ -86,6 +87,18 @@ class ApiService {
     )
         .then((Response response) {
       return ResponseModel<ProfileModel>.fromJson(json.decode(response.body));
+    });
+  }
+
+  Future<ResponseModel<ProfilePartModel>> fetchProfilePart(
+      String token, String profilePartId) async {
+    return client
+        .get(
+      "$_baseUrl/parts/$profilePartId?token=$token",
+    )
+        .then((Response response) {
+      return ResponseModel<ProfilePartModel>.fromJson(
+          json.decode(response.body));
     });
   }
 }

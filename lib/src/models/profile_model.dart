@@ -28,4 +28,9 @@ class ProfileModel extends BaseModel {
       _$ProfileModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
+
+  @override
+  String toString() {
+    return 'ProfileModel{title: $title, subtitle: $subtitle, picture: $picture, cover: $cover, partIds: $partIds, owner: $owner}';
+  }
 }

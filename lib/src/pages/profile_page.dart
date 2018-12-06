@@ -1,7 +1,9 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
+import 'package:cv/src/blocs/profile_part_bloc.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
+import 'package:cv/src/widgets/profile_part_widget.dart';
 import 'package:flutter/material.dart';
 
 // TODO : Build owner interraction with ProfileModel.owner #
@@ -62,6 +64,7 @@ class ProfilePage extends StatelessWidget {
                       children: <Widget>[
                         Text(profile.title),
                         Text(profile.subtitle),
+                        Wrap(children: _buildPart(context, profile.partIds))
                       ],
                     ),
                   ),
@@ -108,6 +111,18 @@ class ProfilePage extends StatelessWidget {
         return SliverAppBar();
       },
     );
+  }
+
+  _buildPart(BuildContext context, List<String> partIds) {
+    List<Widget> _partWidgets = [];
+
+    partIds.forEach((String id) {
+      _partWidgets.add(BlocProvider<ProfilePartBloc>(
+        bloc: ProfilePartBloc(),
+        child: ProfilePart(id),
+      ));
+    });
+    return _partWidgets;
   }
 
 //
