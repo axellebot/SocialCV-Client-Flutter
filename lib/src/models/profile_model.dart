@@ -1,8 +1,7 @@
-import 'dart:core';
-
 import 'package:cv/src/models/api_models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'profile_model.g.dart';
 
 @JsonSerializable()

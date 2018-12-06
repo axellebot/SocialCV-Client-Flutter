@@ -82,7 +82,7 @@ class ApiService {
       String token, String profileId) async {
     return client
         .get(
-      "$_baseUrl/profile/$profileId?token=$token",
+      "$_baseUrl/profiles/$profileId?token=$token",
     )
         .then((Response response) {
       return ResponseModel<ProfileModel>.fromJson(json.decode(response.body));

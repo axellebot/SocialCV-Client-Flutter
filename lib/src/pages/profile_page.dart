@@ -1,28 +1,34 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
-import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/profile_model.dart';
+import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
 
 // TODO : Build owner interraction with ProfileModel.owner #
 
 class ProfilePage extends StatelessWidget {
+  ProfilePage(this.profileId);
+
+  final String profileId;
+
   @override
   Widget build(BuildContext context) {
     print('Building ProfilePage');
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Localization.of(context).profileTitle),
-      ),
       body: _buildBody(context),
     );
   }
 
   Widget _buildBody(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
+    _profileBloc.fetchProfileDetails(profileId);
 
-    return SafeArea(
-      child: Stack(
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[_buildSliverAppBar(context)];
+      },
+      body: Stack(
         children: <Widget>[
           StreamBuilder<bool>(
             stream: _profileBloc.isFetchingStream,
@@ -33,24 +39,73 @@ class ProfilePage extends StatelessWidget {
               return Container();
             },
           ),
-          _buildProfile(context)
+          _buildInnerBody(context),
         ],
       ),
     );
   }
 
-  Widget _buildProfile(BuildContext context) {
+  Widget _buildInnerBody(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
 
     return StreamBuilder<ProfileModel>(
       stream: _profileBloc.profileStream,
       builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
         if (snapshot.hasData) {
-          return Text(snapshot.data.toString());
+          ProfileModel profile = snapshot.data;
+          return Column(
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        Text(profile.title),
+                        Text(profile.subtitle),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          );
         } else if (snapshot.hasError) {
           return Container(child: Text("Error : ${snapshot.error}"));
         }
         return Container();
+      },
+    );
+  }
+
+  Widget _buildSliverAppBar(BuildContext context) {
+    ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
+
+    return StreamBuilder<ProfileModel>(
+      stream: _profileBloc.profileStream,
+      builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
+        if (snapshot.hasData) {
+          ProfileModel profile = snapshot.data;
+
+          return SliverAppBar(
+            expandedHeight: 200.0,
+            floating: false,
+            pinned: false,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: InitialCircleAvatar(
+                radius: 60.0,
+                backgroundImage: NetworkImage(profile.picture),
+              ),
+              background: Image.network(
+                profile.cover,
+                fit: BoxFit.cover,
+              ),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return SliverAppBar();
+        }
+        return SliverAppBar();
       },
     );
   }

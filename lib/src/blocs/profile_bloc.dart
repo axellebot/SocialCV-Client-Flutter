@@ -7,6 +7,10 @@ import 'package:rxdart/rxdart.dart';
 
 /// Business Logic Component for Profile Fetch
 class ProfileBloc extends BlocBase {
+  ProfileBloc() {
+    _isFetchingController.add(false);
+  }
+
   // Reactive variables
   final _profileDetailsController = BehaviorSubject<ProfileModel>();
   final _isFetchingController = BehaviorSubject<bool>();

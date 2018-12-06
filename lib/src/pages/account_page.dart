@@ -88,11 +88,12 @@ class AccountPage extends StatelessWidget {
 
   List<ListTile> _buildProfiles(BuildContext context, List<String> ids) {
     List<ListTile> _widgets = [];
-    ids.forEach((id) {
+    ids.forEach((profileId) {
       _widgets.add(ListTile(
-        title: Text("CV ${id}"),
-        subtitle: Text(id),
-        onTap: () => Navigator.of(context).pushNamed(kPathProfile),
+        title: Text("CV $profileId"),
+        subtitle: Text(profileId),
+        onTap: () =>
+            Navigator.of(context).pushNamed(kPathProfile + '/$profileId'),
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).accentColor,
         ),
