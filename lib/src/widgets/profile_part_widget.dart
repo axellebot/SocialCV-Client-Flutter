@@ -29,15 +29,8 @@ class ProfilePart extends StatelessWidget {
               child: ProfileGroup(groupId),
             ));
           });
-          return Card(
-            child: Column(
-              children: [
-                Text(profilePartModel.type),
-                Column(
-                  children: _groupWidgets,
-                )
-              ],
-            ),
+          return Column(
+            children: _groupWidgets,
           );
         }
         return Card(
