@@ -14,6 +14,7 @@ class ProfileGroupModel extends BaseModel {
   @JsonKey(name: 'entries')
   List<String> entryIds;
   String owner;
+
   @JsonKey(name: 'profile')
   factory ProfileGroupModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileGroupModelFromJson(json);

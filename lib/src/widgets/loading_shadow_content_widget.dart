@@ -6,8 +6,8 @@ import 'package:flutter/widgets.dart';
 /// LoadingCard displays lines with opacity moving up and down
 /// Specify the number of loading lines to display
 
-class Loading extends StatefulWidget {
-  Loading({
+class LoadingShadowContent extends StatefulWidget {
+  LoadingShadowContent({
     this.numberOfTitleLines = 1,
     this.numberOfContentLines = 3,
     this.padding = const EdgeInsets.all(0.0),
@@ -17,15 +17,17 @@ class Loading extends StatefulWidget {
   final int numberOfContentLines;
   final EdgeInsetsGeometry padding;
 
-  _LoadingState createState() => _LoadingState();
+  _LoadingShadowContentState createState() => _LoadingShadowContentState();
 }
 
-class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
+class _LoadingShadowContentState extends State<LoadingShadowContent>
+    with SingleTickerProviderStateMixin {
   AnimationController _loadingOpacity;
   Animation _opacity;
   Random _rand;
   double _divideFactor;
-  _LoadingState();
+
+  _LoadingShadowContentState();
 
   @override
   void initState() {

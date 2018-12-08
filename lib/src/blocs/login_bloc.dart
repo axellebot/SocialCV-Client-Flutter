@@ -16,10 +16,12 @@ class LoginBloc extends BlocBase with Validators {
   // Streams
   Observable<String> get emailStream =>
       _emailController.stream.transform(validateEmail);
+
   // Causing usable when stream closed (on bloc disposed)
 
   Observable<String> get passwordStream =>
       _passwordController.stream.transform(validatePassword);
+
   // Causing usable when stream closed (on bloc disposed)
 
   Observable<bool> get submitLoginStream =>

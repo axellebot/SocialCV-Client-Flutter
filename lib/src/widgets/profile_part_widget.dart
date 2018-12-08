@@ -2,7 +2,7 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_group_bloc.dart';
 import 'package:cv/src/blocs/profile_part_bloc.dart';
 import 'package:cv/src/models/profile_part_model.dart';
-import 'package:cv/src/widgets/loading_widget.dart';
+import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:cv/src/widgets/profile_group_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +27,7 @@ class ProfilePart extends StatelessWidget {
           ProfilePartModel profilePartModel = snapshot.data;
           return _buildPart(context, profilePartModel);
         }
-        return Loading(
+        return LoadingShadowContent(
           numberOfContentLines: 2,
           padding: EdgeInsets.all(10.0),
         );

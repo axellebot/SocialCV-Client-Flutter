@@ -4,7 +4,7 @@ import 'package:cv/src/blocs/profile_part_bloc.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/widgets/arc_banner_image.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
-import 'package:cv/src/widgets/loading_widget.dart';
+import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:cv/src/widgets/profile_part_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -29,19 +29,7 @@ class ProfilePage extends StatelessWidget {
     return Stack(
       children: <Widget>[
         _buildProgressBar(context),
-        StreamBuilder<ProfileModel>(
-          stream: _profileBloc.profileStream,
-          builder:
-              (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
-            if (snapshot.hasError) {
-              return Text("Error ${snapshot.error.toString()}");
-            }
-            if (snapshot.hasData) {
-              return _buildProfile(context, snapshot.data);
-            }
-            return _buildProfileLoading(context);
-          },
-        ),
+        _buildProfile(context),
         Positioned(
           top: 0.0,
           left: 0.0,
@@ -68,164 +56,142 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileLoading(BuildContext context) {
+  Widget _buildProfile(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          _buildHeaderLoading(context),
-          _buildMainLoading(context),
+          _buildHeader(context),
+          _buildMain(context),
         ],
       ),
     );
   }
 
-  Widget _buildHeaderLoading(BuildContext context) {
-    var profileInfo = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: Loading(
-            numberOfTitleLines: 1,
-            numberOfContentLines: 0,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Loading(
-            numberOfTitleLines: 1,
-            numberOfContentLines: 0,
-          ),
-        ),
-      ],
-    );
-    return Stack(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(bottom: 68.0),
-          child: ArcBannerImage(""),
-        ),
-        Positioned(
-          bottom: 0.0,
-          left: 16.0,
-          right: 16.0,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 0.0),
-                child: InitialCircleAvatar(
-                  elevation: 2.0,
-                  backgroundImage: AssetImage("images/unknown_profile.png"),
-                  radius: 75.0,
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: profileInfo,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
+  Widget _buildHeader(BuildContext context) {
+    ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
 
-  Widget _buildMainLoading(BuildContext context) {
-    return SafeArea(
-      child: Column(children: <Widget>[
-        Loading(
-          numberOfTitleLines: 1,
-          numberOfContentLines: 4,
-        ),
-        Loading(
-          numberOfTitleLines: 1,
-          numberOfContentLines: 4,
-        ),
-        Loading(
-          numberOfTitleLines: 1,
-          numberOfContentLines: 4,
-        ),
-      ]),
-    );
-  }
-
-  Widget _buildProfile(BuildContext context, ProfileModel profileModel) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          _buildHeader(context, profileModel),
-          _buildMain(context, profileModel),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context, ProfileModel profileModel) {
     var textTheme = Theme.of(context).textTheme;
 
-    var profileInfo = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: Text(
+    return StreamBuilder<ProfileModel>(
+      stream: _profileBloc.profileStream,
+      builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
+        bool dataLoaded = false;
+
+        Widget titleWidget = LoadingShadowContent(
+          numberOfTitleLines: 1,
+          numberOfContentLines: 0,
+        );
+
+        Widget subtitleWidget = LoadingShadowContent(
+          numberOfTitleLines: 1,
+          numberOfContentLines: 0,
+        );
+
+        Widget avatarWidget = InitialCircleAvatar(
+          elevation: 2.0,
+          backgroundImage: AssetImage("images/default-avatar.png"),
+          radius: 75.0,
+        );
+
+        Widget bannerWidget =
+            ArcBannerImage(AssetImage("images/default-banner.jpg"));
+
+        if (snapshot.hasData) {
+          ProfileModel profileModel = snapshot.data;
+          titleWidget = Text(
             profileModel.title,
             style: textTheme.title,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Text(
+          );
+          subtitleWidget = Text(
             profileModel.subtitle,
             style: textTheme.subtitle,
-          ),
-        ),
-      ],
-    );
-    return Stack(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(bottom: 68.0),
-          child: ArcBannerImage(profileModel.cover),
-        ),
-        Positioned(
-          bottom: 0.0,
-          left: 16.0,
-          right: 16.0,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 0.0),
-                child: InitialCircleAvatar(
-                  text: profileModel.title,
-                  elevation: 2.0,
-                  backgroundImage: NetworkImage(profileModel.picture),
-                  radius: 75.0,
-                ),
+          );
+          avatarWidget = InitialCircleAvatar(
+            text: profileModel.title,
+            elevation: 2.0,
+            backgroundImage: NetworkImage(profileModel.picture),
+            radius: 75.0,
+          );
+          bannerWidget = ArcBannerImage(NetworkImage(profileModel.cover));
+        }
+
+        var profileInfo = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: titleWidget,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: subtitleWidget,
+            ),
+          ],
+        );
+        return Stack(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(bottom: 68.0),
+              child: bannerWidget,
+            ),
+            Positioned(
+              bottom: 0.0,
+              left: 16.0,
+              right: 16.0,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 0.0),
+                    child: avatarWidget,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: profileInfo,
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: profileInfo,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 
-  Widget _buildMain(BuildContext context, ProfileModel profileModel) {
+  Widget _buildMain(BuildContext context) {
+    ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
+
     return SafeArea(
-      child: Column(
-        children: _buildPart(context, profileModel.partIds),
+      child: StreamBuilder<ProfileModel>(
+        stream: _profileBloc.profileStream,
+        builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
+          if (snapshot.hasError) {
+            return Text("Error ${snapshot.error.toString()}");
+          } else if (snapshot.hasData) {
+            return Column(
+              children: _buildPart(context, snapshot.data.partIds),
+            );
+          }
+          return Column(
+            children: <Widget>[
+              LoadingShadowContent(
+                numberOfTitleLines: 1,
+                numberOfContentLines: 4,
+              ),
+              LoadingShadowContent(
+                numberOfTitleLines: 1,
+                numberOfContentLines: 4,
+              ),
+              LoadingShadowContent(
+                numberOfTitleLines: 1,
+                numberOfContentLines: 4,
+              ),
+            ],
+          );
+        },
       ),
     );
   }

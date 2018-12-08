@@ -1,7 +1,7 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_entry_bloc.dart';
 import 'package:cv/src/models/profile_entry_model.dart';
-import 'package:cv/src/widgets/loading_widget.dart';
+import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfileEntry extends StatelessWidget {
@@ -24,7 +24,7 @@ class ProfileEntry extends StatelessWidget {
         } else if (snapshot.hasData) {
           return _buildEntry(context, snapshot.data);
         }
-        return Loading();
+        return LoadingShadowContent();
       },
     );
   }

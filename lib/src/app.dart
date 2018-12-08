@@ -105,7 +105,8 @@ class CVApp extends StatelessWidget {
                 Localization.of(context).appName,
             theme: _buildCVTheme(snapshot.data),
             home: _mainPageProvider,
-            onGenerateRoute: router.generator, // Use Fluro routes
+            onGenerateRoute: router.generator,
+            // Use Fluro routes
             localizationsDelegates: [
               const CVLocalizationsDelegate(),
               GlobalMaterialLocalizations.delegate,

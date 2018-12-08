@@ -2,7 +2,7 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_entry_bloc.dart';
 import 'package:cv/src/blocs/profile_group_bloc.dart';
 import 'package:cv/src/models/profile_group_model.dart';
-import 'package:cv/src/widgets/loading_widget.dart';
+import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:cv/src/widgets/profile_entry_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +27,7 @@ class ProfileGroup extends StatelessWidget {
         } else if (snapshot.hasData) {
           return _buildGroup(context, snapshot.data);
         }
-        return Loading(
+        return LoadingShadowContent(
           numberOfContentLines: 2,
           padding: EdgeInsets.all(10.0),
         );
