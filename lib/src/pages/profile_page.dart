@@ -2,7 +2,9 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/blocs/profile_part_bloc.dart';
 import 'package:cv/src/models/profile_model.dart';
+import 'package:cv/src/widgets/arc_banner_image.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
+import 'package:cv/src/widgets/loading_widget.dart';
 import 'package:cv/src/widgets/profile_part_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +18,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('Building ProfilePage');
-
     return Scaffold(
       body: _buildBody(context),
     );
@@ -25,95 +26,211 @@ class ProfilePage extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
     _profileBloc.fetchProfileDetails(profileId);
-
-    return NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[_buildSliverAppBar(context)];
-      },
-      body: Stack(
-        children: <Widget>[
-          StreamBuilder<bool>(
-            stream: _profileBloc.isFetchingStream,
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.data == true) {
-                return LinearProgressIndicator();
-              }
-              return Container();
-            },
+    return Stack(
+      children: <Widget>[
+        _buildProgressBar(context),
+        StreamBuilder<ProfileModel>(
+          stream: _profileBloc.profileStream,
+          builder:
+              (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
+            if (snapshot.hasError) {
+              return Text("Error ${snapshot.error.toString()}");
+            }
+            if (snapshot.hasData) {
+              return _buildProfile(context, snapshot.data);
+            }
+            return _buildProfileLoading(context);
+          },
+        ),
+        Positioned(
+          top: 0.0,
+          left: 0.0,
+          right: 0.0,
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
           ),
-          _buildInnerBody(context),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  Widget _buildInnerBody(BuildContext context) {
+  Widget _buildProgressBar(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
-
-    return StreamBuilder<ProfileModel>(
-      stream: _profileBloc.profileStream,
-      builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
-        if (snapshot.hasData) {
-          ProfileModel profile = snapshot.data;
-          return Column(
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        Text(profile.title),
-                        Text(profile.subtitle),
-                        Wrap(children: _buildPart(context, profile.partIds))
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          );
-        } else if (snapshot.hasError) {
-          return Container(child: Text("Error : ${snapshot.error}"));
+    return StreamBuilder<bool>(
+      stream: _profileBloc.isFetchingStream,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.data == true) {
+          return LinearProgressIndicator();
         }
         return Container();
       },
     );
   }
 
-  Widget _buildSliverAppBar(BuildContext context) {
-    ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
-
-    return StreamBuilder<ProfileModel>(
-      stream: _profileBloc.profileStream,
-      builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
-        if (snapshot.hasData) {
-          ProfileModel profile = snapshot.data;
-
-          return SliverAppBar(
-            expandedHeight: 200.0,
-            floating: false,
-            pinned: false,
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              title: InitialCircleAvatar(
-                radius: 60.0,
-                backgroundImage: NetworkImage(profile.picture),
-              ),
-              background: Image.network(
-                profile.cover,
-                fit: BoxFit.cover,
-              ),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return SliverAppBar();
-        }
-        return SliverAppBar();
-      },
+  Widget _buildProfileLoading(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          _buildHeaderLoading(context),
+          _buildMainLoading(context),
+        ],
+      ),
     );
   }
 
-  _buildPart(BuildContext context, List<String> partIds) {
+  Widget _buildHeaderLoading(BuildContext context) {
+    var profileInfo = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Loading(
+            numberOfTitleLines: 1,
+            numberOfContentLines: 0,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Loading(
+            numberOfTitleLines: 1,
+            numberOfContentLines: 0,
+          ),
+        ),
+      ],
+    );
+    return Stack(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(bottom: 68.0),
+          child: ArcBannerImage(""),
+        ),
+        Positioned(
+          bottom: 0.0,
+          left: 16.0,
+          right: 16.0,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 0.0),
+                child: InitialCircleAvatar(
+                  elevation: 2.0,
+                  backgroundImage: AssetImage("images/unknown_profile.png"),
+                  radius: 75.0,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: profileInfo,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMainLoading(BuildContext context) {
+    return SafeArea(
+      child: Column(children: <Widget>[
+        Loading(
+          numberOfTitleLines: 1,
+          numberOfContentLines: 4,
+        ),
+        Loading(
+          numberOfTitleLines: 1,
+          numberOfContentLines: 4,
+        ),
+        Loading(
+          numberOfTitleLines: 1,
+          numberOfContentLines: 4,
+        ),
+      ]),
+    );
+  }
+
+  Widget _buildProfile(BuildContext context, ProfileModel profileModel) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          _buildHeader(context, profileModel),
+          _buildMain(context, profileModel),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, ProfileModel profileModel) {
+    var textTheme = Theme.of(context).textTheme;
+
+    var profileInfo = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Text(
+            profileModel.title,
+            style: textTheme.title,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            profileModel.subtitle,
+            style: textTheme.subtitle,
+          ),
+        ),
+      ],
+    );
+    return Stack(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(bottom: 68.0),
+          child: ArcBannerImage(profileModel.cover),
+        ),
+        Positioned(
+          bottom: 0.0,
+          left: 16.0,
+          right: 16.0,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 0.0),
+                child: InitialCircleAvatar(
+                  text: profileModel.title,
+                  elevation: 2.0,
+                  backgroundImage: NetworkImage(profileModel.picture),
+                  radius: 75.0,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: profileInfo,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMain(BuildContext context, ProfileModel profileModel) {
+    return SafeArea(
+      child: Column(
+        children: _buildPart(context, profileModel.partIds),
+      ),
+    );
+  }
+
+  List<Widget> _buildPart(BuildContext context, List<String> partIds) {
     List<Widget> _partWidgets = [];
 
     partIds.forEach((String id) {
@@ -124,61 +241,4 @@ class ProfilePage extends StatelessWidget {
     });
     return _partWidgets;
   }
-
-//
-//  Widget _buildSkillGroupChips(List<String> skillTags) {
-//    if (skillTags == null) {
-//      return Text("null");
-//    }
-//
-//    List<Widget> _skillWidgets = [];
-//    skillTags.forEach((element) {
-//      _skillWidgets.add(
-//        new Chip(
-//          label: Text((element != null) ? element : "null"),
-//        ),
-//      );
-//    });
-//    return new Wrap(
-//      spacing: widget.defaultChipSpacing, // gap between adjacent chips
-//      runSpacing: widget.defaultChipSpacing, // gap between lines
-//      children: _skillWidgets,
-//    );
-//  }
-//
-//  Widget _buildSkillsPart() {
-//    return new Card(
-//      elevation: widget.defaultElevation,
-//      child: Padding(
-//        padding: const EdgeInsets.all(20.0),
-//        child: FutureBuilder(
-//            future: repository.getSkillGroups(),
-//            builder: (BuildContext context, AsyncSnapshot snapshot) {
-//              if (snapshot.hasError) {
-//                return Text(Localization.of(context).errorOccurred);
-//              } else if (snapshot.hasData == false) {
-//                return CircularProgressIndicator();
-//              } else {
-//                List<SkillGroup> skillGroups = snapshot.data;
-//                List<Widget> skillWidgets = [];
-//
-//                skillGroups.forEach((skillGroup) {
-//                  skillWidgets.add(
-//                    Text(
-//                      (skillGroup.label != null) ? skillGroup.label : "null",
-//                    ),
-//                  );
-//                  skillWidgets.add(_buildSkillGroupChips(skillGroup.skills));
-//                });
-//
-//                return Column(
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                  mainAxisAlignment: MainAxisAlignment.center,
-//                  children: skillWidgets,
-//                );
-//              }
-//            }),
-//      ),
-//    );
-//  }
 }

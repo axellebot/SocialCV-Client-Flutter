@@ -1,6 +1,7 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_entry_bloc.dart';
 import 'package:cv/src/models/profile_entry_model.dart';
+import 'package:cv/src/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfileEntry extends StatelessWidget {
@@ -18,66 +19,108 @@ class ProfileEntry extends StatelessWidget {
       stream: _profileEntryBloc.profileStream,
       builder:
           (BuildContext context, AsyncSnapshot<ProfileEntryModel> snapshot) {
-        if (snapshot.hasData) {
-          ProfileEntryModel profileEntryModel = snapshot.data;
-
-          return Column(
-            children: [
-              _buildEntry(context, profileEntryModel),
-            ],
-          );
+        if (snapshot.hasError) {
+          return Text("Error : ${snapshot.error.toString()}");
+        } else if (snapshot.hasData) {
+          return _buildEntry(context, snapshot.data);
         }
-        return Column(
-          children: <Widget>[
-            CircularProgressIndicator(),
-            Text("Loading profile entry $profileEntryId"),
-          ],
-        );
+        return Loading();
       },
     );
   }
 
   Widget _buildEntry(
       BuildContext context, ProfileEntryModel profileEntryModel) {
-    dynamic content = profileEntryModel.content;
-
     if (profileEntryModel.type == "map") {
-      return Text(
-          "${profileEntryModel.name ?? ""} : ${profileEntryModel.content ?? ""}");
+      return _buildEntryMap(context, profileEntryModel);
     } else if (profileEntryModel.type == "event") {
-      return Column(
-        children: <Widget>[
-          Text(
-            "${profileEntryModel.startDate}-${profileEntryModel.endDate}",
-            style: TextStyle(color: Theme.of(context).accentColor),
-          ),
-          Row(
-            children: <Widget>[
-              Text(profileEntryModel.name ?? ""),
-              Text(profileEntryModel.location ?? ""),
-            ],
-          ),
-          Text(profileEntryModel.content)
-        ],
-      );
+      return _buildEntryEvent(context, profileEntryModel);
     } else if (profileEntryModel.type == "tag") {
-      List<dynamic> tags = content;
-      List<Widget> _tagWidgets = [];
-      tags.forEach((dynamic tag) {
-        _tagWidgets.add(Chip(label: Text(tag as String)));
-      });
-      return Column(
-        children: <Widget>[
-          Text(
-            profileEntryModel.name ?? "",
-            style: TextStyle(color: Theme.of(context).accentColor),
-          ),
-          Wrap(
-            children: _tagWidgets,
-          )
-        ],
-      );
+      return _buildEntryTag(context, profileEntryModel);
+    } else {
+      return _buildEntryDefault(profileEntryModel);
     }
-    return Text("Unhandled entry type ${profileEntryModel.type}");
+  }
+
+  Widget _buildEntryDefault(ProfileEntryModel profileEntryModel) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text("Unhandled entry type ${profileEntryModel.type}")
+      ],
+    );
+  }
+
+  Widget _buildEntryMap(
+      BuildContext context, ProfileEntryModel profileEntryModel) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text("${profileEntryModel.name ?? ""}"),
+        Text(
+          "${profileEntryModel.content ?? ""}",
+          textAlign: TextAlign.end,
+        )
+      ],
+    );
+  }
+
+  Widget _buildEntryEvent(
+      BuildContext context, ProfileEntryModel profileEntryModel) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              "${profileEntryModel.startDate}   ${profileEntryModel.endDate}",
+              style: TextStyle(
+                color: Theme.of(context).accentColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              profileEntryModel.location ?? "",
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ],
+        ),
+        Text(
+          profileEntryModel.name ?? "",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Expanded(
+          child: Text(profileEntryModel.content),
+        )
+      ],
+    );
+  }
+
+  Widget _buildEntryTag(
+      BuildContext context, ProfileEntryModel profileEntryModel) {
+    List<dynamic> tags = profileEntryModel.content;
+    List<Widget> _tagWidgets = [];
+    tags.forEach((dynamic tag) {
+      _tagWidgets.add(Chip(label: Text(tag as String)));
+    });
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Text(
+          profileEntryModel.name.toUpperCase() ?? "",
+          style: TextStyle(
+            color: Theme.of(context).accentColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Wrap(
+          alignment: WrapAlignment.start,
+          spacing: 4.0,
+          runSpacing: 0.0,
+          children: _tagWidgets,
+        )
+      ],
+    );
   }
 }

@@ -50,6 +50,7 @@ flutter:
   assets:
    - images/account_card_details-white.png
    - images/account_card_details-blue.png
+   - images/unknown_profile.png
 
   fonts:
        - family: Google Sans

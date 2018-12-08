@@ -6,10 +6,11 @@ part 'profile_group_model.g.dart';
 
 @JsonSerializable()
 class ProfileGroupModel extends BaseModel {
-  ProfileGroupModel({Key key, this.name, this.entryIds, this.owner})
+  ProfileGroupModel({Key key, this.name, this.type, this.entryIds, this.owner})
       : super(key: key);
 
   String name;
+  String type;
   @JsonKey(name: 'entries')
   List<String> entryIds;
   String owner;
@@ -21,6 +22,6 @@ class ProfileGroupModel extends BaseModel {
 
   @override
   String toString() {
-    return 'ProfileGroupModel{name: $name, entryIds: $entryIds, owner: $owner}';
+    return 'ProfileGroupModel{name: $name, type: $type, entryIds: $entryIds, owner: $owner}';
   }
 }

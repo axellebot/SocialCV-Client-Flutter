@@ -14,14 +14,19 @@ class _HomePageSate extends State<HomePage> {
     print('Building HomePage');
     return SafeArea(
       child: Center(
-        child: Card(
-          child: Container(
-            padding: EdgeInsets.all(25.0),
-            child: Text(
-              Localization.of(context).homeWelcome,
-              style: Theme.of(context).textTheme.body2,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Card(
+              child: Container(
+                padding: EdgeInsets.all(25.0),
+                child: Text(
+                  Localization.of(context).homeWelcome,
+                  style: Theme.of(context).textTheme.body2,
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
