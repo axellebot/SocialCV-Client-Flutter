@@ -1,4 +1,5 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/services/api_service.dart';
@@ -24,6 +25,7 @@ class ProfileBloc extends BlocBase {
   Observable<bool> get isFetchingStream => _isFetchingController.stream;
 
   void fetchProfileDetails(String profileId) async {
+    logger.info('fetchProfileDetails');
     if (!_isFetchingController.value) {
       _isFetchingController.add(true);
 

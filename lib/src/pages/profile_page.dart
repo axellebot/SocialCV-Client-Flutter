@@ -1,6 +1,7 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/blocs/profile_part_bloc.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/widgets/arc_banner_image.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
@@ -17,7 +18,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Building ProfilePage');
+    logger.info('Building ProfilePage');
     return Scaffold(
       body: _buildBody(context),
     );
@@ -75,8 +76,6 @@ class ProfilePage extends StatelessWidget {
     return StreamBuilder<ProfileModel>(
       stream: _profileBloc.profileStream,
       builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
-        bool dataLoaded = false;
-
         Widget titleWidget = LoadingShadowContent(
           numberOfTitleLines: 1,
           numberOfContentLines: 0,

@@ -3,6 +3,7 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/commons/colors.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
@@ -25,7 +26,8 @@ class CVApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Building CVApp');
+    logger.info('Building CVApp');
+
     // Set-up error reporting
     FlutterError.onError = (FlutterErrorDetails error) {
       printException(error.exception, error.stack, error.context);
@@ -57,7 +59,7 @@ class CVApp extends StatelessWidget {
     );
 
     // TODO : Check other solution to avoid LoginBloc recreation when
-    // LoginBloc rebuild (caused by input change)
+    // LoginPage rebuild (caused by input change)
     router.define(
       kPathLogin,
       handler: Handler(
@@ -88,6 +90,8 @@ class CVApp extends StatelessWidget {
       ),
     );
 
+    // TODO : Check other solution to avoid SearchBloc recreation when
+    // SearchPage rebuild (caused by input change)
     router.define(
       kPathSearch,
       handler: Handler(

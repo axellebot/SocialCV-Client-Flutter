@@ -1,4 +1,5 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/services/api_service.dart';
@@ -33,6 +34,7 @@ class AccountBloc extends BlocBase {
 
   /* Functions */
   void login(String login, String password) async {
+    logger.info('Login');
     if (!_isLogingController.value) {
       _isLogingController.add(true);
 
@@ -56,7 +58,7 @@ class AccountBloc extends BlocBase {
   }
 
   void logout() async {
-    print('Logout');
+    logger.info('Logout');
     if (!_isLogingController.value) {
       _isLogingController.add(true);
       await SharedPreferencesService.deleteAuthToken();
@@ -68,6 +70,7 @@ class AccountBloc extends BlocBase {
   }
 
   void fetchAccountDetails() async {
+    logger.info('fetchAccountDetails');
     if (!_isFetchingController.value) {
       _isFetchingController.add(true);
 

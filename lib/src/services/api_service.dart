@@ -11,47 +11,9 @@ import 'package:cv/src/models/profile_part_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:http/http.dart';
 
-class JsonClient extends BaseClient {
-  final Client _client = Client();
-
-  final Map<String, String> headers = {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
-  };
-
-  JsonClient({this.timeoutSecond = 5}) : super();
-
-  int timeoutSecond;
-
-  @override
-  Future<StreamedResponse> send(BaseRequest request) {
-    request.headers.addAll(headers);
-    return _client
-        .send(request)
-        .timeout(Duration(seconds: this.timeoutSecond))
-        .then(_filterStatusCode);
-  }
-
-  Future<StreamedResponse> _filterStatusCode(StreamedResponse response) async {
-    switch (response.statusCode) {
-      case 501:
-        throw HttpServerErrorNotImplementedError();
-      case 502:
-        throw HttpServerErrorBadGatewayError();
-      case 503:
-        throw HttpServerErrorServiceUnavailableError();
-      case 504:
-        throw HttpServerErrorGatewayTimeoutError();
-      case 505:
-        throw HttpServerErrorHttpVersionNotSupportedError();
-    }
-    return response;
-  }
-}
-
 // TODO : Inject ApiService
 class ApiService {
-  Client client = JsonClient();
+  Client client = ApiClient();
   final String _baseUrl = "https://api.cv.lebot.me";
 
   Future<AuthLoginResponseModel> login(AuthLoginModel loginModel) async {
@@ -126,5 +88,63 @@ class ApiService {
       return ResponseModel<ProfileEntryModel>.fromJson(
           json.decode(response.body));
     });
+  }
+
+  Future<ResponseModelWithArray<ProfileModel>> fetchProfiles(
+      String token, String profileTitle,
+      {int offset = 0, int limit = 10}) async {
+    return client
+        .get(
+      "$_baseUrl/profiles?token=$token&title=$profileTitle&offset=$offset"
+          "&limit=$limit",
+    )
+        .then((Response response) {
+      switch (response.statusCode) {
+        case 400:
+          throw ApiErrorWrongPaginationError();
+        case 404:
+          throw ApiErrorProfileNotFoundError();
+      }
+      return ResponseModelWithArray<ProfileModel>.fromJson(
+          json.decode(response.body));
+    });
+  }
+}
+
+class ApiClient extends BaseClient {
+  final Client _client = Client();
+
+  final Map<String, String> headers = {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+  };
+
+  ApiClient({this.timeoutSecond = 5}) : super();
+
+  int timeoutSecond;
+
+  @override
+  Future<StreamedResponse> send(BaseRequest request) {
+    request.headers.addAll(headers);
+    return _client
+        .send(request)
+        .timeout(Duration(seconds: this.timeoutSecond))
+        .then(_filterStatusCode);
+  }
+
+  Future<StreamedResponse> _filterStatusCode(StreamedResponse response) async {
+    switch (response.statusCode) {
+      case 501:
+        throw HttpServerErrorNotImplementedError();
+      case 502:
+        throw HttpServerErrorBadGatewayError();
+      case 503:
+        throw HttpServerErrorServiceUnavailableError();
+      case 504:
+        throw HttpServerErrorGatewayTimeoutError();
+      case 505:
+        throw HttpServerErrorHttpVersionNotSupportedError();
+    }
+    return response;
   }
 }

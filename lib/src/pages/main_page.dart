@@ -1,5 +1,6 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/commons/tags.dart';
 import 'package:cv/src/localizations/localization.dart';
@@ -12,7 +13,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('Building MainPage');
+    logger.info('Building MainPage');
     return Scaffold(
       appBar: _buildAppBar(context, true),
       body: _buildBody(context),

@@ -2,9 +2,11 @@ import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/login_bloc.dart';
 import 'package:cv/src/blocs/validators.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/user_model.dart';
+import 'package:cv/src/widgets/card_error.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('Building LoginPage');
+    logger.info('Building LoginPage');
     return Scaffold(
       appBar: _buildAppBar(context),
       body: _buildBody(context),
@@ -204,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
       stream: _accountBloc.fetchAccountDetailsStream,
       builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
         if (snapshot.hasError) {
-          return Text(translateError(context, snapshot.error));
+          return CardError(translateError(context, snapshot.error));
         } else if (snapshot.hasData) {
           return Text('Hello ${snapshot.data.username}');
         }

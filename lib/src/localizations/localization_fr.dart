@@ -4,6 +4,7 @@ class LocalizationFR implements Localization {
   @override
   String get appName => "Social CV";
 
+  // Login Page
   @override
   String get loginTitle => "Connexion";
 
@@ -61,69 +62,25 @@ class LocalizationFR implements Localization {
   @override
   String get loginOr => "OU";
 
-  @override
-  String get forgotPasswordTitle => "Retrouvez votre mot de passe";
-
-  @override
-  String get forgotPasswordExplain =>
-      "Renseignez votre e-mail et nous vous enverrons les instructions pour réinitialiser votre mote de passe";
-
-  @override
-  String get forgotPasswordResetCTA => "Réinitialiser mon mot de passe";
-
-  @override
-  String get forgotPasswordNoEmailTitle => "Email non renseigné";
-
-  @override
-  String get forgotPasswordNoEmailExplain =>
-      "Mercie de renseigner votre e-mail";
-
-  @override
-  String get forgotPasswordSuccessMessage =>
-      "Email with instructions has been send.";
-
-  @override
-  String get forgotPasswordErrorMessage =>
-      "Une érreur c'est produite pendant l'envoie de l'e-mail avec les instructions";
-
+  // Home Page
   @override
   String get homeTitle => "Social CV";
 
   @override
   String get homeWelcome => "Bienvenue sur notre nouveau réseau social de CV !";
 
+  // Account Page
   @override
   String get accountMyProfile => "Mes profils";
 
+  // Profile Page
   @override
   String get profileTitle => "Profil";
 
+  // Settings Pages
+
   @override
   String get settingsTitle => "Paramètres";
-
-  @override
-  String get menuPPCTA => "Politique de confidentialité";
-
-  @override
-  String get menuToSCTA => "Termes de Service";
-
-  @override
-  String get middleDot => "·";
-
-  @override
-  String get username => "Nom d'utilisateur";
-
-  @override
-  String get email => "Email";
-
-  @override
-  String get password => "Mot de passe";
-
-  @override
-  String get token => "Jeton";
-
-  @override
-  String get cancel => "Annuler";
 
   @override
   String get settingsCTA => "Paramètres";
@@ -140,53 +97,12 @@ class LocalizationFR implements Localization {
   @override
   String get settingsThemeDark => "Sombre";
 
+  // Search Page
   @override
-  String get account => "Compte";
+  String get searchTitle => "Recherche";
 
   @override
-  String get login => "Se connecter";
-
-  @override
-  String get loginCTA => "Se connecter";
-
-  @override
-  String get logout => "Se déconnecter";
-
-  @override
-  String get logoutCTA => "Se déconnecter";
-
-  @override
-  String get home => "Accueil";
-
-  @override
-  String get resume => "CV";
-
-  @override
-  String get profile => "Profil";
-
-  @override
-  String get search => "Rechercher";
-
-  @override
-  String get history => "Historique";
-
-  @override
-  String get loadMore => "Charger plus";
-
-  @override
-  String get errorOccurred => "Une erreur s'est produite";
-
-  @override
-  String get retry => "Re-éssayer";
-
-  @override
-  String get yes => "Oui";
-
-  @override
-  String get no => "Non";
-
-  @override
-  String get logged => "Connecté";
+  String get searchSearchBarHint => "Rechercher un profil ...";
 
   // Api Error
   String get apiErrorWrongPasswordError => "Mauvais mot de passe";
@@ -244,4 +160,106 @@ class LocalizationFR implements Localization {
   @override
   String get httpServerErrorHttpVersionNotSupported =>
       "Version HTTP non supporté";
+
+  // Menu Widget
+
+  @override
+  String get menuPPCTA => "Politique de confidentialité";
+
+  @override
+  String get menuToSCTA => "Termes de Service";
+
+  // Others
+  @override
+  String get middleDot => "·";
+
+  @override
+  String get username => "Nom d'utilisateur";
+
+  @override
+  String get email => "Email";
+
+  @override
+  String get password => "Mot de passe";
+
+  @override
+  String get token => "Jeton";
+
+  @override
+  String get cancel => "Annuler";
+  @override
+  String get account => "Compte";
+
+  @override
+  String get login => "Se connecter";
+
+  @override
+  String get loginCTA => "Se connecter";
+
+  @override
+  String get logout => "Se déconnecter";
+
+  @override
+  String get logoutCTA => "Se déconnecter";
+
+  @override
+  String get home => "Accueil";
+
+  @override
+  String get resume => "CV";
+
+  @override
+  String get profile => "Profil";
+
+  @override
+  String get search => "Rechercher";
+
+  @override
+  String get history => "Historique";
+
+  @override
+  String get loadMore => "Charger plus";
+
+  @override
+  String get errorOccurred => "Une erreur s'est produite";
+
+  @override
+  String get retry => "Re-éssayer";
+
+  @override
+  String get yes => "Oui";
+
+  @override
+  String get no => "Non";
+
+  @override
+  String get logged => "Connecté";
+
+  @override
+  String get more => "Plus";
+
+  @override
+  String get forgotPasswordTitle => "Retrouvez votre mot de passe";
+
+  @override
+  String get forgotPasswordExplain =>
+      "Renseignez votre e-mail et nous vous enverrons les instructions pour réinitialiser votre mote de passe";
+
+  @override
+  String get forgotPasswordResetCTA => "Réinitialiser mon mot de passe";
+
+  @override
+  String get forgotPasswordNoEmailTitle => "Email non renseigné";
+
+  @override
+  String get forgotPasswordNoEmailExplain =>
+      "Mercie de renseigner votre e-mail";
+
+  @override
+  String get forgotPasswordSuccessMessage =>
+      "Email with instructions has been send.";
+
+  @override
+  String get forgotPasswordErrorMessage =>
+      "Une érreur c'est produite pendant l'envoie de l'e-mail avec les instructions";
 }

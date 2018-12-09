@@ -1,3 +1,4 @@
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageSate extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    print('Building HomePage');
+    logger.info('Building HomePage');
     return SafeArea(
       child: Center(
         child: Column(

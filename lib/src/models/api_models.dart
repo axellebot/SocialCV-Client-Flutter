@@ -1,3 +1,4 @@
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/profile_entry_model.dart';
 import 'package:cv/src/models/profile_group_model.dart';
 import 'package:cv/src/models/profile_model.dart';
@@ -9,7 +10,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'api_models.g.dart';
 
 @JsonSerializable()
-class BaseModel {
+class BaseModel extends Object {
   BaseModel({Key key, this.id});
 
   @JsonKey(name: '_id')
@@ -37,19 +38,80 @@ class ResponseModel<T> {
   Map<String, dynamic> toJson() => _$ResponseModelToJson<T>(this);
 }
 
-// TODO : Add models if needed
-T _dataFromJson<T>(Map<String, dynamic> input) {
-  if (T == UserModel) return UserModel.fromJson(input) as T;
-  if (T == ProfileModel) return ProfileModel.fromJson(input) as T;
-  if (T == ProfilePartModel) return ProfilePartModel.fromJson(input) as T;
-  if (T == ProfileGroupModel) return ProfileGroupModel.fromJson(input) as T;
-  if (T == ProfileEntryModel)
-    return ProfileEntryModel.fromJson(input) as T;
-  else
-    throw Exception("Unknown type $T in RepsonseModel._dataFromJson");
+// Model with GenericCollection https://github
+// .com/dart-lang/json_serializable/blob
+// /ee2c5c788279af01860624303abe16811850b82c/example/lib/json_converter_example.dart
+@JsonSerializable()
+class ResponseModelWithArray<T> {
+  ResponseModelWithArray({Key key, this.error, this.message, this.data});
+
+  bool error;
+  String message;
+
+  @_Converter()
+  List<T> data;
+
+  factory ResponseModelWithArray.fromJson(Map<String, dynamic> json) =>
+      _$ResponseModelWithArrayFromJson<T>(json);
+
+  Map<String, dynamic> toJson() => _$ResponseModelWithArrayToJson<T>(this);
 }
 
-Map<String, dynamic> _dataToJson<T>(T input) => {'data': input};
+class _Converter<T> implements JsonConverter<T, Object> {
+  const _Converter();
+
+  @override
+  T fromJson(Object json) {
+    if (json is Map<String, dynamic>) {
+      if (T == UserModel)
+        return UserModel.fromJson(json) as T;
+      else if (T == ProfileModel)
+        return ProfileModel.fromJson(json) as T;
+      else if (T == ProfilePartModel)
+        return ProfilePartModel.fromJson(json) as T;
+      else if (T == ProfileGroupModel)
+        return ProfileGroupModel.fromJson(json) as T;
+      else if (T == ProfileEntryModel)
+        return ProfileEntryModel.fromJson(json) as T;
+    }
+    // This will only work if `json` is a native JSON type:
+    //   num, String, bool, null, etc
+    // *and* is assignable to `T`.
+    return json as T;
+  }
+
+  @override
+  Object toJson(T object) {
+    // This will only work if `object` is a native JSON type:
+    //   num, String, bool, null, etc
+    // Or if it has a `toJson()` function`.
+    return object;
+  }
+}
+
+// TODO : Add models if needed
+T _dataFromJson<T>(Map<String, dynamic> input) {
+  logger.info("_dataFromJson $T");
+
+  if (T == UserModel)
+    return UserModel.fromJson(input) as T;
+  else if (T == ProfileModel)
+    return ProfileModel.fromJson(input) as T;
+  else if (T == ProfilePartModel)
+    return ProfilePartModel.fromJson(input) as T;
+  else if (T == ProfileGroupModel)
+    return ProfileGroupModel.fromJson(input) as T;
+  else if (T == ProfileEntryModel)
+    return ProfileEntryModel.fromJson(input) as T;
+  else
+    throw Exception("Unknown type $T in ._dataFromJson");
+}
+
+// TODO : Add models if needed
+Map<String, dynamic> _dataToJson<T>(Object json) {
+  logger.info("_dataToJson $T");
+  return json;
+}
 
 @JsonSerializable()
 class AuthLoginModel {

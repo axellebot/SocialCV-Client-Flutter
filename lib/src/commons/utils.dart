@@ -1,3 +1,4 @@
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/errors/api_errors.dart';
 import 'package:cv/src/errors/base_errors.dart';
 import 'package:cv/src/errors/http_errors.dart';
@@ -22,7 +23,7 @@ void printException(dynamic e, StackTrace stackTrace, [String message]) {
   } else {
     debugPrint(e.toString());
   }
-  print(stackTrace);
+  logger.warning(stackTrace);
 }
 
 String translateError(BuildContext context, BaseError err) {

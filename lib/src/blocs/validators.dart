@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cv/src/commons/logger.dart';
+
 enum ValidationErrors {
   ERROR_LOGIN_NO_EMAIL,
   ERROR_LOGIN_NOT_EMAIL,
@@ -9,7 +11,7 @@ enum ValidationErrors {
 class Validators {
   final validateEmail =
       StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
-    print('PerformEmailValidation : $email');
+    logger.info('PerformEmailValidation : $email');
     final RegExp regExp =
         RegExp(r'^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$');
     if (email.isEmpty) {
@@ -17,14 +19,14 @@ class Validators {
     } else if (!regExp.hasMatch(email)) {
       sink.addError(ValidationErrors.ERROR_LOGIN_NOT_EMAIL);
     } else {
-      print('PerformEmailValidation : $email is correct');
+      logger.info('PerformEmailValidation : $email is correct');
       sink.add(email);
     }
   });
 
   final validatePassword = StreamTransformer<String, String>.fromHandlers(
       handleData: (password, sink) {
-    print('PerformPasswordValidation : $password');
+    logger.info('PerformPasswordValidation : $password');
     if (password.isEmpty) {
       sink.addError(ValidationErrors.ERROR_LOGIN_NO_PASSWORD);
     } else {

@@ -1,8 +1,12 @@
 import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/models/user_model.dart';
+import 'package:cv/src/widgets/card_error.dart';
+import 'package:cv/src/widgets/profile_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -11,7 +15,7 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Building AccountPage');
+    logger.info('Building AccountPage');
 
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
 
@@ -57,8 +61,7 @@ class AccountPage extends StatelessWidget {
           UserModel userModel = snapshot.data;
           return _buildAccountDetails(context, userModel);
         } else if (snapshot.hasError) {
-          return Container(
-              child: Text("Could not retrieve data ${snapshot.error}"));
+          return CardError("Error ${snapshot.error}");
         }
         return Container();
       },
@@ -86,19 +89,16 @@ class AccountPage extends StatelessWidget {
     );
   }
 
-  List<ListTile> _buildProfiles(BuildContext context, List<String> ids) {
-    List<ListTile> _widgets = [];
+  List<Widget> _buildProfiles(BuildContext context, List<String> ids) {
+    List<Widget> _widgets = [];
     ids.forEach((profileId) {
-      _widgets.add(ListTile(
-        title: Text("CV $profileId"),
-        subtitle: Text(profileId),
-        onTap: () =>
-            Navigator.of(context).pushNamed(kPathProfile + '/$profileId'),
-        leading: CircleAvatar(
-          backgroundColor: Theme.of(context).accentColor,
+      ProfileModel profileModel = ProfileModel();
+      profileModel.id = profileId;
+      _widgets.add(
+        ProfileTile(
+          profileModel,
         ),
-        trailing: Icon(MdiIcons.accountDetails),
-      ));
+      );
     });
     return _widgets;
   }
