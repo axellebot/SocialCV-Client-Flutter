@@ -1,6 +1,7 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/api_models.dart';
+import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/services/api_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
@@ -10,27 +11,32 @@ class AccountBloc extends BlocBase {
   AccountBloc() : super() {
     _isAuthenticatedController.add(false);
     _isLogingController.add(false);
-    _isFetchingController.add(false);
+    _isFetchingAccountDetailsController.add(false);
+    _isFetchingAccountProfilesController.add(false);
   }
 
   ApiService apiService = ApiService();
 
   // Reactive variables
-  final _accountDetailsController = BehaviorSubject<UserModel>();
   final _isAuthenticatedController = BehaviorSubject<bool>();
   final _isLogingController = BehaviorSubject<bool>();
-  final _isFetchingController = BehaviorSubject<bool>();
+  final _isFetchingAccountDetailsController = BehaviorSubject<bool>();
+  final _accountDetailsController = BehaviorSubject<UserModel>();
+  final _isFetchingAccountProfilesController = BehaviorSubject<bool>();
+  final _accountProfilesController = BehaviorSubject<List<ProfileModel>>();
 
   // Streams
-  Observable<UserModel> get fetchAccountDetailsStream =>
-      _accountDetailsController.stream;
-
   Observable<bool> get isAuthenticatedStream =>
       _isAuthenticatedController.stream;
-
   Observable<bool> get isLogingStream => _isLogingController.stream;
-
-  Observable<bool> get isFetchingStream => _isFetchingController.stream;
+  Observable<bool> get isFetchingAccountDetailsStream =>
+      _isFetchingAccountDetailsController.stream;
+  Observable<UserModel> get fetchAccountDetailsStream =>
+      _accountDetailsController.stream;
+  Observable<bool> get isFetchingAccountProfilesStream =>
+      _isFetchingAccountProfilesController.stream;
+  Observable<List<ProfileModel>> get fetchAccountProfilesStream =>
+      _accountProfilesController.stream;
 
   /* Functions */
   void login(String login, String password) async {
@@ -71,8 +77,8 @@ class AccountBloc extends BlocBase {
 
   void fetchAccountDetails() async {
     logger.info('fetchAccountDetails');
-    if (!_isFetchingController.value) {
-      _isFetchingController.add(true);
+    if (!_isFetchingAccountDetailsController.value) {
+      _isFetchingAccountDetailsController.add(true);
 
       await SharedPreferencesService.getAuthToken()
           .then(apiService.fetchAccountDetails)
@@ -84,15 +90,37 @@ class AccountBloc extends BlocBase {
         }
       }).catchError(_accountDetailsController.addError);
 
-      _isFetchingController.add(false);
+      _isFetchingAccountDetailsController.add(false);
+    }
+  }
+
+  void fetchAccountProfiles() async {
+    logger.info('fetchAccountProfiles');
+
+    if (!_isFetchingAccountProfilesController.value) {
+      _isFetchingAccountProfilesController.add(true);
+
+      await SharedPreferencesService.getAuthToken()
+          .then(apiService.fetchAccountProfiles)
+          .then((ResponseModelWithArray<ProfileModel> response) {
+        if (response.error == false) {
+          return _accountProfilesController.add(response.data);
+        } else {
+          throw Exception(response.message);
+        }
+      }).catchError(_accountProfilesController.addError);
+
+      _isFetchingAccountProfilesController.add(false);
     }
   }
 
   @override
   void dispose() {
     _isAuthenticatedController.close();
-    _accountDetailsController.close();
     _isLogingController.close();
-    _isFetchingController.close();
+    _isFetchingAccountDetailsController.close();
+    _accountDetailsController.close();
+    _isFetchingAccountProfilesController.close();
+    _accountProfilesController.close();
   }
 }

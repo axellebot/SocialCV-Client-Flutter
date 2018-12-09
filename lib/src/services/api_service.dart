@@ -16,6 +16,10 @@ class ApiService {
   Client client = ApiClient();
   final String _baseUrl = "https://api.cv.lebot.me";
 
+  ///
+  /// Auth
+  ///
+
   Future<AuthLoginResponseModel> login(AuthLoginModel loginModel) async {
     return client
         .post(
@@ -33,6 +37,10 @@ class ApiService {
     });
   }
 
+  ///
+  /// Account
+  ///
+
   Future<ResponseModel<UserModel>> fetchAccountDetails(String token) async {
     return client
         .get(
@@ -42,6 +50,25 @@ class ApiService {
       return ResponseModel<UserModel>.fromJson(json.decode(response.body));
     });
   }
+
+  Future<ResponseModelWithArray<ProfileModel>> fetchAccountProfiles(
+    String token, {
+    int offset = 0,
+    int limit = 10,
+  }) async {
+    return client
+        .get(
+      "$_baseUrl/me/profiles?token=$token&offset=$offset&limit=$limit",
+    )
+        .then((Response response) {
+      return ResponseModelWithArray<ProfileModel>.fromJson(
+          json.decode(response.body));
+    });
+  }
+
+  ///
+  /// Profiles
+  ///
 
   Future<ResponseModel<ProfileModel>> fetchProfileDetails(
       String token, String profileId) async {
@@ -53,6 +80,10 @@ class ApiService {
       return ResponseModel<ProfileModel>.fromJson(json.decode(response.body));
     });
   }
+
+  ///
+  /// Parts
+  ///
 
   Future<ResponseModel<ProfilePartModel>> fetchProfilePart(
       String token, String profilePartId) async {
@@ -66,6 +97,10 @@ class ApiService {
     });
   }
 
+  ///
+  /// Groups
+  ///
+
   Future<ResponseModel<ProfileGroupModel>> fetchProfileGroup(
       String token, String profileGroupId) async {
     return client
@@ -78,6 +113,10 @@ class ApiService {
     });
   }
 
+  ///
+  /// Entries
+  ///
+
   Future<ResponseModel<ProfileEntryModel>> fetchProfileEntry(
       String token, String profileEntryId) async {
     return client
@@ -89,6 +128,10 @@ class ApiService {
           json.decode(response.body));
     });
   }
+
+  ///
+  /// Profiles
+  ///
 
   Future<ResponseModelWithArray<ProfileModel>> fetchProfiles(
       String token, String profileTitle,

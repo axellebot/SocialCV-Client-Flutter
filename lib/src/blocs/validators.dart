@@ -30,7 +30,7 @@ class Validators {
     if (password.isEmpty) {
       sink.addError(ValidationErrors.ERROR_LOGIN_NO_PASSWORD);
     } else {
-      print('PerformPasswordValidation : $password is correct');
+      logger.info('PerformPasswordValidation : $password is correct');
       sink.add(password);
     }
   });
