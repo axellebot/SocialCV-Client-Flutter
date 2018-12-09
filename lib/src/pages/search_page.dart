@@ -1,5 +1,6 @@
 import 'package:cv/src/blocs/search_bloc.dart';
 import 'package:cv/src/commons/tags.dart';
+import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/widgets/card_error.dart';
@@ -82,7 +83,7 @@ class _SearchPageState extends State<SearchPage> {
       builder:
           (BuildContext context, AsyncSnapshot<List<ProfileModel>> snapshot) {
         if (snapshot.hasError) {
-          return CardError("Error ${snapshot.error}");
+          return CardError(translateError(context, snapshot.error));
         } else if (snapshot.hasData) {
           List<ProfileModel> profileModels = snapshot.data;
           return Expanded(

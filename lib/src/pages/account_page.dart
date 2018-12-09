@@ -2,10 +2,12 @@ import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/paths.dart';
+import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/widgets/card_error.dart';
+import 'package:cv/src/widgets/error_content.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:cv/src/widgets/profile_tile_widget.dart';
 import 'package:flutter/material.dart';
@@ -23,32 +25,40 @@ class AccountPage extends StatelessWidget {
     return SafeArea(
       child: Stack(
         children: <Widget>[
-          StreamBuilder<bool>(
-            stream: _accountBloc.isFetchingAccountDetailsStream,
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.data == true) {
-                return LinearProgressIndicator();
-              }
-              return Container();
-            },
-          ),
-          StreamBuilder<bool>(
-            stream: _accountBloc.isAuthenticatedStream,
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data == true)
-                  return _buildConnectedAccount(context);
-                if (snapshot.data == false)
-                  return _buildNotConnectedAccount(context);
-              } else if (snapshot.hasError) {
-                return Container(
-                    child: Text("Could not verify data ${snapshot.error}"));
-              }
-              return Container();
-            },
-          ),
+          _buildProgressBar(context),
+          _buildAccount(context),
         ],
       ),
+    );
+  }
+
+  Widget _buildProgressBar(BuildContext context) {
+    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
+    return StreamBuilder<bool>(
+      stream: _accountBloc.isFetchingAccountDetailsStream,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.data == true) {
+          return LinearProgressIndicator();
+        }
+        return Container();
+      },
+    );
+  }
+
+  Widget _buildAccount(BuildContext context) {
+    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
+    return StreamBuilder<bool>(
+      stream: _accountBloc.isAuthenticatedStream,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data == true) return _buildConnectedAccount(context);
+          if (snapshot.data == false) return _buildNotConnectedAccount(context);
+        } else if (snapshot.hasError) {
+          return Container(
+              child: Text(translateError(context, snapshot.error)));
+        }
+        return Container();
+      },
     );
   }
 
@@ -62,7 +72,7 @@ class AccountPage extends StatelessWidget {
           UserModel userModel = snapshot.data;
           return _buildAccountDetails(context, userModel);
         } else if (snapshot.hasError) {
-          return CardError("Error ${snapshot.error}");
+          return CardError(translateError(context, snapshot.error));
         }
         return Container();
       },
@@ -99,7 +109,7 @@ class AccountPage extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<List<ProfileModel>> snapshot) {
         if (snapshot.hasError) {
-          return CardError(snapshot.error.toString());
+          return ErrorContent(translateError(context, snapshot.error));
         } else if (snapshot.hasData) {
           List<ProfileModel> list = snapshot.data;
           List<Widget> _widgetList = [];

@@ -2,6 +2,7 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/blocs/profile_part_bloc.dart';
 import 'package:cv/src/commons/logger.dart';
+import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/widgets/arc_banner_image.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
@@ -168,7 +169,7 @@ class ProfilePage extends StatelessWidget {
         stream: _profileBloc.profileStream,
         builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
           if (snapshot.hasError) {
-            return Text("Error ${snapshot.error.toString()}");
+            return Text(translateError(context, snapshot.error));
           } else if (snapshot.hasData) {
             return Column(
               children: _buildPart(context, snapshot.data.partIds),

@@ -1,4 +1,4 @@
-import 'package:cv/src/commons/colors.dart';
+import 'package:cv/src/widgets/error_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -10,16 +10,7 @@ class CardError extends StatelessWidget {
     return Card(
       child: Container(
         padding: EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Icon(
-              Icons.error,
-              color: kCVErrorRed,
-            ),
-            Text(message),
-          ],
-        ),
+        child: ErrorContent(message),
       ),
     );
   }
