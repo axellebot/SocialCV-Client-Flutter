@@ -1,111 +1,210 @@
-import 'package:cv/src/localizations/localization.dart';
-import 'package:cv/src/models/skill_group.dart';
-import 'package:cv/src/services/local_data_repository.dart';
+import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/profile_bloc.dart';
+import 'package:cv/src/blocs/profile_part_bloc.dart';
+import 'package:cv/src/models/profile_model.dart';
+import 'package:cv/src/widgets/arc_banner_image.dart';
+import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
+import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
+import 'package:cv/src/widgets/profile_part_widget.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatefulWidget {
-  final double defaultChipSpacing = 4.0;
-  final double defaultElevation = 2.0;
+// TODO : Build owner interraction with ProfileModel.owner #
 
-  ProfilePage({Key key}) : super(key: key);
+class ProfilePage extends StatelessWidget {
+  ProfilePage(this.profileId);
 
-  @override
-  _ProfilePageState createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  LocalDataRepository repository;
-
-  _ProfilePageState() {
-    repository = LocalDataRepository();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  final String profileId;
 
   @override
   Widget build(BuildContext context) {
     print('Building ProfilePage');
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Localization.of(context).profileTitle),
-      ),
-      body: _buildBody(),
+      body: _buildBody(context),
     );
   }
 
-  Widget _buildBody() {
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(5.0),
-        child: Row(children: <Widget>[
-          Expanded(
-            child: Column(
-              children: <Widget>[
-                _buildSkillsPart(),
-              ],
-            ),
+  Widget _buildBody(BuildContext context) {
+    ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
+    _profileBloc.fetchProfileDetails(profileId);
+    return Stack(
+      children: <Widget>[
+        _buildProgressBar(context),
+        _buildProfile(context),
+        Positioned(
+          top: 0.0,
+          left: 0.0,
+          right: 0.0,
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
           ),
-        ]),
-      ),
-    );
-  }
-
-  Widget _buildSkillGroupChips(List<String> skillTags) {
-    if (skillTags == null) {
-      return Text("null");
-    }
-
-    List<Widget> _skillWidgets = [];
-    skillTags.forEach((element) {
-      _skillWidgets.add(
-        new Chip(
-          label: Text((element != null) ? element : "null"),
         ),
-      );
-    });
-    return new Wrap(
-      spacing: widget.defaultChipSpacing, // gap between adjacent chips
-      runSpacing: widget.defaultChipSpacing, // gap between lines
-      children: _skillWidgets,
+      ],
     );
   }
 
-  Widget _buildSkillsPart() {
-    return new Card(
-      elevation: widget.defaultElevation,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: FutureBuilder(
-            future: repository.getSkillGroups(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasError) {
-                return Text(Localization.of(context).errorOccurred);
-              } else if (snapshot.hasData == false) {
-                return CircularProgressIndicator();
-              } else {
-                List<SkillGroup> skillGroups = snapshot.data;
-                List<Widget> skillWidgets = [];
+  Widget _buildProgressBar(BuildContext context) {
+    ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
+    return StreamBuilder<bool>(
+      stream: _profileBloc.isFetchingStream,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.data == true) {
+          return LinearProgressIndicator();
+        }
+        return Container();
+      },
+    );
+  }
 
-                skillGroups.forEach((skillGroup) {
-                  skillWidgets.add(
-                    Text(
-                      (skillGroup.label != null) ? skillGroup.label : "null",
-                    ),
-                  );
-                  skillWidgets.add(_buildSkillGroupChips(skillGroup.skills));
-                });
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: skillWidgets,
-                );
-              }
-            }),
+  Widget _buildProfile(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          _buildHeader(context),
+          _buildMain(context),
+        ],
       ),
     );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
+
+    var textTheme = Theme.of(context).textTheme;
+
+    return StreamBuilder<ProfileModel>(
+      stream: _profileBloc.profileStream,
+      builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
+        bool dataLoaded = false;
+
+        Widget titleWidget = LoadingShadowContent(
+          numberOfTitleLines: 1,
+          numberOfContentLines: 0,
+        );
+
+        Widget subtitleWidget = LoadingShadowContent(
+          numberOfTitleLines: 1,
+          numberOfContentLines: 0,
+        );
+
+        Widget avatarWidget = InitialCircleAvatar(
+          elevation: 2.0,
+          backgroundImage: AssetImage("images/default-avatar.png"),
+          radius: 75.0,
+        );
+
+        Widget bannerWidget =
+            ArcBannerImage(AssetImage("images/default-banner.jpg"));
+
+        if (snapshot.hasData) {
+          ProfileModel profileModel = snapshot.data;
+          titleWidget = Text(
+            profileModel.title,
+            style: textTheme.title,
+          );
+          subtitleWidget = Text(
+            profileModel.subtitle,
+            style: textTheme.subtitle,
+          );
+          avatarWidget = InitialCircleAvatar(
+            text: profileModel.title,
+            elevation: 2.0,
+            backgroundImage: NetworkImage(profileModel.picture),
+            radius: 75.0,
+          );
+          bannerWidget = ArcBannerImage(NetworkImage(profileModel.cover));
+        }
+
+        var profileInfo = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: titleWidget,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: subtitleWidget,
+            ),
+          ],
+        );
+        return Stack(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(bottom: 68.0),
+              child: bannerWidget,
+            ),
+            Positioned(
+              bottom: 0.0,
+              left: 16.0,
+              right: 16.0,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 0.0),
+                    child: avatarWidget,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: profileInfo,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildMain(BuildContext context) {
+    ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
+
+    return SafeArea(
+      child: StreamBuilder<ProfileModel>(
+        stream: _profileBloc.profileStream,
+        builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
+          if (snapshot.hasError) {
+            return Text("Error ${snapshot.error.toString()}");
+          } else if (snapshot.hasData) {
+            return Column(
+              children: _buildPart(context, snapshot.data.partIds),
+            );
+          }
+          return Column(
+            children: <Widget>[
+              LoadingShadowContent(
+                numberOfTitleLines: 1,
+                numberOfContentLines: 4,
+              ),
+              LoadingShadowContent(
+                numberOfTitleLines: 1,
+                numberOfContentLines: 4,
+              ),
+              LoadingShadowContent(
+                numberOfTitleLines: 1,
+                numberOfContentLines: 4,
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  List<Widget> _buildPart(BuildContext context, List<String> partIds) {
+    List<Widget> _partWidgets = [];
+
+    partIds.forEach((String id) {
+      _partWidgets.add(BlocProvider<ProfilePartBloc>(
+        bloc: ProfilePartBloc(),
+        child: ProfilePart(id),
+      ));
+    });
+    return _partWidgets;
   }
 }

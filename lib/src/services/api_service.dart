@@ -4,6 +4,10 @@ import 'dart:convert';
 import 'package:cv/src/errors/api_errors.dart';
 import 'package:cv/src/errors/http_errors.dart';
 import 'package:cv/src/models/api_models.dart';
+import 'package:cv/src/models/profile_entry_model.dart';
+import 'package:cv/src/models/profile_group_model.dart';
+import 'package:cv/src/models/profile_model.dart';
+import 'package:cv/src/models/profile_part_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:http/http.dart';
 
@@ -45,6 +49,7 @@ class JsonClient extends BaseClient {
   }
 }
 
+// TODO : Inject ApiService
 class ApiService {
   Client client = JsonClient();
   final String _baseUrl = "https://api.cv.lebot.me";
@@ -73,6 +78,53 @@ class ApiService {
     )
         .then((Response response) {
       return ResponseModel<UserModel>.fromJson(json.decode(response.body));
+    });
+  }
+
+  Future<ResponseModel<ProfileModel>> fetchProfileDetails(
+      String token, String profileId) async {
+    return client
+        .get(
+      "$_baseUrl/profiles/$profileId?token=$token",
+    )
+        .then((Response response) {
+      return ResponseModel<ProfileModel>.fromJson(json.decode(response.body));
+    });
+  }
+
+  Future<ResponseModel<ProfilePartModel>> fetchProfilePart(
+      String token, String profilePartId) async {
+    return client
+        .get(
+      "$_baseUrl/parts/$profilePartId?token=$token",
+    )
+        .then((Response response) {
+      return ResponseModel<ProfilePartModel>.fromJson(
+          json.decode(response.body));
+    });
+  }
+
+  Future<ResponseModel<ProfileGroupModel>> fetchProfileGroup(
+      String token, String profileGroupId) async {
+    return client
+        .get(
+      "$_baseUrl/groups/$profileGroupId?token=$token",
+    )
+        .then((Response response) {
+      return ResponseModel<ProfileGroupModel>.fromJson(
+          json.decode(response.body));
+    });
+  }
+
+  Future<ResponseModel<ProfileEntryModel>> fetchProfileEntry(
+      String token, String profileEntryId) async {
+    return client
+        .get(
+      "$_baseUrl/entries/$profileEntryId?token=$token",
+    )
+        .then((Response response) {
+      return ResponseModel<ProfileEntryModel>.fromJson(
+          json.decode(response.body));
     });
   }
 }

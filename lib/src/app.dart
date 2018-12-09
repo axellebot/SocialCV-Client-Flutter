@@ -1,7 +1,7 @@
 import 'package:cv/src/blocs/application_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/login_bloc.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
+import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/commons/colors.dart';
 import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/commons/utils.dart';
@@ -11,36 +11,91 @@ import 'package:cv/src/pages/main_page.dart';
 import 'package:cv/src/pages/profile_page.dart';
 import 'package:cv/src/pages/search_page.dart';
 import 'package:cv/src/pages/settings_page.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-class CVApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _CVAppState();
-}
-
-class _CVAppState extends State<CVApp> {
+class CVApp extends StatelessWidget {
   // Blocs
-  final MainBloc _mainBloc = MainBloc();
-  final LoginBloc _loginBloc = LoginBloc();
+  // TODO : Check if statefulWidget needed for blocs
 
-  // Pages
-  final MainPage _mainPage = MainPage();
+  // Routes
+  final Router router = Router();
 
   @override
   Widget build(BuildContext context) {
+    print('Building CVApp');
     // Set-up error reporting
     FlutterError.onError = (FlutterErrorDetails error) {
       printException(error.exception, error.stack, error.context);
     };
 
     BlocProvider<MainBloc> _mainPageProvider = BlocProvider<MainBloc>(
-      bloc: _mainBloc,
-      child: _mainPage,
+      bloc: MainBloc(),
+      child: MainPage(),
     );
 
     ApplicationBloc _appBloc = BlocProvider.of<ApplicationBloc>(context);
+
+    // Defining routes
+    router.define(
+      kPathHome,
+      handler: Handler(
+          handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+        return _mainPageProvider;
+      }),
+    );
+
+    router.define(
+      kPathAccount,
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return _mainPageProvider;
+        },
+      ),
+    );
+
+    // TODO : Check other solution to avoid LoginBloc recreation when
+    // LoginBloc rebuild (caused by input change)
+    router.define(
+      kPathLogin,
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return LoginPage();
+        },
+      ),
+    );
+
+    router.define(
+      "$kPathProfile/:$kParamProfileId",
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return BlocProvider<ProfileBloc>(
+            bloc: ProfileBloc(),
+            child: ProfilePage(params[kParamProfileId][0]),
+          );
+        },
+      ),
+    );
+
+    router.define(
+      kPathSettings,
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return SettingsPage();
+        },
+      ),
+    );
+
+    router.define(
+      kPathSearch,
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return SearchPage();
+        },
+      ),
+    );
 
     return StreamBuilder<String>(
         stream: _appBloc.themeStream,
@@ -50,23 +105,8 @@ class _CVAppState extends State<CVApp> {
                 Localization.of(context).appName,
             theme: _buildCVTheme(snapshot.data),
             home: _mainPageProvider,
-            routes: <String, WidgetBuilder>{
-              kPathHome: (context) {
-                return _mainPageProvider;
-              },
-              kPathAccount: (context) {
-                return _mainPageProvider;
-              },
-              kPathLogin: (context) {
-                return BlocProvider<LoginBloc>(
-                  bloc: _loginBloc,
-                  child: LoginPage(),
-                );
-              },
-              kPathProfile: (context) => ProfilePage(),
-              kPathSettings: (context) => SettingsPage(),
-              kPathSearch: (context) => SearchPage(),
-            },
+            onGenerateRoute: router.generator,
+            // Use Fluro routes
             localizationsDelegates: [
               const CVLocalizationsDelegate(),
               GlobalMaterialLocalizations.delegate,
@@ -77,7 +117,7 @@ class _CVAppState extends State<CVApp> {
               const Locale('fr'),
             ],
             debugShowCheckedModeBanner: false,
-            //showSemanticsDebugger: true,
+//            showSemanticsDebugger: true,
           );
         });
   }

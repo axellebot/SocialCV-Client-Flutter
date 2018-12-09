@@ -8,14 +8,12 @@ class MenuBottomSheet extends StatefulWidget {
   const MenuBottomSheet(
       {Key key,
       this.backgroundColor,
-      this.height = 275.0,
       this.borderRadius = const BorderRadius.only(
           topLeft: const Radius.circular(10.0),
           topRight: const Radius.circular(10.0))})
       : super(key: key);
 
   final Color backgroundColor;
-  final double height;
   final BorderRadius borderRadius;
 
   @override
@@ -26,7 +24,6 @@ class _MenuBottomSheetState extends State<MenuBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.height,
       color: Colors.transparent,
       child: Container(
         decoration: new BoxDecoration(
@@ -40,32 +37,34 @@ class _MenuBottomSheetState extends State<MenuBottomSheet> {
   }
 
   Widget _buildBottomSheet(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        AccountTile(),
-        Divider(),
-        ThemeSwitchTile(),
-        ListTile(
-          leading: Icon(Icons.settings),
-          title: Text(Localization.of(context).settingsCTA),
-          onTap: () => _navigateToSettings(context),
-        ),
-        Divider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            MaterialButton(
-              child: Text(Localization.of(context).menuPPCTA),
-              onPressed: () {},
-            ),
-            Text(Localization.of(context).middleDot),
-            MaterialButton(
-              child: Text(Localization.of(context).menuToSCTA),
-              onPressed: () {},
-            ),
-          ],
-        )
-      ],
+    return SafeArea(
+      child: Wrap(
+        children: <Widget>[
+          AccountTile(),
+          Divider(),
+          ThemeSwitchTile(),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text(Localization.of(context).settingsCTA),
+            onTap: () => _navigateToSettings(context),
+          ),
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              MaterialButton(
+                child: Text(Localization.of(context).menuPPCTA),
+                onPressed: () {},
+              ),
+              Text(Localization.of(context).middleDot),
+              MaterialButton(
+                child: Text(Localization.of(context).menuToSCTA),
+                onPressed: () {},
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 

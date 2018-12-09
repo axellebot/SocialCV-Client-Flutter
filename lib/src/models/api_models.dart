@@ -1,3 +1,7 @@
+import 'package:cv/src/models/profile_entry_model.dart';
+import 'package:cv/src/models/profile_group_model.dart';
+import 'package:cv/src/models/profile_model.dart';
+import 'package:cv/src/models/profile_part_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -33,11 +37,16 @@ class ResponseModel<T> {
   Map<String, dynamic> toJson() => _$ResponseModelToJson<T>(this);
 }
 
+// TODO : Add models if needed
 T _dataFromJson<T>(Map<String, dynamic> input) {
-  if (T == UserModel)
-    return UserModel.fromJson(input) as T;
+  if (T == UserModel) return UserModel.fromJson(input) as T;
+  if (T == ProfileModel) return ProfileModel.fromJson(input) as T;
+  if (T == ProfilePartModel) return ProfilePartModel.fromJson(input) as T;
+  if (T == ProfileGroupModel) return ProfileGroupModel.fromJson(input) as T;
+  if (T == ProfileEntryModel)
+    return ProfileEntryModel.fromJson(input) as T;
   else
-    throw Exception("Unknow type $T");
+    throw Exception("Unknown type $T in RepsonseModel._dataFromJson");
 }
 
 Map<String, dynamic> _dataToJson<T>(T input) => {'data': input};
