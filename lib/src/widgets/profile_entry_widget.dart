@@ -56,10 +56,13 @@ class ProfileEntry extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text("${profileEntryModel.name ?? ""}"),
-        Text(
-          "${profileEntryModel.content ?? ""}",
-          textAlign: TextAlign.end,
+        Text("${profileEntryModel.name ?? ""}",style: TextStyle(fontWeight:
+        FontWeight.bold),),
+        Expanded(
+          child: Text(
+            "${profileEntryModel.content ?? ""}",
+            textAlign: TextAlign.end,
+          ),
         )
       ],
     );
@@ -68,30 +71,40 @@ class ProfileEntry extends StatelessWidget {
   Widget _buildEntryEvent(
       BuildContext context, ProfileEntryModel profileEntryModel) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               "${profileEntryModel.startDate}   ${profileEntryModel.endDate}",
+              textAlign: TextAlign.start,
               style: TextStyle(
                 color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Text(
-              profileEntryModel.location ?? "",
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
+            Expanded(
+              child: Text(
+                profileEntryModel.location ?? "",
+                textAlign: TextAlign.end,
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            )
           ],
         ),
         Text(
           profileEntryModel.name ?? "",
+          textAlign: TextAlign.start,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         Expanded(
-          child: Text(profileEntryModel.content),
+          child: Text(
+            profileEntryModel.content,
+            textAlign: TextAlign.justify,
+          ),
         )
       ],
     );
