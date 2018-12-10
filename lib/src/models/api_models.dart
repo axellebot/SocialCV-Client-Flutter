@@ -51,6 +51,8 @@ class ResponseModelWithArray<T> {
   @_Converter()
   List<T> data;
 
+  int total;
+
   factory ResponseModelWithArray.fromJson(Map<String, dynamic> json) =>
       _$ResponseModelWithArrayFromJson<T>(json);
 

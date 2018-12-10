@@ -77,6 +77,11 @@ abstract class Localization {
 
   String get searchSearchBarHint;
 
+  // Exception Error
+  String get exceptionFormatException;
+
+  String get exceptionTimeoutException;
+
   // Api Error
   String get apiErrorWrongPasswordError;
 

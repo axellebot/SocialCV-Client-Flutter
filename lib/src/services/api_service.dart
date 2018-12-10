@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cv/src/errors/api_errors.dart';
+import 'package:cv/src/errors/base_errors.dart';
 import 'package:cv/src/errors/http_errors.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/profile_entry_model.dart';
@@ -14,23 +16,25 @@ import 'package:http/http.dart';
 // TODO : Inject ApiService
 class ApiService {
   Client client = ApiClient();
-  final String _baseUrl = "https://api.cv.lebot.me";
+  final String _baseUrl = "api.cv.lebot.me";
 
   ///
   /// Auth
   ///
 
   Future<AuthLoginResponseModel> login(AuthLoginModel loginModel) async {
+    Uri uri = Uri.https(_baseUrl, "/auth/login");
+
     return client
         .post(
-      "$_baseUrl/auth/login",
+      uri,
       body: jsonEncode(loginModel),
     )
         .then((Response response) {
       switch (response.statusCode) {
-        case 400:
+        case HttpStatus.badRequest:
           throw ApiErrorWrongPasswordError();
-        case 404:
+        case HttpStatus.notFound:
           throw ApiErrorUserNotFoundError();
       }
       return AuthLoginResponseModel.fromJson(json.decode(response.body));
@@ -42,11 +46,11 @@ class ApiService {
   ///
 
   Future<ResponseModel<UserModel>> fetchAccountDetails(String token) async {
-    return client
-        .get(
-      "$_baseUrl/me?token=$token",
-    )
-        .then((Response response) {
+    Uri uri = Uri.https(_baseUrl, "/me", {
+      "token": token,
+    });
+
+    return client.get(uri).then((Response response) {
       return ResponseModel<UserModel>.fromJson(json.decode(response.body));
     });
   }
@@ -56,11 +60,17 @@ class ApiService {
     int offset = 0,
     int limit = 10,
   }) async {
-    return client
-        .get(
-      "$_baseUrl/me/profiles?token=$token&offset=$offset&limit=$limit",
-    )
-        .then((Response response) {
+    Uri uri = Uri.https(_baseUrl, "/me/profiles", {
+      "token": token,
+      "offset": offset.toString(),
+      "limit": limit.toString(),
+    });
+
+    return client.get(uri).then((Response response) {
+      switch (response.statusCode) {
+        case HttpStatus.notFound:
+          throw BaseError("Profiles from account not found");
+      }
       return ResponseModelWithArray<ProfileModel>.fromJson(
           json.decode(response.body));
     });
@@ -71,12 +81,14 @@ class ApiService {
   ///
 
   Future<ResponseModel<ProfileModel>> fetchProfileDetails(
-      String token, String profileId) async {
-    return client
-        .get(
-      "$_baseUrl/profiles/$profileId?token=$token",
-    )
-        .then((Response response) {
+    String token,
+    String profileId,
+  ) async {
+    Uri uri = Uri.https(_baseUrl, "/profiles/$profileId", {
+      "token": token,
+    });
+
+    return client.get(uri).then((Response response) {
       return ResponseModel<ProfileModel>.fromJson(json.decode(response.body));
     });
   }
@@ -86,12 +98,14 @@ class ApiService {
   ///
 
   Future<ResponseModel<ProfilePartModel>> fetchProfilePart(
-      String token, String profilePartId) async {
-    return client
-        .get(
-      "$_baseUrl/parts/$profilePartId?token=$token",
-    )
-        .then((Response response) {
+    String token,
+    String profilePartId,
+  ) async {
+    Uri uri = Uri.https(_baseUrl, "/parts/$profilePartId", {
+      "token": token,
+    });
+
+    return client.get(uri).then((Response response) {
       return ResponseModel<ProfilePartModel>.fromJson(
           json.decode(response.body));
     });
@@ -102,12 +116,14 @@ class ApiService {
   ///
 
   Future<ResponseModel<ProfileGroupModel>> fetchProfileGroup(
-      String token, String profileGroupId) async {
-    return client
-        .get(
-      "$_baseUrl/groups/$profileGroupId?token=$token",
-    )
-        .then((Response response) {
+    String token,
+    String profileGroupId,
+  ) async {
+    Uri uri = Uri.https(_baseUrl, "/groups/$profileGroupId", {
+      "token": token,
+    });
+
+    return client.get(uri).then((Response response) {
       return ResponseModel<ProfileGroupModel>.fromJson(
           json.decode(response.body));
     });
@@ -118,12 +134,14 @@ class ApiService {
   ///
 
   Future<ResponseModel<ProfileEntryModel>> fetchProfileEntry(
-      String token, String profileEntryId) async {
-    return client
-        .get(
-      "$_baseUrl/entries/$profileEntryId?token=$token",
-    )
-        .then((Response response) {
+    String token,
+    String profileEntryId,
+  ) async {
+    Uri uri = Uri.https(_baseUrl, "/entries/$profileEntryId", {
+      "token": token,
+    });
+
+    return client.get(uri).then((Response response) {
       return ResponseModel<ProfileEntryModel>.fromJson(
           json.decode(response.body));
     });
@@ -134,18 +152,23 @@ class ApiService {
   ///
 
   Future<ResponseModelWithArray<ProfileModel>> fetchProfiles(
-      String token, String profileTitle,
-      {int offset = 0, int limit = 10}) async {
-    return client
-        .get(
-      "$_baseUrl/profiles?token=$token&title=$profileTitle&offset=$offset"
-          "&limit=$limit",
-    )
-        .then((Response response) {
+    String token,
+    String profileTitle, {
+    int offset = 0,
+    int limit = 10,
+  }) async {
+    Uri uri = Uri.https(_baseUrl, "/profiles", {
+      "token": token,
+      "title": profileTitle,
+      "offset": offset.toString(),
+      "limit": limit.toString(),
+    });
+
+    return client.get(uri).then((Response response) {
       switch (response.statusCode) {
-        case 400:
+        case HttpStatus.badRequest:
           throw ApiErrorWrongPaginationError();
-        case 404:
+        case HttpStatus.notFound:
           throw ApiErrorProfileNotFoundError();
       }
       return ResponseModelWithArray<ProfileModel>.fromJson(
@@ -162,7 +185,7 @@ class ApiClient extends BaseClient {
     'Accept': 'application/json',
   };
 
-  ApiClient({this.timeoutSecond = 5}) : super();
+  ApiClient({this.timeoutSecond = 30}) : super();
 
   int timeoutSecond;
 
@@ -177,15 +200,15 @@ class ApiClient extends BaseClient {
 
   Future<StreamedResponse> _filterStatusCode(StreamedResponse response) async {
     switch (response.statusCode) {
-      case 501:
+      case HttpStatus.notImplemented:
         throw HttpServerErrorNotImplementedError();
-      case 502:
+      case HttpStatus.badGateway:
         throw HttpServerErrorBadGatewayError();
-      case 503:
+      case HttpStatus.serviceUnavailable:
         throw HttpServerErrorServiceUnavailableError();
-      case 504:
+      case HttpStatus.gatewayTimeout:
         throw HttpServerErrorGatewayTimeoutError();
-      case 505:
+      case HttpStatus.httpVersionNotSupported:
         throw HttpServerErrorHttpVersionNotSupportedError();
     }
     return response;

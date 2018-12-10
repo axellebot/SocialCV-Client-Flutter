@@ -104,41 +104,65 @@ class LocalizationFR implements Localization {
   @override
   String get searchSearchBarHint => "Rechercher un profil ...";
 
+  // Exception Error
+  @override
+  String get exceptionFormatException => "Exception : Mauvais Format";
+
+  @override
+  String get exceptionTimeoutException => "Exception : Requete Expiré";
+
   // Api Error
+  @override
   String get apiErrorWrongPasswordError => "Mauvais mot de passe";
 
+  @override
   String get apiErrorUserNotFoundError => "Utilisateur introuvable";
 
   // Server Error : HTTP 400
+  @override
   String get httpClientErrorBadRequest => "Mauvaise requete";
 
+  @override
   String get httpClientErrorPaymentRequired => "Paiement requis";
 
+  @override
   String get httpClientErrorForbidden => "Interdit";
 
+  @override
   String get httpClientErrorNotFound => "Introuvable";
 
+  @override
   String get httpClientErrorMethodNotAllowed => "Non autorisé";
 
+  @override
   String get httpClientErrorNotAcceptable => "Non acceptable";
 
+  @override
   String get httpClientErrorRequestTimeout => "Requete expirée";
 
+  @override
   String get httpClientErrorConflict => "Conflit";
 
+  @override
   String get httpClientErrorGone => "Disparu";
 
+  @override
   String get httpClientErrorLengthRequired => "Taille requise";
 
+  @override
   String get httpClientErrorPayloadTooLarge => "Payload trop large";
 
+  @override
   String get httpClientErrorURITooLong => "Lien trop long";
 
+  @override
   String get httpClientErrorUnsupportedMediaType =>
       "Type de média non supporté";
 
+  @override
   String get httpClientErrorExpectationFailed => "Échoué";
 
+  @override
   String get httpClientErrorUpgradeRequired => "Mise à jour requise";
 
   // Server Error : HTTP 500

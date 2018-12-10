@@ -39,96 +39,93 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildBody(BuildContext context) {
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
 
-    return SafeArea(
-      child: Stack(
-        children: <Widget>[
-          _buildProgressBar(context),
-          ListView(
-            padding:
-                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-            children: <Widget>[
-              SizedBox(height: 40.0),
-              Column(
-                children: <Widget>[
-                  Image.asset('images/account_card_details-blue.png'),
-                  SizedBox(height: 16.0),
-                  Text(
-                    Localization.of(context).appName,
-                    style: Theme.of(context).textTheme.title,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 120.0),
-              _buildEmailInput(),
-              const SizedBox(height: 12.0),
-              _buildPasswordInput(),
-              const SizedBox(height: 12.0),
-              _buildMessageLabel(context),
-              ButtonBar(
-                children: <Widget>[
-                  RaisedButton(
-                    child: Text(Localization.of(context).loginSignUpCTA),
-                    onPressed: () => _handleNotImplementedYet(context),
-                  ),
-                  StreamBuilder<bool>(
-                    initialData: false,
-                    stream: loginBloc.submitLoginStream,
-                    builder:
-                        (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                      return RaisedButton(
-                          child: Text(Localization.of(context).loginSignInCTA),
-                          onPressed: (snapshot.hasData && snapshot.data)
-                              ? () => _accountBloc.login(
-                                  loginBloc.emailValue, loginBloc.passwordValue)
-                              : null);
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      height: 2.0,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                      ),
+    return Stack(
+      children: <Widget>[
+        _buildProgressBar(context),
+        ListView(
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+          children: <Widget>[
+            SizedBox(height: 40.0),
+            Column(
+              children: <Widget>[
+                Image.asset('images/account_card_details-blue.png'),
+                SizedBox(height: 16.0),
+                Text(
+                  Localization.of(context).appName,
+                  style: Theme.of(context).textTheme.title,
+                ),
+              ],
+            ),
+            const SizedBox(height: 120.0),
+            _buildEmailInput(),
+            const SizedBox(height: 12.0),
+            _buildPasswordInput(),
+            const SizedBox(height: 12.0),
+            _buildMessageLabel(context),
+            ButtonBar(
+              children: <Widget>[
+                RaisedButton(
+                  child: Text(Localization.of(context).loginSignUpCTA),
+                  onPressed: () => _handleNotImplementedYet(context),
+                ),
+                StreamBuilder<bool>(
+                  initialData: false,
+                  stream: loginBloc.submitLoginStream,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                    return RaisedButton(
+                        child: Text(Localization.of(context).loginSignInCTA),
+                        onPressed: (snapshot.hasData && snapshot.data)
+                            ? () => _accountBloc.login(
+                                loginBloc.emailValue, loginBloc.passwordValue)
+                            : null);
+                  },
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    height: 2.0,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
-                  const Padding(padding: EdgeInsets.only(left: 16.0)),
-                  Text(
-                    Localization.of(context).loginOr,
-                    style: const TextStyle(fontSize: 18.0),
-                  ),
-                  const Padding(padding: EdgeInsets.only(left: 16.0)),
-                  Expanded(
-                    child: Container(
-                      height: 2.0,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                      ),
+                ),
+                const Padding(padding: EdgeInsets.only(left: 16.0)),
+                Text(
+                  Localization.of(context).loginOr,
+                  style: const TextStyle(fontSize: 18.0),
+                ),
+                const Padding(padding: EdgeInsets.only(left: 16.0)),
+                Expanded(
+                  child: Container(
+                    height: 2.0,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
-                ],
-              ),
-              const Padding(padding: EdgeInsets.only(top: 25.0)),
-              Center(
-                child: RaisedButton(
-                  onPressed: () => _handleNotImplementedYet(context),
-                  child: Text(Localization.of(context).loginSignInGoogleCTA),
                 ),
+              ],
+            ),
+            const Padding(padding: EdgeInsets.only(top: 25.0)),
+            Center(
+              child: RaisedButton(
+                onPressed: () => _handleNotImplementedYet(context),
+                child: Text(Localization.of(context).loginSignInGoogleCTA),
               ),
-              const Padding(padding: EdgeInsets.only(top: 16.0)),
-              Center(
-                child: RaisedButton(
-                  onPressed: () => _handleNotImplementedYet(context),
-                  child: Text(Localization.of(context).loginSignInFacebookCTA),
-                ),
+            ),
+            const Padding(padding: EdgeInsets.only(top: 16.0)),
+            Center(
+              child: RaisedButton(
+                onPressed: () => _handleNotImplementedYet(context),
+                child: Text(Localization.of(context).loginSignInFacebookCTA),
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -208,7 +205,12 @@ class _LoginPageState extends State<LoginPage> {
         if (snapshot.hasError) {
           return CardError(translateError(context, snapshot.error));
         } else if (snapshot.hasData) {
-          return Text('Hello ${snapshot.data.username}');
+          return Card(
+            child: Container(
+              padding: EdgeInsets.all(10.0),
+              child: Text('Hello ${snapshot.data.username}'),
+            ),
+          );
         }
         return Container();
       },

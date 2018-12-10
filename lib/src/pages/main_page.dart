@@ -6,7 +6,7 @@ import 'package:cv/src/commons/tags.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/pages/account_page.dart';
 import 'package:cv/src/pages/home_page.dart';
-import 'package:cv/src/widgets/menu_icon_button_widget.dart';
+import 'package:cv/src/widgets/menu_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -115,7 +115,7 @@ class MainPage extends StatelessWidget {
       title: Text(Localization.of(context).appName),
       centerTitle: true,
       actions: [
-        MenuIconButton(),
+        MenuButton(),
       ],
     );
   }

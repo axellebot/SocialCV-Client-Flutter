@@ -7,14 +7,16 @@ class ErrorContent extends StatelessWidget {
   final String message;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Icon(
           Icons.error,
           color: kCVErrorRed,
         ),
-        Text(message),
+        Expanded(
+          child: Text(message, textAlign: TextAlign.center),
+        )
       ],
     );
   }
