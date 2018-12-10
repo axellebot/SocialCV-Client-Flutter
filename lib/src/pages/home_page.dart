@@ -14,6 +14,8 @@ class _HomePageSate extends State<HomePage> {
   Widget build(BuildContext context) {
     logger.info('Building HomePage');
     return SafeArea(
+      left: false,
+      right: false,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

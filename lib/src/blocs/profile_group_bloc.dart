@@ -8,28 +8,27 @@ import 'package:rxdart/rxdart.dart';
 /// Business Logic Component for Profile Group Fetch
 class ProfileGroupBloc extends BlocBase {
   ProfileGroupBloc() {
-    _isFetchingController.add(false);
+    _isFetchingGroupController.add(false);
   }
-
-  // Reactive variables
-  final _profileGroupController = BehaviorSubject<ProfileGroupModel>();
-  final _isFetchingController = BehaviorSubject<bool>();
 
   ApiService apiService = ApiService();
 
+  // Reactive variables
+  final _isFetchingGroupController = BehaviorSubject<bool>();
+  final _profileGroupController = BehaviorSubject<ProfileGroupModel>();
+
   // Streams
+  Observable<bool> get isFetchingGroupStream =>
+      _isFetchingGroupController.stream;
   Observable<ProfileGroupModel> get profileGroupStream =>
       _profileGroupController.stream;
 
-  Observable<bool> get isFetchingStream => _isFetchingController.stream;
-
   void fetchProfileGroup(String profileGroupId) async {
-    if (!_isFetchingController.value) {
-      _isFetchingController.add(true);
+    if (!_isFetchingGroupController.value) {
+      _isFetchingGroupController.add(true);
 
       await SharedPreferencesService.getAuthToken()
-          .then((String token) =>
-              apiService.fetchProfileGroup(token, profileGroupId))
+          .then((String token) => apiService.fetchGroup(token, profileGroupId))
           .then((ResponseModel<ProfileGroupModel> response) {
         if (response.error == false) {
           return _profileGroupController.add(response.data);
@@ -38,12 +37,13 @@ class ProfileGroupBloc extends BlocBase {
         }
       }).catchError(_profileGroupController.addError);
 
-      _isFetchingController.add(false);
+      _isFetchingGroupController.add(false);
     }
   }
 
   @override
   void dispose() {
+    _isFetchingGroupController.close();
     _profileGroupController.close();
   }
 }

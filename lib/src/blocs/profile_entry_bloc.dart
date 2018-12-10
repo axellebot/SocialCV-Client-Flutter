@@ -8,24 +8,23 @@ import 'package:rxdart/rxdart.dart';
 /// Business Logic Component for Profile Entry Fetch
 class ProfileEntryBloc extends BlocBase {
   ProfileEntryBloc() {
-    _isFetchingController.add(false);
+    _isFetchingEntryController.add(false);
   }
-
-  // Reactive variables
-  final _profileEntryController = BehaviorSubject<ProfileEntryModel>();
-  final _isFetchingController = BehaviorSubject<bool>();
 
   ApiService apiService = ApiService();
 
+  // Reactive variables
+  final _isFetchingEntryController = BehaviorSubject<bool>();
+  final _profileEntryController = BehaviorSubject<ProfileEntryModel>();
+
   // Streams
+  Observable<bool> get isFetchingStream => _isFetchingEntryController.stream;
   Observable<ProfileEntryModel> get profileStream =>
       _profileEntryController.stream;
 
-  Observable<bool> get isFetchingStream => _isFetchingController.stream;
-
   void fetchProfileEntry(String profileEntryId) async {
-    if (!_isFetchingController.value) {
-      _isFetchingController.add(true);
+    if (!_isFetchingEntryController.value) {
+      _isFetchingEntryController.add(true);
 
       await SharedPreferencesService.getAuthToken()
           .then((String token) =>
@@ -38,12 +37,13 @@ class ProfileEntryBloc extends BlocBase {
         }
       }).catchError(_profileEntryController.addError);
 
-      _isFetchingController.add(false);
+      _isFetchingEntryController.add(false);
     }
   }
 
   @override
   void dispose() {
+    _isFetchingEntryController.close();
     _profileEntryController.close();
   }
 }

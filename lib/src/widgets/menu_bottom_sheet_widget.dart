@@ -38,6 +38,8 @@ class _MenuBottomSheetState extends State<MenuBottomSheet> {
 
   Widget _buildBottomSheet(BuildContext context) {
     return SafeArea(
+      left: false,
+      right: false,
       child: Wrap(
         children: <Widget>[
           AccountTile(),

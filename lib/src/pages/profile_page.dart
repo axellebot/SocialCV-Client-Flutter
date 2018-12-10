@@ -48,7 +48,7 @@ class ProfilePage extends StatelessWidget {
   Widget _buildProgressBar(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
     return StreamBuilder<bool>(
-      stream: _profileBloc.isFetchingStream,
+      stream: _profileBloc.isFetchingProfileStream,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.data == true) {
           return LinearProgressIndicator();
@@ -165,6 +165,8 @@ class ProfilePage extends StatelessWidget {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
 
     return SafeArea(
+      left: false,
+      right: false,
       child: StreamBuilder<ProfileModel>(
         stream: _profileBloc.profileStream,
         builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {

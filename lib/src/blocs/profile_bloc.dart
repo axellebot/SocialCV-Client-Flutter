@@ -9,43 +9,43 @@ import 'package:rxdart/rxdart.dart';
 /// Business Logic Component for Profile Fetch
 class ProfileBloc extends BlocBase {
   ProfileBloc() {
-    _isFetchingController.add(false);
+    _isFetchingProfileController.add(false);
   }
-
-  // Reactive variables
-  final _profileDetailsController = BehaviorSubject<ProfileModel>();
-  final _isFetchingController = BehaviorSubject<bool>();
 
   ApiService apiService = ApiService();
 
-  // Streams
-  Observable<ProfileModel> get profileStream =>
-      _profileDetailsController.stream;
+  // Reactive variables
+  final _isFetchingProfileController = BehaviorSubject<bool>();
+  final _profileController = BehaviorSubject<ProfileModel>();
 
-  Observable<bool> get isFetchingStream => _isFetchingController.stream;
+  // Streams
+  Observable<ProfileModel> get profileStream => _profileController.stream;
+  Observable<bool> get isFetchingProfileStream =>
+      _isFetchingProfileController.stream;
 
   void fetchProfileDetails(String profileId) async {
     logger.info('fetchProfileDetails');
-    if (!_isFetchingController.value) {
-      _isFetchingController.add(true);
+    if (!_isFetchingProfileController.value) {
+      _isFetchingProfileController.add(true);
 
       await SharedPreferencesService.getAuthToken()
           .then((String token) =>
               apiService.fetchProfileDetails(token, profileId))
           .then((ResponseModel<ProfileModel> response) {
         if (response.error == false) {
-          return _profileDetailsController.add(response.data);
+          return _profileController.add(response.data);
         } else {
           throw Exception(response.message);
         }
-      }).catchError(_profileDetailsController.addError);
+      }).catchError(_profileController.addError);
 
-      _isFetchingController.add(false);
+      _isFetchingProfileController.add(false);
     }
   }
 
   @override
   void dispose() {
-    _profileDetailsController.close();
+    _isFetchingProfileController.close();
+    _profileController.close();
   }
 }

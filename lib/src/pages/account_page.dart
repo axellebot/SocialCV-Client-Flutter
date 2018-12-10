@@ -20,9 +20,9 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.info('Building AccountPage');
 
-    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
-
     return SafeArea(
+      left: false,
+      right: false,
       child: Stack(
         children: <Widget>[
           _buildProgressBar(context),

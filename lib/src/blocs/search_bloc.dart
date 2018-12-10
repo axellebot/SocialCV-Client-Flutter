@@ -7,24 +7,25 @@ import 'package:rxdart/rxdart.dart';
 
 class SearchBloc extends BlocBase {
   SearchBloc() {
-    _isFetchingController.add(false);
+    _isFetchingProfilesController.add(false);
   }
 
   ApiService apiService = ApiService();
 
   // Reactive variables
-  final _isFetchingController = BehaviorSubject<bool>();
+  final _isFetchingProfilesController = BehaviorSubject<bool>();
   final _profilesController = BehaviorSubject<List<ProfileModel>>();
 
   // Streams
-  Observable<bool> get isFetchingStream => _isFetchingController.stream;
+  Observable<bool> get isFetchingProfileStream =>
+      _isFetchingProfilesController.stream;
   Observable<List<ProfileModel>> get profilesStream =>
       _profilesController.stream;
 
   void fetchProfiles(String profileTitle) async {
     print(profileTitle);
-    if (!_isFetchingController.value) {
-      _isFetchingController.add(true);
+    if (!_isFetchingProfilesController.value) {
+      _isFetchingProfilesController.add(true);
 
       await SharedPreferencesService.getAuthToken()
           .then((String token) => apiService.fetchProfiles(token, profileTitle))
@@ -38,13 +39,13 @@ class SearchBloc extends BlocBase {
         return _profilesController.addError(error);
       });
 
-      _isFetchingController.add(false);
+      _isFetchingProfilesController.add(false);
     }
   }
 
   @override
   void dispose() {
-    _isFetchingController.close();
+    _isFetchingProfilesController.close();
     _profilesController.close();
   }
 }

@@ -47,7 +47,7 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _buildProgressBar(BuildContext context) {
     return StreamBuilder<bool>(
-      stream: searchBloc.isFetchingStream,
+      stream: searchBloc.isFetchingProfileStream,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.data == true) {
           return LinearProgressIndicator();

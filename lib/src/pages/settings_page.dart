@@ -23,6 +23,8 @@ class SettingsPage extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return SafeArea(
+      left: false,
+      right: false,
       child: ListView(
         children: [
           ThemeSwitchTile(),
