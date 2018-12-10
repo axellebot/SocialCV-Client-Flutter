@@ -5,8 +5,9 @@ import 'package:cv/src/services/api_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
 import 'package:rxdart/rxdart.dart';
 
-class SearchBloc extends BlocBase {
-  SearchBloc() {
+/// Business Logic Component for Profile List Fetch
+class ProfileListBloc extends BlocBase {
+  ProfileListBloc() {
     _isFetchingProfilesController.add(false);
   }
 
@@ -17,7 +18,7 @@ class SearchBloc extends BlocBase {
   final _profilesController = BehaviorSubject<List<ProfileModel>>();
 
   // Streams
-  Observable<bool> get isFetchingProfileStream =>
+  Observable<bool> get isFetchingProfilesStream =>
       _isFetchingProfilesController.stream;
   Observable<List<ProfileModel>> get profilesStream =>
       _profilesController.stream;

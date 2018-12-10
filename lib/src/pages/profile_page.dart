@@ -1,13 +1,16 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/group_list_bloc.dart';
+import 'package:cv/src/blocs/part_list_bloc.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
-import 'package:cv/src/blocs/profile_part_bloc.dart';
 import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/utils.dart';
+import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/models/profile_model.dart';
-import 'package:cv/src/widgets/arc_banner_image.dart';
+import 'package:cv/src/widgets/arc_banner_image_widget.dart';
+import 'package:cv/src/widgets/card_error_widget.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
-import 'package:cv/src/widgets/profile_part_widget.dart';
+import 'package:cv/src/widgets/part_widget.dart';
 import 'package:flutter/material.dart';
 
 // TODO : Build owner interraction with ProfileModel.owner #
@@ -173,40 +176,45 @@ class ProfilePage extends StatelessWidget {
           if (snapshot.hasError) {
             return Text(translateError(context, snapshot.error));
           } else if (snapshot.hasData) {
-            return Column(
-              children: _buildPart(context, snapshot.data.partIds),
-            );
+            return _buildParts(
+                context, snapshot.data.partIds.length, profileId);
           }
-          return Column(
-            children: <Widget>[
-              LoadingShadowContent(
-                numberOfTitleLines: 1,
-                numberOfContentLines: 4,
-              ),
-              LoadingShadowContent(
-                numberOfTitleLines: 1,
-                numberOfContentLines: 4,
-              ),
-              LoadingShadowContent(
-                numberOfTitleLines: 1,
-                numberOfContentLines: 4,
-              ),
-            ],
-          );
+          return CircularProgressIndicator();
         },
       ),
     );
   }
 
-  List<Widget> _buildPart(BuildContext context, List<String> partIds) {
-    List<Widget> _partWidgets = [];
+  Widget _buildParts(BuildContext context, count, profileId) {
+    PartListBloc _partListBloc = BlocProvider.of<PartListBloc>(context);
+    _partListBloc.fetchProfileParts(profileId);
 
-    partIds.forEach((String id) {
-      _partWidgets.add(BlocProvider<ProfilePartBloc>(
-        bloc: ProfilePartBloc(),
-        child: ProfilePart(id),
-      ));
-    });
-    return _partWidgets;
+    return StreamBuilder<List<PartModel>>(
+      stream: _partListBloc.partsStream,
+      builder: (BuildContext context, AsyncSnapshot<List<PartModel>> snapshot) {
+        List<Widget> _widgets = [];
+        if (snapshot.hasError) {
+          CardError(translateError(context, snapshot.error));
+        } else if (snapshot.hasData) {
+          List<PartModel> profileParts = snapshot.data;
+          profileParts.forEach((PartModel profilePart) {
+            _widgets.add(
+              BlocProvider(
+                bloc: GroupListBloc(),
+                child: PartWidget(profilePart),
+              ),
+            );
+          });
+          return Column(children: _widgets);
+        }
+
+        _widgets.add(LoadingShadowContent(
+          numberOfTitleLines: 1,
+          numberOfContentLines: 4,
+        ));
+
+        return Column(children: _widgets);
+      },
+    );
   }
 }

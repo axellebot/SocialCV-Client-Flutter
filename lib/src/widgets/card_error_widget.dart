@@ -1,4 +1,4 @@
-import 'package:cv/src/widgets/error_content.dart';
+import 'package:cv/src/widgets/error_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

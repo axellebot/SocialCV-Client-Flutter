@@ -1,8 +1,8 @@
 import 'package:cv/src/commons/logger.dart';
-import 'package:cv/src/models/profile_entry_model.dart';
-import 'package:cv/src/models/profile_group_model.dart';
+import 'package:cv/src/models/entry_model.dart';
+import 'package:cv/src/models/group_model.dart';
+import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/models/profile_model.dart';
-import 'package:cv/src/models/profile_part_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -69,12 +69,11 @@ class _Converter<T> implements JsonConverter<T, Object> {
         return UserModel.fromJson(json) as T;
       else if (T == ProfileModel)
         return ProfileModel.fromJson(json) as T;
-      else if (T == ProfilePartModel)
-        return ProfilePartModel.fromJson(json) as T;
-      else if (T == ProfileGroupModel)
-        return ProfileGroupModel.fromJson(json) as T;
-      else if (T == ProfileEntryModel)
-        return ProfileEntryModel.fromJson(json) as T;
+      else if (T == PartModel)
+        return PartModel.fromJson(json) as T;
+      else if (T == GroupModel)
+        return GroupModel.fromJson(json) as T;
+      else if (T == EntryModel) return EntryModel.fromJson(json) as T;
     }
     // This will only work if `json` is a native JSON type:
     //   num, String, bool, null, etc
@@ -99,12 +98,12 @@ T _dataFromJson<T>(Map<String, dynamic> input) {
     return UserModel.fromJson(input) as T;
   else if (T == ProfileModel)
     return ProfileModel.fromJson(input) as T;
-  else if (T == ProfilePartModel)
-    return ProfilePartModel.fromJson(input) as T;
-  else if (T == ProfileGroupModel)
-    return ProfileGroupModel.fromJson(input) as T;
-  else if (T == ProfileEntryModel)
-    return ProfileEntryModel.fromJson(input) as T;
+  else if (T == PartModel)
+    return PartModel.fromJson(input) as T;
+  else if (T == GroupModel)
+    return GroupModel.fromJson(input) as T;
+  else if (T == EntryModel)
+    return EntryModel.fromJson(input) as T;
   else
     throw Exception("Unknown type $T in ._dataFromJson");
 }

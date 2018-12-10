@@ -19,9 +19,9 @@ class ProfileBloc extends BlocBase {
   final _profileController = BehaviorSubject<ProfileModel>();
 
   // Streams
-  Observable<ProfileModel> get profileStream => _profileController.stream;
   Observable<bool> get isFetchingProfileStream =>
       _isFetchingProfileController.stream;
+  Observable<ProfileModel> get profileStream => _profileController.stream;
 
   void fetchProfileDetails(String profileId) async {
     logger.info('fetchProfileDetails');

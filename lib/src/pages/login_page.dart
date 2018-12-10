@@ -6,7 +6,7 @@ import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/user_model.dart';
-import 'package:cv/src/widgets/card_error.dart';
+import 'package:cv/src/widgets/card_error_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {

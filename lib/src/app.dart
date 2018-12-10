@@ -1,14 +1,23 @@
 import 'package:cv/src/blocs/application_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/entry_bloc.dart';
+import 'package:cv/src/blocs/entry_list_bloc.dart';
+import 'package:cv/src/blocs/group_bloc.dart';
+import 'package:cv/src/blocs/group_list_bloc.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
+import 'package:cv/src/blocs/part_bloc.dart';
+import 'package:cv/src/blocs/part_list_bloc.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/commons/colors.dart';
 import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/pages/entry_page.dart';
+import 'package:cv/src/pages/group_page.dart';
 import 'package:cv/src/pages/login_page.dart';
 import 'package:cv/src/pages/main_page.dart';
+import 'package:cv/src/pages/part_page.dart';
 import 'package:cv/src/pages/profile_page.dart';
 import 'package:cv/src/pages/search_page.dart';
 import 'package:cv/src/pages/settings_page.dart';
@@ -38,9 +47,37 @@ class CVApp extends StatelessWidget {
       child: MainPage(),
     );
 
+    // Defining routes
+    _defineRoutes(_mainPageProvider);
+
     ApplicationBloc _appBloc = BlocProvider.of<ApplicationBloc>(context);
 
-    // Defining routes
+    return StreamBuilder<String>(
+        stream: _appBloc.themeStream,
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          return MaterialApp(
+            onGenerateTitle: (BuildContext context) =>
+                Localization.of(context).appName,
+            theme: _buildCVTheme(snapshot.data),
+            home: _mainPageProvider,
+            onGenerateRoute: router.generator,
+            // Use Fluro routes
+            localizationsDelegates: [
+              const CVLocalizationsDelegate(),
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: [
+              const Locale('en'),
+              const Locale('fr'),
+            ],
+            debugShowCheckedModeBanner: false,
+//            showSemanticsDebugger: true,
+          );
+        });
+  }
+
+  void _defineRoutes(BlocProvider<MainBloc> _mainPageProvider) {
     router.define(
       kPathHome,
       handler: Handler(
@@ -70,18 +107,6 @@ class CVApp extends StatelessWidget {
     );
 
     router.define(
-      "$kPathProfile/:$kParamProfileId",
-      handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          return BlocProvider<ProfileBloc>(
-            bloc: ProfileBloc(),
-            child: ProfilePage(params[kParamProfileId][0]),
-          );
-        },
-      ),
-    );
-
-    router.define(
       kPathSettings,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
@@ -101,29 +126,62 @@ class CVApp extends StatelessWidget {
       ),
     );
 
-    return StreamBuilder<String>(
-        stream: _appBloc.themeStream,
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          return MaterialApp(
-            onGenerateTitle: (BuildContext context) =>
-                Localization.of(context).appName,
-            theme: _buildCVTheme(snapshot.data),
-            home: _mainPageProvider,
-            onGenerateRoute: router.generator,
-            // Use Fluro routes
-            localizationsDelegates: [
-              const CVLocalizationsDelegate(),
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            supportedLocales: [
-              const Locale('en'),
-              const Locale('fr'),
-            ],
-            debugShowCheckedModeBanner: false,
-//            showSemanticsDebugger: true,
+    router.define(
+      "$kPathProfiles/:$kParamProfileId",
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return BlocProvider<ProfileBloc>(
+            bloc: ProfileBloc(),
+            child: BlocProvider<PartListBloc>(
+              bloc: PartListBloc(),
+              child: ProfilePage(params[kParamProfileId][0]),
+            ),
           );
-        });
+        },
+      ),
+    );
+
+    router.define(
+      "$kPathParts/:$kParamPartId",
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return BlocProvider<PartBloc>(
+            bloc: PartBloc(),
+            child: BlocProvider<GroupListBloc>(
+              bloc: GroupListBloc(),
+              child: PartPage(params[kParamPartId][0]),
+            ),
+          );
+        },
+      ),
+    );
+
+    router.define(
+      "$kPathGroups/:$kParamGroupId",
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return BlocProvider<GroupBloc>(
+            bloc: GroupBloc(),
+            child: BlocProvider<EntryListBloc>(
+              bloc: EntryListBloc(),
+              child: GroupPage(params[kParamGroupId][0]),
+            ),
+          );
+        },
+      ),
+    );
+
+    router.define(
+      "$kPathEntries/:$kParamEntryId",
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return BlocProvider<EntryBloc>(
+            bloc: EntryBloc(),
+            child: EntryPage(params[kParamEntryId][0]),
+          );
+        },
+      ),
+    );
   }
 
   ThemeData _buildCVTheme(String theme) {

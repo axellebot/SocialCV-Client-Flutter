@@ -1,13 +1,13 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/models/api_models.dart';
-import 'package:cv/src/models/profile_entry_model.dart';
+import 'package:cv/src/models/entry_model.dart';
 import 'package:cv/src/services/api_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
 import 'package:rxdart/rxdart.dart';
 
-/// Business Logic Component for Profile Entry Fetch
-class ProfileEntryBloc extends BlocBase {
-  ProfileEntryBloc() {
+/// Business Logic Component for Entry Fetch
+class EntryBloc extends BlocBase {
+  EntryBloc() {
     _isFetchingEntryController.add(false);
   }
 
@@ -15,27 +15,26 @@ class ProfileEntryBloc extends BlocBase {
 
   // Reactive variables
   final _isFetchingEntryController = BehaviorSubject<bool>();
-  final _profileEntryController = BehaviorSubject<ProfileEntryModel>();
+  final _entryController = BehaviorSubject<EntryModel>();
 
   // Streams
-  Observable<bool> get isFetchingStream => _isFetchingEntryController.stream;
-  Observable<ProfileEntryModel> get profileStream =>
-      _profileEntryController.stream;
+  Observable<bool> get isFetchingEntryStream =>
+      _isFetchingEntryController.stream;
+  Observable<EntryModel> get entryStream => _entryController.stream;
 
-  void fetchProfileEntry(String profileEntryId) async {
+  void fetchEntry(String profileEntryId) async {
     if (!_isFetchingEntryController.value) {
       _isFetchingEntryController.add(true);
 
       await SharedPreferencesService.getAuthToken()
-          .then((String token) =>
-              apiService.fetchProfileEntry(token, profileEntryId))
-          .then((ResponseModel<ProfileEntryModel> response) {
+          .then((String token) => apiService.fetchEntry(token, profileEntryId))
+          .then((ResponseModel<EntryModel> response) {
         if (response.error == false) {
-          return _profileEntryController.add(response.data);
+          return _entryController.add(response.data);
         } else {
           throw Exception(response.message);
         }
-      }).catchError(_profileEntryController.addError);
+      }).catchError(_entryController.addError);
 
       _isFetchingEntryController.add(false);
     }
@@ -44,6 +43,6 @@ class ProfileEntryBloc extends BlocBase {
   @override
   void dispose() {
     _isFetchingEntryController.close();
-    _profileEntryController.close();
+    _entryController.close();
   }
 }

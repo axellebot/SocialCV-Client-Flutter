@@ -6,10 +6,10 @@ import 'package:cv/src/errors/api_errors.dart';
 import 'package:cv/src/errors/base_errors.dart';
 import 'package:cv/src/errors/http_errors.dart';
 import 'package:cv/src/models/api_models.dart';
-import 'package:cv/src/models/profile_entry_model.dart';
-import 'package:cv/src/models/profile_group_model.dart';
+import 'package:cv/src/models/entry_model.dart';
+import 'package:cv/src/models/group_model.dart';
+import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/models/profile_model.dart';
-import 'package:cv/src/models/profile_part_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:http/http.dart';
 
@@ -58,7 +58,7 @@ class ApiService {
   Future<ResponseModelWithArray<ProfileModel>> fetchAccountProfiles(
     String token, {
     int offset = 0,
-    int limit = 10,
+    int limit = 5,
   }) async {
     Uri uri = Uri.https(_baseUrl, "/me/profiles", {
       "token": token,
@@ -93,11 +93,30 @@ class ApiService {
     });
   }
 
+  Future<ResponseModelWithArray<PartModel>> fetchProfileParts(
+    String token,
+    String profileId, {
+    int offset = 0,
+    int limit = 5,
+  }) async {
+    Uri uri = Uri.https(_baseUrl, "/profiles/$profileId/parts", {
+      "token": token,
+      "offset": offset.toString(),
+      "limit": limit.toString(),
+      "sort": "+order"
+    });
+
+    return client.get(uri).then((Response response) {
+      return ResponseModelWithArray<PartModel>.fromJson(
+          json.decode(response.body));
+    });
+  }
+
   ///
   /// Parts
   ///
 
-  Future<ResponseModel<ProfilePartModel>> fetchProfilePart(
+  Future<ResponseModel<PartModel>> fetchPart(
     String token,
     String profilePartId,
   ) async {
@@ -106,7 +125,25 @@ class ApiService {
     });
 
     return client.get(uri).then((Response response) {
-      return ResponseModel<ProfilePartModel>.fromJson(
+      return ResponseModel<PartModel>.fromJson(json.decode(response.body));
+    });
+  }
+
+  Future<ResponseModelWithArray<GroupModel>> fetchPartGroups(
+    String token,
+    String partId, {
+    int offset = 0,
+    int limit = 5,
+  }) async {
+    Uri uri = Uri.https(_baseUrl, "/parts/$partId/groups", {
+      "token": token,
+      "offset": offset.toString(),
+      "limit": limit.toString(),
+      "sort": "+order",
+    });
+
+    return client.get(uri).then((Response response) {
+      return ResponseModelWithArray<GroupModel>.fromJson(
           json.decode(response.body));
     });
   }
@@ -115,16 +152,34 @@ class ApiService {
   /// Groups
   ///
 
-  Future<ResponseModel<ProfileGroupModel>> fetchProfileGroup(
+  Future<ResponseModel<GroupModel>> fetchGroup(
     String token,
-    String profileGroupId,
+    String groupId,
   ) async {
-    Uri uri = Uri.https(_baseUrl, "/groups/$profileGroupId", {
+    Uri uri = Uri.https(_baseUrl, "/groups/$groupId", {
       "token": token,
     });
 
     return client.get(uri).then((Response response) {
-      return ResponseModel<ProfileGroupModel>.fromJson(
+      return ResponseModel<GroupModel>.fromJson(json.decode(response.body));
+    });
+  }
+
+  Future<ResponseModelWithArray<EntryModel>> fetchGroupEntries(
+    String token,
+    String groupId, {
+    int offset = 0,
+    int limit = 5,
+  }) async {
+    Uri uri = Uri.https(_baseUrl, "/groups/$groupId/entries", {
+      "token": token,
+      "offset": offset.toString(),
+      "limit": limit.toString(),
+      "sort": "+order",
+    });
+
+    return client.get(uri).then((Response response) {
+      return ResponseModelWithArray<EntryModel>.fromJson(
           json.decode(response.body));
     });
   }
@@ -133,17 +188,16 @@ class ApiService {
   /// Entries
   ///
 
-  Future<ResponseModel<ProfileEntryModel>> fetchProfileEntry(
+  Future<ResponseModel<EntryModel>> fetchEntry(
     String token,
-    String profileEntryId,
+    String entryId,
   ) async {
-    Uri uri = Uri.https(_baseUrl, "/entries/$profileEntryId", {
+    Uri uri = Uri.https(_baseUrl, "/entries/$entryId", {
       "token": token,
     });
 
     return client.get(uri).then((Response response) {
-      return ResponseModel<ProfileEntryModel>.fromJson(
-          json.decode(response.body));
+      return ResponseModel<EntryModel>.fromJson(json.decode(response.body));
     });
   }
 

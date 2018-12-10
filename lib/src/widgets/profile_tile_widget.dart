@@ -18,7 +18,7 @@ class ProfileTile extends StatelessWidget {
       title: Text(profileModel.title ?? ""),
       subtitle: Text(profileModel.subtitle ?? ""),
       onTap: () => Navigator.of(context)
-          .pushNamed(kPathProfile + '/${profileModel.id ?? ""}'),
+          .pushNamed(kPathProfiles + '/${profileModel.id ?? ""}'),
       trailing: Icon(MdiIcons.accountDetails),
     );
   }
