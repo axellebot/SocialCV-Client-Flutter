@@ -1,16 +1,13 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/group_list_bloc.dart';
 import 'package:cv/src/blocs/part_list_bloc.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/utils.dart';
-import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/widgets/arc_banner_image_widget.dart';
-import 'package:cv/src/widgets/card_error_widget.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
-import 'package:cv/src/widgets/part_widget.dart';
+import 'package:cv/src/widgets/profile_part_list_widget.dart';
 import 'package:flutter/material.dart';
 
 // TODO : Build owner interraction with ProfileModel.owner #
@@ -167,54 +164,23 @@ class ProfilePage extends StatelessWidget {
   Widget _buildMain(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
 
-    return SafeArea(
-      left: false,
-      right: false,
-      child: StreamBuilder<ProfileModel>(
-        stream: _profileBloc.profileStream,
-        builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
-          if (snapshot.hasError) {
-            return Text(translateError(context, snapshot.error));
-          } else if (snapshot.hasData) {
-            return _buildParts(
-                context, snapshot.data.partIds.length, profileId);
-          }
-          return CircularProgressIndicator();
-        },
-      ),
+    return StreamBuilder<ProfileModel>(
+      stream: _profileBloc.profileStream,
+      builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
+        if (snapshot.hasError) {
+          return Text(translateError(context, snapshot.error));
+        } else if (snapshot.hasData) {
+          return _buildPartList(context, snapshot.data);
+        }
+        return CircularProgressIndicator();
+      },
     );
   }
 
-  Widget _buildParts(BuildContext context, count, profileId) {
-    PartListBloc _partListBloc = BlocProvider.of<PartListBloc>(context);
-    _partListBloc.fetchProfileParts(profileId);
-
-    return StreamBuilder<List<PartModel>>(
-      stream: _partListBloc.partsStream,
-      builder: (BuildContext context, AsyncSnapshot<List<PartModel>> snapshot) {
-        List<Widget> _widgets = [];
-        if (snapshot.hasError) {
-          CardError(translateError(context, snapshot.error));
-        } else if (snapshot.hasData) {
-          List<PartModel> profileParts = snapshot.data;
-          profileParts.forEach((PartModel profilePart) {
-            _widgets.add(
-              BlocProvider(
-                bloc: GroupListBloc(),
-                child: PartWidget(profilePart),
-              ),
-            );
-          });
-          return Column(children: _widgets);
-        }
-
-        _widgets.add(LoadingShadowContent(
-          numberOfTitleLines: 1,
-          numberOfContentLines: 4,
-        ));
-
-        return Column(children: _widgets);
-      },
+  Widget _buildPartList(BuildContext context, ProfileModel profileModel) {
+    return BlocProvider<PartListBloc>(
+      bloc: PartListBloc(),
+      child: ProfilePartListWidget(profileModel),
     );
   }
 }

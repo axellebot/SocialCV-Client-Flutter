@@ -1,7 +1,10 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/entry_list_bloc.dart';
 import 'package:cv/src/blocs/group_bloc.dart';
+import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/models/group_model.dart';
-import 'package:cv/src/widgets/group_widget.dart';
+import 'package:cv/src/widgets/card_error_widget.dart';
+import 'package:cv/src/widgets/group_entry_list_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -77,7 +80,9 @@ class GroupPage extends StatelessWidget {
           stream: _profileGroupBloc.groupStream,
           builder: (BuildContext context, AsyncSnapshot<GroupModel> snapshot) {
             if (snapshot.hasError) {
-              return Card(child: Text("Error : ${snapshot.error.toString()}"));
+              return CardError(
+                message: translateError(context, snapshot.error),
+              );
             } else if (snapshot.hasData) {
               return _buildGroupWidget(snapshot.data);
             }
@@ -92,6 +97,9 @@ class GroupPage extends StatelessWidget {
   }
 
   Widget _buildGroupWidget(GroupModel groupModel) {
-    return GroupWidget(groupModel);
+    return BlocProvider<EntryListBloc>(
+      bloc: EntryListBloc(),
+      child: EntryListWidget(groupModel),
+    );
   }
 }

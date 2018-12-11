@@ -72,7 +72,7 @@ class AccountPage extends StatelessWidget {
           UserModel userModel = snapshot.data;
           return _buildAccountDetails(context, userModel);
         } else if (snapshot.hasError) {
-          return CardError(translateError(context, snapshot.error));
+          return CardError(message: translateError(context, snapshot.error));
         }
         return Container();
       },

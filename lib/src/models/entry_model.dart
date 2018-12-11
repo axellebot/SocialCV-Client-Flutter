@@ -28,4 +28,9 @@ class EntryModel extends BaseModel {
       _$EntryModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$EntryModelToJson(this);
+
+  @override
+  String toString() {
+    return 'EntryModel{name: $name, content: $content, startDate: $startDate, endDate: $endDate, location: $location, owner: $owner, type: $type}';
+  }
 }

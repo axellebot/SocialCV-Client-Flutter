@@ -83,7 +83,7 @@ class _SearchPageState extends State<SearchPage> {
       builder:
           (BuildContext context, AsyncSnapshot<List<ProfileModel>> snapshot) {
         if (snapshot.hasError) {
-          return CardError(translateError(context, snapshot.error));
+          return CardError(message: translateError(context, snapshot.error));
         } else if (snapshot.hasData) {
           List<ProfileModel> profileModels = snapshot.data;
           return Expanded(

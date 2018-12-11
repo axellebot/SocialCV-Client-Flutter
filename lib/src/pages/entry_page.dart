@@ -1,7 +1,6 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/entry_bloc.dart';
 import 'package:cv/src/models/entry_model.dart';
-import 'package:cv/src/widgets/entry_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -92,6 +91,6 @@ class EntryPage extends StatelessWidget {
   }
 
   Widget _buildEntry(BuildContext context, EntryModel entryModel) {
-    return EntryWidget(entryModel);
+    return Text(entryModel.toString());
   }
 }

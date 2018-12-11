@@ -203,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
       stream: _accountBloc.fetchAccountDetailsStream,
       builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
         if (snapshot.hasError) {
-          return CardError(translateError(context, snapshot.error));
+          return CardError(message: translateError(context, snapshot.error));
         } else if (snapshot.hasData) {
           return Card(
             child: Container(
