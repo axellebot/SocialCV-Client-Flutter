@@ -4,7 +4,7 @@ import 'package:cv/src/blocs/group_bloc.dart';
 import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/models/group_model.dart';
 import 'package:cv/src/widgets/card_error_widget.dart';
-import 'package:cv/src/widgets/group_entry_list_widget.dart';
+import 'package:cv/src/widgets/entry_list_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -99,7 +99,7 @@ class GroupPage extends StatelessWidget {
   Widget _buildGroupWidget(GroupModel groupModel) {
     return BlocProvider<EntryListBloc>(
       bloc: EntryListBloc(),
-      child: EntryListWidget(groupModel),
+      child: EntryListWidget(fromGroupModel: groupModel),
     );
   }
 }

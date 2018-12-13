@@ -1,9 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
-  static final String KEY_AUTH_TOKEN = "AUTH_TOKEN";
-  static final String KEY_AUTH_CONNECTED = "AUTH_CONNECTED";
-  static final String KEY_APP_THEME = "APP_THEME";
+  static const String KEY_AUTH_TOKEN = "AUTH_TOKEN";
+  static const String KEY_AUTH_CONNECTED = "AUTH_CONNECTED";
+  static const String KEY_APP_THEME = "APP_THEME";
 
   static Future<SharedPreferences> get _prefs =>
       SharedPreferences.getInstance();

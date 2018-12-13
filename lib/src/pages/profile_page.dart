@@ -7,7 +7,7 @@ import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/widgets/arc_banner_image_widget.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
-import 'package:cv/src/widgets/profile_part_list_widget.dart';
+import 'package:cv/src/widgets/part_list_widget.dart';
 import 'package:flutter/material.dart';
 
 // TODO : Build owner interraction with ProfileModel.owner #
@@ -60,6 +60,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildProfile(BuildContext context) {
     return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: Column(
         children: <Widget>[
           _buildHeader(context),
@@ -180,7 +181,7 @@ class ProfilePage extends StatelessWidget {
   Widget _buildPartList(BuildContext context, ProfileModel profileModel) {
     return BlocProvider<PartListBloc>(
       bloc: PartListBloc(),
-      child: ProfilePartListWidget(profileModel),
+      child: PartListWidget(fromProfileModel: profileModel),
     );
   }
 }

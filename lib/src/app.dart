@@ -1,11 +1,9 @@
 import 'package:cv/src/blocs/application_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/entry_bloc.dart';
-import 'package:cv/src/blocs/entry_list_bloc.dart';
 import 'package:cv/src/blocs/group_bloc.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
 import 'package:cv/src/blocs/part_bloc.dart';
-import 'package:cv/src/blocs/part_list_bloc.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/commons/colors.dart';
 import 'package:cv/src/commons/logger.dart';
@@ -131,7 +129,7 @@ class CVApp extends StatelessWidget {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           return BlocProvider<ProfileBloc>(
             bloc: ProfileBloc(),
-              child: ProfilePage(params[kParamProfileId][0]),
+            child: ProfilePage(params[kParamProfileId][0]),
           );
         },
       ),
@@ -155,7 +153,7 @@ class CVApp extends StatelessWidget {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           return BlocProvider<GroupBloc>(
             bloc: GroupBloc(),
-              child: GroupPage(params[kParamGroupId][0]),
+            child: GroupPage(params[kParamGroupId][0]),
           );
         },
       ),

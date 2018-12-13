@@ -20,6 +20,7 @@ class EntryBloc extends BlocBase {
   // Streams
   Observable<bool> get isFetchingEntryStream =>
       _isFetchingEntryController.stream;
+
   Observable<EntryModel> get entryStream => _entryController.stream;
 
   void fetchEntry(String profileEntryId) async {

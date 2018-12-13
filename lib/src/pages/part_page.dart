@@ -3,14 +3,15 @@ import 'package:cv/src/blocs/group_bloc.dart';
 import 'package:cv/src/blocs/group_list_bloc.dart';
 import 'package:cv/src/blocs/part_bloc.dart';
 import 'package:cv/src/models/part_model.dart';
+import 'package:cv/src/widgets/group_list_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
-import 'package:cv/src/widgets/part_group_list_widget.dart';
 import 'package:flutter/material.dart';
 
 class PartPage extends StatelessWidget {
   PartPage(this.profilePartId);
 
   final String profilePartId;
+
   @override
   Widget build(BuildContext context) {
     PartBloc _profilePartBloc = BlocProvider.of<PartBloc>(context);
@@ -95,7 +96,7 @@ class PartPage extends StatelessWidget {
   Widget _buildPartWidget(PartModel partModel) {
     return BlocProvider<GroupListBloc>(
       bloc: GroupListBloc(),
-      child: PartGroupListWidget(partModel),
+      child: GroupListWidget(fromPartModel: partModel),
     );
   }
 }

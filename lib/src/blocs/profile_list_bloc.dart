@@ -1,4 +1,5 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/services/api_service.dart';
@@ -20,8 +21,29 @@ class ProfileListBloc extends BlocBase {
   // Streams
   Observable<bool> get isFetchingProfilesStream =>
       _isFetchingProfilesController.stream;
+
   Observable<List<ProfileModel>> get profilesStream =>
       _profilesController.stream;
+
+  void fetchAccountProfiles() async {
+    logger.info('fetchAccountProfiles');
+
+    if (!_isFetchingProfilesController.value) {
+      _isFetchingProfilesController.add(true);
+
+      await SharedPreferencesService.getAuthToken()
+          .then(apiService.fetchAccountProfiles)
+          .then((ResponseModelWithArray<ProfileModel> response) {
+        if (response.error == false) {
+          return _profilesController.add(response.data);
+        } else {
+          throw Exception(response.message);
+        }
+      }).catchError(_profilesController.addError);
+
+      _isFetchingProfilesController.add(false);
+    }
+  }
 
   void fetchProfiles(String profileTitle) async {
     print(profileTitle);

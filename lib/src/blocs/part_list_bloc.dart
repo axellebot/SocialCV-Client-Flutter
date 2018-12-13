@@ -21,6 +21,7 @@ class PartListBloc extends BlocBase {
   // Streams
   Observable<bool> get isFetchingPartsStream =>
       _isFetchingPartsController.stream;
+
   Observable<List<PartModel>> get partsStream => _partsController.stream;
 
   void fetchProfileParts(String profileId) async {

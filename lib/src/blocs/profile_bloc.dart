@@ -21,6 +21,7 @@ class ProfileBloc extends BlocBase {
   // Streams
   Observable<bool> get isFetchingProfileStream =>
       _isFetchingProfileController.stream;
+
   Observable<ProfileModel> get profileStream => _profileController.stream;
 
   void fetchProfileDetails(String profileId) async {

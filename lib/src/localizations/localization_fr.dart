@@ -211,6 +211,7 @@ class LocalizationFR implements Localization {
 
   @override
   String get cancel => "Annuler";
+
   @override
   String get account => "Compte";
 

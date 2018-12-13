@@ -1,15 +1,13 @@
 import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/profile_list_bloc.dart';
 import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
-import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/widgets/card_error_widget.dart';
-import 'package:cv/src/widgets/error_content_widget.dart';
-import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
-import 'package:cv/src/widgets/profile_tile_widget.dart';
+import 'package:cv/src/widgets/profile_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -94,45 +92,20 @@ class AccountPage extends StatelessWidget {
         ExpansionTile(
           leading: Icon(MdiIcons.accountBoxMultiple),
           title: Text(Localization.of(context).accountMyProfile),
-          children: <Widget>[_buildProfiles(context, userModel.profileIds)],
+          children: <Widget>[_buildProfiles(context, userModel)],
         ),
       ],
     );
   }
 
-  Widget _buildProfiles(BuildContext context, List<String> ids) {
-    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
-    _accountBloc.fetchAccountProfiles();
-
-    return StreamBuilder<List<ProfileModel>>(
-      stream: _accountBloc.fetchAccountProfilesStream,
-      builder:
-          (BuildContext context, AsyncSnapshot<List<ProfileModel>> snapshot) {
-        if (snapshot.hasError) {
-          return ErrorContent(translateError(context, snapshot.error));
-        } else if (snapshot.hasData) {
-          List<ProfileModel> list = snapshot.data;
-          List<Widget> _widgetList = [];
-          list.forEach((profileModel) {
-            _widgetList.add(
-              ProfileTile(profileModel),
-            );
-          });
-          return Column(children: _widgetList);
-        }
-        List<Widget> _widgetList = [];
-        ids.forEach((profileId) {
-          _widgetList.add(LoadingShadowContent(
-            numberOfTitleLines: 1,
-            numberOfContentLines: 1,
-          ));
-        });
-        return Column(children: _widgetList);
-      },
-    );
-  }
-
   void _navigateToLogin(BuildContext context) {
     Navigator.of(context).pushNamed(kPathLogin);
+  }
+
+  Widget _buildProfiles(BuildContext context, UserModel userModel) {
+    return BlocProvider(
+      bloc: ProfileListBloc(),
+      child: ProfileListWidget(fromUserModel: userModel),
+    );
   }
 }

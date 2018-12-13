@@ -4,8 +4,8 @@ import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class ProfileTile extends StatelessWidget {
-  ProfileTile(this.profileModel);
+class ProfileWidget extends StatelessWidget {
+  ProfileWidget(this.profileModel);
 
   final ProfileModel profileModel;
 

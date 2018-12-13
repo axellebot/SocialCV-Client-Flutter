@@ -20,6 +20,7 @@ class EntryListBloc extends BlocBase {
   // Streams
   Observable<bool> get isFetchingGroupEntriesStream =>
       _isFetchingEntriesController.stream;
+
   Observable<List<EntryModel>> get entriesStream => _entriesController.stream;
 
   void fetchGroupEntries(String groupId) async {

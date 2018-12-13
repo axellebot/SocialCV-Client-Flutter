@@ -20,6 +20,7 @@ class GroupBloc extends BlocBase {
   // Streams
   Observable<bool> get isFetchingGroupStream =>
       _isFetchingGroupController.stream;
+
   Observable<GroupModel> get groupStream => _groupController.stream;
 
   void fetchGroup(String profileGroupId) async {

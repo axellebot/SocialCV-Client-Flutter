@@ -20,6 +20,7 @@ class GroupListBloc extends BlocBase {
   // Streams
   Observable<bool> get isFetchingGroupsStream =>
       _isFetchingGroupsController.stream;
+
   Observable<List<GroupModel>> get groupsStream =>
       _profileGroupsController.stream;
 

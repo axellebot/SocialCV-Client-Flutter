@@ -3,7 +3,7 @@ import 'package:cv/src/blocs/entry_list_bloc.dart';
 import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/group_model.dart';
-import 'package:cv/src/widgets/group_entry_list_widget.dart';
+import 'package:cv/src/widgets/entry_list_widget.dart';
 import 'package:flutter/material.dart';
 
 class GroupWidget extends StatelessWidget {
@@ -89,7 +89,7 @@ class GroupWidget extends StatelessWidget {
   Widget _buildEntryList(BuildContext context) {
     return BlocProvider(
       bloc: EntryListBloc(),
-      child: EntryListWidget(groupModel),
+      child: EntryListWidget(fromGroupModel: groupModel),
     );
   }
 }
