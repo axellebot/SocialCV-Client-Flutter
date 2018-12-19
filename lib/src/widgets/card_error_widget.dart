@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class CardError extends StatelessWidget {
-  CardError({this.message = "", this.height = 0, this.width = 0});
+  CardError({this.message = "", this.height, this.width});
 
   final String message;
   final double height;
