@@ -33,6 +33,7 @@ class AccountPage extends StatelessWidget {
 
   Widget _buildProgressBar(BuildContext context) {
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
+
     return StreamBuilder<bool>(
       stream: _accountBloc.isFetchingAccountDetailsStream,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -46,6 +47,7 @@ class AccountPage extends StatelessWidget {
 
   Widget _buildAccount(BuildContext context) {
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
+
     return StreamBuilder<bool>(
       stream: _accountBloc.isAuthenticatedStream,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {

@@ -1,6 +1,7 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/entry_list_bloc.dart';
 import 'package:cv/src/commons/paths.dart';
+import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/group_model.dart';
 import 'package:cv/src/widgets/entry_list_widget.dart';
@@ -25,7 +26,7 @@ class GroupWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: kCVGroupPadding),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -45,10 +46,7 @@ class GroupWidget extends StatelessWidget {
         ),
         Card(
           elevation: 2.0,
-          child: Container(
-            padding: const EdgeInsets.all(10.0),
-            child: _buildEntryList(context),
-          ),
+          child: _buildEntryList(context),
         )
       ],
     );
@@ -59,7 +57,7 @@ class GroupWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: kCVGroupPadding),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -78,7 +76,6 @@ class GroupWidget extends StatelessWidget {
           ),
         ),
         Container(
-          padding: const EdgeInsets.only(top: 0.0, bottom: 5.0),
           height: 200.0,
           child: _buildEntryList(context),
         )

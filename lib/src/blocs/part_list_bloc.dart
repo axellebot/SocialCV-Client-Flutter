@@ -34,7 +34,7 @@ class PartListBloc extends BlocBase {
               (String token) => apiService.fetchProfileParts(token, profileId))
           .then((ResponseModelWithArray<PartModel> response) {
         if (response.error == false) {
-          return _partsController.add(response.data);
+          _partsController.add(response.data);
         } else {
           throw Exception(response.message);
         }

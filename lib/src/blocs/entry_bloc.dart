@@ -1,4 +1,5 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/entry_model.dart';
 import 'package:cv/src/services/api_service.dart';
@@ -24,6 +25,7 @@ class EntryBloc extends BlocBase {
   Observable<EntryModel> get entryStream => _entryController.stream;
 
   void fetchEntry(String profileEntryId) async {
+    logger.info('fetchEntry');
     if (!_isFetchingEntryController.value) {
       _isFetchingEntryController.add(true);
 
@@ -31,7 +33,7 @@ class EntryBloc extends BlocBase {
           .then((String token) => apiService.fetchEntry(token, profileEntryId))
           .then((ResponseModel<EntryModel> response) {
         if (response.error == false) {
-          return _entryController.add(response.data);
+          _entryController.add(response.data);
         } else {
           throw Exception(response.message);
         }

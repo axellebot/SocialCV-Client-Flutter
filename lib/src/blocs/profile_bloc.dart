@@ -34,7 +34,7 @@ class ProfileBloc extends BlocBase {
               apiService.fetchProfileDetails(token, profileId))
           .then((ResponseModel<ProfileModel> response) {
         if (response.error == false) {
-          return _profileController.add(response.data);
+          _profileController.add(response.data);
         } else {
           throw Exception(response.message);
         }

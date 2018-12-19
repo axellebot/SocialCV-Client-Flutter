@@ -35,7 +35,7 @@ class AccountBloc extends BlocBase {
 
   /* Functions */
   void login(String login, String password) async {
-    logger.info('Login');
+    logger.info('login');
     if (!_isLogingController.value) {
       _isLogingController.add(true);
 
@@ -44,11 +44,12 @@ class AccountBloc extends BlocBase {
           .then((AuthLoginResponseModel response) {
         if (response.error == false) {
           if (response.token != null) {
+            // TODO : Fix Save Auth in Shared prefs
             SharedPreferencesService.setAuthToken(response.token);
             SharedPreferencesService.setAuthConnected(true);
             _isAuthenticatedController.add(true);
           }
-          return _accountDetailsController.add(response.user);
+          _accountDetailsController.add(response.user);
         } else {
           throw Exception(response.message);
         }
@@ -62,10 +63,12 @@ class AccountBloc extends BlocBase {
     logger.info('Logout');
     if (!_isLogingController.value) {
       _isLogingController.add(true);
+
       await SharedPreferencesService.deleteAuthToken();
       await SharedPreferencesService.deleteAuthConnected();
       _accountDetailsController.add(null);
       _isAuthenticatedController.add(false);
+
       _isLogingController.add(false);
     }
   }
@@ -79,7 +82,7 @@ class AccountBloc extends BlocBase {
           .then(apiService.fetchAccountDetails)
           .then((ResponseModel<UserModel> response) {
         if (response.error == false) {
-          return _accountDetailsController.add(response.data);
+          _accountDetailsController.add(response.data);
         } else {
           throw Exception(response.message);
         }

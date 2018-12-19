@@ -1,4 +1,5 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/entry_model.dart';
 import 'package:cv/src/services/api_service.dart';
@@ -24,6 +25,7 @@ class EntryListBloc extends BlocBase {
   Observable<List<EntryModel>> get entriesStream => _entriesController.stream;
 
   void fetchGroupEntries(String groupId) async {
+    logger.info('fetchGroupEntries');
     if (!_isFetchingEntriesController.value) {
       _isFetchingEntriesController.add(true);
 
@@ -31,7 +33,7 @@ class EntryListBloc extends BlocBase {
           .then((String token) => apiService.fetchGroupEntries(token, groupId))
           .then((ResponseModelWithArray<EntryModel> response) {
         if (response.error == false) {
-          return _entriesController.add(response.data);
+          _entriesController.add(response.data);
         } else {
           throw Exception(response.message);
         }

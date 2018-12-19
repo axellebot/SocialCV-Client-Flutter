@@ -1,4 +1,5 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/services/api_service.dart';
@@ -23,6 +24,7 @@ class PartBloc extends BlocBase {
   Observable<PartModel> get partStream => _partController.stream;
 
   void fetchProfilePart(String profilePartId) async {
+    logger.info('fetchProfilePart');
     if (!_isFetchingPartController.value) {
       _isFetchingPartController.add(true);
 
@@ -30,7 +32,7 @@ class PartBloc extends BlocBase {
           .then((String token) => apiService.fetchPart(token, profilePartId))
           .then((ResponseModel<PartModel> response) {
         if (response.error == false) {
-          return _partController.add(response.data);
+          _partController.add(response.data);
         } else {
           throw Exception(response.message);
         }

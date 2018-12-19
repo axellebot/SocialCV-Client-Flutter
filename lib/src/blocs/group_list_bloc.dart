@@ -1,4 +1,5 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/group_model.dart';
 import 'package:cv/src/services/api_service.dart';
@@ -25,6 +26,7 @@ class GroupListBloc extends BlocBase {
       _profileGroupsController.stream;
 
   void fetchPartGroups(String profilePartId) async {
+    logger.info('fetchPartGroups');
     if (!_isFetchingGroupsController.value) {
       _isFetchingGroupsController.add(true);
 
@@ -33,7 +35,7 @@ class GroupListBloc extends BlocBase {
               apiService.fetchPartGroups(token, profilePartId))
           .then((ResponseModelWithArray<GroupModel> response) {
         if (response.error == false) {
-          return _profileGroupsController.add(response.data);
+          _profileGroupsController.add(response.data);
         } else {
           throw Exception(response.message);
         }

@@ -27,7 +27,6 @@ class ProfileListBloc extends BlocBase {
 
   void fetchAccountProfiles() async {
     logger.info('fetchAccountProfiles');
-
     if (!_isFetchingProfilesController.value) {
       _isFetchingProfilesController.add(true);
 
@@ -53,14 +52,12 @@ class ProfileListBloc extends BlocBase {
       await SharedPreferencesService.getAuthToken()
           .then((String token) => apiService.fetchProfiles(token, profileTitle))
           .then((ResponseModelWithArray<ProfileModel> response) {
-        if (response.error == true) {
-          throw Exception(response.message);
+        if (response.error == false) {
+          _profilesController.add(response.data);
         } else {
-          return _profilesController.add(response.data);
+          throw Exception(response.message);
         }
-      }).catchError((error) {
-        return _profilesController.addError(error);
-      });
+      }).catchError(_profilesController.addError);
 
       _isFetchingProfilesController.add(false);
     }
