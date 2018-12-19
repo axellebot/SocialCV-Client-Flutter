@@ -3,7 +3,6 @@ import 'package:cv/src/blocs/entry_list_bloc.dart';
 import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/models/entry_model.dart';
 import 'package:cv/src/models/group_model.dart';
-import 'package:cv/src/widgets/card_error_widget.dart';
 import 'package:cv/src/widgets/entry_widget.dart';
 import 'package:cv/src/widgets/error_content_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
@@ -13,10 +12,16 @@ class EntryListWidget extends StatelessWidget {
   EntryListWidget({
     this.fromGroupModel,
     this.fromSearch,
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
   });
 
   final GroupModel fromGroupModel;
   final Object fromSearch;
+  final Axis scrollDirection;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,7 @@ class EntryListWidget extends StatelessWidget {
         } else if (snapshot.hasData) {
           return _buildEntries(context, snapshot.data);
         } else {
-          return _buildLoadingEntries(context);
+          return _buildLoadingEntries(context, fromGroupModel.entryIds.length);
         }
       },
     );
@@ -52,97 +57,47 @@ class EntryListWidget extends StatelessWidget {
   }
 
   Widget _buildError(BuildContext context, error) {
-    if (fromGroupModel.type == "horizontal") {
-      return ListView(
-        scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          CardError(
-            height: 75.0,
-            width: 200.0,
-            message: translateError(context, error),
-          ),
-        ],
-      );
-    } else {
-      return ListView(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        children: <Widget>[
-          ErrorContent(translateError(context, error)),
-        ],
-      );
-    }
+    return ListView(
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
+      children: <Widget>[
+        ErrorContent(
+          translateError(context, error),
+        ),
+      ],
+    );
   }
 
-  Widget _buildLoadingEntries(BuildContext context) {
-    int count = fromGroupModel.entryIds.length;
-
-    if (fromGroupModel.type == "horizontal") {
-      return ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: count,
-        itemBuilder: (BuildContext context, int i) {
-          return Card(
-            elevation: 2.0,
-            child: Container(
-              height: 75.0,
-              width: 300.0,
-              padding: const EdgeInsets.all(20.0),
-              child: LoadingShadowContent(
-                numberOfTitleLines: 1,
-                numberOfContentLines: 4,
-              ),
-            ),
-          );
-        },
-      );
-    } else {
-      return ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        itemCount: count,
-        itemBuilder: (BuildContext context, int i) {
-          return LoadingShadowContent(
-            numberOfTitleLines: 0,
-            numberOfContentLines: 1,
-          );
-        },
-      );
-    }
+  Widget _buildLoadingEntries(BuildContext context, int count) {
+    return ListView.builder(
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
+      itemCount: count,
+      itemBuilder: (BuildContext context, int i) {
+        return Container(
+          height: 75.0,
+          width: 300.0,
+          padding: const EdgeInsets.all(20.0),
+          child: LoadingShadowContent(
+            numberOfTitleLines: 1,
+            numberOfContentLines: 4,
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildEntries(BuildContext context, List<EntryModel> entryModels) {
-    if (fromGroupModel.type == "horizontal") {
-      return ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: entryModels.length,
-        itemBuilder: (BuildContext context, int i) {
-          return Card(
-            elevation: 2.0,
-            child: Container(
-              height: 75.0,
-              width: 300.0,
-              padding: const EdgeInsets.all(20.0),
-              child: EntryWidget(entryModels[i]),
-            ),
-          );
-        },
-      );
-    } else {
-      return ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-        itemCount: entryModels.length,
-        itemBuilder: (BuildContext context, int i) {
-          return Container(
-            padding: EdgeInsets.symmetric(vertical: 5.0),
-            child: EntryWidget(entryModels[i]),
-          );
-        },
-      );
-    }
+    return ListView.builder(
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
+      itemCount: entryModels.length,
+      itemBuilder: (BuildContext context, int i) {
+        return EntryWidget(entryModels[i]);
+      },
+    );
   }
 }

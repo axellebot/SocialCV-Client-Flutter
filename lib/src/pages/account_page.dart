@@ -7,6 +7,7 @@ import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/widgets/card_error_widget.dart';
+import 'package:cv/src/widgets/error_content_widget.dart';
 import 'package:cv/src/widgets/profile_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -53,7 +54,8 @@ class AccountPage extends StatelessWidget {
           if (snapshot.data == false) return _buildNotConnectedAccount(context);
         } else if (snapshot.hasError) {
           return Container(
-              child: Text(translateError(context, snapshot.error)));
+            child: ErrorContent(translateError(context, snapshot.error)),
+          );
         }
         return Container();
       },
@@ -92,7 +94,9 @@ class AccountPage extends StatelessWidget {
         ExpansionTile(
           leading: Icon(MdiIcons.accountBoxMultiple),
           title: Text(Localization.of(context).accountMyProfile),
-          children: <Widget>[_buildProfiles(context, userModel)],
+          children: <Widget>[
+            _buildProfiles(context, userModel),
+          ],
         ),
       ],
     );
@@ -105,7 +109,11 @@ class AccountPage extends StatelessWidget {
   Widget _buildProfiles(BuildContext context, UserModel userModel) {
     return BlocProvider(
       bloc: ProfileListBloc(),
-      child: ProfileListWidget(fromUserModel: userModel),
+      child: ProfileListWidget(
+        fromUserModel: userModel,
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+      ),
     );
   }
 }

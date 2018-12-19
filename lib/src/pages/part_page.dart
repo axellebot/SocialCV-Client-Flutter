@@ -96,7 +96,11 @@ class PartPage extends StatelessWidget {
   Widget _buildPartWidget(PartModel partModel) {
     return BlocProvider<GroupListBloc>(
       bloc: GroupListBloc(),
-      child: GroupListWidget(fromPartModel: partModel),
+      child: GroupListWidget(
+        fromPartModel: partModel,
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+      ),
     );
   }
 }

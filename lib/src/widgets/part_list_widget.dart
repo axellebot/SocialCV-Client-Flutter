@@ -13,10 +13,16 @@ class PartListWidget extends StatelessWidget {
   PartListWidget({
     this.fromProfileModel,
     this.fromSearch,
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
   });
 
   final ProfileModel fromProfileModel;
   final Object fromSearch;
+  final Axis scrollDirection;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +46,7 @@ class PartListWidget extends StatelessWidget {
         } else if (snapshot.hasData) {
           return _buildParts(context, snapshot.data);
         }
-        return _buildLoadingPart(context);
+        return _buildLoadingPart(context, fromProfileModel.partIds.length);
       },
     );
   }
@@ -51,22 +57,20 @@ class PartListWidget extends StatelessWidget {
 
   Widget _buildError(BuildContext context, Object error) {
     return ListView(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
       children: <Widget>[
         CardError(message: translateError(context, error)),
       ],
     );
   }
 
-  Widget _buildLoadingPart(BuildContext context) {
-    int count = fromProfileModel.partIds.length;
-
+  Widget _buildLoadingPart(BuildContext context, int count) {
     return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
       itemCount: count,
       itemBuilder: (BuildContext context, int i) {
         return LoadingShadowContent(
@@ -80,9 +84,9 @@ class PartListWidget extends StatelessWidget {
 
   Widget _buildParts(context, List<PartModel> parts) {
     return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
       itemCount: parts.length,
       itemBuilder: (BuildContext context, int i) {
         return PartWidget(parts[i]);

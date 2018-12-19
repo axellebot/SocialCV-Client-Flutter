@@ -13,10 +13,16 @@ class GroupListWidget extends StatelessWidget {
   GroupListWidget({
     this.fromPartModel,
     this.fromSearch,
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
   });
 
   final PartModel fromPartModel;
   final Object fromSearch;
+  final Axis scrollDirection;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +47,7 @@ class GroupListWidget extends StatelessWidget {
         } else if (snapshot.hasData) {
           return _buildGroups(context, snapshot.data);
         }
-        return _buildLoadingGroups(context);
+        return _buildLoadingGroups(context, fromPartModel.groupIds.length);
       },
     );
   }
@@ -52,22 +58,20 @@ class GroupListWidget extends StatelessWidget {
 
   Widget _buildError(BuildContext context, error) {
     return ListView(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
       children: <Widget>[
         CardError(message: translateError(context, error)),
       ],
     );
   }
 
-  Widget _buildLoadingGroups(BuildContext context) {
-    int count = fromPartModel.groupIds.length;
-
+  Widget _buildLoadingGroups(BuildContext context, int count) {
     return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
       itemCount: count,
       itemBuilder: (BuildContext context, int i) {
         return LoadingShadowContent(
@@ -80,9 +84,9 @@ class GroupListWidget extends StatelessWidget {
 
   Widget _buildGroups(BuildContext context, List<GroupModel> groupModels) {
     return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
       itemCount: groupModels.length,
       itemBuilder: (BuildContext context, int i) {
         return GroupWidget(groupModels[i]);

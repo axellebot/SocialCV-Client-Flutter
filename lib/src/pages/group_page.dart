@@ -99,7 +99,11 @@ class GroupPage extends StatelessWidget {
   Widget _buildGroupWidget(GroupModel groupModel) {
     return BlocProvider<EntryListBloc>(
       bloc: EntryListBloc(),
-      child: EntryListWidget(fromGroupModel: groupModel),
+      child: EntryListWidget(
+        fromGroupModel: groupModel,
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+      ),
     );
   }
 }

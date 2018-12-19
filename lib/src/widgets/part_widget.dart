@@ -13,7 +13,12 @@ class PartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<GroupListBloc>(
       bloc: GroupListBloc(),
-      child: GroupListWidget(fromPartModel: partModel),
+      child: GroupListWidget(
+        fromPartModel: partModel,
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+      ),
     );
   }
 }

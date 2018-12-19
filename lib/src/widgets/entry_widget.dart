@@ -51,53 +51,61 @@ class EntryWidget extends StatelessWidget {
   }
 
   Widget _buildEntryEvent(BuildContext context, EntryModel entryModel) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Card(
+      elevation: 2.0,
+      child: Container(
+        height: 75.0,
+        width: 300.0,
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "${entryModel.startDate}   ${entryModel.endDate}",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: Theme.of(context).accentColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    entryModel.location ?? "",
+                    textAlign: TextAlign.end,
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                )
+              ],
+            ),
             Text(
-              "${entryModel.startDate}   ${entryModel.endDate}",
+              entryModel.name ?? "",
               textAlign: TextAlign.start,
-              style: TextStyle(
-                color: Theme.of(context).accentColor,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Expanded(
               child: Text(
-                entryModel.location ?? "",
-                textAlign: TextAlign.end,
-                style: TextStyle(fontStyle: FontStyle.italic),
+                entryModel.content,
+                textAlign: TextAlign.justify,
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                FlatButton(
+                  child: Text(Localization.of(context).more),
+                  onPressed: () => Navigator.of(context)
+                      .pushNamed(kPathEntries + '/${entryModel.id ?? ""}'),
+                )
+              ],
             )
           ],
         ),
-        Text(
-          entryModel.name ?? "",
-          textAlign: TextAlign.start,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        Expanded(
-          child: Text(
-            entryModel.content,
-            textAlign: TextAlign.justify,
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            FlatButton(
-              child: Text(Localization.of(context).more),
-              onPressed: () => Navigator.of(context)
-                  .pushNamed(kPathEntries + '/${entryModel.id ?? ""}'),
-            )
-          ],
-        )
-      ],
+      ),
     );
   }
 

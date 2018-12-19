@@ -181,7 +181,12 @@ class ProfilePage extends StatelessWidget {
   Widget _buildPartList(BuildContext context, ProfileModel profileModel) {
     return BlocProvider<PartListBloc>(
       bloc: PartListBloc(),
-      child: PartListWidget(fromProfileModel: profileModel),
+      child: PartListWidget(
+        fromProfileModel: profileModel,
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+      ),
     );
   }
 }

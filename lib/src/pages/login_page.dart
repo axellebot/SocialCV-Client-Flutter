@@ -218,8 +218,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _handleNotImplementedYet(BuildContext context) {
-//    Scaffold.of(context).showSnackBar(SnackBar(
-//      content: Text('Not implemented yet !'),
-//    ));
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text('Not implemented yet !'),
+    ));
   }
 }

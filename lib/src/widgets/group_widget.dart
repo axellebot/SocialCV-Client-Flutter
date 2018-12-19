@@ -70,7 +70,7 @@ class GroupWidget extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               FlatButton(
-                child: Text("More"),
+                child: Text(Localization.of(context).more),
                 onPressed: () => Navigator.of(context)
                     .pushNamed(kPathGroups + '/${groupModel.id ?? ""}'),
               ),
@@ -89,7 +89,13 @@ class GroupWidget extends StatelessWidget {
   Widget _buildEntryList(BuildContext context) {
     return BlocProvider(
       bloc: EntryListBloc(),
-      child: EntryListWidget(fromGroupModel: groupModel),
+      child: EntryListWidget(
+        fromGroupModel: groupModel,
+        scrollDirection:
+            (groupModel.type == 'horizontal') ? Axis.horizontal : Axis.vertical,
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+      ),
     );
   }
 }

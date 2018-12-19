@@ -1,6 +1,8 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/entry_bloc.dart';
+import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/models/entry_model.dart';
+import 'package:cv/src/widgets/card_error_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -76,7 +78,8 @@ class EntryPage extends StatelessWidget {
           stream: _entryBloc.entryStream,
           builder: (BuildContext context, AsyncSnapshot<EntryModel> snapshot) {
             if (snapshot.hasError) {
-              return Card(child: Text("Error : ${snapshot.error.toString()}"));
+              return CardError(
+                  message: translateError(context, snapshot.error));
             } else if (snapshot.hasData) {
               return _buildEntry(context, snapshot.data);
             }

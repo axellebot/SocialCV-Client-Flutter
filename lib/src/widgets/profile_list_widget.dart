@@ -14,10 +14,16 @@ class ProfileListWidget extends StatelessWidget {
   ProfileListWidget({
     this.fromUserModel,
     this.fromSearch,
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
   });
 
   final UserModel fromUserModel;
   final Object fromSearch;
+  final Axis scrollDirection;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +48,7 @@ class ProfileListWidget extends StatelessWidget {
         } else if (snapshot.hasData) {
           return _buildProfiles(context, snapshot.data);
         }
-        return _buildLoadingProfiles(context);
+        return _buildLoadingProfiles(context, fromUserModel.profileIds.length);
       },
     );
   }
@@ -53,22 +59,20 @@ class ProfileListWidget extends StatelessWidget {
 
   Widget _buildError(BuildContext context, Object error) {
     return ListView(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
       children: <Widget>[
         CardError(message: translateError(context, error)),
       ],
     );
   }
 
-  Widget _buildLoadingProfiles(BuildContext context) {
-    int count = fromUserModel.profileIds.length;
-
+  Widget _buildLoadingProfiles(BuildContext context, int count) {
     return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
       itemCount: count,
       itemBuilder: (BuildContext context, int i) {
         return LoadingShadowContent(
@@ -83,9 +87,9 @@ class ProfileListWidget extends StatelessWidget {
   Widget _buildProfiles(
       BuildContext context, List<ProfileModel> profileModels) {
     return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
       itemCount: profileModels.length,
       itemBuilder: (BuildContext context, int i) {
         return ProfileWidget(profileModels[i]);
