@@ -1,6 +1,6 @@
 
-# Created by https://www.gitignore.io/api/macos,linux,android,windows,androidstudio,flutter,dart,xcode
-# Edit at https://www.gitignore.io/?templates=macos,linux,android,windows,androidstudio,flutter,dart,xcode
+# Created by https://www.gitignore.io/api/dart,xcode,linux,macos,windows,android,flutter,cocoapods,androidstudio
+# Edit at https://www.gitignore.io/?templates=dart,xcode,linux,macos,windows,android,flutter,cocoapods,androidstudio
 
 ### Android ###
 # Built application files
@@ -183,6 +183,14 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
+### CocoaPods ###
+## CocoaPods GitIgnore Template
+
+# CocoaPods - Only use to conserve bandwidth / Save time on Pushing
+#           - Also handy if you have a large number of dependant pods
+#           - AS PER https://guides.cocoapods.org/using/using-cocoapods.html NEVER IGNORE THE LOCK FILE
+Pods/
+
 ### Dart ###
 # See https://www.dartlang.org/guides/libraries/private-files
 
@@ -274,10 +282,16 @@ $RECYCLE.BIN/
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
-## Build generated
-DerivedData/
+## User settings
+xcuserdata/
 
-## Various settings
+## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
+*.xcscmblueprint
+*.xccheckout
+
+## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
+DerivedData/
+*.moved-aside
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -286,65 +300,6 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-xcuserdata/
-
-## Other
-*.moved-aside
-*.xccheckout
-*.xcscmblueprint
-
-## Obj-C/Swift specific
-*.hmap
-*.ipa
-*.dSYM.zip
-*.dSYM
-
-## Playgrounds
-timeline.xctimeline
-playground.xcworkspace
-
-# Swift Package Manager
-#
-# Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
-# Packages/
-# Package.pins
-# Package.resolved
-.build/
-
-# CocoaPods
-#
-# We recommend against adding the Pods directory to your .gitignore. However
-# you should judge for yourself, the pros and cons are mentioned at:
-# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
-#
-# Pods/
-#
-# Add this line if you want to avoid checking in source code from the Xcode workspace
-# *.xcworkspace
-
-# Carthage
-#
-# Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
-
-Carthage/Build
-
-# fastlane
-#
-# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
-# screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://docs.fastlane.tools/best-practices/source-control/#source-control
-
-fastlane/screenshots/**/*.png
-
-# Code Injection
-#
-# After new code Injection tools there's a generated folder /iOSInjectionProject
-# https://github.com/johnno1962/injectionforxcode
-
-iOSInjectionProject/
-
 
 ### Xcode Patch ###
 *.xcodeproj/*
@@ -354,7 +309,7 @@ iOSInjectionProject/
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
-# End of https://www.gitignore.io/api/macos,linux,android,windows,androidstudio,flutter,dart,xcode
+# End of https://www.gitignore.io/api/dart,xcode,linux,macos,windows,android,flutter,cocoapods,androidstudio
 
 ### Custom ###
 
@@ -370,3 +325,5 @@ ios/.generated/
 packages
 
 *.g.dart
+
+ios/.symlinks/ # Plugins
