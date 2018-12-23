@@ -1,6 +1,6 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
+import 'package:cv/src/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 class THEME {

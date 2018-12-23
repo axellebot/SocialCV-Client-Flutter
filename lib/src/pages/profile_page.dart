@@ -1,16 +1,16 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/part_list_bloc.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
-import 'package:cv/src/commons/logger.dart';
-import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/models/profile_model.dart';
+import 'package:cv/src/utils/logger.dart';
+import 'package:cv/src/utils/utils.dart';
 import 'package:cv/src/widgets/arc_banner_image_widget.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:cv/src/widgets/part_list_widget.dart';
 import 'package:flutter/material.dart';
 
-// TODO : Build owner interraction with ProfileModel.owner #
+// TODO : Build owner interaction with ProfileModel.owner
 
 class ProfilePage extends StatelessWidget {
   ProfilePage(this.profileId);
@@ -20,57 +20,56 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     logger.info('Building ProfilePage');
-    return Scaffold(
-      body: _buildBody(context),
-    );
-  }
 
-  Widget _buildBody(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
     _profileBloc.fetchProfileDetails(profileId);
-    return Stack(
-      children: <Widget>[
-        _buildProgressBar(context),
-        _buildProfile(context),
-        Positioned(
-          top: 0.0,
-          left: 0.0,
-          right: 0.0,
-          child: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-          ),
-        ),
-      ],
-    );
-  }
 
-  Widget _buildProgressBar(BuildContext context) {
-    ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
-    return StreamBuilder<bool>(
-      stream: _profileBloc.isFetchingProfileStream,
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.data == true) {
-          return LinearProgressIndicator();
-        }
-        return Container();
-      },
-    );
-  }
-
-  Widget _buildProfile(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
+    return Scaffold(
+      body: Stack(
         children: <Widget>[
-          _buildHeader(context),
-          _buildMain(context),
+          StreamBuilder<bool>(
+            stream: _profileBloc.isFetchingProfileStream,
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (snapshot.data == true) {
+                return LinearProgressIndicator();
+              }
+              return Container();
+            },
+          ),
+          _ProfilePageDetails(),
+          Positioned(
+            top: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+            ),
+          ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildHeader(BuildContext context) {
+class _ProfilePageDetails extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: <Widget>[
+          _ProfilePageHeader(),
+          _ProfilePageMain(),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfilePageHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
 
     var textTheme = Theme.of(context).textTheme;
@@ -161,8 +160,11 @@ class ProfilePage extends StatelessWidget {
       },
     );
   }
+}
 
-  Widget _buildMain(BuildContext context) {
+class _ProfilePageMain extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
 
     return StreamBuilder<ProfileModel>(
@@ -171,22 +173,18 @@ class ProfilePage extends StatelessWidget {
         if (snapshot.hasError) {
           return Text(translateError(context, snapshot.error));
         } else if (snapshot.hasData) {
-          return _buildPartList(context, snapshot.data);
+          return BlocProvider<PartListBloc>(
+            bloc: PartListBloc(),
+            child: PartListWidget(
+              fromProfileModel: snapshot.data,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+            ),
+          );
         }
         return CircularProgressIndicator();
       },
-    );
-  }
-
-  Widget _buildPartList(BuildContext context, ProfileModel profileModel) {
-    return BlocProvider<PartListBloc>(
-      bloc: PartListBloc(),
-      child: PartListWidget(
-        fromProfileModel: profileModel,
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-      ),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:cv/src/app.dart';
 import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/application_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/commons/logger.dart';
+import 'package:cv/src/utils/logger.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {

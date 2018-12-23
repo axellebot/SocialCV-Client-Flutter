@@ -1,9 +1,9 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/services/api_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
+import 'package:cv/src/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// Business Logic Component for Profile Part Fetch
@@ -23,7 +23,7 @@ class PartBloc extends BlocBase {
 
   Observable<PartModel> get partStream => _partController.stream;
 
-  void fetchProfilePart(String profilePartId) async {
+  void fetchPart(String profilePartId) async {
     logger.info('fetchProfilePart');
     if (!_isFetchingPartController.value) {
       _isFetchingPartController.add(true);

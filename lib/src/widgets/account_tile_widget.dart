@@ -1,8 +1,8 @@
 import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/user_model.dart';
+import 'package:cv/src/utils/navigation.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -15,15 +15,18 @@ class AccountTile extends StatelessWidget {
       stream: _accountBloc.isAuthenticatedStream,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data == true) return _buildConnectedAccount(context);
-          if (snapshot.data == false) return _buildNotConnectedAccount(context);
+          if (snapshot.data == true) return _AccountTileConnected();
+          if (snapshot.data == false) return _AccountTileNotConnected();
         }
         return Container();
       },
     );
   }
+}
 
-  Widget _buildConnectedAccount(BuildContext context) {
+class _AccountTileConnected extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
     return StreamBuilder<UserModel>(
       stream: _accountBloc.fetchAccountDetailsStream,
@@ -48,18 +51,17 @@ class AccountTile extends StatelessWidget {
       },
     );
   }
+}
 
-  Widget _buildNotConnectedAccount(BuildContext context) {
+class _AccountTileNotConnected extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       child: ListTile(
         title: Center(child: Text(Localization.of(context).loginCTA)),
         trailing: Icon(MdiIcons.login),
       ),
-      onTap: () => _navigateToLogin(context),
+      onTap: () => navigateToLogin(context),
     );
-  }
-
-  void _navigateToLogin(BuildContext context) {
-    Navigator.of(context).pushNamed(kPathLogin);
   }
 }

@@ -6,9 +6,7 @@ import 'package:cv/src/blocs/main_bloc.dart';
 import 'package:cv/src/blocs/part_bloc.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/commons/colors.dart';
-import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/paths.dart';
-import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/pages/entry_page.dart';
 import 'package:cv/src/pages/group_page.dart';
@@ -18,21 +16,20 @@ import 'package:cv/src/pages/part_page.dart';
 import 'package:cv/src/pages/profile_page.dart';
 import 'package:cv/src/pages/search_page.dart';
 import 'package:cv/src/pages/settings_page.dart';
+import 'package:cv/src/utils/logger.dart';
+import 'package:cv/src/utils/utils.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class CVApp extends StatelessWidget {
-  // Blocs
-  // TODO : Check if statefulWidget needed for blocs
-
   // Routes
   final Router router = Router();
 
   @override
   Widget build(BuildContext context) {
-    logger.info('Building CVApp');
+    logger.info('Building App');
 
     // Set-up error reporting
     FlutterError.onError = (FlutterErrorDetails error) {
@@ -78,15 +75,18 @@ class CVApp extends StatelessWidget {
     router.define(
       kPathHome,
       handler: Handler(
-          handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-        return _mainPageProvider;
-      }),
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          logger.info("Navigate to $kPathHome");
+          return _mainPageProvider;
+        },
+      ),
     );
 
     router.define(
       kPathAccount,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          logger.info("Navigate to $kPathAccount");
           return _mainPageProvider;
         },
       ),
@@ -98,6 +98,7 @@ class CVApp extends StatelessWidget {
       kPathLogin,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          logger.info("Navigate to $kPathLogin");
           return LoginPage();
         },
       ),
@@ -127,6 +128,8 @@ class CVApp extends StatelessWidget {
       "$kPathProfiles/:$kParamProfileId",
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          logger.info("Navigate to $kPathProfiles/:$kParamProfileId");
+
           return BlocProvider<ProfileBloc>(
             bloc: ProfileBloc(),
             child: ProfilePage(params[kParamProfileId][0]),
@@ -139,6 +142,8 @@ class CVApp extends StatelessWidget {
       "$kPathParts/:$kParamPartId",
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          logger.info("Navigate to $kPathParts/:$kParamPartId");
+
           return BlocProvider<PartBloc>(
             bloc: PartBloc(),
             child: PartPage(params[kParamPartId][0]),
@@ -151,6 +156,8 @@ class CVApp extends StatelessWidget {
       "$kPathGroups/:$kParamGroupId",
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          logger.info("Navigate to $kPathGroups/:$kParamGroupId");
+
           return BlocProvider<GroupBloc>(
             bloc: GroupBloc(),
             child: GroupPage(params[kParamGroupId][0]),
@@ -163,6 +170,8 @@ class CVApp extends StatelessWidget {
       "$kPathEntries/:$kParamEntryId",
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          logger.info("Navigate to $kPathEntries/:$kParamEntryId");
+
           return BlocProvider<EntryBloc>(
             bloc: EntryBloc(),
             child: EntryPage(params[kParamEntryId][0]),

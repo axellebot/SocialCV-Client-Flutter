@@ -1,8 +1,8 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/part_list_bloc.dart';
-import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/models/profile_model.dart';
+import 'package:cv/src/utils/utils.dart';
 import 'package:cv/src/widgets/card_error_widget.dart';
 import 'package:cv/src/widgets/error_content_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
@@ -20,6 +20,7 @@ class PartListWidget extends StatelessWidget {
 
   final ProfileModel fromProfileModel;
   final Object fromSearch;
+
   final Axis scrollDirection;
   final bool shrinkWrap;
   final ScrollPhysics physics;
@@ -27,35 +28,102 @@ class PartListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (fromProfileModel != null) {
-      return _buildFromProfileModel(context);
+      return _PartListFromProfile(
+        fromProfileModel,
+        scrollDirection: this.scrollDirection,
+        shrinkWrap: this.shrinkWrap,
+        physics: this.physics,
+      );
     } else if (fromSearch != null) {
-      return _buildFromSearch(context);
+      return _PartListFromSearch(
+        fromSearch,
+        scrollDirection: this.scrollDirection,
+        shrinkWrap: this.shrinkWrap,
+        physics: this.physics,
+      );
     }
     return ErrorContent("Not supported");
   }
+}
 
-  Widget _buildFromProfileModel(BuildContext context) {
+class _PartListFromProfile extends StatelessWidget {
+  _PartListFromProfile(this.profileModel,
+      {this.scrollDirection = Axis.vertical,
+      this.shrinkWrap = false,
+      this.physics});
+
+  final ProfileModel profileModel;
+
+  final Axis scrollDirection;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
+
+  @override
+  Widget build(BuildContext context) {
     PartListBloc _partListBloc = BlocProvider.of<PartListBloc>(context);
-    _partListBloc.fetchProfileParts(fromProfileModel.id);
+    _partListBloc.fetchProfileParts(profileModel.id);
 
     return StreamBuilder<List<PartModel>>(
       stream: _partListBloc.partsStream,
       builder: (BuildContext context, AsyncSnapshot<List<PartModel>> snapshot) {
         if (snapshot.hasError) {
-          return _buildError(context, snapshot.error);
+          return _PartListError(
+            snapshot.error,
+            scrollDirection: this.scrollDirection,
+            shrinkWrap: this.shrinkWrap,
+            physics: this.physics,
+          );
         } else if (snapshot.hasData) {
-          return _buildParts(context, snapshot.data);
+          return _PartList(
+            snapshot.data,
+            scrollDirection: this.scrollDirection,
+            shrinkWrap: this.shrinkWrap,
+            physics: this.physics,
+          );
         }
-        return _buildLoadingPart(context, fromProfileModel.partIds.length);
+        return _PartListLoading(
+          profileModel.partIds.length,
+          scrollDirection: this.scrollDirection,
+          shrinkWrap: this.shrinkWrap,
+          physics: this.physics,
+        );
       },
     );
   }
+}
 
-  Widget _buildFromSearch(context) {
+class _PartListFromSearch extends StatelessWidget {
+  _PartListFromSearch(this.search,
+      {this.scrollDirection = Axis.vertical,
+      this.shrinkWrap = false,
+      this.physics});
+
+  final Object search;
+
+  final Axis scrollDirection;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
+
+  @override
+  Widget build(BuildContext context) {
     return ErrorContent("Not Implemented Yet");
   }
+}
 
-  Widget _buildError(BuildContext context, Object error) {
+class _PartListError extends StatelessWidget {
+  _PartListError(this.error,
+      {this.scrollDirection = Axis.vertical,
+      this.shrinkWrap = false,
+      this.physics});
+
+  final Object error;
+
+  final Axis scrollDirection;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
+
+  @override
+  Widget build(BuildContext context) {
     return ListView(
       scrollDirection: scrollDirection,
       shrinkWrap: shrinkWrap,
@@ -65,8 +133,22 @@ class PartListWidget extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _buildLoadingPart(BuildContext context, int count) {
+class _PartListLoading extends StatelessWidget {
+  const _PartListLoading(this.count,
+      {this.scrollDirection = Axis.vertical,
+      this.shrinkWrap = false,
+      this.physics});
+
+  final int count;
+
+  final Axis scrollDirection;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
+
+  @override
+  Widget build(BuildContext context) {
     return ListView.builder(
       scrollDirection: scrollDirection,
       shrinkWrap: shrinkWrap,
@@ -81,8 +163,22 @@ class PartListWidget extends StatelessWidget {
       },
     );
   }
+}
 
-  Widget _buildParts(context, List<PartModel> parts) {
+class _PartList extends StatelessWidget {
+  _PartList(this.parts,
+      {this.scrollDirection = Axis.vertical,
+      this.shrinkWrap = false,
+      this.physics});
+
+  final List<PartModel> parts;
+
+  final Axis scrollDirection;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
+
+  @override
+  Widget build(BuildContext context) {
     return ListView.builder(
       scrollDirection: scrollDirection,
       shrinkWrap: shrinkWrap,

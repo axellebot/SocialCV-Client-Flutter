@@ -1,4 +1,4 @@
-import 'package:cv/src/commons/utils.dart';
+import 'package:cv/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class InitialCircleAvatar extends StatefulWidget {

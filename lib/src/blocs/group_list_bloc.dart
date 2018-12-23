@@ -1,9 +1,9 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/group_model.dart';
 import 'package:cv/src/services/api_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
+import 'package:cv/src/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// Business Logic Component for Group List Fetch

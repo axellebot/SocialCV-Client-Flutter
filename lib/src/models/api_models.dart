@@ -1,9 +1,9 @@
-import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/models/entry_model.dart';
 import 'package:cv/src/models/group_model.dart';
 import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/models/user_model.dart';
+import 'package:cv/src/utils/logger.dart';
 import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
