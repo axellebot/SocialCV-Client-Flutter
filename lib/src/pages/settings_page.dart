@@ -1,3 +1,4 @@
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/widgets/theme_switch_tile_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Building SettingsPage');
+    logger.info('Building SettingsPage');
     return Scaffold(
       appBar: _buildAppBar(context),
       body: _buildBody(context),
@@ -22,6 +23,8 @@ class SettingsPage extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return SafeArea(
+      left: false,
+      right: false,
       child: ListView(
         children: [
           ThemeSwitchTile(),

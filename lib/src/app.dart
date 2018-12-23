@@ -1,13 +1,20 @@
 import 'package:cv/src/blocs/application_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/entry_bloc.dart';
+import 'package:cv/src/blocs/group_bloc.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
+import 'package:cv/src/blocs/part_bloc.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/commons/colors.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/pages/entry_page.dart';
+import 'package:cv/src/pages/group_page.dart';
 import 'package:cv/src/pages/login_page.dart';
 import 'package:cv/src/pages/main_page.dart';
+import 'package:cv/src/pages/part_page.dart';
 import 'package:cv/src/pages/profile_page.dart';
 import 'package:cv/src/pages/search_page.dart';
 import 'package:cv/src/pages/settings_page.dart';
@@ -25,7 +32,8 @@ class CVApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Building CVApp');
+    logger.info('Building CVApp');
+
     // Set-up error reporting
     FlutterError.onError = (FlutterErrorDetails error) {
       printException(error.exception, error.stack, error.context);
@@ -36,66 +44,10 @@ class CVApp extends StatelessWidget {
       child: MainPage(),
     );
 
-    ApplicationBloc _appBloc = BlocProvider.of<ApplicationBloc>(context);
-
     // Defining routes
-    router.define(
-      kPathHome,
-      handler: Handler(
-          handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-        return _mainPageProvider;
-      }),
-    );
+    _defineRoutes(_mainPageProvider);
 
-    router.define(
-      kPathAccount,
-      handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          return _mainPageProvider;
-        },
-      ),
-    );
-
-    // TODO : Check other solution to avoid LoginBloc recreation when
-    // LoginBloc rebuild (caused by input change)
-    router.define(
-      kPathLogin,
-      handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          return LoginPage();
-        },
-      ),
-    );
-
-    router.define(
-      "$kPathProfile/:$kParamProfileId",
-      handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          return BlocProvider<ProfileBloc>(
-            bloc: ProfileBloc(),
-            child: ProfilePage(params[kParamProfileId][0]),
-          );
-        },
-      ),
-    );
-
-    router.define(
-      kPathSettings,
-      handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          return SettingsPage();
-        },
-      ),
-    );
-
-    router.define(
-      kPathSearch,
-      handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          return SearchPage();
-        },
-      ),
-    );
+    ApplicationBloc _appBloc = BlocProvider.of<ApplicationBloc>(context);
 
     return StreamBuilder<String>(
         stream: _appBloc.themeStream,
@@ -120,6 +72,104 @@ class CVApp extends StatelessWidget {
 //            showSemanticsDebugger: true,
           );
         });
+  }
+
+  void _defineRoutes(BlocProvider<MainBloc> _mainPageProvider) {
+    router.define(
+      kPathHome,
+      handler: Handler(
+          handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+        return _mainPageProvider;
+      }),
+    );
+
+    router.define(
+      kPathAccount,
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return _mainPageProvider;
+        },
+      ),
+    );
+
+    // TODO : Check other solution to avoid LoginBloc recreation when
+    // LoginPage rebuild (caused by input change)
+    router.define(
+      kPathLogin,
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return LoginPage();
+        },
+      ),
+    );
+
+    router.define(
+      kPathSettings,
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return SettingsPage();
+        },
+      ),
+    );
+
+    // TODO : Check other solution to avoid SearchBloc recreation when
+    // SearchPage rebuild (caused by input change)
+    router.define(
+      kPathSearch,
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return SearchPage();
+        },
+      ),
+    );
+
+    router.define(
+      "$kPathProfiles/:$kParamProfileId",
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return BlocProvider<ProfileBloc>(
+            bloc: ProfileBloc(),
+            child: ProfilePage(params[kParamProfileId][0]),
+          );
+        },
+      ),
+    );
+
+    router.define(
+      "$kPathParts/:$kParamPartId",
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return BlocProvider<PartBloc>(
+            bloc: PartBloc(),
+            child: PartPage(params[kParamPartId][0]),
+          );
+        },
+      ),
+    );
+
+    router.define(
+      "$kPathGroups/:$kParamGroupId",
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return BlocProvider<GroupBloc>(
+            bloc: GroupBloc(),
+            child: GroupPage(params[kParamGroupId][0]),
+          );
+        },
+      ),
+    );
+
+    router.define(
+      "$kPathEntries/:$kParamEntryId",
+      handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          return BlocProvider<EntryBloc>(
+            bloc: EntryBloc(),
+            child: EntryPage(params[kParamEntryId][0]),
+          );
+        },
+      ),
+    );
   }
 
   ThemeData _buildCVTheme(String theme) {

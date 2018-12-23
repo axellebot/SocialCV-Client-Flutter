@@ -4,6 +4,7 @@ class LocalizationFR implements Localization {
   @override
   String get appName => "Social CV";
 
+  // Login Page
   @override
   String get loginTitle => "Connexion";
 
@@ -61,45 +62,130 @@ class LocalizationFR implements Localization {
   @override
   String get loginOr => "OU";
 
-  @override
-  String get forgotPasswordTitle => "Retrouvez votre mot de passe";
-
-  @override
-  String get forgotPasswordExplain =>
-      "Renseignez votre e-mail et nous vous enverrons les instructions pour réinitialiser votre mote de passe";
-
-  @override
-  String get forgotPasswordResetCTA => "Réinitialiser mon mot de passe";
-
-  @override
-  String get forgotPasswordNoEmailTitle => "Email non renseigné";
-
-  @override
-  String get forgotPasswordNoEmailExplain =>
-      "Mercie de renseigner votre e-mail";
-
-  @override
-  String get forgotPasswordSuccessMessage =>
-      "Email with instructions has been send.";
-
-  @override
-  String get forgotPasswordErrorMessage =>
-      "Une érreur c'est produite pendant l'envoie de l'e-mail avec les instructions";
-
+  // Home Page
   @override
   String get homeTitle => "Social CV";
 
   @override
   String get homeWelcome => "Bienvenue sur notre nouveau réseau social de CV !";
 
+  // Account Page
   @override
   String get accountMyProfile => "Mes profils";
 
+  // Profile Page
   @override
   String get profileTitle => "Profil";
 
+  // Settings Pages
+
   @override
   String get settingsTitle => "Paramètres";
+
+  @override
+  String get settingsCTA => "Paramètres";
+
+  @override
+  String get settingsThemeCTA => "Mode Sombre";
+
+  @override
+  String get settingsThemeDefault => "Défaut";
+
+  @override
+  String get settingsThemeLight => "Claire";
+
+  @override
+  String get settingsThemeDark => "Sombre";
+
+  // Search Page
+  @override
+  String get searchTitle => "Recherche";
+
+  @override
+  String get searchSearchBarHint => "Rechercher un profil ...";
+
+  // Exception Error
+  @override
+  String get exceptionFormatException => "Exception : Mauvais Format";
+
+  @override
+  String get exceptionTimeoutException => "Exception : Requete Expiré";
+
+  // Api Error
+  @override
+  String get apiErrorWrongPasswordError => "Mauvais mot de passe";
+
+  @override
+  String get apiErrorUserNotFoundError => "Utilisateur introuvable";
+
+  // Server Error : HTTP 400
+  @override
+  String get httpClientErrorBadRequest => "Mauvaise requete";
+
+  @override
+  String get httpClientErrorPaymentRequired => "Paiement requis";
+
+  @override
+  String get httpClientErrorForbidden => "Interdit";
+
+  @override
+  String get httpClientErrorNotFound => "Introuvable";
+
+  @override
+  String get httpClientErrorMethodNotAllowed => "Non autorisé";
+
+  @override
+  String get httpClientErrorNotAcceptable => "Non acceptable";
+
+  @override
+  String get httpClientErrorRequestTimeout => "Requete expirée";
+
+  @override
+  String get httpClientErrorConflict => "Conflit";
+
+  @override
+  String get httpClientErrorGone => "Disparu";
+
+  @override
+  String get httpClientErrorLengthRequired => "Taille requise";
+
+  @override
+  String get httpClientErrorPayloadTooLarge => "Payload trop large";
+
+  @override
+  String get httpClientErrorURITooLong => "Lien trop long";
+
+  @override
+  String get httpClientErrorUnsupportedMediaType =>
+      "Type de média non supporté";
+
+  @override
+  String get httpClientErrorExpectationFailed => "Échoué";
+
+  @override
+  String get httpClientErrorUpgradeRequired => "Mise à jour requise";
+
+  // Server Error : HTTP 500
+  @override
+  String get httpServerErrorInternalServerError => "Erreur Serveur interne";
+
+  @override
+  String get httpServerErrorNotImplemented => "Non implementé";
+
+  @override
+  String get httpServerErrorBadGateway => "Mauvaise passerelle";
+
+  @override
+  String get httpServerErrorServiceUnavailable => "Service non disponible ";
+
+  @override
+  String get httpServerErrorGatewayTimeout => "Temps ecoulé";
+
+  @override
+  String get httpServerErrorHttpVersionNotSupported =>
+      "Version HTTP non supporté";
+
+  // Menu Widget
 
   @override
   String get menuPPCTA => "Politique de confidentialité";
@@ -107,6 +193,7 @@ class LocalizationFR implements Localization {
   @override
   String get menuToSCTA => "Termes de Service";
 
+  // Others
   @override
   String get middleDot => "·";
 
@@ -124,21 +211,6 @@ class LocalizationFR implements Localization {
 
   @override
   String get cancel => "Annuler";
-
-  @override
-  String get settingsCTA => "Paramètres";
-
-  @override
-  String get settingsThemeCTA => "Mode Sombre";
-
-  @override
-  String get settingsThemeDefault => "Défaut";
-
-  @override
-  String get settingsThemeLight => "Claire";
-
-  @override
-  String get settingsThemeDark => "Sombre";
 
   @override
   String get account => "Compte";
@@ -188,60 +260,31 @@ class LocalizationFR implements Localization {
   @override
   String get logged => "Connecté";
 
-  // Api Error
-  String get apiErrorWrongPasswordError => "Mauvais mot de passe";
-
-  String get apiErrorUserNotFoundError => "Utilisateur introuvable";
-
-  // Server Error : HTTP 400
-  String get httpClientErrorBadRequest => "Mauvaise requete";
-
-  String get httpClientErrorPaymentRequired => "Paiement requis";
-
-  String get httpClientErrorForbidden => "Interdit";
-
-  String get httpClientErrorNotFound => "Introuvable";
-
-  String get httpClientErrorMethodNotAllowed => "Non autorisé";
-
-  String get httpClientErrorNotAcceptable => "Non acceptable";
-
-  String get httpClientErrorRequestTimeout => "Requete expirée";
-
-  String get httpClientErrorConflict => "Conflit";
-
-  String get httpClientErrorGone => "Disparu";
-
-  String get httpClientErrorLengthRequired => "Taille requise";
-
-  String get httpClientErrorPayloadTooLarge => "Payload trop large";
-
-  String get httpClientErrorURITooLong => "Lien trop long";
-
-  String get httpClientErrorUnsupportedMediaType =>
-      "Type de média non supporté";
-
-  String get httpClientErrorExpectationFailed => "Échoué";
-
-  String get httpClientErrorUpgradeRequired => "Mise à jour requise";
-
-  // Server Error : HTTP 500
   @override
-  String get httpServerErrorInternalServerError => "Erreur Serveur interne";
+  String get more => "Plus";
 
   @override
-  String get httpServerErrorNotImplemented => "Non implementé";
+  String get forgotPasswordTitle => "Retrouvez votre mot de passe";
 
   @override
-  String get httpServerErrorBadGateway => "Mauvaise passerelle";
+  String get forgotPasswordExplain =>
+      "Renseignez votre e-mail et nous vous enverrons les instructions pour réinitialiser votre mote de passe";
 
   @override
-  String get httpServerErrorServiceUnavailable => "Service non disponible ";
+  String get forgotPasswordResetCTA => "Réinitialiser mon mot de passe";
 
   @override
-  String get httpServerErrorGatewayTimeout => "Temps ecoulé";
+  String get forgotPasswordNoEmailTitle => "Email non renseigné";
 
   @override
-  String get httpServerErrorHttpVersionNotSupported =>
-      "Version HTTP non supporté";
+  String get forgotPasswordNoEmailExplain =>
+      "Mercie de renseigner votre e-mail";
+
+  @override
+  String get forgotPasswordSuccessMessage =>
+      "Email with instructions has been send.";
+
+  @override
+  String get forgotPasswordErrorMessage =>
+      "Une érreur c'est produite pendant l'envoie de l'e-mail avec les instructions";
 }

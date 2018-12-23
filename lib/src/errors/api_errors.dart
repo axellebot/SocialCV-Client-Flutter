@@ -11,3 +11,11 @@ class ApiErrorWrongPasswordError extends BaseError {
 class ApiErrorUserNotFoundError extends BaseError {
   ApiErrorUserNotFoundError() : super("User Not Found");
 }
+
+class ApiErrorWrongPaginationError extends BaseError {
+  ApiErrorWrongPaginationError() : super("Wrong Pagination");
+}
+
+class ApiErrorProfileNotFoundError extends BaseError {
+  ApiErrorProfileNotFoundError() : super("Profile Not found");
+}

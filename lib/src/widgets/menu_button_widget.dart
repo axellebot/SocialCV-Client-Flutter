@@ -5,7 +5,7 @@ import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:cv/src/widgets/menu_bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 
-class MenuIconButton extends StatelessWidget {
+class MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);

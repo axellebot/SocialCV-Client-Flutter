@@ -1,11 +1,13 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/part_list_bloc.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
-import 'package:cv/src/blocs/profile_part_bloc.dart';
+import 'package:cv/src/commons/logger.dart';
+import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/models/profile_model.dart';
-import 'package:cv/src/widgets/arc_banner_image.dart';
+import 'package:cv/src/widgets/arc_banner_image_widget.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
-import 'package:cv/src/widgets/profile_part_widget.dart';
+import 'package:cv/src/widgets/part_list_widget.dart';
 import 'package:flutter/material.dart';
 
 // TODO : Build owner interraction with ProfileModel.owner #
@@ -17,7 +19,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Building ProfilePage');
+    logger.info('Building ProfilePage');
     return Scaffold(
       body: _buildBody(context),
     );
@@ -46,7 +48,7 @@ class ProfilePage extends StatelessWidget {
   Widget _buildProgressBar(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
     return StreamBuilder<bool>(
-      stream: _profileBloc.isFetchingStream,
+      stream: _profileBloc.isFetchingProfileStream,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.data == true) {
           return LinearProgressIndicator();
@@ -58,6 +60,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildProfile(BuildContext context) {
     return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: Column(
         children: <Widget>[
           _buildHeader(context),
@@ -75,8 +78,6 @@ class ProfilePage extends StatelessWidget {
     return StreamBuilder<ProfileModel>(
       stream: _profileBloc.profileStream,
       builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
-        bool dataLoaded = false;
-
         Widget titleWidget = LoadingShadowContent(
           numberOfTitleLines: 1,
           numberOfContentLines: 0,
@@ -164,47 +165,28 @@ class ProfilePage extends StatelessWidget {
   Widget _buildMain(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
 
-    return SafeArea(
-      child: StreamBuilder<ProfileModel>(
-        stream: _profileBloc.profileStream,
-        builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
-          if (snapshot.hasError) {
-            return Text("Error ${snapshot.error.toString()}");
-          } else if (snapshot.hasData) {
-            return Column(
-              children: _buildPart(context, snapshot.data.partIds),
-            );
-          }
-          return Column(
-            children: <Widget>[
-              LoadingShadowContent(
-                numberOfTitleLines: 1,
-                numberOfContentLines: 4,
-              ),
-              LoadingShadowContent(
-                numberOfTitleLines: 1,
-                numberOfContentLines: 4,
-              ),
-              LoadingShadowContent(
-                numberOfTitleLines: 1,
-                numberOfContentLines: 4,
-              ),
-            ],
-          );
-        },
-      ),
+    return StreamBuilder<ProfileModel>(
+      stream: _profileBloc.profileStream,
+      builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
+        if (snapshot.hasError) {
+          return Text(translateError(context, snapshot.error));
+        } else if (snapshot.hasData) {
+          return _buildPartList(context, snapshot.data);
+        }
+        return CircularProgressIndicator();
+      },
     );
   }
 
-  List<Widget> _buildPart(BuildContext context, List<String> partIds) {
-    List<Widget> _partWidgets = [];
-
-    partIds.forEach((String id) {
-      _partWidgets.add(BlocProvider<ProfilePartBloc>(
-        bloc: ProfilePartBloc(),
-        child: ProfilePart(id),
-      ));
-    });
-    return _partWidgets;
+  Widget _buildPartList(BuildContext context, ProfileModel profileModel) {
+    return BlocProvider<PartListBloc>(
+      bloc: PartListBloc(),
+      child: PartListWidget(
+        fromProfileModel: profileModel,
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+      ),
+    );
   }
 }

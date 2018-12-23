@@ -1,9 +1,11 @@
 import 'package:cv/src/localizations/localization.dart';
 
 class LocalizationEN implements Localization {
+  // App
   @override
   String get appName => "Social CV";
 
+  // Login Page
   @override
   String get loginTitle => "Connection";
 
@@ -59,42 +61,22 @@ class LocalizationEN implements Localization {
   @override
   String get loginOr => "OR";
 
-  @override
-  String get forgotPasswordTitle => "Retrieve password";
-
-  @override
-  String get forgotPasswordExplain =>
-      "Enter your login email and we'll send you instructions to reset your password";
-
-  @override
-  String get forgotPasswordResetCTA => "Reset password";
-
-  @override
-  String get forgotPasswordNoEmailTitle => "Empty email";
-
-  @override
-  String get forgotPasswordNoEmailExplain => "Please provide an email";
-
-  @override
-  String get forgotPasswordSuccessMessage =>
-      "Email with instructions has been send.";
-
-  @override
-  String get forgotPasswordErrorMessage =>
-      "An error occurred while sending the email with instructions";
-
+  // Home Page
   @override
   String get homeTitle => "Social CV";
 
   @override
   String get homeWelcome => "Welcome on our new resume social network !";
 
+  // Account Page
   @override
   String get accountMyProfile => "My profiles";
 
+  // Profile Page
   @override
   String get profileTitle => "Profile";
 
+  // Settings Page
   @override
   String get settingsTitle => "Settings";
 
@@ -110,12 +92,101 @@ class LocalizationEN implements Localization {
   @override
   String get settingsThemeDark => "Dark";
 
+  // Search Page
+  @override
+  String get searchTitle => "Search";
+
+  @override
+  String get searchSearchBarHint => "Search resume...";
+
+  // Menu Widget
   @override
   String get menuPPCTA => "Privacy Policy";
 
   @override
   String get menuToSCTA => "Terms of Service";
 
+  // Exception Error
+  @override
+  String get exceptionFormatException => "Exception : Wrong Format";
+
+  @override
+  String get exceptionTimeoutException => "Exception : Request Timeout";
+
+  // Api Error
+  @override
+  String get apiErrorWrongPasswordError => "Wrong password";
+
+  @override
+  String get apiErrorUserNotFoundError => "User not found";
+
+  // Server Error : HTTP 400
+  @override
+  String get httpClientErrorBadRequest => "Bad request";
+
+  @override
+  String get httpClientErrorPaymentRequired => "Payment required";
+
+  @override
+  String get httpClientErrorForbidden => "Forbidden";
+
+  @override
+  String get httpClientErrorNotFound => "Not found";
+
+  @override
+  String get httpClientErrorMethodNotAllowed => "Not allowed";
+
+  @override
+  String get httpClientErrorNotAcceptable => "Not acceptable";
+
+  @override
+  String get httpClientErrorRequestTimeout => "Request timeout";
+
+  @override
+  String get httpClientErrorConflict => "Conflict";
+
+  @override
+  String get httpClientErrorGone => "Gone";
+
+  @override
+  String get httpClientErrorLengthRequired => "Length required";
+
+  @override
+  String get httpClientErrorPayloadTooLarge => "Payload too large";
+
+  @override
+  String get httpClientErrorURITooLong => "URI too long";
+
+  @override
+  String get httpClientErrorUnsupportedMediaType => "Unsupported media type";
+
+  @override
+  String get httpClientErrorExpectationFailed => "Expectation Failed";
+
+  @override
+  String get httpClientErrorUpgradeRequired => "Upgrade required";
+
+  // Server Error : HTTP 500
+  @override
+  String get httpServerErrorInternalServerError => "Internal Server Error";
+
+  @override
+  String get httpServerErrorNotImplemented => "Not implemented";
+
+  @override
+  String get httpServerErrorBadGateway => "Bad Gateway";
+
+  @override
+  String get httpServerErrorServiceUnavailable => "Service Unavailable";
+
+  @override
+  String get httpServerErrorGatewayTimeout => "Gateway Timeout";
+
+  @override
+  String get httpServerErrorHttpVersionNotSupported =>
+      "HTTP Version Not Supported";
+
+  // Others
   @override
   String get middleDot => "·";
 
@@ -185,59 +256,30 @@ class LocalizationEN implements Localization {
   @override
   String get logged => "Logged";
 
-  // Api Error
-  String get apiErrorWrongPasswordError => "Wrong password";
-
-  String get apiErrorUserNotFoundError => "User not found";
-
-  // Server Error : HTTP 400
-  String get httpClientErrorBadRequest => "Bad request";
-
-  String get httpClientErrorPaymentRequired => "Payment required";
-
-  String get httpClientErrorForbidden => "Forbidden";
-
-  String get httpClientErrorNotFound => "Not found";
-
-  String get httpClientErrorMethodNotAllowed => "Not allowed";
-
-  String get httpClientErrorNotAcceptable => "Not acceptable";
-
-  String get httpClientErrorRequestTimeout => "Request timeout";
-
-  String get httpClientErrorConflict => "Conflict";
-
-  String get httpClientErrorGone => "Gone";
-
-  String get httpClientErrorLengthRequired => "Length required";
-
-  String get httpClientErrorPayloadTooLarge => "Payload too large";
-
-  String get httpClientErrorURITooLong => "URI too long";
-
-  String get httpClientErrorUnsupportedMediaType => "Unsupported media type";
-
-  String get httpClientErrorExpectationFailed => "Expectation Failed";
-
-  String get httpClientErrorUpgradeRequired => "Upgrade required";
-
-  // Server Error : HTTP 500
   @override
-  String get httpServerErrorInternalServerError => "Internal Server Error";
+  String get more => "More";
 
   @override
-  String get httpServerErrorNotImplemented => "Not implemented";
+  String get forgotPasswordTitle => "Retrieve password";
 
   @override
-  String get httpServerErrorBadGateway => "Bad Gateway";
+  String get forgotPasswordExplain =>
+      "Enter your login email and we'll send you instructions to reset your password";
 
   @override
-  String get httpServerErrorServiceUnavailable => "Service Unavailable";
+  String get forgotPasswordResetCTA => "Reset password";
 
   @override
-  String get httpServerErrorGatewayTimeout => "Gateway Timeout";
+  String get forgotPasswordNoEmailTitle => "Empty email";
 
   @override
-  String get httpServerErrorHttpVersionNotSupported =>
-      "HTTP Version Not Supported";
+  String get forgotPasswordNoEmailExplain => "Please provide an email";
+
+  @override
+  String get forgotPasswordSuccessMessage =>
+      "Email with instructions has been send.";
+
+  @override
+  String get forgotPasswordErrorMessage =>
+      "An error occurred while sending the email with instructions";
 }

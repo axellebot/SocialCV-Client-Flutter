@@ -2,11 +2,11 @@ import 'package:cv/src/models/api_models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'profile_entry_model.g.dart';
+part 'entry_model.g.dart';
 
 @JsonSerializable()
-class ProfileEntryModel extends BaseModel {
-  ProfileEntryModel(
+class EntryModel extends BaseModel {
+  EntryModel(
       {Key key,
       this.name,
       this.startDate,
@@ -24,8 +24,13 @@ class ProfileEntryModel extends BaseModel {
   String owner;
   String type;
 
-  factory ProfileEntryModel.fromJson(Map<String, dynamic> json) =>
-      _$ProfileEntryModelFromJson(json);
+  factory EntryModel.fromJson(Map<String, dynamic> json) =>
+      _$EntryModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProfileEntryModelToJson(this);
+  Map<String, dynamic> toJson() => _$EntryModelToJson(this);
+
+  @override
+  String toString() {
+    return 'EntryModel{name: $name, content: $content, startDate: $startDate, endDate: $endDate, location: $location, owner: $owner, type: $type}';
+  }
 }

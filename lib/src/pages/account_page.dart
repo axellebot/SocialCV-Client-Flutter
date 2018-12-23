@@ -1,8 +1,14 @@
 import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/blocs/profile_list_bloc.dart';
+import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/commons/paths.dart';
+import 'package:cv/src/commons/utils.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/user_model.dart';
+import 'package:cv/src/widgets/card_error_widget.dart';
+import 'package:cv/src/widgets/error_content_widget.dart';
+import 'package:cv/src/widgets/profile_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -11,39 +17,50 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Building AccountPage');
-
-    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
+    logger.info('Building AccountPage');
 
     return SafeArea(
+      left: false,
+      right: false,
       child: Stack(
         children: <Widget>[
-          StreamBuilder<bool>(
-            stream: _accountBloc.isFetchingStream,
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.data == true) {
-                return LinearProgressIndicator();
-              }
-              return Container();
-            },
-          ),
-          StreamBuilder<bool>(
-            stream: _accountBloc.isAuthenticatedStream,
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data == true)
-                  return _buildConnectedAccount(context);
-                if (snapshot.data == false)
-                  return _buildNotConnectedAccount(context);
-              } else if (snapshot.hasError) {
-                return Container(
-                    child: Text("Could not verify data ${snapshot.error}"));
-              }
-              return Container();
-            },
-          ),
+          _buildProgressBar(context),
+          _buildAccount(context),
         ],
       ),
+    );
+  }
+
+  Widget _buildProgressBar(BuildContext context) {
+    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
+
+    return StreamBuilder<bool>(
+      stream: _accountBloc.isFetchingAccountDetailsStream,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.data == true) {
+          return LinearProgressIndicator();
+        }
+        return Container();
+      },
+    );
+  }
+
+  Widget _buildAccount(BuildContext context) {
+    AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
+
+    return StreamBuilder<bool>(
+      stream: _accountBloc.isAuthenticatedStream,
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data == true) return _buildConnectedAccount(context);
+          if (snapshot.data == false) return _buildNotConnectedAccount(context);
+        } else if (snapshot.hasError) {
+          return Container(
+            child: ErrorContent(translateError(context, snapshot.error)),
+          );
+        }
+        return Container();
+      },
     );
   }
 
@@ -57,8 +74,7 @@ class AccountPage extends StatelessWidget {
           UserModel userModel = snapshot.data;
           return _buildAccountDetails(context, userModel);
         } else if (snapshot.hasError) {
-          return Container(
-              child: Text("Could not retrieve data ${snapshot.error}"));
+          return CardError(message: translateError(context, snapshot.error));
         }
         return Container();
       },
@@ -80,30 +96,26 @@ class AccountPage extends StatelessWidget {
         ExpansionTile(
           leading: Icon(MdiIcons.accountBoxMultiple),
           title: Text(Localization.of(context).accountMyProfile),
-          children: _buildProfiles(context, userModel.profileIds),
+          children: <Widget>[
+            _buildProfiles(context, userModel),
+          ],
         ),
       ],
     );
   }
 
-  List<ListTile> _buildProfiles(BuildContext context, List<String> ids) {
-    List<ListTile> _widgets = [];
-    ids.forEach((profileId) {
-      _widgets.add(ListTile(
-        title: Text("CV $profileId"),
-        subtitle: Text(profileId),
-        onTap: () =>
-            Navigator.of(context).pushNamed(kPathProfile + '/$profileId'),
-        leading: CircleAvatar(
-          backgroundColor: Theme.of(context).accentColor,
-        ),
-        trailing: Icon(MdiIcons.accountDetails),
-      ));
-    });
-    return _widgets;
-  }
-
   void _navigateToLogin(BuildContext context) {
     Navigator.of(context).pushNamed(kPathLogin);
+  }
+
+  Widget _buildProfiles(BuildContext context, UserModel userModel) {
+    return BlocProvider(
+      bloc: ProfileListBloc(),
+      child: ProfileListWidget(
+        fromUserModel: userModel,
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+      ),
+    );
   }
 }

@@ -10,8 +10,10 @@ abstract class Localization {
     return Localizations.of<Localization>(context, Localization);
   }
 
+  // App
   String get appName;
 
+  // Login Page
   String get loginTitle;
 
   String get loginNoEmailTitle;
@@ -48,28 +50,18 @@ abstract class Localization {
 
   String get loginOr;
 
-  String get forgotPasswordTitle;
-
-  String get forgotPasswordExplain;
-
-  String get forgotPasswordResetCTA;
-
-  String get forgotPasswordNoEmailTitle;
-
-  String get forgotPasswordNoEmailExplain;
-
-  String get forgotPasswordSuccessMessage;
-
-  String get forgotPasswordErrorMessage;
-
+  // Home
   String get homeTitle;
 
   String get homeWelcome;
 
+  // Account Page
   String get accountMyProfile;
 
+  // Profile Page
   String get profileTitle;
 
+  // Settings Page
   String get settingsTitle;
 
   String get settingsThemeCTA;
@@ -80,55 +72,15 @@ abstract class Localization {
 
   String get settingsThemeDark;
 
-  String get menuPPCTA;
+  // Search Page
+  String get searchTitle;
 
-  String get menuToSCTA;
+  String get searchSearchBarHint;
 
-  String get middleDot;
+  // Exception Error
+  String get exceptionFormatException;
 
-  String get username;
-
-  String get email;
-
-  String get password;
-
-  String get token;
-
-  String get cancel;
-
-  String get settingsCTA;
-
-  String get account;
-
-  String get login;
-
-  String get loginCTA;
-
-  String get logout;
-
-  String get logoutCTA;
-
-  String get home;
-
-  String get resume;
-
-  String get profile;
-
-  String get search;
-
-  String get history;
-
-  String get loadMore;
-
-  String get errorOccurred;
-
-  String get retry;
-
-  String get yes;
-
-  String get no;
-
-  String get logged;
+  String get exceptionTimeoutException;
 
   // Api Error
   String get apiErrorWrongPasswordError;
@@ -178,6 +130,75 @@ abstract class Localization {
   String get httpServerErrorGatewayTimeout;
 
   String get httpServerErrorHttpVersionNotSupported;
+
+  // Menu Widget
+
+  String get menuPPCTA;
+
+  String get menuToSCTA;
+
+  // Others
+  String get middleDot;
+
+  String get username;
+
+  String get email;
+
+  String get password;
+
+  String get token;
+
+  String get cancel;
+
+  String get settingsCTA;
+
+  String get account;
+
+  String get login;
+
+  String get loginCTA;
+
+  String get logout;
+
+  String get logoutCTA;
+
+  String get home;
+
+  String get resume;
+
+  String get profile;
+
+  String get search;
+
+  String get history;
+
+  String get loadMore;
+
+  String get errorOccurred;
+
+  String get retry;
+
+  String get yes;
+
+  String get no;
+
+  String get logged;
+
+  String get more;
+
+  String get forgotPasswordTitle;
+
+  String get forgotPasswordExplain;
+
+  String get forgotPasswordResetCTA;
+
+  String get forgotPasswordNoEmailTitle;
+
+  String get forgotPasswordNoEmailExplain;
+
+  String get forgotPasswordSuccessMessage;
+
+  String get forgotPasswordErrorMessage;
 }
 
 class CVLocalizationsDelegate extends LocalizationsDelegate<Localization> {
