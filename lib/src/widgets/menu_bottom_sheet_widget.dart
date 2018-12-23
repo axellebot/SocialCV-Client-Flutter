@@ -1,5 +1,5 @@
-import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/utils/navigation.dart';
 import 'package:cv/src/widgets/account_tile_widget.dart';
 import 'package:cv/src/widgets/theme_switch_tile_widget.dart';
 import 'package:flutter/material.dart';
@@ -31,46 +31,38 @@ class _MenuBottomSheetState extends State<MenuBottomSheet> {
               widget.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
           borderRadius: widget.borderRadius,
         ),
-        child: _buildBottomSheet(context),
-      ),
-    );
-  }
-
-  Widget _buildBottomSheet(BuildContext context) {
-    return SafeArea(
-      left: false,
-      right: false,
-      child: Wrap(
-        children: <Widget>[
-          AccountTile(),
-          Divider(),
-          ThemeSwitchTile(),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text(Localization.of(context).settingsCTA),
-            onTap: () => _navigateToSettings(context),
-          ),
-          Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        child: SafeArea(
+          left: false,
+          right: false,
+          child: Wrap(
             children: <Widget>[
-              MaterialButton(
-                child: Text(Localization.of(context).menuPPCTA),
-                onPressed: () {},
+              AccountTile(),
+              Divider(),
+              ThemeSwitchTile(),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text(Localization.of(context).settingsCTA),
+                onTap: () => navigateToSettings(context),
               ),
-              Text(Localization.of(context).middleDot),
-              MaterialButton(
-                child: Text(Localization.of(context).menuToSCTA),
-                onPressed: () {},
-              ),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  MaterialButton(
+                    child: Text(Localization.of(context).menuPPCTA),
+                    onPressed: () {},
+                  ),
+                  Text(Localization.of(context).middleDot),
+                  MaterialButton(
+                    child: Text(Localization.of(context).menuToSCTA),
+                    onPressed: () {},
+                  ),
+                ],
+              )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
-  }
-
-  void _navigateToSettings(BuildContext context) {
-    Navigator.of(context).pushNamed(kPathSettings);
   }
 }

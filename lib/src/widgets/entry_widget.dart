@@ -1,7 +1,7 @@
-import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/entry_model.dart';
+import 'package:cv/src/utils/navigation.dart';
 import 'package:flutter/material.dart';
 
 class EntryWidget extends StatelessWidget {
@@ -12,27 +12,40 @@ class EntryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (entryModel.type == "map") {
-      return _buildEntryMap(context, entryModel);
+      return _EntryWidgetMap(entryModel);
     } else if (entryModel.type == "event") {
-      return _buildEntryEvent(context, entryModel);
+      return _EntryWidgetEvent(entryModel);
     } else if (entryModel.type == "tag") {
-      return _buildEntryTag(context, entryModel);
+      return _EntryWidgetTag(entryModel);
     } else {
-      return _buildEntryDefault(entryModel);
+      return _EntryWidgetDefault(entryModel);
     }
   }
+}
 
-  Widget _buildEntryDefault(EntryModel entryModel) {
+class _EntryWidgetDefault extends StatelessWidget {
+  _EntryWidgetDefault(this.entryModel);
+
+  final EntryModel entryModel;
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[Text("Unhandled entry type ${entryModel.type}")],
     );
   }
+}
 
-  Widget _buildEntryMap(BuildContext context, EntryModel entryModel) {
+class _EntryWidgetMap extends StatelessWidget {
+  _EntryWidgetMap(this.entryModel);
+
+  final EntryModel entryModel;
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.of(context)
-          .pushNamed(kPathEntries + '/${entryModel.id ?? ""}'),
+      onTap: () => navigateToEntry(context, entryModel.id),
       child: Container(
         padding: EdgeInsets.all(kCVEntryPadding),
         child: Row(
@@ -53,8 +66,15 @@ class EntryWidget extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildEntryEvent(BuildContext context, EntryModel entryModel) {
+class _EntryWidgetEvent extends StatelessWidget {
+  _EntryWidgetEvent(this.entryModel);
+
+  final EntryModel entryModel;
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       elevation: kCVEntryCardElevation,
       child: InkWell(
@@ -104,8 +124,7 @@ class EntryWidget extends StatelessWidget {
                 children: <Widget>[
                   FlatButton(
                     child: Text(Localization.of(context).more),
-                    onPressed: () => Navigator.of(context)
-                        .pushNamed(kPathEntries + '/${entryModel.id ?? ""}'),
+                    onPressed: () => navigateToEntry(context, entryModel.id),
                   )
                 ],
               )
@@ -115,8 +134,15 @@ class EntryWidget extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildEntryTag(BuildContext context, EntryModel entryModel) {
+class _EntryWidgetTag extends StatelessWidget {
+  _EntryWidgetTag(this.entryModel);
+
+  final EntryModel entryModel;
+
+  @override
+  Widget build(BuildContext context) {
     List<dynamic> tags = entryModel.content;
     List<Widget> _tagWidgets = [];
     tags.forEach((dynamic tag) {
@@ -140,8 +166,7 @@ class EntryWidget extends StatelessWidget {
               ),
               FlatButton(
                 child: Text(Localization.of(context).more),
-                onPressed: () => Navigator.of(context)
-                    .pushNamed(kPathEntries + '/${entryModel.id ?? ""}'),
+                onPressed: () => navigateToEntry(context, entryModel.id),
               )
             ],
           ),

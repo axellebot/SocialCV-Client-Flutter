@@ -1,9 +1,9 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/entry_list_bloc.dart';
-import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/group_model.dart';
+import 'package:cv/src/utils/navigation.dart';
 import 'package:cv/src/widgets/entry_list_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -15,13 +15,20 @@ class GroupWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (groupModel.type == "horizontal") {
-      return _buildGroupHorizontal(context, groupModel);
+      return _GroupHorizontal(groupModel);
     } else {
-      return _buildGroupDefault(context, groupModel);
+      return _GroupVertical(groupModel);
     }
   }
+}
 
-  Widget _buildGroupDefault(BuildContext context, GroupModel groupModel) {
+class _GroupVertical extends StatelessWidget {
+  const _GroupVertical(this.groupModel);
+
+  final GroupModel groupModel;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -38,21 +45,37 @@ class GroupWidget extends StatelessWidget {
               ),
               FlatButton(
                 child: Text(Localization.of(context).more),
-                onPressed: () => Navigator.of(context)
-                    .pushNamed(kPathGroups + '/${groupModel.id ?? ""}'),
+                onPressed: () => navigateToGroup(context, groupModel.id),
               ),
             ],
           ),
         ),
         Card(
           elevation: 2.0,
-          child: _buildEntryList(context),
+          child: BlocProvider(
+            bloc: EntryListBloc(),
+            child: EntryListWidget(
+              fromGroupModel: groupModel,
+              scrollDirection: (groupModel.type == 'horizontal')
+                  ? Axis.horizontal
+                  : Axis.vertical,
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+            ),
+          ),
         )
       ],
     );
   }
+}
 
-  Widget _buildGroupHorizontal(BuildContext context, GroupModel groupModel) {
+class _GroupHorizontal extends StatelessWidget {
+  const _GroupHorizontal(this.groupModel);
+
+  final GroupModel groupModel;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -69,30 +92,26 @@ class GroupWidget extends StatelessWidget {
               ),
               FlatButton(
                 child: Text(Localization.of(context).more),
-                onPressed: () => Navigator.of(context)
-                    .pushNamed(kPathGroups + '/${groupModel.id ?? ""}'),
+                onPressed: () => navigateToGroup(context, groupModel.id),
               ),
             ],
           ),
         ),
         Container(
           height: 200.0,
-          child: _buildEntryList(context),
+          child: BlocProvider(
+            bloc: EntryListBloc(),
+            child: EntryListWidget(
+              fromGroupModel: groupModel,
+              scrollDirection: (groupModel.type == 'horizontal')
+                  ? Axis.horizontal
+                  : Axis.vertical,
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+            ),
+          ),
         )
       ],
-    );
-  }
-
-  Widget _buildEntryList(BuildContext context) {
-    return BlocProvider(
-      bloc: EntryListBloc(),
-      child: EntryListWidget(
-        fromGroupModel: groupModel,
-        scrollDirection:
-            (groupModel.type == 'horizontal') ? Axis.horizontal : Axis.vertical,
-        shrinkWrap: true,
-        physics: ClampingScrollPhysics(),
-      ),
     );
   }
 }

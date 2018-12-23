@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cv/src/commons/logger.dart';
+import 'package:cv/src/utils/logger.dart';
 
 enum ValidationErrors {
   ERROR_LOGIN_NO_EMAIL,

@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:cv/src/commons/logger.dart';
 import 'package:cv/src/errors/api_errors.dart';
 import 'package:cv/src/errors/base_errors.dart';
 import 'package:cv/src/errors/http_errors.dart';
 import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/utils/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
