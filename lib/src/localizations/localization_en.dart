@@ -99,6 +99,27 @@ class LocalizationEN implements Localization {
   @override
   String get searchSearchBarHint => "Search resume...";
 
+  // Part Widget
+  String get partWidgetDetails => "Part détails";
+
+  // Part List
+  @override
+  String get partListOptions => "Part list options";
+
+  @override
+  String get partListSorting => "Sorting parts";
+
+  @override
+  String get partListItemPerPage => "Parts per page";
+
+  @override
+  String get partListLoadMore => "Load more parts";
+
+  // Sort Dialog
+  String get sortDialogCancel => "Cancel";
+
+  String get sortDialogConfirm => "Confirm";
+
   // Menu Widget
   @override
   String get menuPPCTA => "Privacy Policy";

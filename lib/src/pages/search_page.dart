@@ -2,6 +2,7 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_list_bloc.dart';
 import 'package:cv/src/commons/tags.dart';
 import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/widgets/profile_list_widget.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatelessWidget {
@@ -11,32 +12,30 @@ class SearchPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(Localization.of(context).searchTitle),
       ),
-      body: Stack(
+      body: Column(
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              Hero(
-                tag: kHeroSearchFAB,
-                child: Card(
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: TextField(
-                      onSubmitted: null,
-                      autofocus: true,
-                      decoration: InputDecoration(
-                        labelText: Localization.of(context).search,
-                        prefixIcon: Icon(Icons.search),
-                        hintText: Localization.of(context).searchSearchBarHint,
-                      ),
-                    ),
+          Hero(
+            tag: kHeroSearchFAB,
+            child: Card(
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                child: TextField(
+                  onSubmitted: null,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    labelText: Localization.of(context).search,
+                    prefixIcon: Icon(Icons.search),
+                    hintText: Localization.of(context).searchSearchBarHint,
                   ),
                 ),
               ),
-              BlocProvider(
-                bloc: ProfileListBloc(),
-                child: Container(),
-              ),
-            ],
+            ),
+          ),
+          Expanded(
+            child: BlocProvider(
+              bloc: ProfileListBloc(),
+              child: ProfileListWidget(fromSearch: ""),
+            ),
           )
         ],
       ),

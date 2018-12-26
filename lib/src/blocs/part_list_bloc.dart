@@ -1,4 +1,5 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/services/api_service.dart';
@@ -10,6 +11,7 @@ import 'package:rxdart/rxdart.dart';
 class PartListBloc extends BlocBase {
   PartListBloc() {
     _isFetchingPartsController.add(false);
+    _partPerPage.add(KCVItemsPerPageDefault);
   }
 
   ApiService apiService = ApiService();
@@ -17,12 +19,20 @@ class PartListBloc extends BlocBase {
   // Reactive variables
   final _isFetchingPartsController = BehaviorSubject<bool>();
   final _partsController = BehaviorSubject<List<PartModel>>();
+  final _partPerPage = BehaviorSubject<String>();
 
   // Streams
   Observable<bool> get isFetchingPartsStream =>
       _isFetchingPartsController.stream;
 
   Observable<List<PartModel>> get partsStream => _partsController.stream;
+
+  Observable<String> get partPerPage => _partPerPage.stream;
+
+  // Human functions
+  void setItemsPerPage(String partPerPage) async {
+    _partPerPage.add(partPerPage);
+  }
 
   void fetchProfileParts(String profileId) async {
     logger.info('fetchProfileParts');
@@ -48,5 +58,6 @@ class PartListBloc extends BlocBase {
   void dispose() {
     _isFetchingPartsController.close();
     _partsController.close();
+    _partPerPage.close();
   }
 }

@@ -76,7 +76,6 @@ class CVApp extends StatelessWidget {
       textTheme: _buildCVTextTheme(base.textTheme),
       primaryTextTheme: _buildCVTextTheme(base.primaryTextTheme),
       accentTextTheme: _buildCVTextTheme(base.accentTextTheme),
-      canvasColor: Colors.transparent, // Used for bottom sheet rounded
     );
   }
 

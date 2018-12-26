@@ -4,7 +4,7 @@ import 'package:cv/src/widgets/account_tile_widget.dart';
 import 'package:cv/src/widgets/theme_switch_tile_widget.dart';
 import 'package:flutter/material.dart';
 
-class MenuBottomSheet extends StatefulWidget {
+class MenuBottomSheet extends StatelessWidget {
   const MenuBottomSheet(
       {Key key,
       this.backgroundColor,
@@ -17,19 +17,13 @@ class MenuBottomSheet extends StatefulWidget {
   final BorderRadius borderRadius;
 
   @override
-  State<StatefulWidget> createState() => _MenuBottomSheetState();
-}
-
-class _MenuBottomSheetState extends State<MenuBottomSheet> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
       child: Container(
         decoration: new BoxDecoration(
-          color:
-              widget.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
-          borderRadius: widget.borderRadius,
+          color: backgroundColor ?? Theme.of(context).dialogBackgroundColor,
+          borderRadius: borderRadius,
         ),
         child: SafeArea(
           left: false,
@@ -50,12 +44,12 @@ class _MenuBottomSheetState extends State<MenuBottomSheet> {
                 children: <Widget>[
                   MaterialButton(
                     child: Text(Localization.of(context).menuPPCTA),
-                    onPressed: () {},
+                    onPressed: null,
                   ),
                   Text(Localization.of(context).middleDot),
                   MaterialButton(
                     child: Text(Localization.of(context).menuToSCTA),
-                    onPressed: () {},
+                    onPressed: null,
                   ),
                 ],
               )

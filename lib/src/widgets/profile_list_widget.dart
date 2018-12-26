@@ -12,12 +12,13 @@ import 'package:flutter/widgets.dart';
 
 class ProfileListWidget extends StatelessWidget {
   ProfileListWidget({
+    Key key,
     this.fromUserModel,
     this.fromSearch,
     this.scrollDirection = Axis.vertical,
     this.shrinkWrap = false,
     this.physics,
-  });
+  }) : super(key: key);
 
   final UserModel fromUserModel;
   final Object fromSearch;
@@ -163,7 +164,36 @@ class _ProfileListFromSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ErrorContent("Not Implemented Yet");
+    ProfileListBloc profileListBloc = BlocProvider.of<ProfileListBloc>(context);
+    profileListBloc.fetchProfiles(search);
+
+    return StreamBuilder<List<ProfileModel>>(
+      stream: profileListBloc.profilesStream,
+      builder:
+          (BuildContext context, AsyncSnapshot<List<ProfileModel>> snapshot) {
+        if (snapshot.hasError) {
+          return _ProfileListError(
+            snapshot.error,
+            scrollDirection: this.scrollDirection,
+            shrinkWrap: this.shrinkWrap,
+            physics: this.physics,
+          );
+        } else if (snapshot.hasData) {
+          return _ProfileList(
+            snapshot.data,
+            scrollDirection: this.scrollDirection,
+            shrinkWrap: this.shrinkWrap,
+            physics: this.physics,
+          );
+        }
+        return _ProfileListLoading(
+          1,
+          scrollDirection: this.scrollDirection,
+          shrinkWrap: this.shrinkWrap,
+          physics: this.physics,
+        );
+      },
+    );
   }
 }
 

@@ -104,6 +104,27 @@ class LocalizationFR implements Localization {
   @override
   String get searchSearchBarHint => "Rechercher un profil ...";
 
+  // Part Widget
+  String get partWidgetDetails => "Détails de la partie";
+
+  // Part List
+  @override
+  String get partListOptions => "Options";
+
+  @override
+  String get partListSorting => "Trier les parties";
+
+  @override
+  String get partListItemPerPage => "Parties par page";
+
+  @override
+  String get partListLoadMore => "charger plus de parties";
+
+  // Sort Dialog
+  String get sortDialogCancel => "Annuler";
+
+  String get sortDialogConfirm => "Valider";
+
   // Exception Error
   @override
   String get exceptionFormatException => "Exception : Mauvais Format";

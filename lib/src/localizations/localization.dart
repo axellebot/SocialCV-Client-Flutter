@@ -77,6 +77,23 @@ abstract class Localization {
 
   String get searchSearchBarHint;
 
+  // Part Widget
+  String get partWidgetDetails;
+
+  // Part List
+  String get partListOptions;
+
+  String get partListSorting;
+
+  String get partListItemPerPage;
+
+  String get partListLoadMore;
+
+  // Sort Dialog
+  String get sortDialogCancel;
+
+  String get sortDialogConfirm;
+
   // Exception Error
   String get exceptionFormatException;
 
