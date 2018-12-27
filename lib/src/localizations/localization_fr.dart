@@ -104,10 +104,22 @@ class LocalizationFR implements Localization {
   @override
   String get searchSearchBarHint => "Rechercher un profil ...";
 
+  // Profile Widget
+  String get profileWidgetDetails => "Détails du profile";
+
+  // Profile Widget List
+  String get profileListOptions => "Options profiles";
+
+  String get profileListSorting => "Trier Profiles";
+
+  String get profileListItemPerPage => "Profils par page";
+
+  String get profileListLoadMore => "Charger plus de profiles";
+
   // Part Widget
   String get partWidgetDetails => "Détails de la partie";
 
-  // Part List
+  // Part Widget List
   @override
   String get partListOptions => "Options";
 

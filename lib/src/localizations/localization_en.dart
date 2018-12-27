@@ -99,10 +99,22 @@ class LocalizationEN implements Localization {
   @override
   String get searchSearchBarHint => "Search resume...";
 
+  // Profile Widget
+  String get profileWidgetDetails => "Profile details";
+
+  // Profile Widget List
+  String get profileListOptions => "Profile options";
+
+  String get profileListSorting => "Sorting Profiles";
+
+  String get profileListItemPerPage => "Profile per page";
+
+  String get profileListLoadMore => "Load more profiles";
+
   // Part Widget
   String get partWidgetDetails => "Part détails";
 
-  // Part List
+  // Part Widget List
   @override
   String get partListOptions => "Part list options";
 

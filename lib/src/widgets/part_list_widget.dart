@@ -8,6 +8,7 @@ import 'package:cv/src/widgets/card_error_widget.dart';
 import 'package:cv/src/widgets/error_content_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:cv/src/widgets/part_widget.dart';
+import 'package:cv/src/widgets/sliver_delagate.dart';
 import 'package:cv/src/widgets/sort_box_widget.dart';
 import 'package:cv/src/widgets/sort_dialog_widget.dart';
 import 'package:cv/src/widgets/sort_list_tile_widget.dart';
@@ -19,6 +20,7 @@ class PartListWidget extends StatelessWidget {
     Key key,
     this.fromProfileModel,
     this.fromSearch,
+    this.showOptions = false,
     this.scrollDirection = Axis.vertical,
     this.shrinkWrap = false,
     this.physics,
@@ -26,6 +28,8 @@ class PartListWidget extends StatelessWidget {
 
   final ProfileModel fromProfileModel;
   final Object fromSearch;
+
+  final bool showOptions;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
@@ -36,6 +40,7 @@ class PartListWidget extends StatelessWidget {
     if (fromProfileModel != null) {
       return _PartListFromProfile(
         fromProfileModel,
+        showOptions: showOptions,
         scrollDirection: this.scrollDirection,
         shrinkWrap: this.shrinkWrap,
         physics: this.physics,
@@ -43,6 +48,7 @@ class PartListWidget extends StatelessWidget {
     } else if (fromSearch != null) {
       return _PartListFromSearch(
         fromSearch,
+        showOptions: showOptions,
         scrollDirection: this.scrollDirection,
         shrinkWrap: this.shrinkWrap,
         physics: this.physics,
@@ -54,11 +60,14 @@ class PartListWidget extends StatelessWidget {
 
 class _PartListFromProfile extends StatelessWidget {
   _PartListFromProfile(this.profileModel,
-      {this.scrollDirection = Axis.vertical,
+      {this.showOptions = false,
+      this.scrollDirection = Axis.vertical,
       this.shrinkWrap = false,
       this.physics});
 
   final ProfileModel profileModel;
+
+  final bool showOptions;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
@@ -82,6 +91,7 @@ class _PartListFromProfile extends StatelessWidget {
         } else if (snapshot.hasData) {
           return _PartList(
             snapshot.data,
+            showOptions: showOptions,
             scrollDirection: this.scrollDirection,
             shrinkWrap: this.shrinkWrap,
             physics: this.physics,
@@ -100,11 +110,14 @@ class _PartListFromProfile extends StatelessWidget {
 
 class _PartListFromSearch extends StatelessWidget {
   _PartListFromSearch(this.search,
-      {this.scrollDirection = Axis.vertical,
+      {this.showOptions = false,
+      this.scrollDirection = Axis.vertical,
       this.shrinkWrap = false,
       this.physics});
 
   final Object search;
+
+  final bool showOptions;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
@@ -173,11 +186,14 @@ class _PartListLoading extends StatelessWidget {
 
 class _PartList extends StatelessWidget {
   _PartList(this.parts,
-      {this.scrollDirection = Axis.vertical,
+      {this.showOptions = false,
+      this.scrollDirection = Axis.vertical,
       this.shrinkWrap = false,
       this.physics});
 
   final List<PartModel> parts;
+
+  final bool showOptions;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
@@ -187,63 +203,87 @@ class _PartList extends StatelessWidget {
   Widget build(BuildContext context) {
     PartListBloc _partListBloc = BlocProvider.of<PartListBloc>(context);
 
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.sort_by_alpha),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return SortDialog(
-                      title: Text(Localization.of(context).partListSorting),
-                      sortItems: <SortListItem>[
-                        SortListItem(
-                            field: "order",
-                            title: "Order",
-                            value: SortState.NoSort),
-                        SortListItem(
-                            field: "name",
-                            title: "Name",
-                            value: SortState.NoSort)
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-            StreamBuilder<String>(
-              stream: _partListBloc.partPerPage,
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                return DropdownButton(
-                  value: snapshot.data,
-                  hint: Text(Localization.of(context).partListItemPerPage),
-                  items: getDropDownMenuElementPerPage(),
-                  onChanged: (value) {
-                    _partListBloc.setItemsPerPage(value);
-                  },
-                );
-              },
+    final List<SortListItem> sortItems = <SortListItem>[
+      SortListItem(field: "order", title: "Order", value: SortState.NoSort),
+      SortListItem(field: "name", title: "Name", value: SortState.NoSort)
+    ];
+
+    List<Widget> slivers = [];
+
+    if (showOptions) {
+      slivers.add(
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: SliverHeaderDelegate(
+              maxHeight: 40,
+              minHeight: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.sort_by_alpha),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SortDialog(
+                            title:
+                                Text(Localization.of(context).partListSorting),
+                            sortItems: sortItems,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  StreamBuilder<String>(
+                    stream: _partListBloc.partPerPage,
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      return DropdownButton(
+                        value: snapshot.data,
+                        hint:
+                            Text(Localization.of(context).partListItemPerPage),
+                        items: getDropDownMenuElementPerPage(),
+                        onChanged: (value) {
+                          _partListBloc.setItemsPerPage(value);
+                        },
+                      );
+                    },
+                  ),
+                ],
+              )),
+        ),
+      );
+    }
+
+    slivers.addAll([
+      SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int i) {
+            return PartWidget(parts[i]);
+          },
+          childCount: parts.length,
+        ),
+      ),
+      SliverList(
+        delegate: SliverChildListDelegate(
+          [
+            Center(
+              child: FlatButton(
+                onPressed: null,
+                child: Text(Localization.of(context).partListLoadMore),
+              ),
             ),
           ],
         ),
-        ListView.builder(
-          scrollDirection: scrollDirection,
-          shrinkWrap: shrinkWrap,
-          physics: physics,
-          itemCount: parts.length,
-          itemBuilder: (BuildContext context, int i) {
-            return PartWidget(parts[i]);
-          },
-        ),
-        Center(
-            child: FlatButton(
-                onPressed: null,
-                child: Text(Localization.of(context).partListLoadMore)))
-      ],
+      ),
+    ]);
+
+    return CustomScrollView(
+      scrollDirection: scrollDirection,
+      shrinkWrap: shrinkWrap,
+      physics: physics,
+      slivers: slivers,
     );
   }
 }

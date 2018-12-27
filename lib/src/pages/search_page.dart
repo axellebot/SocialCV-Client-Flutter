@@ -34,7 +34,10 @@ class SearchPage extends StatelessWidget {
           Expanded(
             child: BlocProvider(
               bloc: ProfileListBloc(),
-              child: ProfileListWidget(fromSearch: ""),
+              child: ProfileListWidget(
+                fromSearch: "",
+                showOptions: true,
+              ),
             ),
           )
         ],

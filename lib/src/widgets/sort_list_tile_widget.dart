@@ -35,7 +35,7 @@ class SortListTile extends StatelessWidget {
         selectedColor: activeColor ?? Theme.of(context).accentColor,
         child: ListTile(
           key: key,
-          leading: Icon(Icons.drag_handle),
+          leading: Icon(Icons.unfold_more),
           title: title,
           trailing: Sortbox(value: value, onChanged: onChanged),
           onTap: onChanged != null

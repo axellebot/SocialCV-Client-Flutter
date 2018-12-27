@@ -77,10 +77,22 @@ abstract class Localization {
 
   String get searchSearchBarHint;
 
+  // Profile Widget
+  String get profileWidgetDetails;
+
+  // Profile Widget List
+  String get profileListOptions;
+
+  String get profileListSorting;
+
+  String get profileListItemPerPage;
+
+  String get profileListLoadMore;
+
   // Part Widget
   String get partWidgetDetails;
 
-  // Part List
+  // Part Widget List
   String get partListOptions;
 
   String get partListSorting;
