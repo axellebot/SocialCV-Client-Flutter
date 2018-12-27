@@ -4,7 +4,9 @@ import 'package:cv/src/widgets/theme_switch_tile_widget.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
-  SettingsPage({Key key}) : super(key: key);
+  const SettingsPage({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

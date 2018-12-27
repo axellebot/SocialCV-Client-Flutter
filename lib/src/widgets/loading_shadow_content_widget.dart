@@ -7,11 +7,12 @@ import 'package:flutter/widgets.dart';
 /// Specify the number of loading lines to display
 
 class LoadingShadowContent extends StatefulWidget {
-  LoadingShadowContent({
+  const LoadingShadowContent({
+    Key key,
     this.numberOfTitleLines = 1,
     this.numberOfContentLines = 3,
     this.padding = const EdgeInsets.all(0.0),
-  });
+  }) : super(key: key);
 
   final int numberOfTitleLines;
   final int numberOfContentLines;

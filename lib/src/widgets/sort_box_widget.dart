@@ -8,7 +8,7 @@ enum SortState {
 }
 
 class Sortbox extends StatefulWidget {
-  Sortbox({
+  const Sortbox({
     Key key,
     this.value,
     this.onChanged,

@@ -61,6 +61,7 @@ class Routes {
       kPathSettings,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          logger.info("Navigate to $kPathSettings");
           return SettingsPage();
         },
       ),
@@ -72,6 +73,8 @@ class Routes {
       kPathSearch,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          logger.info("Navigate to $kPathSearch");
+
           return SearchPage();
         },
       ),
@@ -85,7 +88,7 @@ class Routes {
 
           return BlocProvider<ProfileBloc>(
             bloc: ProfileBloc(),
-            child: ProfilePage(params[kParamProfileId][0]),
+            child: ProfilePage(profileId: params[kParamProfileId][0]),
           );
         },
       ),
@@ -99,7 +102,7 @@ class Routes {
 
           return BlocProvider<PartBloc>(
             bloc: PartBloc(),
-            child: PartPage(params[kParamPartId][0]),
+            child: PartPage(partId: params[kParamPartId][0]),
           );
         },
       ),
@@ -113,7 +116,7 @@ class Routes {
 
           return BlocProvider<GroupBloc>(
             bloc: GroupBloc(),
-            child: GroupPage(params[kParamGroupId][0]),
+            child: GroupPage(groupId: params[kParamGroupId][0]),
           );
         },
       ),
@@ -127,7 +130,7 @@ class Routes {
 
           return BlocProvider<EntryBloc>(
             bloc: EntryBloc(),
-            child: EntryPage(params[kParamEntryId][0]),
+            child: EntryPage(entryId: params[kParamEntryId][0]),
           );
         },
       ),

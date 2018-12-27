@@ -15,7 +15,7 @@ class SortListItem {
 }
 
 class SortListTile extends StatelessWidget {
-  SortListTile({
+  const SortListTile({
     Key key,
     this.activeColor,
     this.title,

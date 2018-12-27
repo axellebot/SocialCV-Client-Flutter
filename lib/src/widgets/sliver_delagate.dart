@@ -1,9 +1,9 @@
-
-import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
 
+import 'package:flutter/widgets.dart';
+
 class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
-  SliverHeaderDelegate({
+  const SliverHeaderDelegate({
     @required this.minHeight,
     @required this.maxHeight,
     @required this.child,

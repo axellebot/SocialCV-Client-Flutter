@@ -5,13 +5,13 @@ import 'package:cv/src/widgets/theme_switch_tile_widget.dart';
 import 'package:flutter/material.dart';
 
 class MenuBottomSheet extends StatelessWidget {
-  const MenuBottomSheet(
-      {Key key,
-      this.backgroundColor,
-      this.borderRadius = const BorderRadius.only(
-          topLeft: const Radius.circular(10.0),
-          topRight: const Radius.circular(10.0))})
-      : super(key: key);
+  const MenuBottomSheet({
+    Key key,
+    this.backgroundColor,
+    this.borderRadius = const BorderRadius.only(
+        topLeft: const Radius.circular(10.0),
+        topRight: const Radius.circular(10.0)),
+  }) : super(key: key);
 
   final Color backgroundColor;
   final BorderRadius borderRadius;

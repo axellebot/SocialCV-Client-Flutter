@@ -2,13 +2,13 @@ import 'package:cv/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class InitialCircleAvatar extends StatefulWidget {
-  InitialCircleAvatar(
-      {Key key,
-      this.text = "",
-      this.elevation = 0.0,
-      this.backgroundImage,
-      this.radius})
-      : super();
+  InitialCircleAvatar({
+    Key key,
+    this.text = "",
+    this.elevation = 0.0,
+    this.backgroundImage,
+    this.radius,
+  }) : super(key: key);
 
   final String text;
   final double elevation;

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ArcBannerImage extends StatelessWidget {
-  ArcBannerImage(this.imageProvider);
+  const ArcBannerImage({
+    Key key,
+    @required this.imageProvider,
+  }) : super(key: key);
 
   final ImageProvider imageProvider;
 

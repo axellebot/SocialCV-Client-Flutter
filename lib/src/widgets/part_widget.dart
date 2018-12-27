@@ -34,9 +34,7 @@ class PartWidget extends StatelessWidget {
           bloc: GroupListBloc(),
           child: GroupListWidget(
             fromPartModel: partModel,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
+            showOptions: true,
           ),
         ),
       ],

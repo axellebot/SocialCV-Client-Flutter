@@ -52,7 +52,7 @@ class GroupListWidget extends StatelessWidget {
         physics: this.physics,
       );
     }
-    return ErrorContent("Not supported");
+    return ErrorContent(message: "Not supported");
   }
 }
 
@@ -128,7 +128,7 @@ class _GroupListFromSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ErrorContent("Not Implemented Yet");
+    return ErrorContent(message: "Not Implemented Yet");
   }
 }
 
@@ -267,7 +267,7 @@ class _GroupList extends StatelessWidget {
       SliverList(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int i) {
-            return GroupWidget(groupModels[i]);
+            return GroupWidget(groupModel: groupModels[i]);
           },
           childCount: groupModels.length,
         ),

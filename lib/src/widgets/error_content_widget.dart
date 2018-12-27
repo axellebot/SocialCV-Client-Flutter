@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ErrorContent extends StatelessWidget {
-  ErrorContent(this.message);
+  ErrorContent({
+    @required this.message,
+  }) : assert(message != null);
 
   final String message;
 

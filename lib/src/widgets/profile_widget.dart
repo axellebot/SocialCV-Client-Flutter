@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ProfileWidget extends StatelessWidget {
-  ProfileWidget(this.profileModel);
+  const ProfileWidget({
+    Key key,
+    this.profileModel,
+  })  : assert(profileModel != null),
+        super(key: key);
 
   final ProfileModel profileModel;
 

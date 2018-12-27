@@ -1,5 +1,6 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_list_bloc.dart';
+import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/models/user_model.dart';
@@ -16,7 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ProfileListWidget extends StatelessWidget {
-  ProfileListWidget({
+  const ProfileListWidget({
     Key key,
     this.fromUserModel,
     this.fromSearch,
@@ -54,7 +55,7 @@ class ProfileListWidget extends StatelessWidget {
         physics: this.physics,
       );
     }
-    return ErrorContent("Not supported");
+    return ErrorContent(message: "Not supported");
   }
 }
 
@@ -249,8 +250,8 @@ class _ProfileList extends StatelessWidget {
         SliverPersistentHeader(
           pinned: false,
           delegate: SliverHeaderDelegate(
-            maxHeight: 40,
-            minHeight: 40,
+            maxHeight: kCVListHeaderDefaultHeightMax,
+            minHeight: kCVListHeaderDefaultHeightMin,
             child: Container(
               color: Colors.transparent,
               child: Row(
@@ -294,29 +295,33 @@ class _ProfileList extends StatelessWidget {
       );
     }
 
-    slivers.addAll([
+    slivers.add(
       SliverList(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int i) {
-            return ProfileWidget(profileModels[i]);
+            return ProfileWidget(profileModel: profileModels[i]);
           },
           childCount: profileModels.length,
         ),
       ),
-      SliverList(
-        delegate: SliverChildListDelegate(
-          [
-            Center(
-              child: FlatButton(
-                onPressed: null,
-                child: Text(Localization.of(context).profileListLoadMore),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ]);
+    );
 
+    if (showOptions) {
+      slivers.add(
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              Center(
+                child: FlatButton(
+                  onPressed: null,
+                  child: Text(Localization.of(context).profileListLoadMore),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return CustomScrollView(
       scrollDirection: scrollDirection,
       shrinkWrap: shrinkWrap,

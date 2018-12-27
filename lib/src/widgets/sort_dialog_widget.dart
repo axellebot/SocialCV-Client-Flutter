@@ -7,7 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SortDialog extends StatefulWidget {
-  const SortDialog({Key key, this.title, this.sortItems}) : super(key: key);
+  const SortDialog({
+    Key key,
+    this.title,
+    @required this.sortItems,
+  })  : assert(sortItems != null),
+        super(key: key);
 
   final Widget title;
   final List<SortListItem> sortItems;

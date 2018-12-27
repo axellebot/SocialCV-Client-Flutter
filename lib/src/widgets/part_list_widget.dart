@@ -1,5 +1,6 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/part_list_bloc.dart';
+import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/models/profile_model.dart';
@@ -54,7 +55,7 @@ class PartListWidget extends StatelessWidget {
         physics: this.physics,
       );
     }
-    return ErrorContent("Not supported");
+    return ErrorContent(message: "Not supported");
   }
 }
 
@@ -125,7 +126,7 @@ class _PartListFromSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ErrorContent("Not Implemented Yet");
+    return ErrorContent(message: "Not Implemented Yet");
   }
 }
 
@@ -215,8 +216,8 @@ class _PartList extends StatelessWidget {
         SliverPersistentHeader(
           pinned: true,
           delegate: SliverHeaderDelegate(
-              maxHeight: 40,
-              minHeight: 40,
+              maxHeight: kCVListHeaderDefaultHeightMax,
+              minHeight: kCVListHeaderDefaultHeightMin,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

@@ -5,7 +5,11 @@ import 'package:cv/src/utils/navigation.dart';
 import 'package:flutter/material.dart';
 
 class EntryWidget extends StatelessWidget {
-  EntryWidget(this.entryModel);
+  const EntryWidget({
+    Key key,
+    @required this.entryModel,
+  })  : assert(entryModel != null),
+        super(key: key);
 
   final EntryModel entryModel;
 

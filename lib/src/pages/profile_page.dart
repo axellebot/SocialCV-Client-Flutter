@@ -5,6 +5,7 @@ import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:cv/src/utils/utils.dart';
 import 'package:cv/src/widgets/arc_banner_image_widget.dart';
+import 'package:cv/src/widgets/error_content_widget.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:cv/src/widgets/part_list_widget.dart';
@@ -13,7 +14,11 @@ import 'package:flutter/material.dart';
 // TODO : Build owner interaction with ProfileModel.owner
 
 class ProfilePage extends StatelessWidget {
-  ProfilePage(this.profileId);
+  const ProfilePage({
+    Key key,
+    @required this.profileId,
+  })  : assert(profileId != null),
+        super(key: key);
 
   final String profileId;
 
@@ -93,8 +98,10 @@ class _ProfilePageHeader extends StatelessWidget {
           radius: 75.0,
         );
 
-        Widget bannerWidget =
-            ArcBannerImage(AssetImage("images/default-banner.jpg"));
+        Widget bannerWidget = ArcBannerImage(
+          imageProvider: AssetImage("images/default-banner"
+              ".jpg"),
+        );
 
         if (snapshot.hasData) {
           ProfileModel profileModel = snapshot.data;
@@ -112,7 +119,8 @@ class _ProfilePageHeader extends StatelessWidget {
             backgroundImage: NetworkImage(profileModel.picture),
             radius: 75.0,
           );
-          bannerWidget = ArcBannerImage(NetworkImage(profileModel.cover));
+          bannerWidget =
+              ArcBannerImage(imageProvider: NetworkImage(profileModel.cover));
         }
 
         var profileInfo = Column(
@@ -171,15 +179,13 @@ class _ProfilePageMain extends StatelessWidget {
       stream: _profileBloc.profileStream,
       builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
         if (snapshot.hasError) {
-          return Text(translateError(context, snapshot.error));
+          return ErrorContent(message: translateError(context, snapshot.error));
         } else if (snapshot.hasData) {
           return BlocProvider<PartListBloc>(
             bloc: PartListBloc(),
             child: PartListWidget(
               fromProfileModel: snapshot.data,
               scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
             ),
           );
         }

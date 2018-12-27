@@ -9,14 +9,18 @@ import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:flutter/material.dart';
 
 class PartPage extends StatelessWidget {
-  PartPage(this.profilePartId);
+  const PartPage({
+    Key key,
+    @required this.partId,
+  })  : assert(partId != null),
+        super(key: key);
 
-  final String profilePartId;
+  final String partId;
 
   @override
   Widget build(BuildContext context) {
     PartBloc _partBloc = BlocProvider.of<PartBloc>(context);
-    _partBloc.fetchPart(profilePartId);
+    _partBloc.fetchPart(partId);
 
     return Scaffold(
       appBar: AppBar(

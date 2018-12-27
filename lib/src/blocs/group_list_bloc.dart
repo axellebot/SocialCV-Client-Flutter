@@ -59,5 +59,6 @@ class GroupListBloc extends BlocBase {
   void dispose() {
     _isFetchingGroupsController.close();
     _profileGroupsController.close();
+    _groupPerPage.close();
   }
 }

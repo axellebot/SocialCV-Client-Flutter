@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AccountPage extends StatelessWidget {
-  AccountPage({Key key}) : super(key: key);
+  const AccountPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,8 @@ class _AccountPageDetails extends StatelessWidget {
           if (snapshot.data == false) return _AccountPageDetailsNotConnected();
         } else if (snapshot.hasError) {
           return Container(
-            child: ErrorContent(translateError(context, snapshot.error)),
+            child:
+                ErrorContent(message: translateError(context, snapshot.error)),
           );
         }
         return Container();

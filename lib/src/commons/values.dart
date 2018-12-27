@@ -13,5 +13,10 @@ const kCVItemsPerPage3 = "25";
 const kCVItemsPerPage4 = "50";
 const KCVItemsPerPageDefault = kCVItemsPerPage1;
 
+// Sort Dialog
 const kCVSortDialogWidth = 200.0;
 const kCVSortDialogHeight = 300.0;
+
+// List
+const kCVListHeaderDefaultHeightMax = 40.0;
+const kCVListHeaderDefaultHeightMin = 40.0;

@@ -7,7 +7,11 @@ import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:flutter/material.dart';
 
 class EntryPage extends StatelessWidget {
-  EntryPage(this.entryId);
+  const EntryPage({
+    Key key,
+    this.entryId,
+  })  : assert(entryId != null),
+        super(key: key);
 
   final String entryId;
 

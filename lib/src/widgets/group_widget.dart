@@ -8,7 +8,10 @@ import 'package:cv/src/widgets/entry_list_widget.dart';
 import 'package:flutter/material.dart';
 
 class GroupWidget extends StatelessWidget {
-  GroupWidget(this.groupModel);
+  const GroupWidget({
+    Key key,
+    @required this.groupModel,
+  }) : super(key: key);
 
   final GroupModel groupModel;
 
@@ -56,11 +59,10 @@ class _GroupVertical extends StatelessWidget {
             bloc: EntryListBloc(),
             child: EntryListWidget(
               fromGroupModel: groupModel,
+              showOptions: true,
               scrollDirection: (groupModel.type == 'horizontal')
                   ? Axis.horizontal
                   : Axis.vertical,
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
             ),
           ),
         )
