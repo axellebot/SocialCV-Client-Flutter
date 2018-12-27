@@ -256,7 +256,7 @@ class _PartList extends StatelessWidget {
       );
     }
 
-    slivers.addAll([
+    slivers.add(
       SliverList(
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int i) {
@@ -265,19 +265,24 @@ class _PartList extends StatelessWidget {
           childCount: parts.length,
         ),
       ),
-      SliverList(
-        delegate: SliverChildListDelegate(
-          [
-            Center(
-              child: FlatButton(
-                onPressed: null,
-                child: Text(Localization.of(context).partListLoadMore),
+    );
+
+    if (showOptions) {
+      slivers.add(
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              Center(
+                child: FlatButton(
+                  onPressed: null,
+                  child: Text(Localization.of(context).partListLoadMore),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    ]);
+      );
+    }
 
     return CustomScrollView(
       scrollDirection: scrollDirection,
