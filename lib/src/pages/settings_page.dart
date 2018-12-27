@@ -19,7 +19,7 @@ class SettingsPage extends StatelessWidget {
         child: ListView(
           children: [
             ThemeSwitchTile(),
-            const Padding(padding: EdgeInsets.only(top: 8.0)),
+            AboutListTile(icon: Icon(Icons.info)),
           ],
         ),
       ),
