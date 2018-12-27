@@ -1,4 +1,5 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/group_model.dart';
 import 'package:cv/src/services/api_service.dart';
@@ -10,6 +11,7 @@ import 'package:rxdart/rxdart.dart';
 class GroupListBloc extends BlocBase {
   GroupListBloc() {
     _isFetchingGroupsController.add(false);
+    _groupPerPage.add(KCVItemsPerPageDefault);
   }
 
   ApiService apiService = ApiService();
@@ -17,6 +19,7 @@ class GroupListBloc extends BlocBase {
   // Reactive variables
   final _isFetchingGroupsController = BehaviorSubject<bool>();
   final _profileGroupsController = BehaviorSubject<List<GroupModel>>();
+  final _groupPerPage = BehaviorSubject<String>();
 
   // Streams
   Observable<bool> get isFetchingGroupsStream =>
@@ -24,6 +27,13 @@ class GroupListBloc extends BlocBase {
 
   Observable<List<GroupModel>> get groupsStream =>
       _profileGroupsController.stream;
+
+  Observable<String> get groupPerPage => _groupPerPage.stream;
+
+  // Human functions
+  void setItemsPerPage(String partPerPage) async {
+    _groupPerPage.add(partPerPage);
+  }
 
   void fetchPartGroups(String profilePartId) async {
     logger.info('fetchPartGroups');

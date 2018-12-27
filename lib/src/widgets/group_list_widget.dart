@@ -1,5 +1,6 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/group_list_bloc.dart';
+import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/group_model.dart';
 import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/utils/utils.dart';
@@ -7,19 +8,27 @@ import 'package:cv/src/widgets/card_error_widget.dart';
 import 'package:cv/src/widgets/error_content_widget.dart';
 import 'package:cv/src/widgets/group_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
+import 'package:cv/src/widgets/sliver_delagate.dart';
+import 'package:cv/src/widgets/sort_box_widget.dart';
+import 'package:cv/src/widgets/sort_dialog_widget.dart';
+import 'package:cv/src/widgets/sort_list_tile_widget.dart';
 import 'package:flutter/material.dart';
 
 class GroupListWidget extends StatelessWidget {
   GroupListWidget({
     this.fromPartModel,
     this.fromSearch,
+    this.showOptions = false,
     this.scrollDirection = Axis.vertical,
     this.shrinkWrap = false,
     this.physics,
-  });
+  }) : assert(fromPartModel != null || fromSearch != null);
 
   final PartModel fromPartModel;
   final Object fromSearch;
+
+  final bool showOptions;
+
   final Axis scrollDirection;
   final bool shrinkWrap;
   final ScrollPhysics physics;
@@ -28,14 +37,16 @@ class GroupListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (fromPartModel != null) {
       return _GroupListFromPartModel(
-        fromPartModel,
+        partModel: fromPartModel,
+        showOptions: showOptions,
         scrollDirection: this.scrollDirection,
         shrinkWrap: this.shrinkWrap,
         physics: this.physics,
       );
     } else if (fromSearch != null) {
       return _GroupListFromSearch(
-        fromSearch,
+        search: fromSearch,
+        showOptions: showOptions,
         scrollDirection: this.scrollDirection,
         shrinkWrap: this.shrinkWrap,
         physics: this.physics,
@@ -46,14 +57,17 @@ class GroupListWidget extends StatelessWidget {
 }
 
 class _GroupListFromPartModel extends StatelessWidget {
-  _GroupListFromPartModel(
-    this.partModel, {
+  _GroupListFromPartModel({
+    @required this.partModel,
+    this.showOptions = false,
     this.scrollDirection = Axis.vertical,
     this.shrinkWrap = false,
     this.physics,
-  });
+  }) : assert(partModel != null);
 
   final PartModel partModel;
+
+  final bool showOptions;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
@@ -70,21 +84,22 @@ class _GroupListFromPartModel extends StatelessWidget {
           (BuildContext context, AsyncSnapshot<List<GroupModel>> snapshot) {
         if (snapshot.hasError) {
           return _GroupListError(
-            snapshot.error,
+            error: snapshot.error,
             scrollDirection: this.scrollDirection,
             shrinkWrap: this.shrinkWrap,
             physics: this.physics,
           );
         } else if (snapshot.hasData) {
           return _GroupList(
-            snapshot.data,
+            groupModels: snapshot.data,
+            showOptions: showOptions,
             scrollDirection: this.scrollDirection,
             shrinkWrap: this.shrinkWrap,
             physics: this.physics,
           );
         }
         return _GroupListLoading(
-          partModel.groupIds.length,
+          count: partModel.groupIds.length,
           scrollDirection: this.scrollDirection,
           shrinkWrap: this.shrinkWrap,
           physics: this.physics,
@@ -95,14 +110,17 @@ class _GroupListFromPartModel extends StatelessWidget {
 }
 
 class _GroupListFromSearch extends StatelessWidget {
-  _GroupListFromSearch(
-    this.search, {
+  _GroupListFromSearch({
+    @required this.search,
+    this.showOptions = false,
     this.scrollDirection = Axis.vertical,
     this.shrinkWrap = false,
     this.physics,
-  });
+  }) : assert(search != null);
 
   final Object search;
+
+  final bool showOptions;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
@@ -115,12 +133,12 @@ class _GroupListFromSearch extends StatelessWidget {
 }
 
 class _GroupListError extends ListView {
-  _GroupListError(
-    this.error, {
+  _GroupListError({
+    @required this.error,
     this.scrollDirection = Axis.vertical,
     this.shrinkWrap = false,
     this.physics,
-  });
+  }) : assert(error != null);
 
   final Object error;
 
@@ -142,12 +160,12 @@ class _GroupListError extends ListView {
 }
 
 class _GroupListLoading extends StatelessWidget {
-  _GroupListLoading(
-    this.count, {
+  _GroupListLoading({
+    @required this.count,
     this.scrollDirection = Axis.vertical,
     this.shrinkWrap = false,
     this.physics,
-  });
+  }) : assert(count != null && count != 0);
 
   final int count;
 
@@ -173,12 +191,17 @@ class _GroupListLoading extends StatelessWidget {
 }
 
 class _GroupList extends StatelessWidget {
-  _GroupList(this.groupModels,
-      {this.scrollDirection = Axis.vertical,
+  _GroupList(
+      {@required this.groupModels,
+      this.showOptions = false,
+      this.scrollDirection = Axis.vertical,
       this.shrinkWrap = false,
-      this.physics});
+      this.physics})
+      : assert(groupModels != null);
 
   final List<GroupModel> groupModels;
+
+  final bool showOptions;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
@@ -186,14 +209,90 @@ class _GroupList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    GroupListBloc _groupListBloc = BlocProvider.of<GroupListBloc>(context);
+
+    final List<SortListItem> sortItems = <SortListItem>[
+      SortListItem(field: "title", title: "Title", value: SortState.NoSort)
+    ];
+
+    List<Widget> slivers = [];
+
+    if (showOptions) {
+      slivers.add(
+        SliverPersistentHeader(
+          pinned: false,
+          delegate: SliverHeaderDelegate(
+              maxHeight: 40,
+              minHeight: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.sort_by_alpha),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SortDialog(
+                            title:
+                                Text(Localization.of(context).partListSorting),
+                            sortItems: sortItems,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  StreamBuilder<String>(
+                    stream: _groupListBloc.groupPerPage,
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      return DropdownButton(
+                        value: snapshot.data,
+                        hint:
+                            Text(Localization.of(context).partListItemPerPage),
+                        items: getDropDownMenuElementPerPage(),
+                        onChanged: (value) {
+                          _groupListBloc.setItemsPerPage(value);
+                        },
+                      );
+                    },
+                  ),
+                ],
+              )),
+        ),
+      );
+    }
+
+    slivers.add(
+      SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int i) {
+            return GroupWidget(groupModels[i]);
+          },
+          childCount: groupModels.length,
+        ),
+      ),
+    );
+
+    if (showOptions) {
+      slivers.add(SliverList(
+        delegate: SliverChildListDelegate(
+          [
+            Center(
+              child: FlatButton(
+                onPressed: null,
+                child: Text(Localization.of(context).groupListLoadMore),
+              ),
+            ),
+          ],
+        ),
+      ));
+    }
+    return CustomScrollView(
       scrollDirection: scrollDirection,
       shrinkWrap: shrinkWrap,
       physics: physics,
-      itemCount: groupModels.length,
-      itemBuilder: (BuildContext context, int i) {
-        return GroupWidget(groupModels[i]);
-      },
+      slivers: slivers,
     );
   }
 }

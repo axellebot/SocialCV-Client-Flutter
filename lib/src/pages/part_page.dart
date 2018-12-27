@@ -2,6 +2,8 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/group_list_bloc.dart';
 import 'package:cv/src/blocs/part_bloc.dart';
 import 'package:cv/src/models/part_model.dart';
+import 'package:cv/src/utils/utils.dart';
+import 'package:cv/src/widgets/card_error_widget.dart';
 import 'package:cv/src/widgets/group_list_widget.dart';
 import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
 import 'package:flutter/material.dart';
@@ -55,33 +57,30 @@ class _PartPagePartBody extends StatelessWidget {
             return Container();
           },
         ),
-        SingleChildScrollView(
-          child: SafeArea(
-            left: false,
-            right: false,
-            child: StreamBuilder<PartModel>(
-              stream: _partBloc.partStream,
-              builder:
-                  (BuildContext context, AsyncSnapshot<PartModel> snapshot) {
-                if (snapshot.hasError) {
-                  return Card(
-                      child: Text("Error : ${snapshot.error.toString()}"));
-                } else if (snapshot.hasData) {
-                  return BlocProvider<GroupListBloc>(
-                    bloc: GroupListBloc(),
-                    child: GroupListWidget(
-                      fromPartModel: snapshot.data,
-                      shrinkWrap: true,
-                      physics: ClampingScrollPhysics(),
-                    ),
-                  );
-                }
-                return LoadingShadowContent(
-                  numberOfContentLines: 2,
-                  padding: EdgeInsets.all(10.0),
+        SafeArea(
+          left: false,
+          right: false,
+          child: StreamBuilder<PartModel>(
+            stream: _partBloc.partStream,
+            builder: (BuildContext context, AsyncSnapshot<PartModel> snapshot) {
+              if (snapshot.hasError) {
+                return CardError(
+                  message: translateError(context, snapshot.error),
                 );
-              },
-            ),
+              } else if (snapshot.hasData) {
+                return BlocProvider<GroupListBloc>(
+                  bloc: GroupListBloc(),
+                  child: GroupListWidget(
+                    fromPartModel: snapshot.data,
+                    showOptions: true,
+                  ),
+                );
+              }
+              return LoadingShadowContent(
+                numberOfContentLines: 2,
+                padding: EdgeInsets.all(10.0),
+              );
+            },
           ),
         ),
       ],

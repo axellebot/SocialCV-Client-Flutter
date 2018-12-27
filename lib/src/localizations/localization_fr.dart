@@ -132,9 +132,27 @@ class LocalizationFR implements Localization {
   @override
   String get partListLoadMore => "charger plus de parties";
 
+  // Group Widget
+  String get groupWidgetDetails => "Détails du groupe";
+
+  // Group Widget List
+  @override
+  String get groupListOptions => "Options";
+
+  @override
+  String get groupListSorting => "Trier les groupes";
+
+  @override
+  String get groupListItemPerPage => "Groupes par page";
+
+  @override
+  String get groupListLoadMore => "charger plus de groupes";
+
   // Sort Dialog
+  @override
   String get sortDialogCancel => "Annuler";
 
+  @override
   String get sortDialogConfirm => "Valider";
 
   // Exception Error

@@ -101,6 +101,18 @@ abstract class Localization {
 
   String get partListLoadMore;
 
+  // Group Widget
+  String get groupWidgetDetails;
+
+  // Group Widget List
+  String get groupListOptions;
+
+  String get groupListSorting;
+
+  String get groupListItemPerPage;
+
+  String get groupListLoadMore;
+
   // Sort Dialog
   String get sortDialogCancel;
 

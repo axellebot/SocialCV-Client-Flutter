@@ -127,9 +127,27 @@ class LocalizationEN implements Localization {
   @override
   String get partListLoadMore => "Load more parts";
 
+  // Group Widget
+  String get groupWidgetDetails => "Group détails";
+
+  // Group Widget List
+  @override
+  String get groupListOptions => "Group list options";
+
+  @override
+  String get groupListSorting => "Sorting groups";
+
+  @override
+  String get groupListItemPerPage => "Groups per page";
+
+  @override
+  String get groupListLoadMore => "Load more groups";
+
   // Sort Dialog
+  @override
   String get sortDialogCancel => "Cancel";
 
+  @override
   String get sortDialogConfirm => "Confirm";
 
   // Menu Widget
