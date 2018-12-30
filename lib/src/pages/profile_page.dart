@@ -2,6 +2,7 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/part_bloc.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/commons/api_values.dart';
+import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/utils/logger.dart';
@@ -34,56 +35,75 @@ class ProfilePage extends StatelessWidget {
       body: StreamBuilder<ProfileModel>(
         stream: _profileBloc.profileStream,
         builder: (BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
+          List<Widget> slivers = [];
+          slivers.add(_ProfilePageAppBar());
+
           if (snapshot.hasError) {
-            return CustomScrollView(
-              slivers: <Widget>[
-                _ProfilePageAppBar(),
-                SliverToBoxAdapter(
-                  child: ErrorContent(
-                    message: translateError(context, snapshot.error),
-                  ),
-                ),
-              ],
+            slivers.add(
+              SliverToBoxAdapter(
+                child:
+                    ErrorCard(message: translateError(context, snapshot.error)),
+              ),
             );
           } else if (snapshot.hasData) {
             ProfileModel profileModel = snapshot.data;
-            if (profileModel.type == kCVProfileType4) {
-              return CustomScrollView(
-                slivers: <Widget>[
-                  _ProfilePageAppBar(),
-                  _ProfilePageSliver(
-                    partId: snapshot.data.parts["header"],
-                  ),
-                  _ProfilePageSliver(
-                    partId: snapshot.data.parts["side"],
-                  ),
-                  _ProfilePageSliver(
-                    partId: snapshot.data.parts["main"],
-                  ),
-                ],
-              );
+            if (profileModel.type == kCVProfileType1) {
+              slivers.addAll([
+                _ProfilePageSliver(
+                  partId: profileModel.parts["main"],
+                )
+              ]);
+            } else if (profileModel.type == kCVProfileType2) {
+              slivers.addAll([
+                _ProfilePageSliver(
+                  partId: profileModel.parts["header"],
+                ),
+                _ProfilePageSliver(
+                  partId: profileModel.parts["main"],
+                )
+              ]);
+            } else if (profileModel.type == kCVProfileType3) {
+              slivers.addAll([
+                _ProfilePageSliver(
+                  partId: profileModel.parts["side"],
+                ),
+                _ProfilePageSliver(
+                  partId: profileModel.parts["main"],
+                )
+              ]);
+            } else if (profileModel.type == kCVProfileType4) {
+              slivers.addAll([
+                _ProfilePageSliver(
+                  partId: profileModel.parts["header"],
+                ),
+                _ProfilePageSliver(
+                  partId: profileModel.parts["side"],
+                ),
+                _ProfilePageSliver(
+                  partId: profileModel.parts["main"],
+                )
+              ]);
             } else {
-              return CustomScrollView(
-                slivers: <Widget>[
-                  _ProfilePageAppBar(),
-                  SliverToBoxAdapter(
-                    child: ErrorCard(
-                      message: Localization.of(context).notSupported,
-                    ),
+              slivers.add(
+                SliverToBoxAdapter(
+                  child: ErrorCard(
+                    message: Localization.of(context).notSupported,
                   ),
-                ],
+                ),
               );
             }
-          }
-          return CustomScrollView(
-            slivers: <Widget>[
-              _ProfilePageAppBar(),
+          } else {
+            slivers.add(
               SliverToBoxAdapter(
                 child: LoadingShadowContent(
                   numberOfContentLines: 3,
                 ),
               ),
-            ],
+            );
+          }
+
+          return CustomScrollView(
+            slivers: slivers,
           );
         },
       ),
@@ -96,10 +116,10 @@ class _ProfilePageAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
 
-    var textTheme = Theme.of(context).textTheme;
-
     return SliverAppBar(
       expandedHeight: 200,
+      pinned: true,
+      elevation: 2.0,
       floating: false,
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(6.0),
@@ -127,9 +147,10 @@ class _ProfilePageAppBar extends StatelessWidget {
           );
 
           Widget avatarWidget = InitialCircleAvatar(
-            elevation: 2.0,
+            elevation: kCVProfileAvatarElevation,
+            maxRadius: kCVProfileAvatarMax,
+            minRadius: kCVProfileAvatarMin,
             backgroundImage: AssetImage("images/default-avatar.png"),
-            radius: 75.0,
           );
 
           Widget bannerWidget = Image.asset(
@@ -141,18 +162,18 @@ class _ProfilePageAppBar extends StatelessWidget {
             ProfileModel profileModel = snapshot.data;
             titleWidget = Text(
               profileModel.title,
-              style: textTheme.title,
             );
             subtitleWidget = Text(
               profileModel.subtitle,
-              style: textTheme.subtitle,
             );
             avatarWidget = InitialCircleAvatar(
               text: profileModel.title,
-              elevation: 2.0,
+              elevation: kCVProfileAvatarElevation,
+              maxRadius: kCVProfileAvatarMax,
+              minRadius: kCVProfileAvatarMin,
               backgroundImage: NetworkImage(profileModel.picture),
-              radius: 75.0,
             );
+
             bannerWidget = Image.network(
               profileModel.cover,
               fit: BoxFit.cover,
@@ -160,21 +181,38 @@ class _ProfilePageAppBar extends StatelessWidget {
           }
 
           Widget profileInfo = Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               titleWidget,
               subtitleWidget,
             ],
           );
 
+          Widget backgroundWidget = Stack(
+            children: [
+              Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  bannerWidget,
+                  // This gradient ensures that the toolbar icons are distinct
+                  // against the background image.
+                  const DecoratingBackground(),
+                ],
+              ),
+              Center(heightFactor: 2, child: avatarWidget),
+            ],
+          );
           return FlexibleSpaceBar(
-            background: bannerWidget,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                avatarWidget,
-                profileInfo,
-              ],
+            background: backgroundWidget,
+            collapseMode: CollapseMode.parallax,
+            centerTitle: true,
+            title: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  profileInfo,
+                ],
+              ),
             ),
           );
         },
@@ -193,6 +231,23 @@ class _ProfilePageSliver extends StatelessWidget {
       child: BlocProvider(
         bloc: PartBloc(),
         child: PartWidget(fromId: partId),
+      ),
+    );
+  }
+}
+
+class DecoratingBackground extends StatelessWidget {
+  const DecoratingBackground({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment(0.0, -1.0),
+          end: Alignment(0.0, 5),
+          colors: <Color>[Color(0x60000000), Color(0x00000000)],
+        ),
       ),
     );
   }

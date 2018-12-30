@@ -1,27 +1,32 @@
 // Group
-const kCVGroupPadding = 5.0;
+const double kCVGroupPadding = 5.0;
 
 // Entry
-const kCVEntryPadding = 10.0;
-const kCVEntryTagSpacing = 4.0;
-const kCVEntryCardElevation = 2.0;
-const kCVEntryEventHeight = 200.0;
-const kCVEntryEventHWidth = 300.0;
+const double kCVEntryPadding = 10.0;
+const double kCVEntryTagSpacing = 4.0;
+const double kCVEntryCardElevation = 2.0;
+const double kCVEntryEventHeight = 200.0;
+const double kCVEntryEventHWidth = 300.0;
 
-const kCVHorizontalEntryListHeight = kCVEntryEventHeight;
-const kCVHorizontalGroupListHeight = 300.0;
+const double kCVHorizontalEntryListHeight = kCVEntryEventHeight;
+const double kCVHorizontalGroupListHeight = 300.0;
 
 // Pagination
-const kCVItemsPerPage1 = "5";
-const kCVItemsPerPage2 = "10";
-const kCVItemsPerPage3 = "25";
-const kCVItemsPerPage4 = "50";
-const KCVItemsPerPageDefault = kCVItemsPerPage1;
+const String kCVItemsPerPage1 = "5";
+const String kCVItemsPerPage2 = "10";
+const String kCVItemsPerPage3 = "25";
+const String kCVItemsPerPage4 = "50";
+const String KCVItemsPerPageDefault = kCVItemsPerPage1;
 
 // Sort Dialog
-const kCVSortDialogWidth = 200.0;
-const kCVSortDialogHeight = 300.0;
+const double kCVSortDialogWidth = 200.0;
+const double kCVSortDialogHeight = 300.0;
 
 // List
-const kCVListHeaderDefaultHeightMax = 40.0;
-const kCVListHeaderDefaultHeightMin = 40.0;
+const double kCVListHeaderDefaultHeightMax = 40.0;
+const double kCVListHeaderDefaultHeightMin = 40.0;
+
+// Profile
+const double kCVProfileAvatarMin = 5.0;
+const double kCVProfileAvatarMax = 50.0;
+const double kCVProfileAvatarElevation = 2.0;
