@@ -1,8 +1,8 @@
 import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/widgets/menu_bottom_sheet_widget.dart';
+import 'package:cv/src/widgets/rounded_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:rounded_modal/rounded_modal.dart';
 
 void navigateToLogin(BuildContext context) {
   Navigator.of(context).pushNamed(kPathLogin);
@@ -35,9 +35,6 @@ void navigateToEntry(BuildContext context, String entryId) {
 void openMenuBottomSheet(BuildContext context) {
   showRoundedModalBottomSheet(
     context: context,
-    builder: (context) => Theme(
-          data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-          child: MenuBottomSheet(),
-        ),
+    builder: (context) => MenuBottomSheet(),
   );
 }
