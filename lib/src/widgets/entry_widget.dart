@@ -1,6 +1,6 @@
 import 'package:cv/src/commons/api_values.dart';
 import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/models/entry_model.dart';
 import 'package:cv/src/utils/navigation.dart';
 import 'package:cv/src/widgets/error_widget.dart';
@@ -24,7 +24,7 @@ class EntryWidget extends StatelessWidget {
     } else if (entryModel.type == kCVEntryTypeTag) {
       return _EntryWidgetTag(entryModel);
     } else {
-      return ErrorContent(message: Localization.of(context).notSupported);
+      return ErrorContent(message: CVLocalizations.of(context).notSupported);
     }
   }
 }
@@ -117,7 +117,7 @@ class _EntryWidgetEvent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 FlatButton(
-                  child: Text(Localization.of(context).entryWidgetDetails),
+                  child: Text(CVLocalizations.of(context).entryWidgetDetails),
                   onPressed: () => navigateToEntry(context, entryModel.id),
                 )
               ],
@@ -158,7 +158,7 @@ class _EntryWidgetTag extends StatelessWidget {
                 ),
               ),
               FlatButton(
-                child: Text(Localization.of(context).entryWidgetDetails),
+                child: Text(CVLocalizations.of(context).entryWidgetDetails),
                 onPressed: () => navigateToEntry(context, entryModel.id),
               )
             ],

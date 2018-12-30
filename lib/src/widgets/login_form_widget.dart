@@ -2,7 +2,7 @@ import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/login_bloc.dart';
 import 'package:cv/src/blocs/validators.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:cv/src/utils/utils.dart';
@@ -41,7 +41,7 @@ class _LoginFormState extends State<LoginForm> {
             Image.asset('images/account_card_details-blue.png'),
             SizedBox(height: 16.0),
             Text(
-              Localization.of(context).appName,
+              CVLocalizations.of(context).appName,
               style: Theme.of(context).textTheme.title,
             ),
           ],
@@ -61,7 +61,7 @@ class _LoginFormState extends State<LoginForm> {
         ButtonBar(
           children: <Widget>[
             RaisedButton(
-              child: Text(Localization.of(context).loginSignUpCTA),
+              child: Text(CVLocalizations.of(context).loginSignUpCTA),
               onPressed: null,
             ),
             StreamBuilder<bool>(
@@ -69,7 +69,7 @@ class _LoginFormState extends State<LoginForm> {
               stream: loginBloc.submitLoginStream,
               builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
                 return RaisedButton(
-                    child: Text(Localization.of(context).loginSignInCTA),
+                    child: Text(CVLocalizations.of(context).loginSignInCTA),
                     onPressed: (snapshot.hasData && snapshot.data)
                         ? () => _accountBloc.login(
                             loginBloc.emailValue, loginBloc.passwordValue)
@@ -90,7 +90,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             const Padding(padding: EdgeInsets.only(left: 16.0)),
             Text(
-              Localization.of(context).loginOr,
+              CVLocalizations.of(context).loginOr,
               style: const TextStyle(fontSize: 18.0),
             ),
             const Padding(padding: EdgeInsets.only(left: 16.0)),
@@ -108,14 +108,14 @@ class _LoginFormState extends State<LoginForm> {
         Center(
           child: RaisedButton(
             onPressed: null,
-            child: Text(Localization.of(context).loginSignInGoogleCTA),
+            child: Text(CVLocalizations.of(context).loginSignInGoogleCTA),
           ),
         ),
         const Padding(padding: EdgeInsets.only(top: 16.0)),
         Center(
           child: RaisedButton(
             onPressed: null,
-            child: Text(Localization.of(context).loginSignInFacebookCTA),
+            child: Text(CVLocalizations.of(context).loginSignInFacebookCTA),
           ),
         ),
       ],
@@ -135,16 +135,16 @@ class _LoginFormEmailInput extends StatelessWidget {
         if (snapshot.hasError) {
           ValidationErrors errorType = snapshot.error;
           if (errorType == ValidationErrors.ERROR_LOGIN_NO_EMAIL) {
-            error = Localization.of(context).loginNoEmailExplain;
+            error = CVLocalizations.of(context).loginNoEmailExplain;
           } else if (errorType == ValidationErrors.ERROR_LOGIN_NOT_EMAIL) {
-            error = Localization.of(context).loginNotEmailExplain;
+            error = CVLocalizations.of(context).loginNotEmailExplain;
           }
         }
         return TextField(
           onChanged: loginBloc.changeEmail,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            labelText: Localization.of(context).email + ' *',
+            labelText: CVLocalizations.of(context).email + ' *',
             hintText: 'username@example.com',
             errorText: error,
           ),
@@ -165,14 +165,14 @@ class _LoginFormPasswordInput extends StatelessWidget {
         if (snapshot.hasError) {
           ValidationErrors errorType = snapshot.error;
           if (errorType == ValidationErrors.ERROR_LOGIN_NO_PASSWORD) {
-            error = Localization.of(context).loginNoPasswordExplain;
+            error = CVLocalizations.of(context).loginNoPasswordExplain;
           }
         }
         return TextField(
           onChanged: loginBloc.changePassword,
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
-              labelText: Localization.of(context).password + ' *',
+              labelText: CVLocalizations.of(context).password + ' *',
               errorText: error,
               suffixIcon: GestureDetector(
                 onTap: loginBloc.toggleObscure,

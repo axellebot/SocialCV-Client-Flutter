@@ -1,4 +1,4 @@
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/utils/navigation.dart';
 import 'package:cv/src/widgets/account_tile_widget.dart';
 import 'package:cv/src/widgets/theme_switch_tile_widget.dart';
@@ -28,7 +28,7 @@ class MenuBottomSheet extends StatelessWidget {
           ThemeSwitchTile(),
           ListTile(
             leading: Icon(Icons.settings),
-            title: Text(Localization.of(context).settingsCTA),
+            title: Text(CVLocalizations.of(context).settingsCTA),
             onTap: () => navigateToSettings(context),
           ),
           Divider(),
@@ -36,12 +36,12 @@ class MenuBottomSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               MaterialButton(
-                child: Text(Localization.of(context).menuPPCTA),
+                child: Text(CVLocalizations.of(context).menuPPCTA),
                 onPressed: null,
               ),
-              Text(Localization.of(context).middleDot),
+              Text(CVLocalizations.of(context).middleDot),
               MaterialButton(
-                child: Text(Localization.of(context).menuToSCTA),
+                child: Text(CVLocalizations.of(context).menuToSCTA),
                 onPressed: null,
               ),
             ],

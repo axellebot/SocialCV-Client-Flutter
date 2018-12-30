@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:cv/src/localizations/localization_en.dart';
-import 'package:cv/src/localizations/localization_fr.dart';
+import 'package:cv/src/localizations/cv_localization_en.dart';
+import 'package:cv/src/localizations/cv_localization_fr.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-abstract class Localization {
-  static Localization of(BuildContext context) {
-    return Localizations.of<Localization>(context, Localization);
+abstract class CVLocalizations {
+  static CVLocalizations of(BuildContext context) {
+    return Localizations.of<CVLocalizations>(context, CVLocalizations);
   }
 
   // App
@@ -258,16 +258,14 @@ abstract class Localization {
   String get forgotPasswordErrorMessage;
 }
 
-class CVLocalizationsDelegate extends LocalizationsDelegate<Localization> {
+class CVLocalizationsDelegate extends LocalizationsDelegate<CVLocalizations> {
   const CVLocalizationsDelegate();
 
   @override
   bool isSupported(Locale locale) => ['en', 'fr'].contains(locale.languageCode);
 
   @override
-  Future<Localization> load(Locale locale) => _load(locale);
-
-  static Future<Localization> _load(Locale locale) async {
+  Future<CVLocalizations> load(Locale locale) {
     final String name =
         (locale.countryCode == null || locale.countryCode.isEmpty)
             ? locale.languageCode
@@ -275,13 +273,16 @@ class CVLocalizationsDelegate extends LocalizationsDelegate<Localization> {
     final String localeName = Intl.canonicalizedLocale(name);
     Intl.defaultLocale = localeName;
 
-    if (locale.languageCode == "fr") {
-      return LocalizationFR();
+    if (locale.languageCode == 'fr') {
+      return CVLocalizationsFR.load(locale);
     } else {
-      return LocalizationEN();
+      return CVLocalizationsEN.load(locale);
     }
   }
 
   @override
-  bool shouldReload(LocalizationsDelegate<Localization> old) => false;
+  bool shouldReload(CVLocalizationsDelegate old) => false;
+
+  @override
+  String toString() => 'DefaultCVLocalizations.delegate(en_US)';
 }

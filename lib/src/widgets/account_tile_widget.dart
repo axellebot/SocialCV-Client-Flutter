@@ -1,6 +1,6 @@
 import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/utils/navigation.dart';
 import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
@@ -62,7 +62,7 @@ class _AccountTileNotConnected extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: ListTile(
-        title: Center(child: Text(Localization.of(context).loginCTA)),
+        title: Center(child: Text(CVLocalizations.of(context).loginCTA)),
         trailing: Icon(MdiIcons.login),
       ),
       onTap: () => navigateToLogin(context),

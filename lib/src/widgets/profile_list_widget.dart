@@ -1,7 +1,7 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_list_bloc.dart';
 import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/utils/utils.dart';
@@ -56,7 +56,7 @@ class ProfileListWidget extends StatelessWidget {
       );
     } else {
       return ErrorList(
-        error: Localization.of(context).notYetImplemented,
+        error: CVLocalizations.of(context).notYetImplemented,
         scrollDirection: this.scrollDirection,
         shrinkWrap: this.shrinkWrap,
         physics: this.physics,
@@ -215,14 +215,14 @@ class _ProfileList extends StatelessWidget {
                 children: <Widget>[
                   IconButton(
                     icon: Icon(Icons.sort_by_alpha),
-                    tooltip: Localization.of(context).profileListSorting,
+                    tooltip: CVLocalizations.of(context).profileListSorting,
                     onPressed: () {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return SortDialog(
                             title: Text(
-                                Localization.of(context).profileListSorting),
+                                CVLocalizations.of(context).profileListSorting),
                             sortItems: sortItems,
                           );
                         },
@@ -235,8 +235,8 @@ class _ProfileList extends StatelessWidget {
                         (BuildContext context, AsyncSnapshot<String> snapshot) {
                       return DropdownButton(
                         value: snapshot.data,
-                        hint:
-                            Text(Localization.of(context).partListItemPerPage),
+                        hint: Text(
+                            CVLocalizations.of(context).partListItemPerPage),
                         items: getDropDownMenuElementPerPage(),
                         onChanged: (value) {
                           _profileListBloc.setItemsPerPage(value);
@@ -253,7 +253,7 @@ class _ProfileList extends StatelessWidget {
             return Center(
               child: FlatButton(
                 onPressed: null,
-                child: Text(Localization.of(context).profileListLoadMore),
+                child: Text(CVLocalizations.of(context).profileListLoadMore),
               ),
             );
           }

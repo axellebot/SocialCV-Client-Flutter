@@ -1,7 +1,7 @@
 import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_list_bloc.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:cv/src/utils/navigation.dart';
@@ -69,7 +69,7 @@ class _AccountPageDetailsNotConnected extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: RaisedButton(
-        child: Text(Localization.of(context).loginCTA),
+        child: Text(CVLocalizations.of(context).loginCTA),
         onPressed: () => navigateToLogin(context),
       ),
     );
@@ -89,7 +89,7 @@ class _AccountPageDetailsConnected extends StatelessWidget {
             children: <Widget>[
               ExpansionTile(
                 leading: Icon(MdiIcons.accountBoxMultiple),
-                title: Text(Localization.of(context).accountMyProfile),
+                title: Text(CVLocalizations.of(context).accountMyProfile),
                 children: <Widget>[
                   BlocProvider(
                     bloc: ProfileListBloc(),

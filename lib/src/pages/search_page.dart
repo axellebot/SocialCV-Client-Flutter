@@ -1,7 +1,7 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/profile_list_bloc.dart';
 import 'package:cv/src/commons/tags.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/widgets/profile_list_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,7 @@ class SearchPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: Text(Localization.of(context).searchTitle),
+            title: Text(CVLocalizations.of(context).searchTitle),
           ),
           SliverToBoxAdapter(
             child: Hero(
@@ -28,9 +28,9 @@ class SearchPage extends StatelessWidget {
                     onSubmitted: null,
                     autofocus: true,
                     decoration: InputDecoration(
-                      labelText: Localization.of(context).search,
+                      labelText: CVLocalizations.of(context).search,
                       prefixIcon: Icon(Icons.search),
-                      hintText: Localization.of(context).searchSearchBarHint,
+                      hintText: CVLocalizations.of(context).searchSearchBarHint,
                     ),
                   ),
                 ),

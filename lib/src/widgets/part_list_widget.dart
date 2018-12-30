@@ -1,6 +1,6 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/part_list_bloc.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/utils/utils.dart';
@@ -55,7 +55,7 @@ class PartListWidget extends StatelessWidget {
       );
     }
     return ErrorList(
-      error: Localization.of(context).notYetImplemented,
+      error: CVLocalizations.of(context).notYetImplemented,
       scrollDirection: this.scrollDirection,
       shrinkWrap: this.shrinkWrap,
       physics: this.physics,
@@ -136,7 +136,7 @@ class _PartListFromSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ErrorList(
-      error: Localization.of(context).notYetImplemented,
+      error: CVLocalizations.of(context).notYetImplemented,
       scrollDirection: this.scrollDirection,
       shrinkWrap: this.shrinkWrap,
       physics: this.physics,
@@ -188,7 +188,8 @@ class _PartList extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) {
                         return SortDialog(
-                          title: Text(Localization.of(context).partListSorting),
+                          title:
+                              Text(CVLocalizations.of(context).partListSorting),
                           sortItems: sortItems,
                         );
                       },
@@ -201,7 +202,8 @@ class _PartList extends StatelessWidget {
                       (BuildContext context, AsyncSnapshot<String> snapshot) {
                     return DropdownButton(
                       value: snapshot.data,
-                      hint: Text(Localization.of(context).partListItemPerPage),
+                      hint:
+                          Text(CVLocalizations.of(context).partListItemPerPage),
                       items: getDropDownMenuElementPerPage(),
                       onChanged: (value) {
                         _partListBloc.setItemsPerPage(value);
@@ -217,7 +219,7 @@ class _PartList extends StatelessWidget {
             return Center(
               child: FlatButton(
                 onPressed: null,
-                child: Text(Localization.of(context).partListLoadMore),
+                child: Text(CVLocalizations.of(context).partListLoadMore),
               ),
             );
           }

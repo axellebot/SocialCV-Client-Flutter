@@ -3,7 +3,7 @@ import 'package:cv/src/blocs/part_bloc.dart';
 import 'package:cv/src/blocs/profile_bloc.dart';
 import 'package:cv/src/commons/api_values.dart';
 import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:cv/src/utils/utils.dart';
@@ -87,7 +87,7 @@ class ProfilePage extends StatelessWidget {
               slivers.add(
                 SliverToBoxAdapter(
                   child: ErrorCard(
-                    message: Localization.of(context).notSupported,
+                    message: CVLocalizations.of(context).notSupported,
                   ),
                 ),
               );
