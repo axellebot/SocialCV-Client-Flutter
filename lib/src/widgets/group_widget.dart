@@ -1,10 +1,12 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/entry_list_bloc.dart';
+import 'package:cv/src/commons/api_values.dart';
 import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/group_model.dart';
 import 'package:cv/src/utils/navigation.dart';
 import 'package:cv/src/widgets/entry_list_widget.dart';
+import 'package:cv/src/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 
 class GroupWidget extends StatelessWidget {
@@ -17,16 +19,20 @@ class GroupWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (groupModel.type == "horizontal") {
-      return _GroupHorizontal(groupModel);
+    if (groupModel.type == kCVGroupTypeListHorizontal) {
+      return _GroupHorizontal(groupModel: groupModel);
+    } else if (groupModel.type == kCVGroupTypeListVertical) {
+      return _GroupVertical(groupModel: groupModel);
     } else {
-      return _GroupVertical(groupModel);
+      return ErrorContent(message: Localization.of(context).notSupported);
     }
   }
 }
 
-class _GroupVertical extends StatelessWidget {
-  const _GroupVertical(this.groupModel);
+class _GroupHorizontal extends StatelessWidget {
+  const _GroupHorizontal({
+    @required this.groupModel,
+  }) : assert(groupModel != null);
 
   final GroupModel groupModel;
 
@@ -47,7 +53,54 @@ class _GroupVertical extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               FlatButton(
-                child: Text(Localization.of(context).more),
+                child: Text(Localization.of(context).groupWidgetDetails),
+                onPressed: () => navigateToGroup(context, groupModel.id),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: kCVHorizontalEntryListHeight,
+          child: BlocProvider(
+            bloc: EntryListBloc(),
+            child: EntryListWidget(
+              fromGroupModel: groupModel,
+              showOptions: false,
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _GroupVertical extends StatelessWidget {
+  const _GroupVertical({
+    @required this.groupModel,
+  }) : assert(groupModel != null);
+
+  final GroupModel groupModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: kCVGroupPadding),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                groupModel.name.toUpperCase(),
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold),
+              ),
+              FlatButton(
+                child: Text(Localization.of(context).groupWidgetDetails),
                 onPressed: () => navigateToGroup(context, groupModel.id),
               ),
             ],
@@ -59,60 +112,13 @@ class _GroupVertical extends StatelessWidget {
             bloc: EntryListBloc(),
             child: EntryListWidget(
               fromGroupModel: groupModel,
-              showOptions: true,
-              scrollDirection: (groupModel.type == 'horizontal')
-                  ? Axis.horizontal
-                  : Axis.vertical,
-            ),
-          ),
-        )
-      ],
-    );
-  }
-}
-
-class _GroupHorizontal extends StatelessWidget {
-  const _GroupHorizontal(this.groupModel);
-
-  final GroupModel groupModel;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: kCVGroupPadding),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                groupModel.name.toUpperCase(),
-                style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold),
-              ),
-              FlatButton(
-                child: Text(Localization.of(context).more),
-                onPressed: () => navigateToGroup(context, groupModel.id),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          height: 200.0,
-          child: BlocProvider(
-            bloc: EntryListBloc(),
-            child: EntryListWidget(
-              fromGroupModel: groupModel,
-              scrollDirection: (groupModel.type == 'horizontal')
-                  ? Axis.horizontal
-                  : Axis.vertical,
+              showOptions: false,
+              scrollDirection: Axis.vertical,
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
             ),
           ),
-        )
+        ),
       ],
     );
   }

@@ -13,37 +13,41 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Localization.of(context).searchTitle),
-      ),
-      body: Column(
-        children: <Widget>[
-          Hero(
-            tag: kHeroSearchFAB,
-            child: Card(
-              child: Container(
-                padding: EdgeInsets.all(10.0),
-                child: TextField(
-                  onSubmitted: null,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    labelText: Localization.of(context).search,
-                    prefixIcon: Icon(Icons.search),
-                    hintText: Localization.of(context).searchSearchBarHint,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: Text(Localization.of(context).searchTitle),
+          ),
+          SliverToBoxAdapter(
+            child: Hero(
+              tag: kHeroSearchFAB,
+              child: Card(
+                child: Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: TextField(
+                    onSubmitted: null,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      labelText: Localization.of(context).search,
+                      prefixIcon: Icon(Icons.search),
+                      hintText: Localization.of(context).searchSearchBarHint,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-          Expanded(
+          SliverToBoxAdapter(
             child: BlocProvider(
               bloc: ProfileListBloc(),
               child: ProfileListWidget(
                 fromSearch: "",
                 showOptions: true,
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

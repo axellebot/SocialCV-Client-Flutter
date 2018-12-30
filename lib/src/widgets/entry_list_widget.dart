@@ -1,24 +1,33 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/entry_list_bloc.dart';
+import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/entry_model.dart';
 import 'package:cv/src/models/group_model.dart';
 import 'package:cv/src/utils/utils.dart';
 import 'package:cv/src/widgets/entry_widget.dart';
-import 'package:cv/src/widgets/error_content_widget.dart';
-import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
+import 'package:cv/src/widgets/error_widget.dart';
+import 'package:cv/src/widgets/loading_widget.dart';
+import 'package:cv/src/widgets/sort_box_widget.dart';
+import 'package:cv/src/widgets/sort_dialog_widget.dart';
+import 'package:cv/src/widgets/sort_list_tile_widget.dart';
 import 'package:flutter/material.dart';
 
 class EntryListWidget extends StatelessWidget {
-  EntryListWidget({
+  const EntryListWidget({
+    Key key,
     this.fromGroupModel,
     this.fromSearch,
+    this.showOptions = false,
     this.scrollDirection = Axis.vertical,
     this.shrinkWrap = false,
     this.physics,
-  });
+  })  : assert(fromGroupModel != null || fromSearch != null),
+        super(key: key);
 
   final GroupModel fromGroupModel;
   final Object fromSearch;
+
+  final bool showOptions;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
@@ -28,30 +37,42 @@ class EntryListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (fromGroupModel != null) {
       return _EntryListFromGroup(
-        fromGroupModel,
+        groupModel: fromGroupModel,
+        showOptions: showOptions,
         scrollDirection: this.scrollDirection,
         shrinkWrap: this.shrinkWrap,
         physics: this.physics,
       );
     } else if (fromSearch != null) {
       return _EntryListFromSearch(
-        fromSearch,
+        search: fromSearch,
+        showOptions: showOptions,
         scrollDirection: this.scrollDirection,
         shrinkWrap: this.shrinkWrap,
         physics: this.physics,
       );
     }
-    return ErrorContent("Not supported");
+    return ErrorList(
+      error: Localization.of(context).notSupported,
+      scrollDirection: this.scrollDirection,
+      shrinkWrap: this.shrinkWrap,
+      physics: this.physics,
+    );
   }
 }
 
 class _EntryListFromGroup extends StatelessWidget {
-  _EntryListFromGroup(this.groupModel,
-      {this.scrollDirection = Axis.vertical,
-      this.shrinkWrap = false,
-      this.physics});
+  _EntryListFromGroup({
+    @required this.groupModel,
+    this.showOptions = false,
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
+  }) : assert(groupModel != null);
 
   final GroupModel groupModel;
+
+  final bool showOptions;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
@@ -67,22 +88,23 @@ class _EntryListFromGroup extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<List<EntryModel>> snapshot) {
         if (snapshot.hasError) {
-          return _EntryListError(
-            snapshot.error,
+          return ErrorList(
+            error: snapshot.error,
             scrollDirection: this.scrollDirection,
             shrinkWrap: this.shrinkWrap,
             physics: this.physics,
           );
         } else if (snapshot.hasData) {
           return _EntryList(
-            snapshot.data,
+            entryModels: snapshot.data,
+            showOptions: showOptions,
             scrollDirection: this.scrollDirection,
             shrinkWrap: this.shrinkWrap,
             physics: this.physics,
           );
         } else {
-          return _EntryListLoading(
-            groupModel.entryIds.length,
+          return LoadingList(
+            count: groupModel.entryIds.length,
             scrollDirection: this.scrollDirection,
             shrinkWrap: this.shrinkWrap,
             physics: this.physics,
@@ -94,30 +116,17 @@ class _EntryListFromGroup extends StatelessWidget {
 }
 
 class _EntryListFromSearch extends StatelessWidget {
-  _EntryListFromSearch(this.search,
-      {this.scrollDirection = Axis.vertical,
-      this.shrinkWrap = false,
-      this.physics});
+  _EntryListFromSearch({
+    @required this.search,
+    this.showOptions = false,
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
+  }) : assert(search != null);
 
   final Object search;
 
-  final Axis scrollDirection;
-  final bool shrinkWrap;
-  final ScrollPhysics physics;
-
-  @override
-  Widget build(BuildContext context) {
-    return ErrorContent("Not Implemented Yet");
-  }
-}
-
-class _EntryListError extends StatelessWidget {
-  _EntryListError(this.error,
-      {this.scrollDirection = Axis.vertical,
-      this.shrinkWrap = false,
-      this.physics});
-
-  final Object error;
+  final bool showOptions;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
@@ -125,61 +134,27 @@ class _EntryListError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return ListView(
-      scrollDirection: scrollDirection,
-      shrinkWrap: shrinkWrap,
-      physics: physics,
-      children: <Widget>[
-        ErrorContent(
-          translateError(context, error),
-        ),
-      ],
-    );
-  }
-}
-
-class _EntryListLoading extends StatelessWidget {
-  _EntryListLoading(this.count,
-      {this.scrollDirection = Axis.vertical,
-      this.shrinkWrap = false,
-      this.physics});
-
-  final int count;
-
-  final Axis scrollDirection;
-  final bool shrinkWrap;
-  final ScrollPhysics physics;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: scrollDirection,
-      shrinkWrap: shrinkWrap,
-      physics: physics,
-      itemCount: count,
-      itemBuilder: (BuildContext context, int i) {
-        return Container(
-          height: 75.0,
-          width: 300.0,
-          padding: const EdgeInsets.all(20.0),
-          child: LoadingShadowContent(
-            numberOfTitleLines: 1,
-            numberOfContentLines: 4,
-          ),
-        );
-      },
+    return ErrorList(
+      error: Localization.of(context).notYetImplemented,
+      scrollDirection: this.scrollDirection,
+      shrinkWrap: this.shrinkWrap,
+      physics: this.physics,
     );
   }
 }
 
 class _EntryList extends StatelessWidget {
-  _EntryList(this.entryModels,
-      {this.scrollDirection = Axis.vertical,
-      this.shrinkWrap = false,
-      this.physics});
+  _EntryList({
+    @required this.entryModels,
+    this.showOptions = false,
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
+  }) : assert(entryModels != null);
 
   final List<EntryModel> entryModels;
+
+  final bool showOptions;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
@@ -187,13 +162,66 @@ class _EntryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    EntryListBloc _entryListBloc = BlocProvider.of<EntryListBloc>(context);
+
+    final List<SortListItem> sortItems = <SortListItem>[
+      SortListItem(field: "name", title: "Name", value: SortState.NoSort)
+    ];
+
     return ListView.builder(
-      scrollDirection: scrollDirection,
-      shrinkWrap: shrinkWrap,
-      physics: physics,
-      itemCount: entryModels.length,
+      scrollDirection: this.scrollDirection,
+      shrinkWrap: this.shrinkWrap,
+      physics: this.physics,
+      itemCount: showOptions ? entryModels.length + 2 : entryModels.length,
       itemBuilder: (BuildContext context, int i) {
-        return EntryWidget(entryModels[i]);
+        if (showOptions) {
+          if (i == 0) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.sort_by_alpha),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SortDialog(
+                          title:
+                              Text(Localization.of(context).entryListSorting),
+                          sortItems: sortItems,
+                        );
+                      },
+                    );
+                  },
+                ),
+                StreamBuilder<String>(
+                  stream: _entryListBloc.entryPerPage,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    return DropdownButton(
+                      value: snapshot.data,
+                      hint: Text(Localization.of(context).partListItemPerPage),
+                      items: getDropDownMenuElementPerPage(),
+                      onChanged: (value) {
+                        _entryListBloc.setItemsPerPage(value);
+                      },
+                    );
+                  },
+                ),
+              ],
+            );
+          }
+          i--;
+          if (i == entryModels.length) {
+            return Center(
+              child: FlatButton(
+                onPressed: null,
+                child: Text(Localization.of(context).entryListLoadMore),
+              ),
+            );
+          }
+        }
+        return EntryWidget(entryModel: entryModels[i]);
       },
     );
   }

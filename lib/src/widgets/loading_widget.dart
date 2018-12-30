@@ -12,7 +12,10 @@ class LoadingShadowContent extends StatefulWidget {
     this.numberOfTitleLines = 1,
     this.numberOfContentLines = 3,
     this.padding = const EdgeInsets.all(0.0),
-  }) : super(key: key);
+  })  : assert(numberOfTitleLines != null),
+        assert(numberOfContentLines != null),
+        assert(padding != null),
+        super(key: key);
 
   final int numberOfTitleLines;
   final int numberOfContentLines;
@@ -104,6 +107,67 @@ class _LoadingShadowContentState extends State<LoadingShadowContent>
       child: Column(
         children: _widgets,
       ),
+    );
+  }
+}
+
+class LoadingCard extends StatelessWidget {
+  const LoadingCard({
+    Key key,
+    this.height,
+    this.width,
+    this.numberOfTitleLines = 1,
+    this.numberOfContentLines = 3,
+  }) : super(key: key);
+
+  final double height;
+  final double width;
+  final int numberOfTitleLines;
+  final int numberOfContentLines;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Container(
+        height: height,
+        width: width,
+        padding: EdgeInsets.all(10.0),
+        child: LoadingShadowContent(
+          numberOfTitleLines: numberOfTitleLines,
+          numberOfContentLines: numberOfContentLines,
+        ),
+      ),
+    );
+  }
+}
+
+/// A widget to list loading entries
+class LoadingList extends StatelessWidget {
+  LoadingList({
+    @required this.count,
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
+  }) : assert(count != null);
+
+  final int count;
+
+  final Axis scrollDirection;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: count,
+      itemBuilder: (BuildContext context, int index) {
+        return Card(
+          child: LoadingShadowContent(
+            numberOfTitleLines: 1,
+            numberOfContentLines: 2,
+          ),
+        );
+      },
     );
   }
 }

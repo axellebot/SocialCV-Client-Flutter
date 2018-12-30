@@ -5,17 +5,16 @@ import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/utils/utils.dart';
-import 'package:cv/src/widgets/card_error_widget.dart';
-import 'package:cv/src/widgets/error_content_widget.dart';
-import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
+import 'package:cv/src/widgets/error_widget.dart';
+import 'package:cv/src/widgets/loading_widget.dart';
 import 'package:cv/src/widgets/profile_widget.dart';
-import 'package:cv/src/widgets/sliver_delagate.dart';
 import 'package:cv/src/widgets/sort_box_widget.dart';
 import 'package:cv/src/widgets/sort_dialog_widget.dart';
 import 'package:cv/src/widgets/sort_list_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+/// A widget to list all profiles from [UserModel] or from a search
 class ProfileListWidget extends StatelessWidget {
   const ProfileListWidget({
     Key key,
@@ -25,7 +24,8 @@ class ProfileListWidget extends StatelessWidget {
     this.scrollDirection = Axis.vertical,
     this.shrinkWrap = false,
     this.physics,
-  }) : super(key: key);
+  })  : assert(fromUserModel != null || fromSearch != null),
+        super(key: key);
 
   final UserModel fromUserModel;
   final Object fromSearch;
@@ -48,81 +48,31 @@ class ProfileListWidget extends StatelessWidget {
       );
     } else if (fromSearch != null) {
       return _ProfileListFromSearch(
-        fromSearch,
+        search: fromSearch,
         showOptions: showOptions,
         scrollDirection: this.scrollDirection,
         shrinkWrap: this.shrinkWrap,
         physics: this.physics,
       );
+    } else {
+      return ErrorList(
+        error: Localization.of(context).notYetImplemented,
+        scrollDirection: this.scrollDirection,
+        shrinkWrap: this.shrinkWrap,
+        physics: this.physics,
+      );
     }
-    return ErrorContent(message: "Not supported");
-  }
-}
-
-class _ProfileListError extends StatelessWidget {
-  _ProfileListError(this.error,
-      {this.showOptions = false,
-      this.scrollDirection = Axis.vertical,
-      this.shrinkWrap = false,
-      this.physics});
-
-  final Object error;
-
-  final bool showOptions;
-
-  final Axis scrollDirection;
-  final bool shrinkWrap;
-  final ScrollPhysics physics;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: scrollDirection,
-      shrinkWrap: shrinkWrap,
-      physics: physics,
-      children: <Widget>[
-        CardError(message: translateError(context, error)),
-      ],
-    );
-  }
-}
-
-class _ProfileListLoading extends StatelessWidget {
-  _ProfileListLoading(this.count,
-      {this.scrollDirection = Axis.vertical,
-      this.shrinkWrap = false,
-      this.physics});
-
-  final int count;
-
-  final Axis scrollDirection;
-  final bool shrinkWrap;
-  final ScrollPhysics physics;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      scrollDirection: scrollDirection,
-      shrinkWrap: shrinkWrap,
-      physics: physics,
-      itemCount: count,
-      itemBuilder: (BuildContext context, int i) {
-        return LoadingShadowContent(
-          padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-          numberOfTitleLines: 0,
-          numberOfContentLines: 4,
-        );
-      },
-    );
   }
 }
 
 class _ProfileListFromUserModel extends StatelessWidget {
-  _ProfileListFromUserModel(this.userModel,
-      {this.showOptions = false,
-      this.scrollDirection = Axis.vertical,
-      this.shrinkWrap = false,
-      this.physics});
+  _ProfileListFromUserModel(
+    this.userModel, {
+    this.showOptions = false,
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
+  });
 
   final UserModel userModel;
 
@@ -142,38 +92,41 @@ class _ProfileListFromUserModel extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<List<ProfileModel>> snapshot) {
         if (snapshot.hasError) {
-          return _ProfileListError(
-            snapshot.error,
+          return ErrorList(
+            error: snapshot.error,
             scrollDirection: this.scrollDirection,
             shrinkWrap: this.shrinkWrap,
             physics: this.physics,
           );
         } else if (snapshot.hasData) {
           return _ProfileList(
-            snapshot.data,
+            profileModels: snapshot.data,
             showOptions: showOptions,
             scrollDirection: this.scrollDirection,
             shrinkWrap: this.shrinkWrap,
             physics: this.physics,
           );
+        } else {
+          return LoadingList(
+            count: userModel.profileIds.length,
+            scrollDirection: this.scrollDirection,
+            shrinkWrap: this.shrinkWrap,
+            physics: this.physics,
+          );
         }
-        return _ProfileListLoading(
-          userModel.profileIds.length,
-          scrollDirection: this.scrollDirection,
-          shrinkWrap: this.shrinkWrap,
-          physics: this.physics,
-        );
       },
     );
   }
 }
 
 class _ProfileListFromSearch extends StatelessWidget {
-  _ProfileListFromSearch(this.search,
-      {this.showOptions = false,
-      this.scrollDirection = Axis.vertical,
-      this.shrinkWrap = false,
-      this.physics});
+  _ProfileListFromSearch({
+    this.search,
+    this.showOptions = false,
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
+  }) : assert(search != null);
 
   final Object search;
 
@@ -193,38 +146,41 @@ class _ProfileListFromSearch extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<List<ProfileModel>> snapshot) {
         if (snapshot.hasError) {
-          return _ProfileListError(
-            snapshot.error,
+          return ErrorList(
+            error: snapshot.error,
             scrollDirection: this.scrollDirection,
             shrinkWrap: this.shrinkWrap,
             physics: this.physics,
           );
         } else if (snapshot.hasData) {
           return _ProfileList(
-            snapshot.data,
+            profileModels: snapshot.data,
             showOptions: showOptions,
             scrollDirection: this.scrollDirection,
             shrinkWrap: this.shrinkWrap,
             physics: this.physics,
           );
+        } else {
+          return LoadingList(
+            count: 1,
+            scrollDirection: this.scrollDirection,
+            shrinkWrap: this.shrinkWrap,
+            physics: this.physics,
+          );
         }
-        return _ProfileListLoading(
-          1,
-          scrollDirection: this.scrollDirection,
-          shrinkWrap: this.shrinkWrap,
-          physics: this.physics,
-        );
       },
     );
   }
 }
 
 class _ProfileList extends StatelessWidget {
-  _ProfileList(this.profileModels,
-      {this.showOptions = false,
-      this.scrollDirection = Axis.vertical,
-      this.shrinkWrap = false,
-      this.physics});
+  _ProfileList({
+    @required this.profileModels,
+    this.showOptions = false,
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
+  }) : assert(profileModels != null);
 
   final List<ProfileModel> profileModels;
 
@@ -243,22 +199,23 @@ class _ProfileList extends StatelessWidget {
       SortListItem(field: "title", title: "Title", value: SortState.NoSort)
     ];
 
-    List<Widget> slivers = [];
-
-    if (showOptions) {
-      slivers.add(
-        SliverPersistentHeader(
-          pinned: false,
-          delegate: SliverHeaderDelegate(
-            maxHeight: kCVListHeaderDefaultHeightMax,
-            minHeight: kCVListHeaderDefaultHeightMin,
-            child: Container(
+    return ListView.builder(
+      scrollDirection: this.scrollDirection,
+      shrinkWrap: this.shrinkWrap,
+      physics: this.physics,
+      itemCount: showOptions ? profileModels.length + 2 : profileModels.length,
+      itemBuilder: (BuildContext context, int i) {
+        if (showOptions) {
+          if (i == 0) {
+            return Container(
+              height: kCVListHeaderDefaultHeightMax,
               color: Colors.transparent,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   IconButton(
                     icon: Icon(Icons.sort_by_alpha),
+                    tooltip: Localization.of(context).profileListSorting,
                     onPressed: () {
                       showDialog(
                         context: context,
@@ -289,44 +246,20 @@ class _ProfileList extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    slivers.add(
-      SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int i) {
-            return ProfileWidget(profileModel: profileModels[i]);
-          },
-          childCount: profileModels.length,
-        ),
-      ),
-    );
-
-    if (showOptions) {
-      slivers.add(
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              Center(
-                child: FlatButton(
-                  onPressed: null,
-                  child: Text(Localization.of(context).profileListLoadMore),
-                ),
+            );
+          }
+          i--;
+          if (i == profileModels.length) {
+            return Center(
+              child: FlatButton(
+                onPressed: null,
+                child: Text(Localization.of(context).profileListLoadMore),
               ),
-            ],
-          ),
-        ),
-      );
-    }
-    return CustomScrollView(
-      scrollDirection: scrollDirection,
-      shrinkWrap: shrinkWrap,
-      physics: physics,
-      slivers: slivers,
+            );
+          }
+        }
+        return ProfileWidget(profileModel: profileModels[i]);
+      },
     );
   }
 }

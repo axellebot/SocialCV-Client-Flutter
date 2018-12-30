@@ -5,6 +5,11 @@ const kCVGroupPadding = 5.0;
 const kCVEntryPadding = 10.0;
 const kCVEntryTagSpacing = 4.0;
 const kCVEntryCardElevation = 2.0;
+const kCVEntryEventHeight = 200.0;
+const kCVEntryEventHWidth = 300.0;
+
+const kCVHorizontalEntryListHeight = kCVEntryEventHeight;
+const kCVHorizontalGroupListHeight = 300.0;
 
 // Pagination
 const kCVItemsPerPage1 = "5";

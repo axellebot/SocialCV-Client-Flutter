@@ -113,6 +113,18 @@ abstract class Localization {
 
   String get groupListLoadMore;
 
+  // Entry Widget
+  String get entryWidgetDetails;
+
+  // Entry Widget List
+  String get entryListOptions;
+
+  String get entryListSorting;
+
+  String get entryListItemPerPage;
+
+  String get entryListLoadMore;
+
   // Sort Dialog
   String get sortDialogCancel;
 
@@ -226,6 +238,10 @@ abstract class Localization {
   String get logged;
 
   String get more;
+
+  String get notYetImplemented;
+
+  String get notSupported;
 
   String get forgotPasswordTitle;
 

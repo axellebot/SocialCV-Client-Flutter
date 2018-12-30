@@ -148,6 +148,22 @@ class LocalizationFR implements Localization {
   @override
   String get groupListLoadMore => "charger plus de groupes";
 
+  // Entry Widget
+  String get entryWidgetDetails => "Détails de l'entrée";
+
+  // Entry Widget List
+  @override
+  String get entryListOptions => "Options";
+
+  @override
+  String get entryListSorting => "Trier les entrées";
+
+  @override
+  String get entryListItemPerPage => "Entrées par page";
+
+  @override
+  String get entryListLoadMore => "Charger plus de entrées";
+
   // Sort Dialog
   @override
   String get sortDialogCancel => "Annuler";
@@ -313,6 +329,12 @@ class LocalizationFR implements Localization {
 
   @override
   String get more => "Plus";
+
+  @override
+  String get notYetImplemented => "Pas encore implémenté";
+
+  @override
+  String get notSupported => "Non supporté";
 
   @override
   String get forgotPasswordTitle => "Retrouvez votre mot de passe";
