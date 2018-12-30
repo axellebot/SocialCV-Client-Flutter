@@ -18,44 +18,35 @@ class MenuBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      child: Container(
-        decoration: new BoxDecoration(
-          color: backgroundColor ?? Theme.of(context).dialogBackgroundColor,
-          borderRadius: borderRadius,
-        ),
-        child: SafeArea(
-          left: false,
-          right: false,
-          child: Wrap(
-            children: <Widget>[
-              AccountTile(),
-              Divider(),
-              ThemeSwitchTile(),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text(Localization.of(context).settingsCTA),
-                onTap: () => navigateToSettings(context),
-              ),
-              Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  MaterialButton(
-                    child: Text(Localization.of(context).menuPPCTA),
-                    onPressed: null,
-                  ),
-                  Text(Localization.of(context).middleDot),
-                  MaterialButton(
-                    child: Text(Localization.of(context).menuToSCTA),
-                    onPressed: null,
-                  ),
-                ],
-              )
-            ],
+    return SafeArea(
+      left: false,
+      right: false,
+      child: Wrap(
+        children: <Widget>[
+          AccountTile(),
+          Divider(),
+          ThemeSwitchTile(),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text(Localization.of(context).settingsCTA),
+            onTap: () => navigateToSettings(context),
           ),
-        ),
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              MaterialButton(
+                child: Text(Localization.of(context).menuPPCTA),
+                onPressed: null,
+              ),
+              Text(Localization.of(context).middleDot),
+              MaterialButton(
+                child: Text(Localization.of(context).menuToSCTA),
+                onPressed: null,
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
