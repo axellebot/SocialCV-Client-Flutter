@@ -37,6 +37,7 @@ class ProfilePage extends StatelessWidget {
           if (snapshot.hasError) {
             return CustomScrollView(
               slivers: <Widget>[
+                _ProfilePageAppBar(),
                 SliverToBoxAdapter(
                   child: ErrorContent(
                     message: translateError(context, snapshot.error),
