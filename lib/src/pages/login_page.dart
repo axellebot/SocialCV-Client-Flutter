@@ -6,6 +6,10 @@ import 'package:cv/src/widgets/login_form_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({
+    Key key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     logger.info('Building LoginPage');

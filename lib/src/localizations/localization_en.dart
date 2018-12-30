@@ -99,6 +99,73 @@ class LocalizationEN implements Localization {
   @override
   String get searchSearchBarHint => "Search resume...";
 
+  // Profile Widget
+  String get profileWidgetDetails => "Profile details";
+
+  // Profile Widget List
+  String get profileListOptions => "Profile options";
+
+  String get profileListSorting => "Sorting Profiles";
+
+  String get profileListItemPerPage => "Profile per page";
+
+  String get profileListLoadMore => "Load more profiles";
+
+  // Part Widget
+  String get partWidgetDetails => "Part détails";
+
+  // Part Widget List
+  @override
+  String get partListOptions => "Part list options";
+
+  @override
+  String get partListSorting => "Sorting parts";
+
+  @override
+  String get partListItemPerPage => "Parts per page";
+
+  @override
+  String get partListLoadMore => "Load more parts";
+
+  // Group Widget
+  String get groupWidgetDetails => "Group détails";
+
+  // Group Widget List
+  @override
+  String get groupListOptions => "Group list options";
+
+  @override
+  String get groupListSorting => "Sorting groups";
+
+  @override
+  String get groupListItemPerPage => "Groups per page";
+
+  @override
+  String get groupListLoadMore => "Load more groups";
+
+  // Entry Widget
+  String get entryWidgetDetails => "Entry détails";
+
+  // Entry Widget List
+  @override
+  String get entryListOptions => "Entry list options";
+
+  @override
+  String get entryListSorting => "Sorting entries";
+
+  @override
+  String get entryListItemPerPage => "Entries per page";
+
+  @override
+  String get entryListLoadMore => "Load more entries";
+
+  // Sort Dialog
+  @override
+  String get sortDialogCancel => "Cancel";
+
+  @override
+  String get sortDialogConfirm => "Confirm";
+
   // Menu Widget
   @override
   String get menuPPCTA => "Privacy Policy";
@@ -258,6 +325,12 @@ class LocalizationEN implements Localization {
 
   @override
   String get more => "More";
+
+  @override
+  String get notYetImplemented => "Not yet implemented";
+
+  @override
+  String get notSupported => "Not supported";
 
   @override
   String get forgotPasswordTitle => "Retrieve password";

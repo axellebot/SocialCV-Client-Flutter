@@ -6,11 +6,15 @@ import 'package:cv/src/localizations/localization.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:cv/src/utils/utils.dart';
-import 'package:cv/src/widgets/card_error_widget.dart';
+import 'package:cv/src/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class LoginForm extends StatefulWidget {
+  const LoginForm({
+    Key key,
+  }) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _LoginFormState();
 }
@@ -191,7 +195,7 @@ class _LoginFromMessage extends StatelessWidget {
       stream: _accountBloc.fetchAccountDetailsStream,
       builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
         if (snapshot.hasError) {
-          return CardError(message: translateError(context, snapshot.error));
+          return ErrorCard(message: translateError(context, snapshot.error));
         } else if (snapshot.hasData) {
           return Card(
             child: Container(

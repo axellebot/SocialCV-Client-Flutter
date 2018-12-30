@@ -104,6 +104,73 @@ class LocalizationFR implements Localization {
   @override
   String get searchSearchBarHint => "Rechercher un profil ...";
 
+  // Profile Widget
+  String get profileWidgetDetails => "Détails du profile";
+
+  // Profile Widget List
+  String get profileListOptions => "Options profiles";
+
+  String get profileListSorting => "Trier Profiles";
+
+  String get profileListItemPerPage => "Profils par page";
+
+  String get profileListLoadMore => "Charger plus de profiles";
+
+  // Part Widget
+  String get partWidgetDetails => "Détails de la partie";
+
+  // Part Widget List
+  @override
+  String get partListOptions => "Options";
+
+  @override
+  String get partListSorting => "Trier les parties";
+
+  @override
+  String get partListItemPerPage => "Parties par page";
+
+  @override
+  String get partListLoadMore => "charger plus de parties";
+
+  // Group Widget
+  String get groupWidgetDetails => "Détails du groupe";
+
+  // Group Widget List
+  @override
+  String get groupListOptions => "Options";
+
+  @override
+  String get groupListSorting => "Trier les groupes";
+
+  @override
+  String get groupListItemPerPage => "Groupes par page";
+
+  @override
+  String get groupListLoadMore => "charger plus de groupes";
+
+  // Entry Widget
+  String get entryWidgetDetails => "Détails de l'entrée";
+
+  // Entry Widget List
+  @override
+  String get entryListOptions => "Options";
+
+  @override
+  String get entryListSorting => "Trier les entrées";
+
+  @override
+  String get entryListItemPerPage => "Entrées par page";
+
+  @override
+  String get entryListLoadMore => "Charger plus de entrées";
+
+  // Sort Dialog
+  @override
+  String get sortDialogCancel => "Annuler";
+
+  @override
+  String get sortDialogConfirm => "Valider";
+
   // Exception Error
   @override
   String get exceptionFormatException => "Exception : Mauvais Format";
@@ -262,6 +329,12 @@ class LocalizationFR implements Localization {
 
   @override
   String get more => "Plus";
+
+  @override
+  String get notYetImplemented => "Pas encore implémenté";
+
+  @override
+  String get notSupported => "Non supporté";
 
   @override
   String get forgotPasswordTitle => "Retrouvez votre mot de passe";

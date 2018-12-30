@@ -1,4 +1,5 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/services/api_service.dart';
@@ -10,6 +11,7 @@ import 'package:rxdart/rxdart.dart';
 class ProfileListBloc extends BlocBase {
   ProfileListBloc() {
     _isFetchingProfilesController.add(false);
+    _profilePerPage.add(KCVItemsPerPageDefault);
   }
 
   ApiService apiService = ApiService();
@@ -17,6 +19,7 @@ class ProfileListBloc extends BlocBase {
   // Reactive variables
   final _isFetchingProfilesController = BehaviorSubject<bool>();
   final _profilesController = BehaviorSubject<List<ProfileModel>>();
+  final _profilePerPage = BehaviorSubject<String>();
 
   // Streams
   Observable<bool> get isFetchingProfilesStream =>
@@ -24,6 +27,13 @@ class ProfileListBloc extends BlocBase {
 
   Observable<List<ProfileModel>> get profilesStream =>
       _profilesController.stream;
+
+  Observable<String> get profilePerPage => _profilePerPage.stream;
+
+  // Human functions
+  void setItemsPerPage(String partPerPage) async {
+    _profilePerPage.add(partPerPage);
+  }
 
   void fetchAccountProfiles() async {
     logger.info('fetchAccountProfiles');
@@ -67,5 +77,6 @@ class ProfileListBloc extends BlocBase {
   void dispose() {
     _isFetchingProfilesController.close();
     _profilesController.close();
+    _profilePerPage.close();
   }
 }

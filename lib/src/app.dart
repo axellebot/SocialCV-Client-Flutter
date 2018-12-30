@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class CVApp extends StatelessWidget {
+  const CVApp({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     logger.info('Building App');
@@ -76,7 +78,6 @@ class CVApp extends StatelessWidget {
       textTheme: _buildCVTextTheme(base.textTheme),
       primaryTextTheme: _buildCVTextTheme(base.primaryTextTheme),
       accentTextTheme: _buildCVTextTheme(base.accentTextTheme),
-      canvasColor: Colors.transparent, // Used for bottom sheet rounded
     );
   }
 

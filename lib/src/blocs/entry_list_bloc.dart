@@ -1,4 +1,5 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
+import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/entry_model.dart';
 import 'package:cv/src/services/api_service.dart';
@@ -10,6 +11,7 @@ import 'package:rxdart/rxdart.dart';
 class EntryListBloc extends BlocBase {
   EntryListBloc() {
     _isFetchingEntriesController.add(false);
+    _entryPerPage.add(KCVItemsPerPageDefault);
   }
 
   ApiService apiService = ApiService();
@@ -17,12 +19,20 @@ class EntryListBloc extends BlocBase {
   // Reactive variables
   final _isFetchingEntriesController = BehaviorSubject<bool>();
   final _entriesController = BehaviorSubject<List<EntryModel>>();
+  final _entryPerPage = BehaviorSubject<String>();
 
   // Streams
   Observable<bool> get isFetchingGroupEntriesStream =>
       _isFetchingEntriesController.stream;
 
   Observable<List<EntryModel>> get entriesStream => _entriesController.stream;
+
+  Observable<String> get entryPerPage => _entryPerPage.stream;
+
+  // Human functions
+  void setItemsPerPage(String partPerPage) async {
+    _entryPerPage.add(partPerPage);
+  }
 
   void fetchGroupEntries(String groupId) async {
     logger.info('fetchGroupEntries');
@@ -47,5 +57,6 @@ class EntryListBloc extends BlocBase {
   void dispose() {
     _isFetchingEntriesController.close();
     _entriesController.close();
+    _entryPerPage.close();
   }
 }

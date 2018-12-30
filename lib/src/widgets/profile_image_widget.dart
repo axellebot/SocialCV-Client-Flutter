@@ -2,9 +2,13 @@ import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfileImage extends StatelessWidget {
-  static const RATIO = 1;
+  const ProfileImage({
+    Key key,
+    @required this.imageUrl,
+  })  : assert(imageUrl != null),
+        super(key: key);
 
-  ProfileImage(this.imageUrl);
+  static const RATIO = 1;
 
   final String imageUrl;
 

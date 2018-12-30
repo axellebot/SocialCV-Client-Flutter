@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ThemeSwitchTile extends StatelessWidget {
+  const ThemeSwitchTile({
+    Key key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     ApplicationBloc _appBloc = BlocProvider.of<ApplicationBloc>(context);

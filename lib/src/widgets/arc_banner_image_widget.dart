@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ArcBannerImage extends StatelessWidget {
-  ArcBannerImage(this.imageProvider);
+  const ArcBannerImage({
+    Key key,
+    @required this.image,
+  }) : super(key: key);
 
-  final ImageProvider imageProvider;
+  final ImageProvider image;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +15,7 @@ class ArcBannerImage extends StatelessWidget {
     return ClipPath(
       clipper: ArcClipper(),
       child: Image(
-        image: imageProvider,
+        image: image,
         width: screenWidth,
         height: 230.0,
         fit: BoxFit.cover,

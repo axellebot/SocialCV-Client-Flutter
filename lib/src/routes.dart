@@ -61,6 +61,7 @@ class Routes {
       kPathSettings,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          logger.info("Navigate to $kPathSettings");
           return SettingsPage();
         },
       ),
@@ -72,6 +73,8 @@ class Routes {
       kPathSearch,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+          logger.info("Navigate to $kPathSearch");
+
           return SearchPage();
         },
       ),
@@ -81,11 +84,13 @@ class Routes {
       "$kPathProfiles/:$kParamProfileId",
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info("Navigate to $kPathProfiles/:$kParamProfileId");
+          var profileId = params[kParamProfileId][0];
+
+          logger.info("Navigate to $kPathProfiles/$profileId");
 
           return BlocProvider<ProfileBloc>(
             bloc: ProfileBloc(),
-            child: ProfilePage(params[kParamProfileId][0]),
+            child: ProfilePage(profileId: profileId),
           );
         },
       ),
@@ -95,11 +100,13 @@ class Routes {
       "$kPathParts/:$kParamPartId",
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info("Navigate to $kPathParts/:$kParamPartId");
+          var partId = params[kParamPartId][0];
+
+          logger.info("Navigate to $kPathParts/$partId");
 
           return BlocProvider<PartBloc>(
             bloc: PartBloc(),
-            child: PartPage(params[kParamPartId][0]),
+            child: PartPage(partId: partId),
           );
         },
       ),
@@ -109,11 +116,13 @@ class Routes {
       "$kPathGroups/:$kParamGroupId",
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info("Navigate to $kPathGroups/:$kParamGroupId");
+          var groupId = params[kParamGroupId][0];
+
+          logger.info("Navigate to $kPathGroups/$groupId");
 
           return BlocProvider<GroupBloc>(
             bloc: GroupBloc(),
-            child: GroupPage(params[kParamGroupId][0]),
+            child: GroupPage(groupId: groupId),
           );
         },
       ),
@@ -123,11 +132,13 @@ class Routes {
       "$kPathEntries/:$kParamEntryId",
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info("Navigate to $kPathEntries/:$kParamEntryId");
+          var entryId = params[kParamEntryId][0];
+
+          logger.info("Navigate to $kPathEntries/$entryId");
 
           return BlocProvider<EntryBloc>(
             bloc: EntryBloc(),
-            child: EntryPage(params[kParamEntryId][0]),
+            child: EntryPage(entryId: entryId),
           );
         },
       ),

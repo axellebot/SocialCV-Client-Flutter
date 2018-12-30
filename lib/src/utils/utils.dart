@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/errors/api_errors.dart';
 import 'package:cv/src/errors/base_errors.dart';
 import 'package:cv/src/errors/http_errors.dart';
@@ -26,6 +27,20 @@ void printException(dynamic e, StackTrace stackTrace, [String message]) {
     debugPrint(e.toString());
   }
   logger.warning(stackTrace);
+}
+
+List<DropdownMenuItem<String>> getDropDownMenuElementPerPage() {
+  List<String> _values = [
+    kCVItemsPerPage1,
+    kCVItemsPerPage2,
+    kCVItemsPerPage3,
+    kCVItemsPerPage4
+  ];
+  List<DropdownMenuItem<String>> items = new List();
+  for (String value in _values) {
+    items.add(new DropdownMenuItem(value: value, child: new Text(value)));
+  }
+  return items;
 }
 
 String translateError(BuildContext context, dynamic err) {

@@ -2,12 +2,16 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/entry_bloc.dart';
 import 'package:cv/src/models/entry_model.dart';
 import 'package:cv/src/utils/utils.dart';
-import 'package:cv/src/widgets/card_error_widget.dart';
-import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
+import 'package:cv/src/widgets/error_widget.dart';
+import 'package:cv/src/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 
 class EntryPage extends StatelessWidget {
-  EntryPage(this.entryId);
+  const EntryPage({
+    Key key,
+    @required this.entryId,
+  })  : assert(entryId != null),
+        super(key: key);
 
   final String entryId;
 
@@ -55,27 +59,37 @@ class _EntryPageEntryBody extends StatelessWidget {
             return Container();
           },
         ),
-        SingleChildScrollView(
-          child: SafeArea(
-            left: false,
-            right: false,
-            child: StreamBuilder<EntryModel>(
-              stream: _entryBloc.entryStream,
-              builder:
-                  (BuildContext context, AsyncSnapshot<EntryModel> snapshot) {
-                if (snapshot.hasError) {
-                  return CardError(
-                      message: translateError(context, snapshot.error));
-                } else if (snapshot.hasData) {
-                  return Text(snapshot.data.toString());
-                }
-                return LoadingShadowContent(
-                  numberOfContentLines: 2,
-                  padding: EdgeInsets.all(10.0),
-                );
-              },
-            ),
-          ),
+        StreamBuilder<EntryModel>(
+          stream: _entryBloc.entryStream,
+          builder: (BuildContext context, AsyncSnapshot<EntryModel> snapshot) {
+            if (snapshot.hasError) {
+              return ErrorCard(
+                  message: translateError(context, snapshot.error));
+            } else if (snapshot.hasData) {
+              EntryModel entryModel = snapshot.data;
+
+              return ListView(
+                children: <Widget>[
+                  ListTile(
+                    title: Text("name"),
+                    subtitle: Text(entryModel.name),
+                  ),
+                  ListTile(
+                    title: Text("type"),
+                    subtitle: Text(entryModel.type),
+                  ),
+                  ListTile(
+                    title: Text("content"),
+                    subtitle: Text(entryModel.content),
+                  ),
+                ],
+              );
+            }
+            return LoadingShadowContent(
+              numberOfContentLines: 2,
+              padding: EdgeInsets.all(10.0),
+            );
+          },
         ),
       ],
     );

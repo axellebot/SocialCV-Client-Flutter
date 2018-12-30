@@ -77,6 +77,59 @@ abstract class Localization {
 
   String get searchSearchBarHint;
 
+  // Profile Widget
+  String get profileWidgetDetails;
+
+  // Profile Widget List
+  String get profileListOptions;
+
+  String get profileListSorting;
+
+  String get profileListItemPerPage;
+
+  String get profileListLoadMore;
+
+  // Part Widget
+  String get partWidgetDetails;
+
+  // Part Widget List
+  String get partListOptions;
+
+  String get partListSorting;
+
+  String get partListItemPerPage;
+
+  String get partListLoadMore;
+
+  // Group Widget
+  String get groupWidgetDetails;
+
+  // Group Widget List
+  String get groupListOptions;
+
+  String get groupListSorting;
+
+  String get groupListItemPerPage;
+
+  String get groupListLoadMore;
+
+  // Entry Widget
+  String get entryWidgetDetails;
+
+  // Entry Widget List
+  String get entryListOptions;
+
+  String get entryListSorting;
+
+  String get entryListItemPerPage;
+
+  String get entryListLoadMore;
+
+  // Sort Dialog
+  String get sortDialogCancel;
+
+  String get sortDialogConfirm;
+
   // Exception Error
   String get exceptionFormatException;
 
@@ -185,6 +238,10 @@ abstract class Localization {
   String get logged;
 
   String get more;
+
+  String get notYetImplemented;
+
+  String get notSupported;
 
   String get forgotPasswordTitle;
 

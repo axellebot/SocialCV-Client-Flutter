@@ -12,7 +12,8 @@ class ProfileModel extends BaseModel {
       this.subtitle,
       this.picture,
       this.cover,
-      this.partIds,
+      this.type,
+      this.parts,
       this.owner})
       : super(key: key);
 
@@ -20,8 +21,11 @@ class ProfileModel extends BaseModel {
   String subtitle;
   String picture;
   String cover;
+  String type;
+
   @JsonKey(name: 'parts')
-  List<String> partIds;
+  dynamic parts;
+
   String owner;
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
@@ -31,6 +35,7 @@ class ProfileModel extends BaseModel {
 
   @override
   String toString() {
-    return 'ProfileModel{title: $title, subtitle: $subtitle, picture: $picture, cover: $cover, partIds: $partIds, owner: $owner}';
+    return 'ProfileModel{title: $title, subtitle: $subtitle, picture: '
+        '$picture, cover: $cover, type: $type, parts: $parts, owner: $owner}';
   }
 }

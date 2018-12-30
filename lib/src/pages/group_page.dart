@@ -3,20 +3,24 @@ import 'package:cv/src/blocs/entry_list_bloc.dart';
 import 'package:cv/src/blocs/group_bloc.dart';
 import 'package:cv/src/models/group_model.dart';
 import 'package:cv/src/utils/utils.dart';
-import 'package:cv/src/widgets/card_error_widget.dart';
 import 'package:cv/src/widgets/entry_list_widget.dart';
-import 'package:cv/src/widgets/loading_shadow_content_widget.dart';
+import 'package:cv/src/widgets/error_widget.dart';
+import 'package:cv/src/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 
 class GroupPage extends StatelessWidget {
-  GroupPage(this.profileGroupId);
+  const GroupPage({
+    Key key,
+    @required this.groupId,
+  })  : assert(groupId != null),
+        super(key: key);
 
-  final String profileGroupId;
+  final String groupId;
 
   @override
   Widget build(BuildContext context) {
     GroupBloc _groupBloc = BlocProvider.of<GroupBloc>(context);
-    _groupBloc.fetchGroup(profileGroupId);
+    _groupBloc.fetchGroup(groupId);
 
     return Scaffold(
       appBar: AppBar(
@@ -57,35 +61,28 @@ class _GroupPageGroupBody extends StatelessWidget {
             return Container();
           },
         ),
-        SingleChildScrollView(
-          child: SafeArea(
-            left: false,
-            right: false,
-            child: StreamBuilder<GroupModel>(
-              stream: _profileGroupBloc.groupStream,
-              builder:
-                  (BuildContext context, AsyncSnapshot<GroupModel> snapshot) {
-                if (snapshot.hasError) {
-                  return CardError(
-                    message: translateError(context, snapshot.error),
-                  );
-                } else if (snapshot.hasData) {
-                  return BlocProvider<EntryListBloc>(
-                    bloc: EntryListBloc(),
-                    child: EntryListWidget(
-                      fromGroupModel: snapshot.data,
-                      shrinkWrap: true,
-                      physics: ClampingScrollPhysics(),
-                    ),
-                  );
-                }
-                return LoadingShadowContent(
-                  numberOfContentLines: 2,
-                  padding: EdgeInsets.all(10.0),
-                );
-              },
-            ),
-          ),
+        StreamBuilder<GroupModel>(
+          stream: _profileGroupBloc.groupStream,
+          builder: (BuildContext context, AsyncSnapshot<GroupModel> snapshot) {
+            if (snapshot.hasError) {
+              return ErrorCard(
+                message: translateError(context, snapshot.error),
+              );
+            } else if (snapshot.hasData) {
+              return BlocProvider<EntryListBloc>(
+                bloc: EntryListBloc(),
+                child: EntryListWidget(
+                  fromGroupModel: snapshot.data,
+                  showOptions: true,
+                ),
+              );
+            }
+            return LoadingShadowContent(
+              numberOfTitleLines: 0,
+              numberOfContentLines: 2,
+              padding: EdgeInsets.all(10.0),
+            );
+          },
         ),
       ],
     );

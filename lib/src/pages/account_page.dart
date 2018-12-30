@@ -6,14 +6,13 @@ import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:cv/src/utils/navigation.dart';
 import 'package:cv/src/utils/utils.dart';
-import 'package:cv/src/widgets/card_error_widget.dart';
-import 'package:cv/src/widgets/error_content_widget.dart';
+import 'package:cv/src/widgets/error_widget.dart';
 import 'package:cv/src/widgets/profile_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AccountPage extends StatelessWidget {
-  AccountPage({Key key}) : super(key: key);
+  const AccountPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +54,8 @@ class _AccountPageDetails extends StatelessWidget {
           if (snapshot.data == false) return _AccountPageDetailsNotConnected();
         } else if (snapshot.hasError) {
           return Container(
-            child: ErrorContent(translateError(context, snapshot.error)),
+            child:
+                ErrorContent(message: translateError(context, snapshot.error)),
           );
         }
         return Container();
@@ -95,6 +95,7 @@ class _AccountPageDetailsConnected extends StatelessWidget {
                     bloc: ProfileListBloc(),
                     child: ProfileListWidget(
                       fromUserModel: snapshot.data,
+                      showOptions: false,
                       shrinkWrap: true,
                       physics: ClampingScrollPhysics(),
                     ),
@@ -104,7 +105,7 @@ class _AccountPageDetailsConnected extends StatelessWidget {
             ],
           );
         } else if (snapshot.hasError) {
-          return CardError(message: translateError(context, snapshot.error));
+          return ErrorCard(message: translateError(context, snapshot.error));
         }
         return Container();
       },

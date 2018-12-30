@@ -4,7 +4,9 @@ import 'package:cv/src/widgets/theme_switch_tile_widget.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatelessWidget {
-  SettingsPage({Key key}) : super(key: key);
+  const SettingsPage({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class SettingsPage extends StatelessWidget {
         child: ListView(
           children: [
             ThemeSwitchTile(),
-            const Padding(padding: EdgeInsets.only(top: 8.0)),
+            AboutListTile(icon: Icon(Icons.info)),
           ],
         ),
       ),
