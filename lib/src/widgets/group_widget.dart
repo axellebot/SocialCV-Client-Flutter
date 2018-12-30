@@ -2,7 +2,7 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/entry_list_bloc.dart';
 import 'package:cv/src/commons/api_values.dart';
 import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/models/group_model.dart';
 import 'package:cv/src/utils/navigation.dart';
 import 'package:cv/src/widgets/entry_list_widget.dart';
@@ -24,7 +24,7 @@ class GroupWidget extends StatelessWidget {
     } else if (groupModel.type == kCVGroupTypeListVertical) {
       return _GroupVertical(groupModel: groupModel);
     } else {
-      return ErrorContent(message: Localization.of(context).notSupported);
+      return ErrorContent(message: CVLocalizations.of(context).notSupported);
     }
   }
 }
@@ -53,7 +53,7 @@ class _GroupHorizontal extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               FlatButton(
-                child: Text(Localization.of(context).groupWidgetDetails),
+                child: Text(CVLocalizations.of(context).groupWidgetDetails),
                 onPressed: () => navigateToGroup(context, groupModel.id),
               ),
             ],
@@ -100,7 +100,7 @@ class _GroupVertical extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               FlatButton(
-                child: Text(Localization.of(context).groupWidgetDetails),
+                child: Text(CVLocalizations.of(context).groupWidgetDetails),
                 onPressed: () => navigateToGroup(context, groupModel.id),
               ),
             ],

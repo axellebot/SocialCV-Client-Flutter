@@ -1,4 +1,4 @@
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(25.0),
                 child: Text(
-                  Localization.of(context).homeWelcome,
+                  CVLocalizations.of(context).homeWelcome,
                   style: Theme.of(context).textTheme.body2,
                 ),
               ),

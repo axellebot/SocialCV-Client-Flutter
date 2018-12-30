@@ -3,7 +3,7 @@ import 'package:cv/src/blocs/group_list_bloc.dart';
 import 'package:cv/src/blocs/part_bloc.dart';
 import 'package:cv/src/commons/api_values.dart';
 import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/utils/navigation.dart';
 import 'package:cv/src/utils/utils.dart';
@@ -48,7 +48,8 @@ class PartWidget extends StatelessWidget {
         },
       );
     } else {
-      return ErrorContent(message: Localization.of(context).notYetImplemented);
+      return ErrorContent(
+          message: CVLocalizations.of(context).notYetImplemented);
     }
   }
 }
@@ -71,7 +72,7 @@ class _PartWidgetFromModel extends StatelessWidget {
         partModel: partModel,
       );
     } else {
-      return ErrorContent(message: Localization.of(context).notSupported);
+      return ErrorContent(message: CVLocalizations.of(context).notSupported);
     }
   }
 }
@@ -97,7 +98,7 @@ class _PartWidgetFromModelHorizontal extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             FlatButton(
-              child: Text(Localization.of(context).partWidgetDetails),
+              child: Text(CVLocalizations.of(context).partWidgetDetails),
               onPressed: () => navigateToPart(context, partModel.id),
             ),
           ],
@@ -139,7 +140,7 @@ class _PartWidgetFromModelVertical extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             FlatButton(
-              child: Text(Localization.of(context).partWidgetDetails),
+              child: Text(CVLocalizations.of(context).partWidgetDetails),
               onPressed: () => navigateToPart(context, partModel.id),
             ),
           ],

@@ -1,5 +1,5 @@
 import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:cv/src/widgets/sort_box_widget.dart';
 import 'package:cv/src/widgets/sort_list_tile_widget.dart';
@@ -51,13 +51,13 @@ class _SortDialogState extends State<SortDialog> {
       ),
       actions: <Widget>[
         SimpleDialogOption(
-          child: Text(Localization.of(context).sortDialogCancel),
+          child: Text(CVLocalizations.of(context).sortDialogCancel),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         SimpleDialogOption(
-          child: Text(Localization.of(context).sortDialogConfirm),
+          child: Text(CVLocalizations.of(context).sortDialogConfirm),
           onPressed: null,
         ),
       ],

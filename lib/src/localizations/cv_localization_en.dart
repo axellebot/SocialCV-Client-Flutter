@@ -1,6 +1,12 @@
-import 'package:cv/src/localizations/localization.dart';
+import 'dart:ui';
 
-class LocalizationEN implements Localization {
+import 'package:cv/src/localizations/cv_localization.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+
+class CVLocalizationsEN implements CVLocalizations {
+  const CVLocalizationsEN();
+
   // App
   @override
   String get appName => "Social CV";
@@ -355,4 +361,22 @@ class LocalizationEN implements Localization {
   @override
   String get forgotPasswordErrorMessage =>
       "An error occurred while sending the email with instructions";
+
+  /// Creates an object that provides US English resource values for the
+  /// application.
+  ///
+  /// The [locale] parameter is ignored.
+  ///
+  /// This method is typically used to create a [LocalizationsDelegate].
+  /// The [MaterialApp] does so by default.
+  static Future<CVLocalizations> load(Locale locale) {
+    return SynchronousFuture<CVLocalizations>(const CVLocalizationsEN());
+  }
+
+  /// A [LocalizationsDelegate] that uses [CVLocalizationsEN.load]
+  /// to create an instance of this class.
+  ///
+  /// [MaterialApp] automatically adds this value to [MaterialApp.localizationsDelegates].
+  static const LocalizationsDelegate<CVLocalizations> delegate =
+      CVLocalizationsDelegate();
 }

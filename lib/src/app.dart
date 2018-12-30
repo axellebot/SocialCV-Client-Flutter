@@ -2,7 +2,7 @@ import 'package:cv/src/blocs/application_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
 import 'package:cv/src/commons/colors.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/pages/main_page.dart';
 import 'package:cv/src/routes.dart';
 import 'package:cv/src/utils/logger.dart';
@@ -38,7 +38,7 @@ class CVApp extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           return MaterialApp(
             onGenerateTitle: (BuildContext context) =>
-                Localization.of(context).appName,
+                CVLocalizations.of(context).appName,
             theme: _buildCVTheme(snapshot.data),
             home: _mainPageProvider,
             onGenerateRoute: routes.router.generator,

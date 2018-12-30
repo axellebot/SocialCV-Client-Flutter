@@ -4,7 +4,7 @@ import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/errors/api_errors.dart';
 import 'package:cv/src/errors/base_errors.dart';
 import 'package:cv/src/errors/http_errors.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +44,7 @@ List<DropdownMenuItem<String>> getDropDownMenuElementPerPage() {
 }
 
 String translateError(BuildContext context, dynamic err) {
-  Localization loc = Localization.of(context);
+  CVLocalizations loc = CVLocalizations.of(context);
   logger.warning(err);
 
   if (err is Exception) {

@@ -1,7 +1,7 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/blocs/main_bloc.dart';
 import 'package:cv/src/commons/tags.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/pages/account_page.dart';
 import 'package:cv/src/pages/home_page.dart';
 import 'package:cv/src/utils/logger.dart';
@@ -20,7 +20,7 @@ class MainPage extends StatelessWidget {
     logger.info('Building MainPage');
     return Scaffold(
       appBar: AppBar(
-        title: Text(Localization.of(context).appName),
+        title: Text(CVLocalizations.of(context).appName),
         centerTitle: true,
         actions: [
           MenuButton(),
@@ -30,7 +30,7 @@ class MainPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         heroTag: kHeroSearchFAB,
         icon: Icon(Icons.search),
-        label: Text(Localization.of(context).search),
+        label: Text(CVLocalizations.of(context).search),
         foregroundColor: Colors.white,
         onPressed: () => navigateToSearch(context),
       ),
@@ -107,7 +107,7 @@ class _MainPageBottomNavigationBar extends StatelessWidget {
               BottomNavigationBarItem(
                 icon: Icon(MdiIcons.homeOutline),
                 activeIcon: Icon(MdiIcons.home),
-                title: Text(Localization.of(context).home),
+                title: Text(CVLocalizations.of(context).home),
               ),
               const BottomNavigationBarItem(
                 // Fake item
@@ -117,7 +117,7 @@ class _MainPageBottomNavigationBar extends StatelessWidget {
               BottomNavigationBarItem(
                 icon: Icon(MdiIcons.accountOutline),
                 activeIcon: Icon(MdiIcons.account),
-                title: Text(Localization.of(context).account),
+                title: Text(CVLocalizations.of(context).account),
               ),
             ],
           );

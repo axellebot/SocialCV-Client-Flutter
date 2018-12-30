@@ -1,6 +1,6 @@
 import 'package:cv/src/blocs/account_bloc.dart';
 import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/localizations/localization.dart';
+import 'package:cv/src/localizations/cv_localization.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:cv/src/widgets/login_form_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(Localization.of(context).loginTitle),
+        title: Text(CVLocalizations.of(context).loginTitle),
         centerTitle: true,
       ),
       body: Stack(
