@@ -1,21 +1,20 @@
 import 'package:cv/src/models/api_models.dart';
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'profile_model.g.dart';
 
 @JsonSerializable()
-class ProfileModel extends BaseModel {
-  ProfileModel(
-      {Key key,
-      this.title,
-      this.subtitle,
-      this.picture,
-      this.cover,
-      this.type,
-      this.parts,
-      this.owner})
-      : super(key: key);
+class ProfileModel extends ApiBaseModel {
+  ProfileModel({
+    String id,
+    this.title,
+    this.subtitle,
+    this.picture,
+    this.cover,
+    this.type,
+    this.parts,
+    this.owner,
+  }) : super(id: id);
 
   String title;
   String subtitle;

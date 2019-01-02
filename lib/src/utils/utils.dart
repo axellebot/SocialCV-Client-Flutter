@@ -26,7 +26,6 @@ void printException(dynamic e, StackTrace stackTrace, [String message]) {
   } else {
     debugPrint(e.toString());
   }
-  logger.warning(stackTrace);
 }
 
 List<DropdownMenuItem<String>> getDropDownMenuElementPerPage() {
@@ -45,7 +44,7 @@ List<DropdownMenuItem<String>> getDropDownMenuElementPerPage() {
 
 String translateError(BuildContext context, dynamic err) {
   CVLocalizations loc = CVLocalizations.of(context);
-  logger.warning(err);
+  logger.info("Translating error");
 
   if (err is Exception) {
     if (err is FormatException)

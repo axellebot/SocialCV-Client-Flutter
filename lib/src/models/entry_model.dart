@@ -1,20 +1,19 @@
 import 'package:cv/src/models/api_models.dart';
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'entry_model.g.dart';
 
 @JsonSerializable()
-class EntryModel extends BaseModel {
-  EntryModel(
-      {Key key,
-      this.name,
-      this.startDate,
-      this.endDate,
-      this.location,
-      this.owner,
-      this.type})
-      : super(key: key);
+class EntryModel extends ApiBaseModel {
+  EntryModel({
+    String id,
+    this.name,
+    this.startDate,
+    this.endDate,
+    this.location,
+    this.owner,
+    this.type,
+  }) : super(id: id);
 
   String name;
   dynamic content;

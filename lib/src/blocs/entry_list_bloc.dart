@@ -2,7 +2,7 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/entry_model.dart';
-import 'package:cv/src/services/api_service.dart';
+import 'package:cv/src/services/cv_api_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
@@ -14,7 +14,7 @@ class EntryListBloc extends BlocBase {
     _entryPerPage.add(KCVItemsPerPageDefault);
   }
 
-  ApiService apiService = ApiService();
+  CVApiService apiService = CVApiService();
 
   // Reactive variables
   final _isFetchingEntriesController = BehaviorSubject<bool>();
@@ -39,8 +39,13 @@ class EntryListBloc extends BlocBase {
     if (!_isFetchingEntriesController.value) {
       _isFetchingEntriesController.add(true);
 
-      await SharedPreferencesService.getAuthToken()
-          .then((String token) => apiService.fetchGroupEntries(token, groupId))
+      String accessToken = await SharedPreferencesService.getAccessToken();
+
+      await apiService
+          .fetchGroupEntries(
+        accessToken: accessToken,
+        groupId: groupId,
+      )
           .then((ResponseModelWithArray<EntryModel> response) {
         if (response.error == false) {
           _entriesController.add(response.data);

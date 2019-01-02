@@ -2,7 +2,7 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/profile_model.dart';
-import 'package:cv/src/services/api_service.dart';
+import 'package:cv/src/services/cv_api_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
@@ -14,7 +14,7 @@ class ProfileListBloc extends BlocBase {
     _profilePerPage.add(KCVItemsPerPageDefault);
   }
 
-  ApiService apiService = ApiService();
+  CVApiService apiService = CVApiService();
 
   // Reactive variables
   final _isFetchingProfilesController = BehaviorSubject<bool>();
@@ -40,8 +40,10 @@ class ProfileListBloc extends BlocBase {
     if (!_isFetchingProfilesController.value) {
       _isFetchingProfilesController.add(true);
 
-      await SharedPreferencesService.getAuthToken()
-          .then(apiService.fetchAccountProfiles)
+      String accessToken = await SharedPreferencesService.getAccessToken();
+
+      await apiService
+          .fetchAccountProfiles(accessToken: accessToken)
           .then((ResponseModelWithArray<ProfileModel> response) {
         if (response.error == false) {
           return _profilesController.add(response.data);
@@ -59,8 +61,13 @@ class ProfileListBloc extends BlocBase {
     if (!_isFetchingProfilesController.value) {
       _isFetchingProfilesController.add(true);
 
-      await SharedPreferencesService.getAuthToken()
-          .then((String token) => apiService.fetchProfiles(token, profileTitle))
+      String accessToken = await SharedPreferencesService.getAccessToken();
+
+      await apiService
+          .fetchProfiles(
+        accessToken: accessToken,
+        profileTitle: profileTitle,
+      )
           .then((ResponseModelWithArray<ProfileModel> response) {
         if (response.error == false) {
           _profilesController.add(response.data);

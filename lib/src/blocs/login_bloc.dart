@@ -9,7 +9,8 @@ class LoginBloc extends BlocBase with Validators {
   // Reactive variables
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
-  final _connectionController = BehaviorSubject<AuthLoginResponseModel>();
+  final _connectionController =
+      BehaviorSubject<OAuthAccessTokenResponseModel>();
 
   bool _obscureValue = true;
 

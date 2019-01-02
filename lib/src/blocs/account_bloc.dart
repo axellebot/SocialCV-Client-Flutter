@@ -1,7 +1,8 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/user_model.dart';
-import 'package:cv/src/services/api_service.dart';
+import 'package:cv/src/services/cv_api_service.dart';
+import 'package:cv/src/services/secret_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
@@ -13,7 +14,7 @@ class AccountBloc extends BlocBase {
     _isFetchingAccountDetailsController.add(false);
   }
 
-  ApiService apiService = ApiService();
+  CVApiService apiService = CVApiService();
 
   // Reactive variables
   final _isAuthenticatedController = BehaviorSubject<bool>();
@@ -34,38 +35,56 @@ class AccountBloc extends BlocBase {
       _accountDetailsController.stream;
 
   /* Functions */
-  void login(String login, String password) async {
+  void login(String username, String password) async {
     logger.info('login');
     if (!_isLogingController.value) {
       _isLogingController.add(true);
 
+      Secret secret = await SecretService.load();
+
       await apiService
-          .login(AuthLoginModel(login: login, password: password))
-          .then((AuthLoginResponseModel response) {
-        if (response.error == false) {
-          if (response.token != null) {
-            // TODO : Fix Save Auth in Shared prefs
-            SharedPreferencesService.setAuthToken(response.token);
+          .fetchToken(
+        oauthTokenModel: OAuthTokenModel(
+          username: username,
+          password: password,
+          clientId: secret.clientId,
+          clientSecret: secret.clientSecret,
+          grantType: "password",
+        ),
+      )
+          .then((OAuthAccessTokenResponseModel response) {
+        if (response != null) {
+          if (response.accessToken != null) {
+            SharedPreferencesService.setAccessToken(response.accessToken);
+            SharedPreferencesService.setAccessTokenExpiration(
+                response.accessTokenExpiresAt);
+            SharedPreferencesService.setRefreshToken(response.refreshToken);
             SharedPreferencesService.setAuthConnected(true);
             _isAuthenticatedController.add(true);
+            this.fetchAccountDetails();
           }
-          _accountDetailsController.add(response.user);
         } else {
-          throw Exception(response.message);
+          throw Exception();
         }
-      }).catchError(_accountDetailsController.addError);
+      }).catchError((err) {
+        _accountDetailsController.addError(err);
+      });
 
       _isLogingController.add(false);
     }
   }
 
   void logout() async {
-    logger.info('Logout');
+    logger.info('logout');
     if (!_isLogingController.value) {
       _isLogingController.add(true);
 
-      await SharedPreferencesService.deleteAuthToken();
-      await SharedPreferencesService.deleteAuthConnected();
+      await SharedPreferencesService.deleteAccessToken();
+      await SharedPreferencesService.deleteAccessTokenExpiration();
+      await SharedPreferencesService.deleteRefreshToken();
+      await SharedPreferencesService.deleteRefreshTokenExpiration();
+      await SharedPreferencesService.deleteUserId();
+
       _accountDetailsController.add(null);
       _isAuthenticatedController.add(false);
 
@@ -78,10 +97,13 @@ class AccountBloc extends BlocBase {
     if (!_isFetchingAccountDetailsController.value) {
       _isFetchingAccountDetailsController.add(true);
 
-      await SharedPreferencesService.getAuthToken()
-          .then(apiService.fetchAccountDetails)
+      String accessToken = await SharedPreferencesService.getAccessToken();
+
+      await apiService
+          .fetchAccountDetails(accessToken: accessToken)
           .then((ResponseModel<UserModel> response) {
         if (response.error == false) {
+          SharedPreferencesService.setUserId(response.data.id);
           _accountDetailsController.add(response.data);
         } else {
           throw Exception(response.message);

@@ -1,12 +1,16 @@
 import 'package:cv/src/models/api_models.dart';
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'part_model.g.dart';
 
 @JsonSerializable()
-class PartModel extends BaseModel {
-  PartModel({Key key, this.name, this.groupIds, this.owner}) : super(key: key);
+class PartModel extends ApiBaseModel {
+  PartModel({
+    String id,
+    this.name,
+    this.groupIds,
+    this.owner,
+  }) : super(id: id);
 
   String name;
   @JsonKey(name: 'groups')

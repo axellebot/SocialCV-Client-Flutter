@@ -1,7 +1,7 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/profile_model.dart';
-import 'package:cv/src/services/api_service.dart';
+import 'package:cv/src/services/cv_api_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,7 +12,7 @@ class ProfileBloc extends BlocBase {
     _isFetchingProfileController.add(false);
   }
 
-  ApiService apiService = ApiService();
+  CVApiService apiService = CVApiService();
 
   // Reactive variables
   final _isFetchingProfileController = BehaviorSubject<bool>();
@@ -29,9 +29,13 @@ class ProfileBloc extends BlocBase {
     if (!_isFetchingProfileController.value) {
       _isFetchingProfileController.add(true);
 
-      await SharedPreferencesService.getAuthToken()
-          .then((String token) =>
-              apiService.fetchProfileDetails(token, profileId))
+      String accessToken = await SharedPreferencesService.getAccessToken();
+
+      await apiService
+          .fetchProfileDetails(
+        accessToken: accessToken,
+        profileId: profileId,
+      )
           .then((ResponseModel<ProfileModel> response) {
         if (response.error == false) {
           _profileController.add(response.data);

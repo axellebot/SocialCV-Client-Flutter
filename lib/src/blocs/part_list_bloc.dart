@@ -2,7 +2,7 @@ import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/commons/values.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/part_model.dart';
-import 'package:cv/src/services/api_service.dart';
+import 'package:cv/src/services/cv_api_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
@@ -14,7 +14,7 @@ class PartListBloc extends BlocBase {
     _partPerPage.add(KCVItemsPerPageDefault);
   }
 
-  ApiService apiService = ApiService();
+  CVApiService apiService = CVApiService();
 
   // Reactive variables
   final _isFetchingPartsController = BehaviorSubject<bool>();
@@ -39,9 +39,13 @@ class PartListBloc extends BlocBase {
     if (!_isFetchingPartsController.value) {
       _isFetchingPartsController.add(true);
 
-      await SharedPreferencesService.getAuthToken()
-          .then(
-              (String token) => apiService.fetchProfileParts(token, profileId))
+      String accessToken = await SharedPreferencesService.getAccessToken();
+
+      await apiService
+          .fetchProfileParts(
+        accessToken: accessToken,
+        profileId: profileId,
+      )
           .then((ResponseModelWithArray<PartModel> response) {
         if (response.error == false) {
           _partsController.add(response.data);
