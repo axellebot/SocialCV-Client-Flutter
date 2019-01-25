@@ -1,4 +1,4 @@
-# Social CV
+# Social-CV Flutter App
 
 A new Flutter application about "resumes".
 
@@ -7,8 +7,12 @@ A new Flutter application about "resumes".
 For help getting started with Flutter, view our online
 [documentation](https://flutter.io/).
 
-## Tips
-### JSON
+## Installation
+
+### Config
+Use secret template `./secrets.json.dist` to add secret file `./secrets.json`
+
+### Generate models
 [documentation](https://flutter.io/json/)
 
 Generate : `flutter packages pub run build_runner build` | `flutter packages pub run build_runner watch`
@@ -16,7 +20,7 @@ Generate : `flutter packages pub run build_runner build` | `flutter packages pub
 ## License
 
 ```
-    Copyright 2018 Axel LE BOT
+    Copyright 2018-2019 Axel LE BOT
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

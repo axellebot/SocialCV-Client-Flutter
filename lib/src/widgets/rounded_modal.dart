@@ -40,7 +40,7 @@ Future<T> showRoundedModalBottomSheet<T>({
 
   return Navigator.push<T>(
     context,
-    RoundedCornerModalRoute<T>(
+    _RoundedCornerModalBottomSheetRoute<T>(
       builder: builder,
       color: color,
       radius: radius,
@@ -190,8 +190,8 @@ class _RoundedModalBottomSheetLayout extends SingleChildLayoutDelegate {
   }
 }
 
-class RoundedCornerModalRoute<T> extends PopupRoute<T> {
-  RoundedCornerModalRoute({
+class _RoundedCornerModalBottomSheetRoute<T> extends PopupRoute<T> {
+  _RoundedCornerModalBottomSheetRoute({
     this.builder,
     this.barrierLabel,
     this.color,
@@ -243,16 +243,16 @@ class RoundedCornerModalRoute<T> extends PopupRoute<T> {
       removeTop: true,
       child: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: RoundedModalBottomSheet<T>(route: this),
+        child: _RoundedModalBottomSheet<T>(route: this),
       ),
     );
   }
 }
 
-class RoundedModalBottomSheet<T> extends StatefulWidget {
-  const RoundedModalBottomSheet({Key key, this.route}) : super(key: key);
+class _RoundedModalBottomSheet<T> extends StatefulWidget {
+  const _RoundedModalBottomSheet({Key key, this.route}) : super(key: key);
 
-  final RoundedCornerModalRoute<T> route;
+  final _RoundedCornerModalBottomSheetRoute<T> route;
 
   @override
   _RoundedModalBottomSheetState<T> createState() =>
@@ -260,36 +260,38 @@ class RoundedModalBottomSheet<T> extends StatefulWidget {
 }
 
 class _RoundedModalBottomSheetState<T>
-    extends State<RoundedModalBottomSheet<T>> {
+    extends State<_RoundedModalBottomSheet<T>> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.route.dismissOnTap ? () => Navigator.pop(context) : null,
       child: AnimatedBuilder(
         animation: widget.route.animation,
-        builder: (context, child) => CustomSingleChildLayout(
-              delegate: _RoundedModalBottomSheetLayout(
-                  widget.route.autoResize
-                      ? MediaQuery.of(context).viewInsets.bottom
-                      : 0.0,
-                  widget.route.animation.value),
-              child: RoundedBottomSheet(
-                animationController: widget.route.animationController,
-                onClosing: () => Navigator.pop(context),
-                builder: (context) => Container(
-                      decoration: BoxDecoration(
-                        color: widget.route.color,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(widget.route.radius),
-                          topRight: Radius.circular(widget.route.radius),
-                        ),
-                      ),
-                      child: SafeArea(
-                        child: Builder(builder: widget.route.builder),
+        builder: (context, child) {
+          return CustomSingleChildLayout(
+            delegate: _RoundedModalBottomSheetLayout(
+                widget.route.autoResize
+                    ? MediaQuery.of(context).viewInsets.bottom
+                    : 0.0,
+                widget.route.animation.value),
+            child: RoundedBottomSheet(
+              animationController: widget.route.animationController,
+              onClosing: () => Navigator.pop(context),
+              builder: (context) => Container(
+                    decoration: BoxDecoration(
+                      color: widget.route.color,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(widget.route.radius),
+                        topRight: Radius.circular(widget.route.radius),
                       ),
                     ),
-              ),
+                    child: SafeArea(
+                      child: Builder(builder: widget.route.builder),
+                    ),
+                  ),
             ),
+          );
+        },
       ),
     );
   }

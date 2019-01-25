@@ -1,7 +1,7 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/group_model.dart';
-import 'package:cv/src/services/api_service.dart';
+import 'package:cv/src/services/cv_api_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,7 +12,7 @@ class GroupBloc extends BlocBase {
     _isFetchingGroupController.add(false);
   }
 
-  ApiService apiService = ApiService();
+  CVApiService apiService = CVApiService();
 
   // Reactive variables
   final _isFetchingGroupController = BehaviorSubject<bool>();
@@ -24,13 +24,18 @@ class GroupBloc extends BlocBase {
 
   Observable<GroupModel> get groupStream => _groupController.stream;
 
-  void fetchGroup(String profileGroupId) async {
+  void fetchGroup(String groupId) async {
     logger.info('fetchGroup');
     if (!_isFetchingGroupController.value) {
       _isFetchingGroupController.add(true);
 
-      await SharedPreferencesService.getAuthToken()
-          .then((String token) => apiService.fetchGroup(token, profileGroupId))
+      String accessToken = await SharedPreferencesService.getAccessToken();
+
+      await apiService
+          .fetchGroup(
+        accessToken: accessToken,
+        groupId: groupId,
+      )
           .then((ResponseModel<GroupModel> response) {
         if (response.error == false) {
           _groupController.add(response.data);

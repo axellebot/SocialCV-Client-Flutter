@@ -1,7 +1,7 @@
 import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:cv/src/models/api_models.dart';
 import 'package:cv/src/models/entry_model.dart';
-import 'package:cv/src/services/api_service.dart';
+import 'package:cv/src/services/cv_api_service.dart';
 import 'package:cv/src/services/shared_preferences_service.dart';
 import 'package:cv/src/utils/logger.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,7 +12,7 @@ class EntryBloc extends BlocBase {
     _isFetchingEntryController.add(false);
   }
 
-  ApiService apiService = ApiService();
+  CVApiService apiService = CVApiService();
 
   // Reactive variables
   final _isFetchingEntryController = BehaviorSubject<bool>();
@@ -29,8 +29,13 @@ class EntryBloc extends BlocBase {
     if (!_isFetchingEntryController.value) {
       _isFetchingEntryController.add(true);
 
-      await SharedPreferencesService.getAuthToken()
-          .then((String token) => apiService.fetchEntry(token, profileEntryId))
+      String accessToken = await SharedPreferencesService.getAccessToken();
+
+      await apiService
+          .fetchEntry(
+        accessToken: accessToken,
+        entryId: profileEntryId,
+      )
           .then((ResponseModel<EntryModel> response) {
         if (response.error == false) {
           _entryController.add(response.data);

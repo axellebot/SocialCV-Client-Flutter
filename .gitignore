@@ -327,3 +327,5 @@ packages
 *.g.dart
 
 ios/.symlinks/ # Plugins
+
+secrets.json

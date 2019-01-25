@@ -4,27 +4,36 @@ import 'package:cv/src/models/part_model.dart';
 import 'package:cv/src/models/profile_model.dart';
 import 'package:cv/src/models/user_model.dart';
 import 'package:cv/src/utils/logger.dart';
-import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'api_models.g.dart';
 
 @JsonSerializable()
-class BaseModel extends Object {
-  BaseModel({Key key, this.id});
+class ApiBaseModel extends Object {
+  ApiBaseModel({this.id}) : super();
 
   @JsonKey(name: '_id')
   String id;
 
-  factory BaseModel.fromJson(Map<String, dynamic> json) =>
-      _$BaseModelFromJson(json);
+  DateTime createdAt;
+  DateTime updatedAt;
 
-  Map<String, dynamic> toJson() => _$BaseModelToJson(this);
+  @JsonKey(name: '__v')
+  int v;
+
+  factory ApiBaseModel.fromJson(Map<String, dynamic> json) =>
+      _$ApiBaseModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ApiBaseModelToJson(this);
 }
 
 @JsonSerializable()
-class ResponseModel<T> {
-  ResponseModel({Key key, this.error, this.message, this.data});
+class ResponseModel<T> extends Object {
+  ResponseModel({
+    this.error,
+    this.message,
+    this.data,
+  });
 
   bool error;
   String message;
@@ -38,17 +47,43 @@ class ResponseModel<T> {
   Map<String, dynamic> toJson() => _$ResponseModelToJson<T>(this);
 }
 
-// Model with GenericCollection https://github
-// .com/dart-lang/json_serializable/blob
-// /ee2c5c788279af01860624303abe16811850b82c/example/lib/json_converter_example.dart
+// TODO : Add model if needed
+T _dataFromJson<T>(Map<String, dynamic> input) {
+  logger.info("_dataFromJson $T");
+
+  if (T == UserModel)
+    return UserModel.fromJson(input) as T;
+  else if (T == ProfileModel)
+    return ProfileModel.fromJson(input) as T;
+  else if (T == PartModel)
+    return PartModel.fromJson(input) as T;
+  else if (T == GroupModel)
+    return GroupModel.fromJson(input) as T;
+  else if (T == EntryModel)
+    return EntryModel.fromJson(input) as T;
+  else
+    throw Exception("Unknown type $T in ._dataFromJson");
+}
+
+// TODO : Add model if needed
+Map<String, dynamic> _dataToJson<T>(Object json) {
+  logger.info("_dataToJson $T");
+  return json;
+}
+
+/// Model with GenericCollection https://github.com/dart-lang/json_serializable/blob/ee2c5c788279af01860624303abe16811850b82c/example/lib/json_converter_example.dart
 @JsonSerializable()
-class ResponseModelWithArray<T> {
-  ResponseModelWithArray({Key key, this.error, this.message, this.data});
+class ResponseModelWithArray<T> extends Object {
+  ResponseModelWithArray({
+    this.error,
+    this.message,
+    this.data,
+  });
 
   bool error;
   String message;
 
-  @_Converter()
+  @_ResponseDataConverter()
   List<T> data;
 
   int total;
@@ -59,8 +94,8 @@ class ResponseModelWithArray<T> {
   Map<String, dynamic> toJson() => _$ResponseModelWithArrayToJson<T>(this);
 }
 
-class _Converter<T> implements JsonConverter<T, Object> {
-  const _Converter();
+class _ResponseDataConverter<T> implements JsonConverter<T, Object> {
+  const _ResponseDataConverter();
 
   @override
   T fromJson(Object json) {
@@ -90,52 +125,60 @@ class _Converter<T> implements JsonConverter<T, Object> {
   }
 }
 
-// TODO : Add models if needed
-T _dataFromJson<T>(Map<String, dynamic> input) {
-  logger.info("_dataFromJson $T");
+@JsonSerializable()
+class OAuthTokenModel extends Object {
+  const OAuthTokenModel({
+    this.username,
+    this.password,
+    this.refreshToken,
+    this.clientId,
+    this.clientSecret,
+    this.grantType = "password",
+  })  : assert((username != null && password != null) || refreshToken != null),
+        assert(clientId != null),
+        assert(clientSecret != null),
+        assert(grantType != null),
+        super();
 
-  if (T == UserModel)
-    return UserModel.fromJson(input) as T;
-  else if (T == ProfileModel)
-    return ProfileModel.fromJson(input) as T;
-  else if (T == PartModel)
-    return PartModel.fromJson(input) as T;
-  else if (T == GroupModel)
-    return GroupModel.fromJson(input) as T;
-  else if (T == EntryModel)
-    return EntryModel.fromJson(input) as T;
-  else
-    throw Exception("Unknown type $T in ._dataFromJson");
-}
+  @JsonKey(name: 'username')
+  final String username;
+  @JsonKey(name: 'password')
+  final String password;
+  @JsonKey(name: 'refresh_token')
+  final String refreshToken;
+  @JsonKey(name: 'client_id')
+  final String clientId;
+  @JsonKey(name: 'client_secret')
+  final String clientSecret;
+  @JsonKey(name: 'grant_type')
+  final String grantType;
 
-// TODO : Add models if needed
-Map<String, dynamic> _dataToJson<T>(Object json) {
-  logger.info("_dataToJson $T");
-  return json;
+  factory OAuthTokenModel.fromJson(Map<String, dynamic> json) =>
+      _$OAuthTokenModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OAuthTokenModelToJson(this);
 }
 
 @JsonSerializable()
-class AuthLoginModel {
-  AuthLoginModel({this.login, this.password});
+class OAuthAccessTokenResponseModel extends Object {
+  OAuthAccessTokenResponseModel({
+    this.accessToken,
+    this.refreshToken,
+    this.accessTokenExpiresAt,
+    this.tokenType,
+  }) : super();
 
-  String login;
-  String password;
+  @JsonKey(name: 'access_token')
+  String accessToken;
+  @JsonKey(name: 'refresh_token')
+  String refreshToken;
+  @JsonKey(name: 'expires_in')
+  int accessTokenExpiresAt;
+  @JsonKey(name: 'token_type')
+  String tokenType;
 
-  factory AuthLoginModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthLoginModelFromJson(json);
+  factory OAuthAccessTokenResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$OAuthAccessTokenResponseModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AuthLoginModelToJson(this);
-}
-
-@JsonSerializable()
-class AuthLoginResponseModel extends ResponseModel {
-  AuthLoginResponseModel({Key key, this.token, this.user}) : super(key: key);
-
-  String token;
-  UserModel user;
-
-  factory AuthLoginResponseModel.fromJson(Map<String, dynamic> json) =>
-      _$AuthLoginResponseModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AuthLoginResponseModelToJson(this);
+  Map<String, dynamic> toJson() => _$OAuthAccessTokenResponseModelToJson(this);
 }

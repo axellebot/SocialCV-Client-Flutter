@@ -1,6 +1,5 @@
 import 'package:cv/src/commons/paths.dart';
 import 'package:cv/src/widgets/menu_bottom_sheet_widget.dart';
-import 'package:cv/src/widgets/rounded_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -33,7 +32,7 @@ void navigateToEntry(BuildContext context, String entryId) {
 }
 
 void openMenuBottomSheet(BuildContext context) {
-  showRoundedModalBottomSheet(
+  showModalBottomSheet(
     context: context,
     builder: (context) => MenuBottomSheet(),
   );

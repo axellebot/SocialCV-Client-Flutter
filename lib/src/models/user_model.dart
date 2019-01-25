@@ -1,20 +1,19 @@
 import 'package:cv/src/models/api_models.dart';
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
 
 @JsonSerializable()
-class UserModel extends BaseModel {
-  UserModel(
-      {Key key,
-      this.disabled,
-      this.email,
-      this.username,
-      this.picture,
-      this.profileIds,
-      this.permission})
-      : super(key: key);
+class UserModel extends ApiBaseModel {
+  UserModel({
+    String id,
+    this.disabled,
+    this.email,
+    this.username,
+    this.picture,
+    this.profileIds,
+    this.permission,
+  }) : super(id: id);
 
   bool disabled;
   String email;
@@ -24,7 +23,7 @@ class UserModel extends BaseModel {
   @JsonKey(name: 'profiles')
   List<String> profileIds;
 
-  String permission;
+  dynamic permission;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
