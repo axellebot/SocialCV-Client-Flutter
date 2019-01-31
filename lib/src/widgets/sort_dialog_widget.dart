@@ -1,10 +1,10 @@
-import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/utils/logger.dart';
-import 'package:cv/src/widgets/sort_box_widget.dart';
-import 'package:cv/src/widgets/sort_list_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/widgets/sort_box_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/sort_list_tile_widget.dart';
 
 class SortDialog extends StatefulWidget {
   const SortDialog({

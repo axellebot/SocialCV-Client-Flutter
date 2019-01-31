@@ -1,5 +1,5 @@
-import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_flutter/src/widgets/initial_circle_avatar_widget.dart';
 
 class ProfileImage extends StatelessWidget {
   const ProfileImage({

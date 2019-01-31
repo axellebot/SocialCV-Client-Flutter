@@ -1,5 +1,5 @@
-import 'package:cv/src/blocs/bloc_provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
 
 enum TabType {
   HOME_TAB,

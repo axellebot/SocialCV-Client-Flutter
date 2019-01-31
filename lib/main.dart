@@ -1,9 +1,10 @@
-import 'package:cv/src/app.dart';
-import 'package:cv/src/blocs/account_bloc.dart';
-import 'package:cv/src/blocs/application_bloc.dart';
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/utils/logger.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_dart_common/repositories.dart';
+import 'package:social_cv_client_flutter/src/app.dart';
+import 'package:social_cv_client_flutter/src/repositories/preferences_repository.dart';
+import 'package:social_cv_client_flutter/src/repositories/repositories_provider.dart';
+import 'package:social_cv_client_flutter/src/repositories/secrets_repository.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 Future<void> main() async {
   //  SystemChrome.setPreferredOrientations(
@@ -11,13 +12,26 @@ Future<void> main() async {
 
   initLogger(package: "CV App");
 
+  SecretsRepository secretsRepository = SecretsRepositoryImpl();
+  PreferencesRepository preferencesRepository = PreferencesRepositoryImpl();
+
+  CVClient cvClient = CVClientImpl(
+    accessToken: await preferencesRepository.getAccessToken(),
+    refreshToken: await preferencesRepository.getRefreshToken(),
+  );
+  CVCache cvCache = CVCacheImpl();
+
+  CVRepository cvRepository = CVRepositoryImpl(
+    client: cvClient,
+    cache: cvCache,
+  );
+
   runApp(
-    BlocProvider<ApplicationBloc>(
-      bloc: ApplicationBloc(),
-      child: BlocProvider<AccountBloc>(
-        bloc: AccountBloc(),
-        child: CVApp(),
-      ),
+    RepositoriesProvider(
+      cvRepository: cvRepository,
+      preferencesRepository: preferencesRepository,
+      secretsRepository: secretsRepository,
+      child: CVApp(),
     ),
   );
 }

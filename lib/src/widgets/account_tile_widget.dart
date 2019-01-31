@@ -1,11 +1,11 @@
-import 'package:cv/src/blocs/account_bloc.dart';
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/models/user_model.dart';
-import 'package:cv/src/utils/navigation.dart';
-import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/models.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/navigation.dart';
+import 'package:social_cv_client_flutter/src/widgets/initial_circle_avatar_widget.dart';
 
 class AccountTile extends StatelessWidget {
   const AccountTile({
@@ -33,7 +33,7 @@ class _AccountTileConnected extends StatelessWidget {
   Widget build(BuildContext context) {
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
     return StreamBuilder<UserModel>(
-      stream: _accountBloc.fetchAccountDetailsStream,
+      stream: _accountBloc.accountDetailsStream,
       builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
         if (snapshot.hasData) {
           UserModel userModel = snapshot.data;

@@ -1,28 +1,35 @@
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/entry_bloc.dart';
-import 'package:cv/src/blocs/group_bloc.dart';
-import 'package:cv/src/blocs/main_bloc.dart';
-import 'package:cv/src/blocs/part_bloc.dart';
-import 'package:cv/src/blocs/profile_bloc.dart';
-import 'package:cv/src/commons/paths.dart';
-import 'package:cv/src/pages/entry_page.dart';
-import 'package:cv/src/pages/group_page.dart';
-import 'package:cv/src/pages/login_page.dart';
-import 'package:cv/src/pages/part_page.dart';
-import 'package:cv/src/pages/profile_page.dart';
-import 'package:cv/src/pages/search_page.dart';
-import 'package:cv/src/pages/settings_page.dart';
-import 'package:cv/src/utils/logger.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/widgets.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/repositories.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/blocs/main_bloc.dart';
+import 'package:social_cv_client_flutter/src/commons/paths.dart';
+import 'package:social_cv_client_flutter/src/pages/entry_page.dart';
+import 'package:social_cv_client_flutter/src/pages/group_page.dart';
+import 'package:social_cv_client_flutter/src/pages/login_page.dart';
+import 'package:social_cv_client_flutter/src/pages/part_page.dart';
+import 'package:social_cv_client_flutter/src/pages/profile_page.dart';
+import 'package:social_cv_client_flutter/src/pages/search_page.dart';
+import 'package:social_cv_client_flutter/src/pages/settings_page.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 class Routes {
-  final BlocProvider<MainBloc> _mainPageProvider;
   final Router router = Router();
 
-  Routes(this._mainPageProvider) {
+  Routes({
+    this.mainPageProvider,
+    this.cvRepository,
+    this.secretsRepository,
+    this.preferencesRepository,
+  }) {
     _defineRoutes();
   }
+
+  final BlocProvider<MainBloc> mainPageProvider;
+  final CVRepository cvRepository;
+  final SecretsRepository secretsRepository;
+  final PreferencesRepository preferencesRepository;
 
   void _defineRoutes() {
     router.define(
@@ -30,7 +37,7 @@ class Routes {
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           logger.info("Navigate to $kPathHome");
-          return _mainPageProvider;
+          return mainPageProvider;
         },
       ),
     );
@@ -40,7 +47,7 @@ class Routes {
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           logger.info("Navigate to $kPathAccount");
-          return _mainPageProvider;
+          return mainPageProvider;
         },
       ),
     );
@@ -89,7 +96,7 @@ class Routes {
           logger.info("Navigate to $kPathProfiles/$profileId");
 
           return BlocProvider<ProfileBloc>(
-            bloc: ProfileBloc(),
+            bloc: ProfileBloc(cvRepository: cvRepository),
             child: ProfilePage(profileId: profileId),
           );
         },
@@ -105,7 +112,7 @@ class Routes {
           logger.info("Navigate to $kPathParts/$partId");
 
           return BlocProvider<PartBloc>(
-            bloc: PartBloc(),
+            bloc: PartBloc(cvRepository: cvRepository),
             child: PartPage(partId: partId),
           );
         },
@@ -121,7 +128,7 @@ class Routes {
           logger.info("Navigate to $kPathGroups/$groupId");
 
           return BlocProvider<GroupBloc>(
-            bloc: GroupBloc(),
+            bloc: GroupBloc(cvRepository: cvRepository),
             child: GroupPage(groupId: groupId),
           );
         },
@@ -137,7 +144,7 @@ class Routes {
           logger.info("Navigate to $kPathEntries/$entryId");
 
           return BlocProvider<EntryBloc>(
-            bloc: EntryBloc(),
+            bloc: EntryBloc(cvRepository: cvRepository),
             child: EntryPage(entryId: entryId),
           );
         },

@@ -1,10 +1,10 @@
-import 'package:cv/src/commons/api_values.dart';
-import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/models/entry_model.dart';
-import 'package:cv/src/utils/navigation.dart';
-import 'package:cv/src/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_dart_common/models.dart';
+import 'package:social_cv_client_flutter/src/commons/api_values.dart';
+import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/navigation.dart';
+import 'package:social_cv_client_flutter/src/widgets/error_widget.dart';
 
 class EntryWidget extends StatelessWidget {
   const EntryWidget({

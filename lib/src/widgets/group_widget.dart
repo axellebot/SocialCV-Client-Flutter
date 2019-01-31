@@ -1,13 +1,13 @@
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/entry_list_bloc.dart';
-import 'package:cv/src/commons/api_values.dart';
-import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/models/group_model.dart';
-import 'package:cv/src/utils/navigation.dart';
-import 'package:cv/src/widgets/entry_list_widget.dart';
-import 'package:cv/src/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/models.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/commons/api_values.dart';
+import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/navigation.dart';
+import 'package:social_cv_client_flutter/src/widgets/entry_list_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/error_widget.dart';
 
 class GroupWidget extends StatelessWidget {
   const GroupWidget({

@@ -1,17 +1,16 @@
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/part_bloc.dart';
-import 'package:cv/src/blocs/profile_bloc.dart';
-import 'package:cv/src/commons/api_values.dart';
-import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/models/profile_model.dart';
-import 'package:cv/src/utils/logger.dart';
-import 'package:cv/src/utils/utils.dart';
-import 'package:cv/src/widgets/error_widget.dart';
-import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
-import 'package:cv/src/widgets/loading_widget.dart';
-import 'package:cv/src/widgets/part_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/models.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/commons/api_values.dart';
+import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/utils/utils.dart';
+import 'package:social_cv_client_flutter/src/widgets/error_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/initial_circle_avatar_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/loading_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/part_widget.dart';
 
 // TODO : Build owner interaction with ProfileModel.owner
 
@@ -225,6 +224,7 @@ class _ProfilePageSliver extends StatelessWidget {
   const _ProfilePageSliver({@required this.partId}) : assert(partId != null);
 
   final String partId;
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(

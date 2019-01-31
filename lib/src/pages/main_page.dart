@@ -1,14 +1,14 @@
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/main_bloc.dart';
-import 'package:cv/src/commons/tags.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/pages/account_page.dart';
-import 'package:cv/src/pages/home_page.dart';
-import 'package:cv/src/utils/logger.dart';
-import 'package:cv/src/utils/navigation.dart';
-import 'package:cv/src/widgets/menu_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/blocs/main_bloc.dart';
+import 'package:social_cv_client_flutter/src/commons/tags.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/pages/account_page.dart';
+import 'package:social_cv_client_flutter/src/pages/home_page.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/utils/navigation.dart';
+import 'package:social_cv_client_flutter/src/widgets/menu_button_widget.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({

@@ -1,8 +1,8 @@
-import 'package:cv/src/models/profile_model.dart';
-import 'package:cv/src/utils/navigation.dart';
-import 'package:cv/src/widgets/initial_circle_avatar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:social_cv_client_dart_common/models.dart';
+import 'package:social_cv_client_flutter/src/utils/navigation.dart';
+import 'package:social_cv_client_flutter/src/widgets/initial_circle_avatar_widget.dart';
 
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({

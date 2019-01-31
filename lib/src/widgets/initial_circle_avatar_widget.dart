@@ -1,5 +1,5 @@
-import 'package:cv/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
 class InitialCircleAvatar extends StatefulWidget {
   InitialCircleAvatar({

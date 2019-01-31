@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:cv/src/localizations/cv_localization_en.dart';
-import 'package:cv/src/localizations/cv_localization_fr.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization_en.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization_fr.dart';
 
 abstract class CVLocalizations {
   static CVLocalizations of(BuildContext context) {

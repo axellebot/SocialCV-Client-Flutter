@@ -1,9 +1,9 @@
-import 'package:cv/src/blocs/account_bloc.dart';
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/utils/logger.dart';
-import 'package:cv/src/widgets/login_form_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/widgets/login_form_widget.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({
@@ -23,7 +23,7 @@ class LoginPage extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           StreamBuilder<bool>(
-            stream: _accountBloc.isLogingStream,
+            stream: _accountBloc.isLoggingStream,
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.data == true) {
                 return LinearProgressIndicator();

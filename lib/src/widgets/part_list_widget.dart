@@ -1,17 +1,16 @@
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/part_list_bloc.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/models/part_model.dart';
-import 'package:cv/src/models/profile_model.dart';
-import 'package:cv/src/utils/utils.dart';
-import 'package:cv/src/widgets/error_widget.dart';
-import 'package:cv/src/widgets/loading_widget.dart';
-import 'package:cv/src/widgets/part_widget.dart';
-import 'package:cv/src/widgets/sort_box_widget.dart';
-import 'package:cv/src/widgets/sort_dialog_widget.dart';
-import 'package:cv/src/widgets/sort_list_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/models.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/utils.dart';
+import 'package:social_cv_client_flutter/src/widgets/error_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/loading_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/part_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/sort_box_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/sort_dialog_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/sort_list_tile_widget.dart';
 
 /// A widget to list all parts from [PartModel] or from a search
 class PartListWidget extends StatelessWidget {

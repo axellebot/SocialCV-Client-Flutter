@@ -2,13 +2,24 @@ import 'dart:async' show Future;
 import 'dart:convert' show json;
 
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:social_cv_client_dart_common/repositories.dart';
 
 /// From https://medium.com/@sokrato/storing-your-secret-keys-in-flutter-c0b9af1c0f69
 
-class SecretService {
+class SecretsRepositoryImpl implements SecretsRepository {
   static const secretPath = "secrets.json";
 
-  static Future<Secret> load() {
+  @override
+  Future<String> loadclientId() async {
+    return (await _load()).clientId;
+  }
+
+  @override
+  Future<String> loadclientSecret() async {
+    return (await _load()).clientSecret;
+  }
+
+  static Future<Secret> _load() {
     return rootBundle.loadStructuredData<Secret>(
       secretPath,
       (jsonStr) async {

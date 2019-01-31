@@ -1,9 +1,10 @@
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/profile_list_bloc.dart';
-import 'package:cv/src/commons/tags.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/widgets/profile_list_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/commons/tags.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/repositories/repositories_provider.dart';
+import 'package:social_cv_client_flutter/src/widgets/profile_list_widget.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({
@@ -12,6 +13,8 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RepositoriesProvider _repositories = RepositoriesProvider.of(context);
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -39,7 +42,10 @@ class SearchPage extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: BlocProvider(
-              bloc: ProfileListBloc(),
+              bloc: ProfileListBloc(
+                cvRepository: _repositories.cvRepository,
+                preferencesRepository: _repositories.preferencesRepository,
+              ),
               child: ProfileListWidget(
                 fromSearch: "",
                 showOptions: true,

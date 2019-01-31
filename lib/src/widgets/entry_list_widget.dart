@@ -1,16 +1,15 @@
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/entry_list_bloc.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/models/entry_model.dart';
-import 'package:cv/src/models/group_model.dart';
-import 'package:cv/src/utils/utils.dart';
-import 'package:cv/src/widgets/entry_widget.dart';
-import 'package:cv/src/widgets/error_widget.dart';
-import 'package:cv/src/widgets/loading_widget.dart';
-import 'package:cv/src/widgets/sort_box_widget.dart';
-import 'package:cv/src/widgets/sort_dialog_widget.dart';
-import 'package:cv/src/widgets/sort_list_tile_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/models.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/utils.dart';
+import 'package:social_cv_client_flutter/src/widgets/entry_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/error_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/loading_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/sort_box_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/sort_dialog_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/sort_list_tile_widget.dart';
 
 class EntryListWidget extends StatelessWidget {
   const EntryListWidget({

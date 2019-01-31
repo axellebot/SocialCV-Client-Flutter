@@ -1,27 +1,47 @@
-import 'package:cv/src/blocs/application_bloc.dart';
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/main_bloc.dart';
-import 'package:cv/src/commons/colors.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/pages/main_page.dart';
-import 'package:cv/src/routes.dart';
-import 'package:cv/src/utils/logger.dart';
-import 'package:cv/src/utils/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/blocs/main_bloc.dart';
+import 'package:social_cv_client_flutter/src/commons/colors.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/pages/main_page.dart';
+import 'package:social_cv_client_flutter/src/repositories/repositories_provider.dart';
+import 'package:social_cv_client_flutter/src/routes.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 class CVApp extends StatelessWidget {
-  const CVApp({Key key}) : super(key: key);
+  const CVApp({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     logger.info('Building App');
 
-    // Set-up error reporting
-    FlutterError.onError = (FlutterErrorDetails error) {
-      printException(error.exception, error.stack, error.context);
-    };
+    RepositoriesProvider repositories = RepositoriesProvider.of(context);
+
+    return BlocProvider<ApplicationBloc>(
+      bloc: ApplicationBloc(
+        preferencesRepository: repositories.preferencesRepository,
+      ),
+      child: BlocProvider<AccountBloc>(
+        bloc: AccountBloc(
+          cvRepository: repositories.cvRepository,
+          preferencesRepository: repositories.preferencesRepository,
+          secretRepository: repositories.secretsRepository,
+        ),
+        child: _CVThemedApp(),
+      ),
+    );
+  }
+}
+
+class _CVThemedApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    RepositoriesProvider repositories = RepositoriesProvider.of(context);
 
     BlocProvider<MainBloc> _mainPageProvider = BlocProvider<MainBloc>(
       bloc: MainBloc(),
@@ -29,7 +49,12 @@ class CVApp extends StatelessWidget {
     );
 
     // Routes
-    Routes routes = Routes(_mainPageProvider);
+    Routes routes = Routes(
+      mainPageProvider: _mainPageProvider,
+      cvRepository: repositories.cvRepository,
+      preferencesRepository: repositories.preferencesRepository,
+      secretsRepository: repositories.secretsRepository,
+    );
 
     ApplicationBloc _appBloc = BlocProvider.of<ApplicationBloc>(context);
 
@@ -60,7 +85,7 @@ class CVApp extends StatelessWidget {
 
   ThemeData _buildCVTheme(String theme) {
     ThemeData base;
-    if (theme != THEME.DARK)
+    if (theme != ThemeType.DARK)
       base = ThemeData.light();
     else {
       base = ThemeData.dark();
@@ -71,7 +96,7 @@ class CVApp extends StatelessWidget {
       primaryColorLight: kCVPrimaryColorLight,
       primaryColorDark: kCVPrimaryColorDark,
       accentColor: kCVAccentColor,
-      buttonColor: (theme != THEME.DARK) ? kCVWhite : kCVPrimaryColorDark,
+      buttonColor: (theme != ThemeType.DARK) ? kCVWhite : kCVPrimaryColorDark,
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(),
       ),

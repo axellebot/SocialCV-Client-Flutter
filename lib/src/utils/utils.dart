@@ -1,13 +1,11 @@
 import 'dart:async';
 
-import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/errors/api_errors.dart';
-import 'package:cv/src/errors/base_errors.dart';
-import 'package:cv/src/errors/http_errors.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/utils/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
+import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 String getInitials(String nameString) {
   if (nameString.isEmpty) return " ";

@@ -1,16 +1,15 @@
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/group_list_bloc.dart';
-import 'package:cv/src/blocs/part_bloc.dart';
-import 'package:cv/src/commons/api_values.dart';
-import 'package:cv/src/commons/values.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/models/part_model.dart';
-import 'package:cv/src/utils/navigation.dart';
-import 'package:cv/src/utils/utils.dart';
-import 'package:cv/src/widgets/error_widget.dart';
-import 'package:cv/src/widgets/group_list_widget.dart';
-import 'package:cv/src/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/models.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/commons/api_values.dart';
+import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/navigation.dart';
+import 'package:social_cv_client_flutter/src/utils/utils.dart';
+import 'package:social_cv_client_flutter/src/widgets/error_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/group_list_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/loading_widget.dart';
 
 class PartWidget extends StatelessWidget {
   PartWidget({

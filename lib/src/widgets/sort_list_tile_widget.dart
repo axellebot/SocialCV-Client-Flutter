@@ -1,6 +1,6 @@
-import 'package:cv/src/widgets/sort_box_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:social_cv_client_flutter/src/widgets/sort_box_widget.dart';
 
 class SortListItem {
   SortListItem({

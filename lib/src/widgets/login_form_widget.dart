@@ -1,14 +1,14 @@
-import 'package:cv/src/blocs/account_bloc.dart';
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/login_bloc.dart';
-import 'package:cv/src/blocs/validators.dart';
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/models/user_model.dart';
-import 'package:cv/src/utils/logger.dart';
-import 'package:cv/src/utils/utils.dart';
-import 'package:cv/src/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/models.dart';
+import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
+import 'package:social_cv_client_flutter/src/blocs/login_bloc.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/utils/utils.dart';
+import 'package:social_cv_client_flutter/src/utils/validators.dart';
+import 'package:social_cv_client_flutter/src/widgets/error_widget.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -192,7 +192,7 @@ class _LoginFromMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
     return StreamBuilder<UserModel>(
-      stream: _accountBloc.fetchAccountDetailsStream,
+      stream: _accountBloc.accountDetailsStream,
       builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
         if (snapshot.hasError) {
           return ErrorCard(message: translateError(context, snapshot.error));

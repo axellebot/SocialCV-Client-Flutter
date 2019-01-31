@@ -1,7 +1,7 @@
-import 'package:cv/src/commons/paths.dart';
-import 'package:cv/src/widgets/menu_bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:social_cv_client_flutter/src/commons/paths.dart';
+import 'package:social_cv_client_flutter/src/widgets/menu_bottom_sheet_widget.dart';
 
 void navigateToLogin(BuildContext context) {
   Navigator.of(context).pushNamed(kPathLogin);

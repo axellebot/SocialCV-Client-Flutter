@@ -1,8 +1,8 @@
-import 'package:cv/src/localizations/cv_localization.dart';
-import 'package:cv/src/utils/navigation.dart';
-import 'package:cv/src/widgets/account_tile_widget.dart';
-import 'package:cv/src/widgets/theme_switch_tile_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/navigation.dart';
+import 'package:social_cv_client_flutter/src/widgets/account_tile_widget.dart';
+import 'package:social_cv_client_flutter/src/widgets/theme_switch_tile_widget.dart';
 
 class MenuBottomSheet extends StatelessWidget {
   const MenuBottomSheet({

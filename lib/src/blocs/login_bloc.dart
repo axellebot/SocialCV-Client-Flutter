@@ -1,7 +1,9 @@
-import 'package:cv/src/blocs/bloc_provider.dart';
-import 'package:cv/src/blocs/validators.dart';
-import 'package:cv/src/models/api_models.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/models.dart';
+import 'package:social_cv_client_flutter/src/utils/validators.dart';
+
+const String _TAG = "LoginBloc";
 
 class LoginBloc extends BlocBase with Validators {
   LoginBloc() : super();

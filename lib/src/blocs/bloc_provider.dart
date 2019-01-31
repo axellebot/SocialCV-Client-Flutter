@@ -1,11 +1,6 @@
 // Generic Interface for all BLoCs
 import 'package:flutter/material.dart';
-
-abstract class BlocBase {
-  BlocBase();
-
-  void dispose();
-}
+import 'package:social_cv_client_dart_common/blocs.dart';
 
 // Generic BLoC provider
 class BlocProvider<T extends BlocBase> extends StatefulWidget {
