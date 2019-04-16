@@ -79,7 +79,7 @@ class _LoadingShadowContentState extends State<LoadingShadowContent>
             child: Container(
               height: 13.0,
               width: MediaQuery.of(context).size.width / _divideFactor,
-              // constraints: BoxConstraints.expand(),
+              ///constraints: BoxConstraints.expand(),
               decoration: BoxDecoration(
                   color: Colors.grey.withOpacity(_opacity.value),
                   borderRadius: BorderRadius.circular(6.5)),

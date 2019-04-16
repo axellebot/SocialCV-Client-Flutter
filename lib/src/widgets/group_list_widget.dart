@@ -168,7 +168,7 @@ class _GroupList extends StatelessWidget {
     GroupListBloc _groupListBloc = BlocProvider.of<GroupListBloc>(context);
 
     final List<SortListItem> sortItems = <SortListItem>[
-      SortListItem(field: "title", title: "Title", value: SortState.NoSort)
+      SortListItem(field: 'title', title: 'Title', value: SortState.NoSort)
     ];
 
     return ListView.builder(

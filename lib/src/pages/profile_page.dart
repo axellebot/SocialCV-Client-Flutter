@@ -3,7 +3,7 @@ import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
 import 'package:social_cv_client_flutter/src/commons/api_values.dart';
-import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
@@ -12,7 +12,7 @@ import 'package:social_cv_client_flutter/src/widgets/initial_circle_avatar_widge
 import 'package:social_cv_client_flutter/src/widgets/loading_widget.dart';
 import 'package:social_cv_client_flutter/src/widgets/part_widget.dart';
 
-// TODO : Build owner interaction with ProfileModel.owner
+/// TODO : Build owner interaction with ProfileModel.owner
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({
@@ -49,37 +49,37 @@ class ProfilePage extends StatelessWidget {
             if (profileModel.type == kCVProfileType1) {
               slivers.addAll([
                 _ProfilePageSliver(
-                  partId: profileModel.parts["main"],
+                  partId: profileModel.parts['main'],
                 )
               ]);
             } else if (profileModel.type == kCVProfileType2) {
               slivers.addAll([
                 _ProfilePageSliver(
-                  partId: profileModel.parts["header"],
+                  partId: profileModel.parts['header'],
                 ),
                 _ProfilePageSliver(
-                  partId: profileModel.parts["main"],
+                  partId: profileModel.parts['main'],
                 )
               ]);
             } else if (profileModel.type == kCVProfileType3) {
               slivers.addAll([
                 _ProfilePageSliver(
-                  partId: profileModel.parts["side"],
+                  partId: profileModel.parts['side'],
                 ),
                 _ProfilePageSliver(
-                  partId: profileModel.parts["main"],
+                  partId: profileModel.parts['main'],
                 )
               ]);
             } else if (profileModel.type == kCVProfileType4) {
               slivers.addAll([
                 _ProfilePageSliver(
-                  partId: profileModel.parts["header"],
+                  partId: profileModel.parts['header'],
                 ),
                 _ProfilePageSliver(
-                  partId: profileModel.parts["side"],
+                  partId: profileModel.parts['side'],
                 ),
                 _ProfilePageSliver(
-                  partId: profileModel.parts["main"],
+                  partId: profileModel.parts['main'],
                 )
               ]);
             } else {
@@ -146,14 +146,14 @@ class _ProfilePageAppBar extends StatelessWidget {
           );
 
           Widget avatarWidget = InitialCircleAvatar(
-            elevation: kCVProfileAvatarElevation,
-            maxRadius: kCVProfileAvatarMax,
-            minRadius: kCVProfileAvatarMin,
-            backgroundImage: AssetImage("images/default-avatar.png"),
+            elevation: AppDimensions.kCVProfileAvatarElevation,
+            maxRadius: AppDimensions.kCVProfileAvatarMax,
+            minRadius: AppDimensions.kCVProfileAvatarMin,
+            backgroundImage: AssetImage('images/default-avatar.png'),
           );
 
           Widget bannerWidget = Image.asset(
-            "images/default-banner.jpg",
+            'images/default-banner.jpg',
             fit: BoxFit.cover,
           );
 
@@ -167,9 +167,9 @@ class _ProfilePageAppBar extends StatelessWidget {
             );
             avatarWidget = InitialCircleAvatar(
               text: profileModel.title,
-              elevation: kCVProfileAvatarElevation,
-              maxRadius: kCVProfileAvatarMax,
-              minRadius: kCVProfileAvatarMin,
+              elevation: AppDimensions.kCVProfileAvatarElevation,
+              maxRadius: AppDimensions.kCVProfileAvatarMax,
+              minRadius: AppDimensions.kCVProfileAvatarMin,
               backgroundImage: NetworkImage(profileModel.picture),
             );
 
@@ -193,8 +193,9 @@ class _ProfilePageAppBar extends StatelessWidget {
                 fit: StackFit.expand,
                 children: <Widget>[
                   bannerWidget,
-                  // This gradient ensures that the toolbar icons are distinct
-                  // against the background image.
+
+                  ///This gradient ensures that the toolbar icons are distinct
+                  ///against the background image.
                   const DecoratingBackground(),
                 ],
               ),

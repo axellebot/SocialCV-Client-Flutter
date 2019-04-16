@@ -79,12 +79,15 @@ class _MainPageBottomNavigationBar extends StatelessWidget {
     MainBloc _mainBloc = BlocProvider.of<MainBloc>(context);
     return Theme(
       data: Theme.of(context).copyWith(
-        // sets the background color of the `BottomNavigationBar`
+        ///sets the background color of the `BottomNavigationBar`
         canvasColor: Theme.of(context).primaryColor,
-        // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+
+        ///sets the active color of the `BottomNavigationBar` if `Brightness` is light
         primaryColor: Theme.of(context).selectedRowColor,
         textTheme: Theme.of(context).primaryTextTheme,
-      ), // sets the inactive color of the `BottomNavigationBar`
+      ),
+
+      ///sets the inactive color of the `BottomNavigationBar`
       child: StreamBuilder(
         stream: _mainBloc.tabStream,
         builder: (BuildContext context, AsyncSnapshot<TabType> snapshot) {
@@ -110,7 +113,7 @@ class _MainPageBottomNavigationBar extends StatelessWidget {
                 title: Text(CVLocalizations.of(context).home),
               ),
               const BottomNavigationBarItem(
-                // Fake item
+                ///Fake item
                 icon: SizedBox(),
                 title: SizedBox(),
               ),

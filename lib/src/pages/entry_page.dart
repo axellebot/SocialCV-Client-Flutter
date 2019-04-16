@@ -29,7 +29,7 @@ class EntryPage extends StatelessWidget {
           stream: _entryBloc.entryStream,
           builder: (BuildContext context, AsyncSnapshot<EntryModel> snapshot) {
             if (snapshot.hasError) {
-              return Text("Error : ${snapshot.error.toString()}");
+              return Text('Error : ${snapshot.error.toString()}');
             } else if (snapshot.hasData) {
               EntryModel entryModel = snapshot.data;
               return Text(entryModel.name);
@@ -74,15 +74,15 @@ class _EntryPageEntryBody extends StatelessWidget {
               return ListView(
                 children: <Widget>[
                   ListTile(
-                    title: Text("name"),
+                    title: Text('name'),
                     subtitle: Text(entryModel.name),
                   ),
                   ListTile(
-                    title: Text("type"),
+                    title: Text('type'),
                     subtitle: Text(entryModel.type),
                   ),
                   ListTile(
-                    title: Text("content"),
+                    title: Text('content'),
                     subtitle: Text(entryModel.content),
                   ),
                 ],

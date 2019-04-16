@@ -4,7 +4,7 @@ import 'package:social_cv_client_flutter/src/utils/utils.dart';
 class InitialCircleAvatar extends StatefulWidget {
   InitialCircleAvatar({
     Key key,
-    this.text = "",
+    this.text = '',
     this.elevation = 0.0,
     this.backgroundImage,
     this.radius,

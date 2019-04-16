@@ -1,8 +1,8 @@
-// Generic Interface for all BLoCs
+///Generic Interface for all BLoCs
 import 'package:flutter/material.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 
-// Generic BLoC provider
+///Generic BLoC provider
 class BlocProvider<T extends BlocBase> extends StatefulWidget {
   BlocProvider({
     Key key,

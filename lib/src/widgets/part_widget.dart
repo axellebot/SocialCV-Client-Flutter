@@ -3,7 +3,7 @@ import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
 import 'package:social_cv_client_flutter/src/commons/api_values.dart';
-import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
@@ -103,7 +103,7 @@ class _PartWidgetFromModelHorizontal extends StatelessWidget {
           ],
         ),
         Container(
-          height: kCVHorizontalGroupListHeight,
+          height: AppDimensions.kCVHorizontalGroupListHeight,
           child: BlocProvider<GroupListBloc>(
             bloc: GroupListBloc(),
             child: GroupListWidget(

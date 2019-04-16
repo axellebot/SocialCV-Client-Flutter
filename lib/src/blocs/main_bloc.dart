@@ -11,18 +11,18 @@ class MainBloc extends BlocBase {
     _tabController.add(TabType.HOME_TAB);
   }
 
-  // Reactive variables
+  ///Reactive variables
   final _tabController = BehaviorSubject<TabType>();
 
-  // Streams
+  ///Streams
   Observable<TabType> get tabStream => _tabController.stream;
 
-  // Sinks
+  ///Sinks
   Sink<TabType> get tab => _tabController.sink;
 
   /* Functions */
 
-  // Human function
+  ///Human function
   Function(TabType) get changeTab => tab.add;
 
   @override

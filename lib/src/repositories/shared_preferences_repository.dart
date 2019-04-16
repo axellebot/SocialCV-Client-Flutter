@@ -1,16 +1,16 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_cv_client_dart_common/repositories.dart';
 
-class PreferencesRepositoryImpl implements PreferencesRepository {
-  static const String KEY_OAUTH_ACCESS_TOKEN = "OAUTH_ACCESS_TOKEN";
+class SharedPreferencesRepository implements PreferencesRepository {
+  static const String KEY_OAUTH_ACCESS_TOKEN = 'OAUTH_ACCESS_TOKEN';
   static const String KEY_OAUTH_ACCESS_TOKEN_EXPIRATION =
-      "OAUTH_ACCESS_TOKEN_EXPIRATION";
-  static const String KEY_OAUTH_REFRESH_TOKEN = "OAUTH_REFRESH_TOKEN";
+      'OAUTH_ACCESS_TOKEN_EXPIRATION';
+  static const String KEY_OAUTH_REFRESH_TOKEN = 'OAUTH_REFRESH_TOKEN';
   static const String KEY_OAUTH_REFRESH_TOKEN_EXPIRATION =
-      "OAUTH_REFRESH_TOKEN_EXPIRATION";
-  static const String KEY_AUTH_CONNECTED = "AUTH_CONNECTED";
-  static const String KEY_USER_ID = "USER_ID";
-  static const String KEY_APP_THEME = "APP_THEME";
+      'OAUTH_REFRESH_TOKEN_EXPIRATION';
+  static const String KEY_AUTH_CONNECTED = 'AUTH_CONNECTED';
+  static const String KEY_USER_ID = 'USER_ID';
+  static const String KEY_APP_THEME = 'APP_THEME';
 
   static Future<SharedPreferences> get _prefs =>
       SharedPreferences.getInstance();

@@ -48,7 +48,7 @@ class _CVThemedApp extends StatelessWidget {
       child: MainPage(),
     );
 
-    // Routes
+    ///Routes
     Routes routes = Routes(
       mainPageProvider: _mainPageProvider,
       cvRepository: repositories.cvRepository,
@@ -67,7 +67,8 @@ class _CVThemedApp extends StatelessWidget {
             theme: _buildCVTheme(snapshot.data),
             home: _mainPageProvider,
             onGenerateRoute: routes.router.generator,
-            // Use Fluro routes
+
+            ///Use Fluro routes
             localizationsDelegates: [
               const CVLocalizationsDelegate(),
               GlobalMaterialLocalizations.delegate,
@@ -92,11 +93,13 @@ class _CVThemedApp extends StatelessWidget {
     }
 
     return base.copyWith(
-      primaryColor: kCVPrimaryColor,
-      primaryColorLight: kCVPrimaryColorLight,
-      primaryColorDark: kCVPrimaryColorDark,
-      accentColor: kCVAccentColor,
-      buttonColor: (theme != ThemeType.DARK) ? kCVWhite : kCVPrimaryColorDark,
+      primaryColor: AppColors.kCVPrimaryColor,
+      primaryColorLight: AppColors.kCVPrimaryColorLight,
+      primaryColorDark: AppColors.kCVPrimaryColorDark,
+      accentColor: AppColors.kCVAccentColor,
+      buttonColor: (theme != ThemeType.DARK)
+          ? AppColors.kCVWhite
+          : AppColors.kCVPrimaryColorDark,
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(),
       ),

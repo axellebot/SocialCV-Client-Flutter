@@ -6,8 +6,8 @@ import 'package:social_cv_client_dart_common/repositories.dart';
 
 /// From https://medium.com/@sokrato/storing-your-secret-keys-in-flutter-c0b9af1c0f69
 
-class SecretsRepositoryImpl implements SecretsRepository {
-  static const secretPath = "secrets.json";
+class LocalSecretsRepository implements SecretsRepository {
+  static const secretPath = 'secrets.json';
 
   @override
   Future<String> loadclientId() async {
@@ -30,10 +30,11 @@ class SecretsRepositoryImpl implements SecretsRepository {
   }
 }
 
+/// TODO : Remove 'Secret' class
 class Secret {
   Secret({
-    this.clientId = "",
-    this.clientSecret = "",
+    this.clientId = '',
+    this.clientSecret = '',
   })  : assert(clientId != null),
         assert(clientSecret != null);
 
@@ -42,8 +43,8 @@ class Secret {
 
   factory Secret.fromJson(Map<String, dynamic> jsonMap) {
     return new Secret(
-      clientId: jsonMap["clientId"],
-      clientSecret: jsonMap["clientSecret"],
+      clientId: jsonMap['clientId'],
+      clientSecret: jsonMap['clientSecret'],
     );
   }
 }

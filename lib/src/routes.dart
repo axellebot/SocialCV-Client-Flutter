@@ -7,7 +7,7 @@ import 'package:social_cv_client_flutter/src/blocs/main_bloc.dart';
 import 'package:social_cv_client_flutter/src/commons/paths.dart';
 import 'package:social_cv_client_flutter/src/pages/entry_page.dart';
 import 'package:social_cv_client_flutter/src/pages/group_page.dart';
-import 'package:social_cv_client_flutter/src/pages/login_page.dart';
+import 'package:social_cv_client_flutter/src/pages/auth_page.dart';
 import 'package:social_cv_client_flutter/src/pages/part_page.dart';
 import 'package:social_cv_client_flutter/src/pages/profile_page.dart';
 import 'package:social_cv_client_flutter/src/pages/search_page.dart';
@@ -33,54 +33,54 @@ class Routes {
 
   void _defineRoutes() {
     router.define(
-      kPathHome,
+      AppPaths.kPathHome,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info("Navigate to $kPathHome");
+          logger.info('Navigate to ${AppPaths.kPathHome}');
           return mainPageProvider;
         },
       ),
     );
 
     router.define(
-      kPathAccount,
+      AppPaths.kPathAccount,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info("Navigate to $kPathAccount");
+          logger.info('Navigate to ${AppPaths.kPathAccount}');
           return mainPageProvider;
         },
       ),
     );
 
-    // TODO : Check other solution to avoid LoginBloc recreation when
-    // LoginPage rebuild (caused by input change)
+    ///TODO : Check other solution to avoid LoginBloc recreation when
+    ///LoginPage rebuild (caused by input change)
     router.define(
-      kPathLogin,
+      AppPaths.kPathLogin,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info("Navigate to $kPathLogin");
-          return LoginPage();
+          logger.info('Navigate to ${AppPaths.kPathLogin}');
+          return AuthPage();
         },
       ),
     );
 
     router.define(
-      kPathSettings,
+      AppPaths.kPathSettings,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info("Navigate to $kPathSettings");
+          logger.info('Navigate to ${AppPaths.kPathSettings}');
           return SettingsPage();
         },
       ),
     );
 
-    // TODO : Check other solution to avoid SearchBloc recreation when
-    // SearchPage rebuild (caused by input change)
+    ///TODO : Check other solution to avoid SearchBloc recreation when
+    ///SearchPage rebuild (caused by input change)
     router.define(
-      kPathSearch,
+      AppPaths.kPathSearch,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info("Navigate to $kPathSearch");
+          logger.info('Navigate to ${AppPaths.kPathSearch}');
 
           return SearchPage();
         },
@@ -88,12 +88,12 @@ class Routes {
     );
 
     router.define(
-      "$kPathProfiles/:$kParamProfileId",
+      '${AppPaths.kPathProfiles}/:${AppPaths.kParamProfileId}',
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          var profileId = params[kParamProfileId][0];
+          var profileId = params[AppPaths.kParamProfileId][0];
 
-          logger.info("Navigate to $kPathProfiles/$profileId");
+          logger.info('Navigate to ${AppPaths.kPathProfiles}/$profileId');
 
           return BlocProvider<ProfileBloc>(
             bloc: ProfileBloc(cvRepository: cvRepository),
@@ -104,12 +104,12 @@ class Routes {
     );
 
     router.define(
-      "$kPathParts/:$kParamPartId",
+      '${AppPaths.kPathParts}/:${AppPaths.kParamPartId}',
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          var partId = params[kParamPartId][0];
+          var partId = params[AppPaths.kParamPartId][0];
 
-          logger.info("Navigate to $kPathParts/$partId");
+          logger.info('Navigate to ${AppPaths.kPathParts}/$partId');
 
           return BlocProvider<PartBloc>(
             bloc: PartBloc(cvRepository: cvRepository),
@@ -120,12 +120,12 @@ class Routes {
     );
 
     router.define(
-      "$kPathGroups/:$kParamGroupId",
+      '${AppPaths.kPathGroups}/:${AppPaths.kParamGroupId}',
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          var groupId = params[kParamGroupId][0];
+          var groupId = params[AppPaths.kParamGroupId][0];
 
-          logger.info("Navigate to $kPathGroups/$groupId");
+          logger.info('Navigate to ${AppPaths.kPathGroups}/$groupId');
 
           return BlocProvider<GroupBloc>(
             bloc: GroupBloc(cvRepository: cvRepository),
@@ -136,12 +136,12 @@ class Routes {
     );
 
     router.define(
-      "$kPathEntries/:$kParamEntryId",
+      '${AppPaths.kPathEntries}/:${AppPaths.kParamEntryId}',
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          var entryId = params[kParamEntryId][0];
+          var entryId = params[AppPaths.kParamEntryId][0];
 
-          logger.info("Navigate to $kPathEntries/$entryId");
+          logger.info('Navigate to ${AppPaths.kPathEntries}/$entryId');
 
           return BlocProvider<EntryBloc>(
             bloc: EntryBloc(cvRepository: cvRepository),

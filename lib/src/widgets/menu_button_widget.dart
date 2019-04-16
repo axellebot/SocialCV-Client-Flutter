@@ -56,7 +56,7 @@ class _MenuButtonConnected extends StatelessWidget {
                     backgroundImage: NetworkImage(userModel.picture)),
               ));
         } else if (snapshot.hasError) {
-          return Container(child: Text("Error ${snapshot.error}"));
+          return Container(child: Text('Error ${snapshot.error}'));
         }
         return Container();
       },

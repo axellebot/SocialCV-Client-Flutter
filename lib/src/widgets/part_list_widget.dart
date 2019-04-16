@@ -165,8 +165,8 @@ class _PartList extends StatelessWidget {
     PartListBloc _partListBloc = BlocProvider.of<PartListBloc>(context);
 
     final List<SortListItem> sortItems = <SortListItem>[
-      SortListItem(field: "order", title: "Order", value: SortState.NoSort),
-      SortListItem(field: "name", title: "Name", value: SortState.NoSort)
+      SortListItem(field: 'order', title: 'Order', value: SortState.NoSort),
+      SortListItem(field: 'name', title: 'Name', value: SortState.NoSort)
     ];
 
     return ListView.builder(

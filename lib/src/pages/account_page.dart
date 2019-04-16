@@ -69,7 +69,7 @@ class _AccountPageDetailsNotConnected extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: RaisedButton(
-        child: Text(CVLocalizations.of(context).loginCTA),
+        child: Text(CVLocalizations.of(context).authSignInCTA),
         onPressed: () => navigateToLogin(context),
       ),
     );

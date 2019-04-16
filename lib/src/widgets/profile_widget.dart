@@ -17,10 +17,10 @@ class ProfileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: InitialCircleAvatar(
-        backgroundImage: NetworkImage(profileModel.picture ?? ""),
+        backgroundImage: NetworkImage(profileModel.picture ?? ''),
       ),
-      title: Text(profileModel.title ?? ""),
-      subtitle: Text(profileModel.subtitle ?? ""),
+      title: Text(profileModel.title ?? ''),
+      subtitle: Text(profileModel.subtitle ?? ''),
       onTap: () => navigateToProfile(context, profileModel.id),
       trailing: Icon(MdiIcons.accountDetails),
     );

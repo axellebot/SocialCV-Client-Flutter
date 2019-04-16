@@ -17,7 +17,7 @@ class ErrorContent extends StatelessWidget {
       children: [
         Icon(
           Icons.error,
-          color: kCVErrorRed,
+          color: AppColors.kCVErrorRed,
         ),
         Expanded(
           child: Text(message, textAlign: TextAlign.center),

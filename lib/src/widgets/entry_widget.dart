@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/commons/api_values.dart';
-import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 import 'package:social_cv_client_flutter/src/widgets/error_widget.dart';
@@ -41,17 +41,17 @@ class _EntryWidgetMap extends StatelessWidget {
     return InkWell(
       onTap: () => navigateToEntry(context, entryModel.id),
       child: Container(
-        padding: EdgeInsets.all(kCVEntryPadding),
+        padding: EdgeInsets.all(AppDimensions.kCVEntryPadding),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              "${entryModel.name ?? ""}",
+              '${entryModel.name ?? ''}',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Expanded(
               child: Text(
-                "${entryModel.content ?? ""}",
+                '${entryModel.content ?? ''}',
                 textAlign: TextAlign.end,
               ),
             )
@@ -72,11 +72,11 @@ class _EntryWidgetEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: kCVEntryCardElevation,
+      elevation: AppDimensions.kCVEntryCardElevation,
       child: Container(
-        height: kCVEntryEventHeight,
-        width: kCVEntryEventHWidth,
-        padding: const EdgeInsets.all(kCVEntryPadding),
+        height: AppDimensions.kCVEntryEventHeight,
+        width: AppDimensions.kCVEntryEventHWidth,
+        padding: const EdgeInsets.all(AppDimensions.kCVEntryPadding),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +86,7 @@ class _EntryWidgetEvent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "${entryModel.startDate}   ${entryModel.endDate}",
+                  '${entryModel.startDate}   ${entryModel.endDate}',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     color: Theme.of(context).accentColor,
@@ -95,7 +95,7 @@ class _EntryWidgetEvent extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    entryModel.location ?? "",
+                    entryModel.location ?? '',
                     textAlign: TextAlign.end,
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
@@ -103,7 +103,7 @@ class _EntryWidgetEvent extends StatelessWidget {
               ],
             ),
             Text(
-              entryModel.name ?? "",
+              entryModel.name ?? '',
               textAlign: TextAlign.start,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
@@ -143,7 +143,7 @@ class _EntryWidgetTag extends StatelessWidget {
     });
 
     return Container(
-      padding: EdgeInsets.all(kCVEntryPadding),
+      padding: EdgeInsets.all(AppDimensions.kCVEntryPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -151,7 +151,7 @@ class _EntryWidgetTag extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                entryModel.name.toUpperCase() ?? "",
+                entryModel.name.toUpperCase() ?? '',
                 style: TextStyle(
                   color: Theme.of(context).accentColor,
                   fontWeight: FontWeight.bold,
@@ -165,7 +165,7 @@ class _EntryWidgetTag extends StatelessWidget {
           ),
           Wrap(
             alignment: WrapAlignment.start,
-            spacing: kCVEntryTagSpacing,
+            spacing: AppDimensions.kCVEntryTagSpacing,
             runSpacing: 0.0,
             children: _tagWidgets,
           )
