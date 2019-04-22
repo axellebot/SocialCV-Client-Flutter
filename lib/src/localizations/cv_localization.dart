@@ -10,58 +10,79 @@ abstract class CVLocalizations {
     return Localizations.of<CVLocalizations>(context, CVLocalizations);
   }
 
-  // App
+  /// App
   String get appName;
 
-  // Login Page
-  String get loginTitle;
+  /// Auth Page
+  String get authTitle;
 
-  String get loginNoEmailTitle;
+  /// Auth Stuff
+  String get authNoEmailTitle;
 
-  String get loginNotEmailExplain;
+  String get authNotEmailExplain;
 
-  String get loginNoEmailExplain;
+  String get authNoEmailExplain;
 
-  String get loginNoPasswordTitle;
+  String get authNoPasswordTitle;
 
-  String get loginNoPasswordExplain;
+  String get authNotPasswordExplain;
 
-  String get loginCreateYourAccount;
+  String get authNoPasswordExplain;
 
-  String get loginSignUpCTA;
+  String get authCreateYourAccount;
 
-  String get loginPrivacyExplain;
+  String get authSignUp;
 
-  String get loginPrivacyReadCTA;
+  String get authSignUpCTA;
 
-  String get loginSignInGoogleCTA;
+  String get authSignUpSucceed;
 
-  String get loginSignInFacebookCTA;
+  String get authSignUpFailed;
 
-  String get loginAlreadyHaveAccountCTA;
+  String get authSignIn;
 
-  String get loginSignIn;
+  String get authSignInCTA;
 
-  String get loginSignInCTA;
+  String get authSignInGoogleCTA;
 
-  String get loginForgotPasswordCTA;
+  String get authSignInFacebookCTA;
 
-  String get loginNoAccountCTA;
+  String get authSignInSucceed;
 
-  String get loginOr;
+  String get authSignInFailed;
 
-  // Home
+  String get authLogout;
+
+  String get authLogoutCTA;
+
+  String get authLogoutSucceed;
+
+  String get authLogoutFailed;
+
+  String get authPrivacyExplain;
+
+  String get authPrivacyReadCTA;
+
+  String get authAlreadyHaveAccountCTA;
+
+  String get authForgotPasswordCTA;
+
+  String get authNoAccountCTA;
+
+  String get authOr;
+
+  /// Home Page
   String get homeTitle;
 
   String get homeWelcome;
 
-  // Account Page
+  /// Account Page
   String get accountMyProfile;
 
-  // Profile Page
+  /// Profile Page
   String get profileTitle;
 
-  // Settings Page
+  /// Settings Page
   String get settingsTitle;
 
   String get settingsThemeCTA;
@@ -72,15 +93,15 @@ abstract class CVLocalizations {
 
   String get settingsThemeDark;
 
-  // Search Page
+  /// Search Page
   String get searchTitle;
 
   String get searchSearchBarHint;
 
-  // Profile Widget
+  /// Profile Widget
   String get profileWidgetDetails;
 
-  // Profile Widget List
+  /// Profile Widget List
   String get profileListOptions;
 
   String get profileListSorting;
@@ -89,10 +110,10 @@ abstract class CVLocalizations {
 
   String get profileListLoadMore;
 
-  // Part Widget
+  /// Part Widget
   String get partWidgetDetails;
 
-  // Part Widget List
+  /// Part Widget List
   String get partListOptions;
 
   String get partListSorting;
@@ -101,10 +122,10 @@ abstract class CVLocalizations {
 
   String get partListLoadMore;
 
-  // Group Widget
+  /// Group Widget
   String get groupWidgetDetails;
 
-  // Group Widget List
+  /// Group Widget List
   String get groupListOptions;
 
   String get groupListSorting;
@@ -113,10 +134,10 @@ abstract class CVLocalizations {
 
   String get groupListLoadMore;
 
-  // Entry Widget
+  /// Entry Widget
   String get entryWidgetDetails;
 
-  // Entry Widget List
+  /// Entry Widget List
   String get entryListOptions;
 
   String get entryListSorting;
@@ -125,22 +146,22 @@ abstract class CVLocalizations {
 
   String get entryListLoadMore;
 
-  // Sort Dialog
+  /// Sort Dialog
   String get sortDialogCancel;
 
   String get sortDialogConfirm;
 
-  // Exception Error
+  /// Exception Error
   String get exceptionFormatException;
 
   String get exceptionTimeoutException;
 
-  // Api Error
+  ///Api Error
   String get apiErrorWrongPasswordError;
 
   String get apiErrorUserNotFoundError;
 
-  // Server Error : HTTP 400
+  ///Server Error : HTTP 400
   String get httpClientErrorBadRequest;
 
   String get httpClientErrorPaymentRequired;
@@ -171,7 +192,7 @@ abstract class CVLocalizations {
 
   String get httpClientErrorUpgradeRequired;
 
-  // Server Error : HTTP 500
+  ///Server Error : HTTP 500
   String get httpServerErrorInternalServerError;
 
   String get httpServerErrorNotImplemented;
@@ -184,13 +205,13 @@ abstract class CVLocalizations {
 
   String get httpServerErrorHttpVersionNotSupported;
 
-  // Menu Widget
+  ///Menu Widget
 
   String get menuPPCTA;
 
   String get menuToSCTA;
 
-  // Others
+  ///Others
   String get middleDot;
 
   String get username;
@@ -199,21 +220,15 @@ abstract class CVLocalizations {
 
   String get password;
 
+  String get passwordRepeat;
+
   String get token;
 
-  String get cancel;
+  String get cancelCTA;
 
   String get settingsCTA;
 
   String get account;
-
-  String get login;
-
-  String get loginCTA;
-
-  String get logout;
-
-  String get logoutCTA;
 
   String get home;
 
@@ -229,33 +244,17 @@ abstract class CVLocalizations {
 
   String get errorOccurred;
 
-  String get retry;
+  String get retryCTA;
 
-  String get yes;
+  String get yesCTA;
 
-  String get no;
+  String get noCTA;
 
-  String get logged;
-
-  String get more;
+  String get moreCTA;
 
   String get notYetImplemented;
 
   String get notSupported;
-
-  String get forgotPasswordTitle;
-
-  String get forgotPasswordExplain;
-
-  String get forgotPasswordResetCTA;
-
-  String get forgotPasswordNoEmailTitle;
-
-  String get forgotPasswordNoEmailExplain;
-
-  String get forgotPasswordSuccessMessage;
-
-  String get forgotPasswordErrorMessage;
 }
 
 class CVLocalizationsDelegate extends LocalizationsDelegate<CVLocalizations> {

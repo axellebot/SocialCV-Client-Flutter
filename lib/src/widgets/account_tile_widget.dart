@@ -49,7 +49,7 @@ class _AccountTileConnected extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasError) {
-          return Container(child: Text("${snapshot.error}"));
+          return Container(child: Text('${snapshot.error}'));
         }
         return Container();
       },
@@ -62,7 +62,7 @@ class _AccountTileNotConnected extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: ListTile(
-        title: Center(child: Text(CVLocalizations.of(context).loginCTA)),
+        title: Center(child: Text(CVLocalizations.of(context).authSignInCTA)),
         trailing: Icon(MdiIcons.login),
       ),
       onTap: () => navigateToLogin(context),

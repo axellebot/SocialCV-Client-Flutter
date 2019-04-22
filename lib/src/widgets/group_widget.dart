@@ -3,7 +3,7 @@ import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
 import 'package:social_cv_client_flutter/src/commons/api_values.dart';
-import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 import 'package:social_cv_client_flutter/src/widgets/entry_list_widget.dart';
@@ -42,7 +42,8 @@ class _GroupHorizontal extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: kCVGroupPadding),
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppDimensions.kCVGroupPadding),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -60,7 +61,7 @@ class _GroupHorizontal extends StatelessWidget {
           ),
         ),
         Container(
-          height: kCVHorizontalEntryListHeight,
+          height: AppDimensions.kCVHorizontalEntryListHeight,
           child: BlocProvider(
             bloc: EntryListBloc(),
             child: EntryListWidget(
@@ -89,7 +90,8 @@ class _GroupVertical extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: kCVGroupPadding),
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppDimensions.kCVGroupPadding),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

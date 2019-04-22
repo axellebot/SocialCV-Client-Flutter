@@ -27,7 +27,7 @@ class PartPage extends StatelessWidget {
           stream: _partBloc.partStream,
           builder: (BuildContext context, AsyncSnapshot<PartModel> snapshot) {
             if (snapshot.hasError) {
-              return Text("Error : ${snapshot.error.toString()}");
+              return Text('Error : ${snapshot.error.toString()}');
             } else if (snapshot.hasData) {
               PartModel partModel = snapshot.data;
               return Text(partModel.name);

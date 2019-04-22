@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
 import 'package:social_cv_client_flutter/src/widgets/sort_box_widget.dart';
@@ -31,7 +31,7 @@ class _SortDialogState extends State<SortDialog> {
               title: Text(sortItem.title),
               onChanged: (SortState value) {
                 setState(() {
-                  logger.info("${sortItem.field} $value");
+                  logger.info('${sortItem.field} $value');
                   sortItem.value = value;
                 });
               },
@@ -42,8 +42,8 @@ class _SortDialogState extends State<SortDialog> {
       contentPadding: EdgeInsets.all(0.0),
       title: widget.title,
       content: Container(
-        width: kCVSortDialogWidth,
-        height: kCVSortDialogHeight,
+        width: AppDimensions.kCVSortDialogWidth,
+        height: AppDimensions.kCVSortDialogHeight,
         child: ReorderableListView(
           onReorder: _onReorder,
           children: _listTiles,

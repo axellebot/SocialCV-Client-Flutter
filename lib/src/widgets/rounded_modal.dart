@@ -19,8 +19,8 @@ import 'package:flutter/material.dart';
 /// ```dart
 /// showRoundedModalBottomSheet(
 ///    context: context,
-///    radius: 10.0,  // This is the default
-///    color: Colors.white,  // Also default
+///    radius: 10.0,  /// This is the default
+///    color: Colors.white,  /// Also default
 ///    builder: (context) => ???,
 /// );
 /// ```

@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
-import 'package:social_cv_client_flutter/src/commons/values.dart';
+import 'package:social_cv_client_flutter/src/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
 import 'package:social_cv_client_flutter/src/widgets/error_widget.dart';
@@ -196,7 +196,7 @@ class _ProfileList extends StatelessWidget {
         BlocProvider.of<ProfileListBloc>(context);
 
     final List<SortListItem> sortItems = <SortListItem>[
-      SortListItem(field: "title", title: "Title", value: SortState.NoSort)
+      SortListItem(field: 'title', title: 'Title', value: SortState.NoSort)
     ];
 
     return ListView.builder(
@@ -208,7 +208,7 @@ class _ProfileList extends StatelessWidget {
         if (showOptions) {
           if (i == 0) {
             return Container(
-              height: kCVListHeaderDefaultHeightMax,
+              height: AppDimensions.kCVListHeaderDefaultHeightMax,
               color: Colors.transparent,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

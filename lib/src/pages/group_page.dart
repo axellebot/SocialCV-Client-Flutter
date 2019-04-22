@@ -27,7 +27,7 @@ class GroupPage extends StatelessWidget {
           stream: _groupBloc.groupStream,
           builder: (BuildContext context, AsyncSnapshot<GroupModel> snapshot) {
             if (snapshot.hasError) {
-              return Text("Error : ${snapshot.error.toString()}");
+              return Text('Error : ${snapshot.error.toString()}');
             } else if (snapshot.hasData) {
               GroupModel groupModel = snapshot.data;
               return Text(groupModel.name);

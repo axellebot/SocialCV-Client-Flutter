@@ -1,189 +1,284 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
-import 'package:social_cv_client_flutter/src/blocs/login_bloc.dart';
+import 'package:social_cv_client_flutter/src/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
-import 'package:social_cv_client_flutter/src/utils/validators.dart';
 import 'package:social_cv_client_flutter/src/widgets/error_widget.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({
+class LoginFormWidget extends StatefulWidget {
+  const LoginFormWidget({
     Key key,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _LoginFormState();
+  State<StatefulWidget> createState() => _LoginFormWidgetState();
 }
 
-class _LoginFormState extends State<LoginForm> {
-  _LoginFormState() {
-    loginBloc = LoginBloc();
-  }
+class _LoginFormWidgetState extends State<LoginFormWidget> {
+  static const _TAG = '_LoginFormWidgetState';
 
-  LoginBloc loginBloc;
+  _LoginFormWidgetState();
+
+  final FocusNode myFocusNodeEmailLogin = FocusNode();
+  final FocusNode myFocusNodePasswordLogin = FocusNode();
+
+  TextEditingController loginEmailController = new TextEditingController();
+  TextEditingController loginPasswordController = new TextEditingController();
+
+  bool _obscureTextLogin = true;
+
+  String errorText;
 
   @override
   Widget build(BuildContext context) {
-    logger.info('Building LoginForm');
+    logger.info('$_TAG:build');
 
     AccountBloc _accountBloc = BlocProvider.of<AccountBloc>(context);
 
-    return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-      children: <Widget>[
-        SizedBox(height: 40.0),
-        Column(
-          children: <Widget>[
-            Image.asset('images/account_card_details-blue.png'),
-            SizedBox(height: 16.0),
-            Text(
-              CVLocalizations.of(context).appName,
-              style: Theme.of(context).textTheme.title,
-            ),
-          ],
-        ),
-        const SizedBox(height: 120.0),
-        BlocProvider<LoginBloc>(
-          bloc: loginBloc,
-          child: _LoginFormEmailInput(),
-        ),
-        const SizedBox(height: 12.0),
-        BlocProvider<LoginBloc>(
-          bloc: loginBloc,
-          child: _LoginFormPasswordInput(),
-        ),
-        const SizedBox(height: 12.0),
-        _LoginFromMessage(),
-        ButtonBar(
-          children: <Widget>[
-            RaisedButton(
-              child: Text(CVLocalizations.of(context).loginSignUpCTA),
-              onPressed: null,
-            ),
-            StreamBuilder<bool>(
-              initialData: false,
-              stream: loginBloc.submitLoginStream,
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                return RaisedButton(
-                    child: Text(CVLocalizations.of(context).loginSignInCTA),
-                    onPressed: (snapshot.hasData && snapshot.data)
-                        ? () => _accountBloc.login(
-                            loginBloc.emailValue, loginBloc.passwordValue)
-                        : null);
-              },
-            ),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                height: 2.0,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+    return Container(
+      padding: EdgeInsets.only(top: 23.0),
+      child: Column(
+        children: <Widget>[
+          Stack(
+            alignment: Alignment.topCenter,
+            overflow: Overflow.visible,
+            children: <Widget>[
+              Card(
+                elevation: 2.0,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Container(
+                  width: 300.0,
+                  height: 190.0,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+                        child: TextField(
+                          focusNode: myFocusNodeEmailLogin,
+                          controller: loginEmailController,
+                          keyboardType: TextInputType.emailAddress,
+                          style: TextStyle(fontSize: 16.0, color: Colors.black),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(
+                              MdiIcons.email,
+                              color: Colors.black,
+                              size: 22.0,
+                            ),
+                            hintText: CVLocalizations.of(context).email,
+                            hintStyle: TextStyle(fontSize: 17.0),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 250.0,
+                        height: 1.0,
+                        color: Colors.grey[400],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+                        child: TextField(
+                          focusNode: myFocusNodePasswordLogin,
+                          controller: loginPasswordController,
+                          obscureText: _obscureTextLogin,
+                          style: TextStyle(fontSize: 16.0, color: Colors.black),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(
+                              MdiIcons.lock,
+                              size: 22.0,
+                              color: Colors.black,
+                            ),
+                            hintText: CVLocalizations.of(context).password,
+                            hintStyle: TextStyle(fontSize: 17.0),
+                            suffixIcon: GestureDetector(
+                              onTap: _toggleLogin,
+                              child: Icon(
+                                MdiIcons.eye,
+                                size: 15.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const Padding(padding: EdgeInsets.only(left: 16.0)),
-            Text(
-              CVLocalizations.of(context).loginOr,
-              style: const TextStyle(fontSize: 18.0),
-            ),
-            const Padding(padding: EdgeInsets.only(left: 16.0)),
-            Expanded(
-              child: Container(
-                height: 2.0,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+              Container(
+                margin: EdgeInsets.only(top: 170.0),
+                decoration: new BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: AppColors.loginGradientStart,
+                      offset: Offset(1.0, 6.0),
+                      blurRadius: 20.0,
+                    ),
+                    BoxShadow(
+                      color: AppColors.loginGradientEnd,
+                      offset: Offset(1.0, 6.0),
+                      blurRadius: 20.0,
+                    ),
+                  ],
+                  gradient: new LinearGradient(
+                      colors: [
+                        AppColors.loginGradientEnd,
+                        AppColors.loginGradientStart
+                      ],
+                      begin: const FractionalOffset(0.2, 0.2),
+                      end: const FractionalOffset(1.0, 1.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp),
+                ),
+                child: MaterialButton(
+                  highlightColor: Colors.transparent,
+                  splashColor: AppColors.loginGradientEnd,
+                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 42.0),
+                    child: Text(
+                      CVLocalizations.of(context).authSignInCTA,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ),
+                  onPressed: () => _accountBloc.login(
+                      loginEmailController.text, loginPasswordController.text),
                 ),
               ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 10.0),
+            child: FlatButton(
+                onPressed: () {},
+                child: Text(
+                  'Forgot Password?',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Colors.white,
+                    fontSize: 16.0,
+                  ),
+                )),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: new LinearGradient(
+                        colors: [
+                          Colors.white10,
+                          Colors.white,
+                        ],
+                        begin: const FractionalOffset(0.0, 0.0),
+                        end: const FractionalOffset(1.0, 1.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp),
+                  ),
+                  width: 100.0,
+                  height: 1.0,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Text(
+                    'Or',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: new LinearGradient(
+                        colors: [
+                          Colors.white,
+                          Colors.white10,
+                        ],
+                        begin: const FractionalOffset(0.0, 0.0),
+                        end: const FractionalOffset(1.0, 1.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp),
+                  ),
+                  width: 100.0,
+                  height: 1.0,
+                ),
+              ],
             ),
-          ],
-        ),
-        const Padding(padding: EdgeInsets.only(top: 25.0)),
-        Center(
-          child: RaisedButton(
-            onPressed: null,
-            child: Text(CVLocalizations.of(context).loginSignInGoogleCTA),
           ),
-        ),
-        const Padding(padding: EdgeInsets.only(top: 16.0)),
-        Center(
-          child: RaisedButton(
-            onPressed: null,
-            child: Text(CVLocalizations.of(context).loginSignInFacebookCTA),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 10.0, right: 40.0),
+                child: GestureDetector(
+                  onTap: () => print('Facebook button pressed'),
+                  child: Container(
+                    padding: const EdgeInsets.all(15.0),
+                    decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                    child: new Icon(
+                      MdiIcons.facebook,
+                      color: Color(0xFF0084ff),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: GestureDetector(
+                  onTap: () => print('Google button pressed'),
+                  child: Container(
+                    padding: const EdgeInsets.all(15.0),
+                    decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                    child: new Icon(
+                      MdiIcons.google,
+                      color: Color(0xFF0084ff),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
-}
 
-class _LoginFormEmailInput extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
-
-    return StreamBuilder(
-      stream: loginBloc.emailStream,
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        String error;
-        if (snapshot.hasError) {
-          ValidationErrors errorType = snapshot.error;
-          if (errorType == ValidationErrors.ERROR_LOGIN_NO_EMAIL) {
-            error = CVLocalizations.of(context).loginNoEmailExplain;
-          } else if (errorType == ValidationErrors.ERROR_LOGIN_NOT_EMAIL) {
-            error = CVLocalizations.of(context).loginNotEmailExplain;
-          }
-        }
-        return TextField(
-          onChanged: loginBloc.changeEmail,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            labelText: CVLocalizations.of(context).email + ' *',
-            hintText: 'username@example.com',
-            errorText: error,
-          ),
-        );
-      },
-    );
+  void dispose() {
+    myFocusNodeEmailLogin.dispose();
+    myFocusNodePasswordLogin.dispose();
+    super.dispose();
   }
-}
 
-class _LoginFormPasswordInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
-    return StreamBuilder(
-      stream: loginBloc.passwordStream,
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        String error;
-        if (snapshot.hasError) {
-          ValidationErrors errorType = snapshot.error;
-          if (errorType == ValidationErrors.ERROR_LOGIN_NO_PASSWORD) {
-            error = CVLocalizations.of(context).loginNoPasswordExplain;
-          }
-        }
-        return TextField(
-          onChanged: loginBloc.changePassword,
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-              labelText: CVLocalizations.of(context).password + ' *',
-              errorText: error,
-              suffixIcon: GestureDetector(
-                onTap: loginBloc.toggleObscure,
-                child: Icon(loginBloc.obscureValue
-                    ? Icons.visibility
-                    : Icons.visibility_off),
-              )),
-          obscureText: loginBloc.obscureValue,
-        );
-      },
-    );
+  void _toggleLogin() {
+    setState(() {
+      _obscureTextLogin = !_obscureTextLogin;
+    });
   }
 }
 

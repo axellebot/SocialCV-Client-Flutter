@@ -164,7 +164,7 @@ class _EntryList extends StatelessWidget {
     EntryListBloc _entryListBloc = BlocProvider.of<EntryListBloc>(context);
 
     final List<SortListItem> sortItems = <SortListItem>[
-      SortListItem(field: "name", title: "Name", value: SortState.NoSort)
+      SortListItem(field: 'name', title: 'Name', value: SortState.NoSort)
     ];
 
     return ListView.builder(

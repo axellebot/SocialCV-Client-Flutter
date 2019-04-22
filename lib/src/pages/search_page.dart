@@ -47,7 +47,7 @@ class SearchPage extends StatelessWidget {
                 preferencesRepository: _repositories.preferencesRepository,
               ),
               child: ProfileListWidget(
-                fromSearch: "",
+                fromSearch: '',
                 showOptions: true,
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),

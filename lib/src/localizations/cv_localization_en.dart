@@ -7,360 +7,354 @@ import 'package:social_cv_client_flutter/src/localizations/cv_localization.dart'
 class CVLocalizationsEN implements CVLocalizations {
   const CVLocalizationsEN();
 
-  // App
+  /// App
   @override
-  String get appName => "Social CV";
+  String get appName => 'Social CV';
 
-  // Login Page
+  /// Auth Page
   @override
-  String get loginTitle => "Connection";
+  String get authTitle => 'Connection';
 
   @override
-  String get loginNoEmailTitle => "Empty email";
+  String get authNoEmailTitle => 'Empty email';
 
   @override
-  String get loginNotEmailExplain => "Please enter a real e-mail.";
+  String get authNotEmailExplain => 'Please enter a real e-mail.';
 
   @override
-  String get loginNoEmailExplain => "Please provide an email";
+  String get authNoEmailExplain => 'Please provide an email';
 
   @override
-  String get loginNoPasswordTitle => "Empty password";
+  String get authNoPasswordTitle => 'Empty password';
 
   @override
-  String get loginNoPasswordExplain => "Please provide a password";
+  String get authNoPasswordExplain => 'Please provide a password';
 
   @override
-  String get loginCreateYourAccount => "Create your account";
+  String get authCreateYourAccount => 'Create your account';
 
   @override
-  String get loginSignUpCTA => "Sign-up";
+  String get authPrivacyExplain =>
+      'Like privacy? We feel you. We don’t use or sell your data.';
 
   @override
-  String get loginPrivacyExplain =>
-      "Like privacy? We feel you. We don’t use or sell your data.";
+  String get authPrivacyReadCTA => 'Touch to read our privacy policy.';
 
   @override
-  String get loginPrivacyReadCTA => "Touch to read our privacy policy.";
+  String get authAlreadyHaveAccountCTA => 'Already have an account? Sign-in';
 
   @override
-  String get loginSignInGoogleCTA => "Sign-in with Google";
+  String get authNotPasswordExplain => 'This is not a password';
 
   @override
-  String get loginSignInFacebookCTA => "Sign-in with Facebook";
+  String get authSignUp => 'Register';
 
   @override
-  String get loginAlreadyHaveAccountCTA => "Already have an account? Sign-in";
+  String get authSignUpCTA => 'Sign-up';
 
   @override
-  String get loginSignIn => "Sign-in with your account";
+  String get authSignUpFailed => 'Registration failed!';
 
   @override
-  String get loginSignInCTA => "Sign-in";
+  String get authSignUpSucceed => 'Registration succeed!';
 
   @override
-  String get loginForgotPasswordCTA => "Forgot password?";
+  String get authSignIn => 'Sign-in';
 
   @override
-  String get loginNoAccountCTA => "Don't have an account yet? Sign-up";
+  String get authSignInCTA => 'Sign-in';
 
   @override
-  String get loginOr => "OR";
+  String get authSignInGoogleCTA => 'Sign-in with Google';
 
-  // Home Page
   @override
-  String get homeTitle => "Social CV";
+  String get authSignInFacebookCTA => 'Sign-in with Facebook';
 
   @override
-  String get homeWelcome => "Welcome on our new resume social network !";
+  String get authSignInSucceed => 'Login succeed!';
 
-  // Account Page
   @override
-  String get accountMyProfile => "My profiles";
+  String get authSignInFailed => 'Login failed!';
 
-  // Profile Page
   @override
-  String get profileTitle => "Profile";
+  String get authLogout => 'Logout';
 
-  // Settings Page
   @override
-  String get settingsTitle => "Settings";
+  String get authLogoutCTA => 'Logout';
 
   @override
-  String get settingsThemeCTA => "Dark Mode";
+  String get authLogoutFailed => 'Logout failed!';
 
   @override
-  String get settingsThemeDefault => "Default";
+  String get authLogoutSucceed => 'Logout succeed!';
 
   @override
-  String get settingsThemeLight => "Light";
+  String get authForgotPasswordCTA => 'Forgot password?';
 
   @override
-  String get settingsThemeDark => "Dark";
+  String get authNoAccountCTA => 'Don\'t have an account yet? Sign-up';
 
-  // Search Page
   @override
-  String get searchTitle => "Search";
+  String get authOr => 'OR';
 
+  ///Home Page
   @override
-  String get searchSearchBarHint => "Search resume...";
+  String get homeTitle => 'Social CV';
 
-  // Profile Widget
-  String get profileWidgetDetails => "Profile details";
+  @override
+  String get homeWelcome => 'Welcome on our new resume social network !';
+
+  /// Account Page
+  @override
+  String get accountMyProfile => 'My profiles';
+
+  /// Profile Page
+  @override
+  String get profileTitle => 'Profile';
+
+  /// Settings Page
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsThemeCTA => 'Dark Mode';
+
+  @override
+  String get settingsThemeDefault => 'Default';
+
+  @override
+  String get settingsThemeLight => 'Light';
+
+  @override
+  String get settingsThemeDark => 'Dark';
+
+  /// Search Page
+  @override
+  String get searchTitle => 'Search';
+
+  @override
+  String get searchSearchBarHint => 'Search resume...';
+
+  /// Profile Widget
+  String get profileWidgetDetails => 'Profile details';
 
-  // Profile Widget List
-  String get profileListOptions => "Profile options";
+  /// Profile Widget List
+  String get profileListOptions => 'Profile options';
 
-  String get profileListSorting => "Sorting Profiles";
+  String get profileListSorting => 'Sorting Profiles';
 
-  String get profileListItemPerPage => "Profile per page";
+  String get profileListItemPerPage => 'Profile per page';
 
-  String get profileListLoadMore => "Load more profiles";
+  String get profileListLoadMore => 'Load more profiles';
 
-  // Part Widget
-  String get partWidgetDetails => "Part détails";
+  /// Part Widget
+  String get partWidgetDetails => 'Part détails';
 
-  // Part Widget List
+  /// Part Widget List
   @override
-  String get partListOptions => "Part list options";
+  String get partListOptions => 'Part list options';
 
   @override
-  String get partListSorting => "Sorting parts";
+  String get partListSorting => 'Sorting parts';
 
   @override
-  String get partListItemPerPage => "Parts per page";
+  String get partListItemPerPage => 'Parts per page';
 
   @override
-  String get partListLoadMore => "Load more parts";
+  String get partListLoadMore => 'Load more parts';
 
-  // Group Widget
-  String get groupWidgetDetails => "Group détails";
+  /// Group Widget
+  String get groupWidgetDetails => 'Group détails';
 
-  // Group Widget List
+  /// Group Widget List
   @override
-  String get groupListOptions => "Group list options";
+  String get groupListOptions => 'Group list options';
 
   @override
-  String get groupListSorting => "Sorting groups";
+  String get groupListSorting => 'Sorting groups';
 
   @override
-  String get groupListItemPerPage => "Groups per page";
+  String get groupListItemPerPage => 'Groups per page';
 
   @override
-  String get groupListLoadMore => "Load more groups";
+  String get groupListLoadMore => 'Load more groups';
 
-  // Entry Widget
-  String get entryWidgetDetails => "Entry détails";
+  /// Entry Widget
+  String get entryWidgetDetails => 'Entry détails';
 
-  // Entry Widget List
+  /// Entry Widget List
   @override
-  String get entryListOptions => "Entry list options";
+  String get entryListOptions => 'Entry list options';
 
   @override
-  String get entryListSorting => "Sorting entries";
+  String get entryListSorting => 'Sorting entries';
 
   @override
-  String get entryListItemPerPage => "Entries per page";
+  String get entryListItemPerPage => 'Entries per page';
 
   @override
-  String get entryListLoadMore => "Load more entries";
+  String get entryListLoadMore => 'Load more entries';
 
-  // Sort Dialog
+  /// Sort Dialog
   @override
-  String get sortDialogCancel => "Cancel";
+  String get sortDialogCancel => 'Cancel';
 
   @override
-  String get sortDialogConfirm => "Confirm";
+  String get sortDialogConfirm => 'Confirm';
 
-  // Menu Widget
+  /// Menu Widget
   @override
-  String get menuPPCTA => "Privacy Policy";
+  String get menuPPCTA => 'Privacy Policy';
 
   @override
-  String get menuToSCTA => "Terms of Service";
+  String get menuToSCTA => 'Terms of Service';
 
-  // Exception Error
+  /// Exception Error
   @override
-  String get exceptionFormatException => "Exception : Wrong Format";
+  String get exceptionFormatException => 'Exception : Wrong Format';
 
   @override
-  String get exceptionTimeoutException => "Exception : Request Timeout";
+  String get exceptionTimeoutException => 'Exception : Request Timeout';
 
-  // Api Error
+  /// Api Error
   @override
-  String get apiErrorWrongPasswordError => "Wrong password";
+  String get apiErrorWrongPasswordError => 'Wrong password';
 
   @override
-  String get apiErrorUserNotFoundError => "User not found";
+  String get apiErrorUserNotFoundError => 'User not found';
 
-  // Server Error : HTTP 400
+  /// Server Error : HTTP 400
   @override
-  String get httpClientErrorBadRequest => "Bad request";
+  String get httpClientErrorBadRequest => 'Bad request';
 
   @override
-  String get httpClientErrorPaymentRequired => "Payment required";
+  String get httpClientErrorPaymentRequired => 'Payment required';
 
   @override
-  String get httpClientErrorForbidden => "Forbidden";
+  String get httpClientErrorForbidden => 'Forbidden';
 
   @override
-  String get httpClientErrorNotFound => "Not found";
+  String get httpClientErrorNotFound => 'Not found';
 
   @override
-  String get httpClientErrorMethodNotAllowed => "Not allowed";
+  String get httpClientErrorMethodNotAllowed => 'Not allowed';
 
   @override
-  String get httpClientErrorNotAcceptable => "Not acceptable";
+  String get httpClientErrorNotAcceptable => 'Not acceptable';
 
   @override
-  String get httpClientErrorRequestTimeout => "Request timeout";
+  String get httpClientErrorRequestTimeout => 'Request timeout';
 
   @override
-  String get httpClientErrorConflict => "Conflict";
+  String get httpClientErrorConflict => 'Conflict';
 
   @override
-  String get httpClientErrorGone => "Gone";
+  String get httpClientErrorGone => 'Gone';
 
   @override
-  String get httpClientErrorLengthRequired => "Length required";
+  String get httpClientErrorLengthRequired => 'Length required';
 
   @override
-  String get httpClientErrorPayloadTooLarge => "Payload too large";
+  String get httpClientErrorPayloadTooLarge => 'Payload too large';
 
   @override
-  String get httpClientErrorURITooLong => "URI too long";
+  String get httpClientErrorURITooLong => 'URI too long';
 
   @override
-  String get httpClientErrorUnsupportedMediaType => "Unsupported media type";
+  String get httpClientErrorUnsupportedMediaType => 'Unsupported media type';
 
   @override
-  String get httpClientErrorExpectationFailed => "Expectation Failed";
+  String get httpClientErrorExpectationFailed => 'Expectation Failed';
 
   @override
-  String get httpClientErrorUpgradeRequired => "Upgrade required";
+  String get httpClientErrorUpgradeRequired => 'Upgrade required';
 
-  // Server Error : HTTP 500
+  /// Server Error : HTTP 500
   @override
-  String get httpServerErrorInternalServerError => "Internal Server Error";
+  String get httpServerErrorInternalServerError => 'Internal Server Error';
 
   @override
-  String get httpServerErrorNotImplemented => "Not implemented";
+  String get httpServerErrorNotImplemented => 'Not implemented';
 
   @override
-  String get httpServerErrorBadGateway => "Bad Gateway";
+  String get httpServerErrorBadGateway => 'Bad Gateway';
 
   @override
-  String get httpServerErrorServiceUnavailable => "Service Unavailable";
+  String get httpServerErrorServiceUnavailable => 'Service Unavailable';
 
   @override
-  String get httpServerErrorGatewayTimeout => "Gateway Timeout";
+  String get httpServerErrorGatewayTimeout => 'Gateway Timeout';
 
   @override
   String get httpServerErrorHttpVersionNotSupported =>
-      "HTTP Version Not Supported";
+      'HTTP Version Not Supported';
 
-  // Others
+  /// Others
   @override
-  String get middleDot => "·";
-
-  @override
-  String get username => "Username";
+  String get middleDot => '·';
 
   @override
-  String get email => "Email";
+  String get username => 'Username';
 
   @override
-  String get password => "Password";
+  String get email => 'Email';
 
   @override
-  String get token => "Token";
+  String get password => 'Password';
 
   @override
-  String get cancel => "Cancel";
+  String get passwordRepeat => 'Repeat Password';
 
   @override
-  String get settingsCTA => "Settings";
+  String get token => 'Token';
 
   @override
-  String get account => "Account";
+  String get cancelCTA => 'Cancel';
 
   @override
-  String get login => "Login";
+  String get settingsCTA => 'Settings';
 
   @override
-  String get loginCTA => "Login";
+  String get account => 'Account';
 
   @override
-  String get logout => "Logout";
+  String get home => 'Home';
 
   @override
-  String get logoutCTA => "Logout";
+  String get resume => 'Resume';
 
   @override
-  String get home => "Home";
+  String get profile => 'Profile';
 
   @override
-  String get resume => "Resume";
+  String get search => 'Search';
 
   @override
-  String get profile => "Profile";
+  String get history => 'History';
 
   @override
-  String get search => "Search";
+  String get loadMore => 'Load more';
 
   @override
-  String get history => "History";
+  String get errorOccurred => 'An error occurred';
 
   @override
-  String get loadMore => "Load more";
+  String get retryCTA => 'Retry';
 
   @override
-  String get errorOccurred => "An error occurred";
+  String get yesCTA => 'Yes';
 
   @override
-  String get retry => "Retry";
+  String get noCTA => 'No';
 
   @override
-  String get yes => "Yes";
+  String get moreCTA => 'More';
 
   @override
-  String get no => "No";
+  String get notYetImplemented => 'Not yet implemented';
 
   @override
-  String get logged => "Logged";
-
-  @override
-  String get more => "More";
-
-  @override
-  String get notYetImplemented => "Not yet implemented";
-
-  @override
-  String get notSupported => "Not supported";
-
-  @override
-  String get forgotPasswordTitle => "Retrieve password";
-
-  @override
-  String get forgotPasswordExplain =>
-      "Enter your login email and we'll send you instructions to reset your password";
-
-  @override
-  String get forgotPasswordResetCTA => "Reset password";
-
-  @override
-  String get forgotPasswordNoEmailTitle => "Empty email";
-
-  @override
-  String get forgotPasswordNoEmailExplain => "Please provide an email";
-
-  @override
-  String get forgotPasswordSuccessMessage =>
-      "Email with instructions has been send.";
-
-  @override
-  String get forgotPasswordErrorMessage =>
-      "An error occurred while sending the email with instructions";
+  String get notSupported => 'Not supported';
 
   /// Creates an object that provides US English resource values for the
   /// application.
