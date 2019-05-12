@@ -1,43 +1,44 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/widgets.dart';
-import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/repositories.dart';
-import 'package:social_cv_client_flutter/src/blocs/bloc_provider.dart';
-import 'package:social_cv_client_flutter/src/blocs/main_bloc.dart';
-import 'package:social_cv_client_flutter/src/commons/paths.dart';
-import 'package:social_cv_client_flutter/src/pages/entry_page.dart';
-import 'package:social_cv_client_flutter/src/pages/group_page.dart';
-import 'package:social_cv_client_flutter/src/pages/auth_page.dart';
-import 'package:social_cv_client_flutter/src/pages/part_page.dart';
-import 'package:social_cv_client_flutter/src/pages/profile_page.dart';
-import 'package:social_cv_client_flutter/src/pages/search_page.dart';
-import 'package:social_cv_client_flutter/src/pages/settings_page.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/paths.dart';
+import 'package:social_cv_client_flutter/src/ui/pages/auth_page.dart';
+import 'package:social_cv_client_flutter/src/ui/pages/elements/entry_profile_page.dart';
+import 'package:social_cv_client_flutter/src/ui/pages/elements/group_profile_page.dart';
+import 'package:social_cv_client_flutter/src/ui/pages/elements/part_profile_page.dart';
+import 'package:social_cv_client_flutter/src/ui/pages/main_page.dart';
+import 'package:social_cv_client_flutter/src/ui/pages/search_page.dart';
+import 'package:social_cv_client_flutter/src/ui/pages/settings_page.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 class Routes {
+  final String _TAG = 'Routes';
   final Router router = Router();
 
   Routes({
-    this.mainPageProvider,
-    this.cvRepository,
-    this.secretsRepository,
-    this.preferencesRepository,
-  }) {
+    @required this.cvRepository,
+    @required this.configRepository,
+    @required this.preferencesRepository,
+  })  : assert(cvRepository != null, 'No CV repository given'),
+        assert(configRepository != null, 'No config repository given'),
+        assert(preferencesRepository != null,
+            'No preferences repositories given') {
     _defineRoutes();
   }
 
-  final BlocProvider<MainBloc> mainPageProvider;
   final CVRepository cvRepository;
-  final SecretsRepository secretsRepository;
+  final ConfigRepository configRepository;
   final PreferencesRepository preferencesRepository;
 
   void _defineRoutes() {
+    logger.info('$_TAG:_defineRoutes');
+
     router.define(
       AppPaths.kPathHome,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           logger.info('Navigate to ${AppPaths.kPathHome}');
-          return mainPageProvider;
+          return MainPage();
         },
       ),
     );
@@ -47,13 +48,11 @@ class Routes {
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           logger.info('Navigate to ${AppPaths.kPathAccount}');
-          return mainPageProvider;
+          return MainPage();
         },
       ),
     );
 
-    ///TODO : Check other solution to avoid LoginBloc recreation when
-    ///LoginPage rebuild (caused by input change)
     router.define(
       AppPaths.kPathLogin,
       handler: Handler(
@@ -74,8 +73,6 @@ class Routes {
       ),
     );
 
-    ///TODO : Check other solution to avoid SearchBloc recreation when
-    ///SearchPage rebuild (caused by input change)
     router.define(
       AppPaths.kPathSearch,
       handler: Handler(
@@ -95,10 +92,7 @@ class Routes {
 
           logger.info('Navigate to ${AppPaths.kPathProfiles}/$profileId');
 
-          return BlocProvider<ProfileBloc>(
-            bloc: ProfileBloc(cvRepository: cvRepository),
-            child: ProfilePage(profileId: profileId),
-          );
+          return ProfileProfilePage(profileId: profileId);
         },
       ),
     );
@@ -111,10 +105,7 @@ class Routes {
 
           logger.info('Navigate to ${AppPaths.kPathParts}/$partId');
 
-          return BlocProvider<PartBloc>(
-            bloc: PartBloc(cvRepository: cvRepository),
-            child: PartPage(partId: partId),
-          );
+          return PartProfilePage(partId: partId);
         },
       ),
     );
@@ -127,10 +118,7 @@ class Routes {
 
           logger.info('Navigate to ${AppPaths.kPathGroups}/$groupId');
 
-          return BlocProvider<GroupBloc>(
-            bloc: GroupBloc(cvRepository: cvRepository),
-            child: GroupPage(groupId: groupId),
-          );
+          return GroupPage(groupId: groupId);
         },
       ),
     );
@@ -143,10 +131,7 @@ class Routes {
 
           logger.info('Navigate to ${AppPaths.kPathEntries}/$entryId');
 
-          return BlocProvider<EntryBloc>(
-            bloc: EntryBloc(cvRepository: cvRepository),
-            child: EntryPage(entryId: entryId),
-          );
+          return EntryPage(entryId: entryId);
         },
       ),
     );

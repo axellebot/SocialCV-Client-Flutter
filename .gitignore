@@ -328,4 +328,4 @@ packages
 
 ios/.symlinks/ # Plugins
 
-secrets.json
+config.json

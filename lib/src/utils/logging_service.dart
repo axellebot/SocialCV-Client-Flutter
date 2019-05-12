@@ -14,7 +14,6 @@ enum LogType {
   warning,
   error,
   fatal,
-  action,
 }
 
 enum FatalErrorHandling {
@@ -113,9 +112,6 @@ class LoggingService {
   // -----------------------------------------------------------------------
   //                            Initialization
   // -----------------------------------------------------------------------
-
-  @override
-  void initEventHandlers() {}
 
   ///
   /// Init local log file

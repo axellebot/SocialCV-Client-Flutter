@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_dart_common/managers.dart';
 import 'package:social_cv_client_dart_common/repositories.dart';
 import 'package:social_cv_client_flutter/src/app.dart';
-import 'package:social_cv_client_flutter/src/repositories/shared_preferences_repository.dart';
-import 'package:social_cv_client_flutter/src/repositories/repositories_provider.dart';
-import 'package:social_cv_client_flutter/src/repositories/local_secrets_repository.dart';
+import 'package:social_cv_client_flutter/src/data/managers/local_configuration_manager.dart';
+import 'package:social_cv_client_flutter/src/data/managers/shared_preferences_manager.dart';
+import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
@@ -19,26 +20,30 @@ Future<void> main() async {
   void run() async {
     initLogger(package: "CV App");
 
-    SecretsRepository secretsRepository = LocalSecretsRepository();
-    PreferencesRepository preferencesRepository = SharedPreferencesRepository();
+    ConfigRepository configRepository = LocalConfigManager();
+    PreferencesRepository preferencesRepository = SharedPreferencesManager();
 
-    CVClient cvClient = CVClientImpl(
-      accessToken: await preferencesRepository.getAccessToken(),
-      refreshToken: await preferencesRepository.getRefreshToken(),
+    CVApiManager cvClient = DefaultCVApiManager(
+      apiBaseUrl: await configRepository.getApiServerUrl(),
+      apiInterceptor: ApiInterceptor(
+        accessToken: await preferencesRepository.getAccessToken(),
+        refreshToken: await preferencesRepository.getRefreshToken(),
+      ),
     );
-    CVCache cvCache = CVCacheImpl();
 
-    CVRepository cvRepository = CVRepositoryImpl(
-      client: cvClient,
-      cache: cvCache,
+    CVCacheManager cacheManager = DefaultCVCacheManager();
+
+    CVRepository cvRepository = DefaultCloudCVRepository(
+      cvApiManager: cvClient,
+      cvCacheManager: cacheManager,
     );
 
     runApp(
       RepositoriesProvider(
         cvRepository: cvRepository,
         preferencesRepository: preferencesRepository,
-        secretsRepository: secretsRepository,
-        child: CVApp(),
+        configRepository: configRepository,
+        child: ConfigWrapperApp(),
       ),
     );
   }
