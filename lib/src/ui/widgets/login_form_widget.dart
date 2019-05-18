@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/repositories.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
@@ -32,8 +34,28 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
 
   String errorText;
 
-  // TODO: Add loginbloc
-  LoginBloc get _loginBloc => null;
+  LoginBloc _loginBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final authBloc = BlocProvider.of<AuthenticationBloc>(context);
+    final cvRepository = Provider.of<CVRepository>(context);
+
+    _loginBloc = LoginBloc(
+      authenticationBloc: authBloc,
+      cvRepository: cvRepository,
+    );
+  }
+
+  @override
+  void dispose() {
+    myFocusNodeEmailLogin.dispose();
+    myFocusNodePasswordLogin.dispose();
+    _loginBloc?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -277,13 +299,6 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         );
       },
     );
-  }
-
-  @override
-  void dispose() {
-    myFocusNodeEmailLogin.dispose();
-    myFocusNodePasswordLogin.dispose();
-    super.dispose();
   }
 
   void _toggleLogin() {

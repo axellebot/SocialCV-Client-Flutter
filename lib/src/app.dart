@@ -97,13 +97,6 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
       accountBloc: _accountBloc,
     );
 
-    _loginBloc = LoginBloc(
-      cvRepository: _state.cvRepository,
-      authBloc: _authBloc,
-    );
-
-    _registerBloc = RegisterBloc(authenticationBloc: _authBloc);
-
     /// Inform AuthBloc that the application have been configured
     _authBloc.dispatch(AppStarted());
   }
@@ -113,8 +106,6 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
     _appBloc?.dispose();
     _accountBloc?.dispose();
     _authBloc?.dispose();
-    _loginBloc?.dispose();
-    _registerBloc?.dispose();
     super.dispose();
   }
 

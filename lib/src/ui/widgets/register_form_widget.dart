@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/repositories.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 
@@ -27,13 +29,32 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   TextEditingController signupConfirmPasswordController =
       new TextEditingController();
 
-  // TODO : add register bloc
-  RegisterBloc get _registerBloc => null;
+  RegisterBloc _registerBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final authBloc = BlocProvider.of<AuthenticationBloc>(context);
+    final cvRepository = Provider.of<CVRepository>(context);
+
+    _registerBloc = RegisterBloc(
+      cvRepository: cvRepository,
+      authenticationBloc: authBloc,
+    );
+  }
+
+  @override
+  void dispose() {
+    myFocusNodeFirstName?.dispose();
+    myFocusNodeEmail?.dispose();
+    myFocusNodePassword?.dispose();
+    _registerBloc?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    RegisterBloc _registerBloc = BlocProvider.of<RegisterBloc>(context);
-
     return BlocBuilder<RegisterEvent, RegisterState>(
         bloc: _registerBloc,
         builder: (BuildContext context, RegisterState state) {
@@ -270,14 +291,6 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
             ),
           );
         });
-  }
-
-  @override
-  void dispose() {
-    myFocusNodeFirstName.dispose();
-    myFocusNodeEmail.dispose();
-    myFocusNodePassword.dispose();
-    super.dispose();
   }
 
   void _toggleSignup() {
