@@ -9,7 +9,6 @@ import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/initial_circle_avatar_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
-import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
 /// TODO : Build owner interaction with ProfileViewModel.owner
 
@@ -44,12 +43,12 @@ class _ProfileProfilePageState extends ProfileWidgetState<ProfileProfilePage> {
           ProfileViewModel profile = state.element;
           slivers.addAll(profile.partIds
               .map((partId) =>
-              SliverToBoxAdapter(child: PartProfileWidget(partId: partId)))
+                  SliverToBoxAdapter(child: PartProfileWidget(partId: partId)))
               .toList());
         } else if (state is ProfileFailure) {
           slivers.add(
             SliverToBoxAdapter(
-              child: ErrorCard(message: translateError(context, state.error)),
+              child: ErrorCard(error: state.error),
             ),
           );
         }

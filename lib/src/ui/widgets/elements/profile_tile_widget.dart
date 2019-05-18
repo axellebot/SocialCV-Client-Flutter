@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/profile_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
@@ -44,9 +45,9 @@ class _ProfileTileState extends ProfileWidgetState<ProfileTile> {
             trailing: Icon(MdiIcons.accountDetails),
           );
         } else if (state is ProfileFailure) {
-          return ErrorTile(message: '${state.error.runtimeType}');
+          return ErrorTile(error: state.error);
         }
-        return Container();
+        return ErrorTile(error: NotImplementedYetError());
       },
     );
   }

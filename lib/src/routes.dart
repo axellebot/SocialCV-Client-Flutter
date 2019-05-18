@@ -13,7 +13,7 @@ import 'package:social_cv_client_flutter/src/ui/pages/settings_page.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 class Routes {
-  final String _TAG = 'Routes';
+  final String _tag = '$Routes';
   final Router router = Router();
 
   Routes({
@@ -32,7 +32,7 @@ class Routes {
   final PreferencesRepository preferencesRepository;
 
   void _defineRoutes() {
-    logger.info('$_TAG:_defineRoutes');
+    logger.info('$_tag:$_defineRoutes');
 
     router.define(
       AppPaths.kPathHome,

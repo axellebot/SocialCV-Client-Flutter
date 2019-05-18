@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/part_list_widget.dart';
@@ -167,13 +168,18 @@ class _PartListProfileState
           );
         } else if (state is PartListFailure) {
           return ErrorList(
-            error: CVLocalizations.of(context).notSupported,
+            error: state.error,
             scrollDirection: widget.scrollDirection,
             shrinkWrap: widget.shrinkWrap,
             physics: widget.physics,
           );
         }
-        return Container();
+        return ErrorList(
+          error: NotImplementedYetError(),
+          scrollDirection: widget.scrollDirection,
+          shrinkWrap: widget.shrinkWrap,
+          physics: widget.physics,
+        );
       },
     );
   }

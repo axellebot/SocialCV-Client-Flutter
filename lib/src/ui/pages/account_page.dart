@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
-import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key key}) : super(key: key);
@@ -17,14 +17,14 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  final String _TAG = '_AccountPageState';
+  final String _tag = '$_AccountPageState';
 
-  // TODO: Add AuthenticationBloc
+  /// TODO: Add AuthenticationBloc
   AuthenticationBloc get _authBloc => null;
 
   @override
   Widget build(BuildContext context) {
-    logger.info('$_TAG:build');
+    logger.info('$_tag:$build');
 
     return SafeArea(
       left: false,
@@ -76,7 +76,7 @@ class _AccountPageDetailsConnected extends StatefulWidget {
 
 class _AccountPageDetailsConnectedState
     extends State<_AccountPageDetailsConnected> {
-  // TODO: Add AccountBloc
+  /// TODO: Add AccountBloc
   AccountBloc get _accountBloc => null;
 
   @override
@@ -87,9 +87,7 @@ class _AccountPageDetailsConnectedState
       bloc: _accountBloc,
       builder: (BuildContext context, AccountState state) {
         if (state is AccountUninitialized) {
-          return Container();
-        }
-        if (state is AccountLoaded) {
+        } else if (state is AccountLoaded) {
           return ListView(
             children: <Widget>[
               ExpansionTile(
@@ -113,11 +111,10 @@ class _AccountPageDetailsConnectedState
               ),
             ],
           );
+        } else if (state is AccountFailed) {
+          return ErrorCard(error: state.error);
         }
-        if (state is AccountFailed) {
-          return ErrorCard(message: translateError(context, state.error));
-        }
-        return Container();
+        return ErrorCard(error: NotImplementedYetError());
       },
     );
   }

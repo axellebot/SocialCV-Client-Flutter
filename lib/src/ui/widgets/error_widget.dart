@@ -5,60 +5,65 @@ import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
-class ErrorContent extends StatelessWidget {
-  ErrorContent({
-    @required this.message,
-  }) : assert(message != null);
+abstract class ErrorWidget extends StatelessWidget {
+  final Error error;
 
-  final String message;
+  ErrorWidget({Key key, @required this.error})
+      : assert(error != null, 'No $Error given'),
+        super(key: key);
+}
+
+/// [ErrorText] is a [Text] widget to display [Error]
+class ErrorText extends ErrorWidget {
+  ErrorText({Key key, @required Error error}) : super(key: key, error: error);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(translateError(context, error));
+  }
+}
+
+/// [ErrorRow] is a [Row] widget to display [Error]
+class ErrorRow extends ErrorWidget {
+  ErrorRow({Key key, @required Error error}) : super(key: key, error: error);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Icon(
-          Icons.error,
-          color: AppColors.errorColor,
-        ),
-        Expanded(
-          child: Text(message, textAlign: TextAlign.center),
-        )
+        Icon(Icons.error, color: AppColors.errorColor),
+        Expanded(child: ErrorText(error: error))
       ],
     );
   }
 }
 
-class ErrorTile extends StatelessWidget {
-  final String message;
-
-  const ErrorTile({
-    Key key,
-    @required this.message,
-  }) : super(key: key);
+/// [ErrorTile] is a [ListTile] widget to display [Error]
+class ErrorTile extends ErrorWidget {
+  ErrorTile({Key key, @required Error error}) : super(key: key, error: error);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(MdiIcons.alertCircleOutline),
       title: Text(CVLocalizations.of(context).errorOccurred),
-      subtitle: Text(message),
+      subtitle: ErrorText(error: error),
     );
   }
 }
 
-class ErrorCard extends StatelessWidget {
-  final String message;
+/// [ErrorCard] is a [Card] widget to display [Error]
+class ErrorCard extends ErrorWidget {
   final double height;
   final double width;
 
-  const ErrorCard({
+  ErrorCard({
     Key key,
-    @required this.message,
+    @required Error error,
     this.height,
     this.width,
-  })  : assert(message != null),
-        super(key: key);
+  }) : super(key: key, error: error);
 
   @override
   Widget build(BuildContext context) {
@@ -67,25 +72,28 @@ class ErrorCard extends StatelessWidget {
         height: height,
         width: width,
         padding: EdgeInsets.all(10.0),
-        child: ErrorContent(message: message),
+        child: ErrorRow(error: error),
       ),
     );
   }
 }
 
-class ErrorList extends StatelessWidget {
-  ErrorList({
-    @required this.error,
-    this.scrollDirection = Axis.vertical,
-    this.shrinkWrap = false,
-    this.physics,
-  }) : assert(error != null);
-
-  final Object error;
-
+/// [ErrorList] is a [ListView] widget to display [Error]
+class ErrorList extends ErrorWidget {
+  /// List behaviors
   final Axis scrollDirection;
   final bool shrinkWrap;
   final ScrollPhysics physics;
+
+  ErrorList({
+    Key key,
+    @required Error error,
+
+    /// List behaviors
+    this.scrollDirection = Axis.vertical,
+    this.shrinkWrap = false,
+    this.physics,
+  }) : super(key: key, error: error);
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +102,20 @@ class ErrorList extends StatelessWidget {
       shrinkWrap: this.shrinkWrap,
       physics: this.physics,
       children: <Widget>[
-        ErrorCard(message: translateError(context, error)),
+        ErrorTile(error: error),
       ],
+    );
+  }
+}
+
+/// [ErrorPage] is a [Scaffold] widget to display [Error]
+class ErrorPage extends ErrorWidget {
+  ErrorPage({Key key, @required Error error}) : super(key: key, error: error);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(child: ErrorCard(error: error)),
     );
   }
 }

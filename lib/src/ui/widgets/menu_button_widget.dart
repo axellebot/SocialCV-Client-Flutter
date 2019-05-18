@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
+import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/initial_circle_avatar_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 
@@ -25,17 +27,15 @@ class _MenuButtonState extends State<MenuButton> {
         if (state is AuthenticationAuthenticated) return _MenuButtonConnected();
         if (state is AuthenticationUnauthenticated)
           return _MenuButtonNotConnected();
-        return Container();
+        return ErrorRow(error: NotImplementedYetError());
       },
     );
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//                                                                            //
-//                          _MenuButtonNotConnected                           //
-//                                                                            //
-////////////////////////////////////////////////////////////////////////////////
+/// ----------------------------------------------------------
+/// ---------------------- Not connected ---------------------
+/// ----------------------------------------------------------
 
 class _MenuButtonNotConnected extends StatelessWidget {
   @override
@@ -47,11 +47,9 @@ class _MenuButtonNotConnected extends StatelessWidget {
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//                                                                            //
-//                          _MenuButtonConnected                              //
-//                                                                            //
-////////////////////////////////////////////////////////////////////////////////
+/// ----------------------------------------------------------
+/// ---------------------- Connected -------------------------
+/// ----------------------------------------------------------
 
 class _MenuButtonConnected extends StatefulWidget {
   _MenuButtonConnected({Key key}) : super(key: key);

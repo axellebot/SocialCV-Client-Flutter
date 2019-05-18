@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
 import 'package:social_cv_client_flutter/src/routes.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
@@ -50,7 +51,7 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
         } else if (state is ConfigLoaded) {
           return _CVApp(state);
         }
-        return Container();
+        return ErrorRow(error: NotImplementedYetError());
       },
     );
   }
@@ -122,7 +123,7 @@ class _CVAppState extends State<_CVApp> {
 
         if (state is AppInitialized) return _CVInitializedApp(state: state);
 
-        if (state is AppFailure) return ErrorCard(message: 'Error Setup App');
+        if (state is AppFailure) return ErrorCard(error: state.error);
 
         if (state is AppLoading)
           return Center(child: CircularProgressIndicator());

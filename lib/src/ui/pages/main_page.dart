@@ -16,7 +16,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final String _TAG = '_MainPageState';
+  final String _tag = '$_MainPageState';
   int _currentIndex = 0;
 
   final List<Widget> _children = [
@@ -26,7 +26,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    logger.info('$_TAG:build');
+    logger.info('$_tag:$build');
 
     return Scaffold(
       appBar: AppBar(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/entry_widget.dart';
+import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
 
 class EntryPage extends EntryWidget {
@@ -58,7 +60,7 @@ class _EntryPageState extends EntryWidgetState<EntryPage> {
             ),
           );
         }
-        return Container();
+        return ErrorCard(error: NotImplementedYetError());
       },
     );
   }

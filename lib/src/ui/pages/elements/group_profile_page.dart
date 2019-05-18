@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/entry_profile_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/group_widget.dart';
+import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
 
 class GroupPage extends GroupWidget {
@@ -49,7 +51,7 @@ class _GroupPageState extends GroupWidgetState<GroupPage> {
             ),
           );
         }
-        return Container();
+        return ErrorCard(error: NotImplementedYetError());
       },
     );
   }

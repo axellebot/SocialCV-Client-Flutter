@@ -8,10 +8,10 @@ dependencies:
 
   # Common Social CV Logic
   social_cv_client_dart_common:
-     path: ../Social-CV-Client-Dart-common
-#    git:
-#      url: https://github.com/axellebot/Social-CV-Client-Dart-common
-#      ref: develop
+    path: ../Social-CV-Client-Dart-common
+  #    git:
+  #      url: https://github.com/axellebot/Social-CV-Client-Dart-common
+  #      ref: develop
 
   flutter:
     sdk: flutter
@@ -61,25 +61,25 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-  - assets/images/account_card_details-white.png
-  - assets/images/account_card_details-blue.png
-  - assets/images/default-avatar.png
-  - assets/images/default-banner.jpg
+    - assets/images/account_card_details-white.png
+    - assets/images/account_card_details-blue.png
+    - assets/images/default-avatar.png
+    - assets/images/default-banner.jpg
 
-  - config.json # secret data
+    - config.json # secret data
 
 
   fonts:
-  - family: Google Sans
-    fonts:
-    - asset: assets/fonts/GoogleSans-Regular.ttf
-    - asset: assets/fonts/GoogleSans-Medium.ttf
-      weight: 500
-    - asset: assets/fonts/GoogleSans-Bold.ttf
-      weight: 700
+    - family: Google Sans
+      fonts:
+        - asset: assets/fonts/GoogleSans-Regular.ttf
+        - asset: assets/fonts/GoogleSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/GoogleSans-Bold.ttf
+          weight: 700
   #
   # For details regarding fonts from package dependencies, 
   # see https://flutter.io/custom-fonts/#from-packages
 
 authors:
-- Axel LE BOT <axellebot@gmail.com>
+  - Axel LE BOT <axellebot@gmail.com>

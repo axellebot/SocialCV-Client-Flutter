@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/api_values.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
@@ -21,34 +22,31 @@ class EntryProfileWidget extends EntryWidget {
 class _EntryProfileWidgetState extends EntryWidgetState<EntryProfileWidget> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
+    return BlocBuilder<EntryEvent, EntryState>(
       bloc: this.entryBloc,
       builder: (BuildContext context, EntryState state) {
         if (state is EntryLoaded) {
-          EntryViewModel entryViewModel = state.element;
-          if (entryViewModel.type == kCVEntryTypeMap) {
-            return _EntryWidgetMap(entry: entryViewModel);
-          } else if (entryViewModel.type == kCVEntryTypeEvent) {
-            return _EntryWidgetEvent(entry: entryViewModel);
-          } else if (entryViewModel.type == kCVEntryTypeTag) {
-            return _EntryWidgetTag(entryViewModel);
-          } else {
-            return ErrorContent(
-                message: CVLocalizations.of(context).notSupported);
+          final entry = state.element;
+          if (entry.type == kCVEntryTypeMap) {
+            return _EntryWidgetMap(entry: entry);
+          } else if (entry.type == kCVEntryTypeEvent) {
+            return _EntryWidgetEvent(entry: entry);
+          } else if (entry.type == kCVEntryTypeTag) {
+            return _EntryWidgetTag(entry);
           }
         }
-        return Container();
+        return ErrorRow(error: NotImplementedYetError());
       },
     );
   }
 }
 
 class _EntryWidgetMap extends StatelessWidget {
+  final EntryViewModel entry;
+
   _EntryWidgetMap({
     @required this.entry,
   }) : assert(EntryViewModel != null);
-
-  final EntryViewModel entry;
 
   @override
   Widget build(BuildContext context) {
@@ -77,11 +75,11 @@ class _EntryWidgetMap extends StatelessWidget {
 }
 
 class _EntryWidgetEvent extends StatelessWidget {
+  final EntryViewModel entry;
+
   _EntryWidgetEvent({
     @required this.entry,
   }) : assert(EntryViewModel != null);
-
-  final EntryViewModel entry;
 
   @override
   Widget build(BuildContext context) {
@@ -144,9 +142,9 @@ class _EntryWidgetEvent extends StatelessWidget {
 }
 
 class _EntryWidgetTag extends StatelessWidget {
-  _EntryWidgetTag(this.entry);
-
   final EntryViewModel entry;
+
+  _EntryWidgetTag(this.entry);
 
   @override
   Widget build(BuildContext context) {

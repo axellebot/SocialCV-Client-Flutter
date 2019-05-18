@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/api_values.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
@@ -10,7 +11,6 @@ import 'package:social_cv_client_flutter/src/ui/widgets/elements/part_widget.dar
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
-import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
 class PartProfileWidget extends PartWidget {
   PartProfileWidget(
@@ -32,16 +32,12 @@ class _PartProfileWidgetState extends PartWidgetState<PartProfileWidget> {
             numberOfTitleLines: 1,
             numberOfContentLines: 2,
           );
-        }
-        if (state is PartLoaded) {
+        } else if (state is PartLoaded) {
           return _PartWidgetFromModel(part: state.element);
         } else if (state is PartFailure) {
-          return ErrorContent(
-            message: translateError(context, state.error),
-          );
+          return ErrorRow(error: state.error);
         }
-        return ErrorContent(
-            message: CVLocalizations.of(context).notYetImplemented);
+        return ErrorRow(error: NotImplementedYetError());
       },
     );
   }
@@ -65,7 +61,7 @@ class _PartWidgetFromModel extends StatelessWidget {
         part: part,
       );
     } else {
-      return ErrorContent(message: CVLocalizations.of(context).notSupported);
+      return ErrorRow(error: NotImplementedYetError());
     }
   }
 }

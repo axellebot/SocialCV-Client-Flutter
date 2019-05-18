@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/api_values.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
@@ -32,11 +33,10 @@ class _GroupProfileWidgetState extends GroupWidgetState<GroupProfileWidget> {
           } else if (group.type == kCVGroupTypeListVertical) {
             return _GroupVertical(group: group);
           } else {
-            return ErrorContent(
-                message: CVLocalizations.of(context).notSupported);
+            return ErrorRow(error: NotImplementedYetError());
           }
         }
-        return Container();
+        return ErrorRow(error: NotImplementedYetError());
       },
     );
   }

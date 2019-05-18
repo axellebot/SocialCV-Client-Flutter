@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/initial_circle_avatar_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 
@@ -26,7 +28,7 @@ class _AccountTitleState extends State<AccountTile> {
           return _AccountTileConnected();
         if (state is AuthenticationUnauthenticated)
           return _AccountTileNotConnected();
-        return Container();
+        return ErrorTile(error: NotImplementedYetError());
       },
     );
   }
@@ -55,9 +57,7 @@ class _AccountTileConnectedState extends State<_AccountTileConnected> {
       bloc: _accountBloc,
       builder: (BuildContext context, AccountState state) {
         if (state is AccountUninitialized) {
-          return Container();
-        }
-        if (state is AccountLoaded) {
+        } else if (state is AccountLoaded) {
           var userModel = state.user;
           return ListTile(
             leading: InitialCircleAvatar(
@@ -71,10 +71,10 @@ class _AccountTileConnectedState extends State<_AccountTileConnected> {
               onPressed: () => null, // TODO: Add logout
             ),
           );
-        }
-        if (state is AccountFailed) {
+        } else if (state is AccountFailed) {
           return Container(child: Text('${state.error}'));
         }
+        return ErrorTile(error: NotImplementedYetError());
       },
     );
   }

@@ -198,9 +198,9 @@ class LoggingService {
   static void info(String message, {String title, int autoCloseSeconds = -1}) =>
       _instance.doInfo(message, title: title);
 
-  // -----------------------------------------------------------------------
-  //                                 Error
-  // -----------------------------------------------------------------------
+  /// -----------------------------------------------------------------------
+  ///                                 Error
+  /// -----------------------------------------------------------------------
 
   ///
   /// Do error log. Something went wrong, the app will not continue the
@@ -221,15 +221,13 @@ class LoggingService {
   static void error(String message, {int errorCode}) =>
       _instance.doError(message, errorCode);
 
-  // -----------------------------------------------------------------------
-  //                                Fatal
-  // -----------------------------------------------------------------------
+  /// -----------------------------------------------------------------------
+  ///                                Fatal
+  /// -----------------------------------------------------------------------
 
-  ///
   /// Fatal error. Something went wrong, the app will not continue the
   /// way it is meant to be and a mail with error details must be
   /// send to us.
-  ///
   void doFatal(String message, int errorCode, {String stackTrace}) {
     doLog(message,
         type: LogType.fatal, errorCode: errorCode, stackTrace: stackTrace);
@@ -237,15 +235,13 @@ class LoggingService {
     doWarning('Fatal error not handled');
   }
 
-  ///
   /// Static fatal function
-  ///
   static void fatal(String message, {int errorCode, String stackTrace}) =>
       _instance.doFatal(message, errorCode, stackTrace: stackTrace);
 
-  // -----------------------------------------------------------------------
-  //                            Log list
-  // -----------------------------------------------------------------------
+  /// -----------------------------------------------------------------------
+  ///                            Log list
+  /// -----------------------------------------------------------------------
 
   static get logList => _instance._logList;
 

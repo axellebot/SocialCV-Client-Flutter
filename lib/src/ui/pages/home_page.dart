@@ -3,13 +3,15 @@ import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.da
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({
+  final String _tag = '$HomePage';
+
+  HomePage({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    logger.info('Building HomePage');
+    logger.info('$_tag:$build');
     return SafeArea(
       left: false,
       right: false,

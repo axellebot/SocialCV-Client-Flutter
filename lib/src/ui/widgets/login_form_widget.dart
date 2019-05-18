@@ -7,7 +7,6 @@ import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
-import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
 class LoginFormWidget extends StatefulWidget {
   const LoginFormWidget({
@@ -19,7 +18,7 @@ class LoginFormWidget extends StatefulWidget {
 }
 
 class _LoginFormWidgetState extends State<LoginFormWidget> {
-  static const _TAG = '_LoginFormWidgetState';
+  final String _tag = '$_LoginFormWidgetState';
 
   _LoginFormWidgetState();
 
@@ -38,7 +37,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    logger.info('$_TAG:build');
+    logger.info('$_tag:$build');
 
     return BlocBuilder<LoginEvent, LoginState>(
       bloc: _loginBloc,
@@ -119,8 +118,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                             ),
                           ),
                           (state is LoginFailure)
-                              ? ErrorContent(
-                                  message: translateError(context, state.error))
+                              ? ErrorRow(error: state.error)
                               : Container(),
                         ],
                       ),
