@@ -13,7 +13,8 @@ import 'package:social_cv_client_flutter/src/ui/widgets/sort_dialog_widget.dart'
 import 'package:social_cv_client_flutter/src/ui/widgets/sort_list_tile_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
-/// [SimpleEntryListProfile] is a dummy widget that use [entryIds] or [entries] or [entryBlocs] to create a list of [EntryProfileWidget]
+/// [SimpleEntryListProfile] is a dummy widget that use [entryIds] or [entries]
+/// or [entryBlocs] to create a list of [EntryProfileWidget]
 class SimpleEntryListProfile extends StatelessWidget {
   final List<String> entryIds;
   final List<EntryViewModel> entries;

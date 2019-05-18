@@ -24,11 +24,11 @@ class Validators {
 
   final validatePassword = StreamTransformer<String, String>.fromHandlers(
       handleData: (password, sink) {
-    print('PerformPasswordValidation : $password');
+    print('PerformPasswordValidation : HIDDEN');
     if (password.isEmpty) {
       sink.addError(ValidationErrors.ERROR_LOGIN_NO_PASSWORD);
     } else {
-      print('PerformPasswordValidation : $password is correct');
+      print('PerformPasswordValidation : HIDDEN is correct');
       sink.add(password);
     }
   });

@@ -10,6 +10,7 @@ import 'package:social_cv_client_flutter/src/ui/widgets/elements/entry_widget.da
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 
+/// [EntryProfileWidget] is an [EntryWidget] for profile display purpose
 class EntryProfileWidget extends EntryWidget {
   EntryProfileWidget(
       {Key key, String entryId, EntryViewModel entry, EntryBloc entryBloc})

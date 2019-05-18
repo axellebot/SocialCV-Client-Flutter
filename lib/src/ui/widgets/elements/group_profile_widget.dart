@@ -11,6 +11,7 @@ import 'package:social_cv_client_flutter/src/ui/widgets/elements/group_widget.da
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 
+/// [GroupProfileWidget] is an [GroupWidget] for profile display purpose
 class GroupProfileWidget extends GroupWidget {
   GroupProfileWidget(
       {Key key, String groupId, GroupViewModel group, GroupBloc groupBloc})

@@ -10,7 +10,7 @@ import 'package:social_cv_client_flutter/src/ui/pages/elements/profile_profile_p
 import 'package:social_cv_client_flutter/src/ui/pages/main_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/search_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/settings_page.dart';
-import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 class Routes {
   final String _tag = '$Routes';
@@ -32,13 +32,13 @@ class Routes {
   final PreferencesRepository preferencesRepository;
 
   void _defineRoutes() {
-    logger.info('$_tag:$_defineRoutes');
+    Logger.log('$_tag:$_defineRoutes');
 
     router.define(
       AppPaths.kPathHome,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info('Navigate to ${AppPaths.kPathHome}');
+          Logger.log('Navigate to ${AppPaths.kPathHome}');
           return MainPage();
         },
       ),
@@ -48,7 +48,7 @@ class Routes {
       AppPaths.kPathAccount,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info('Navigate to ${AppPaths.kPathAccount}');
+          Logger.log('Navigate to ${AppPaths.kPathAccount}');
           return MainPage();
         },
       ),
@@ -58,7 +58,7 @@ class Routes {
       AppPaths.kPathLogin,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info('Navigate to ${AppPaths.kPathLogin}');
+          Logger.log('Navigate to ${AppPaths.kPathLogin}');
           return AuthPage();
         },
       ),
@@ -68,7 +68,7 @@ class Routes {
       AppPaths.kPathSettings,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info('Navigate to ${AppPaths.kPathSettings}');
+          Logger.log('Navigate to ${AppPaths.kPathSettings}');
           return SettingsPage();
         },
       ),
@@ -78,7 +78,7 @@ class Routes {
       AppPaths.kPathSearch,
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          logger.info('Navigate to ${AppPaths.kPathSearch}');
+          Logger.log('Navigate to ${AppPaths.kPathSearch}');
 
           return SearchPage();
         },
@@ -91,7 +91,7 @@ class Routes {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           var profileId = params[AppPaths.kParamProfileId][0];
 
-          logger.info('Navigate to ${AppPaths.kPathProfiles}/$profileId');
+          Logger.log('Navigate to ${AppPaths.kPathProfiles}/$profileId');
 
           return ProfileProfilePage(profileId: profileId);
         },
@@ -104,7 +104,7 @@ class Routes {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           var partId = params[AppPaths.kParamPartId][0];
 
-          logger.info('Navigate to ${AppPaths.kPathParts}/$partId');
+          Logger.log('Navigate to ${AppPaths.kPathParts}/$partId');
 
           return PartProfilePage(partId: partId);
         },
@@ -117,7 +117,7 @@ class Routes {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           var groupId = params[AppPaths.kParamGroupId][0];
 
-          logger.info('Navigate to ${AppPaths.kPathGroups}/$groupId');
+          Logger.log('Navigate to ${AppPaths.kPathGroups}/$groupId');
 
           return GroupPage(groupId: groupId);
         },
@@ -130,7 +130,7 @@ class Routes {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           var entryId = params[AppPaths.kParamEntryId][0];
 
-          logger.info('Navigate to ${AppPaths.kPathEntries}/$entryId');
+          Logger.log('Navigate to ${AppPaths.kPathEntries}/$entryId');
 
           return EntryPage(entryId: entryId);
         },

@@ -12,7 +12,7 @@ import 'package:social_cv_client_flutter/src/ui/pages/main_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/splash_page.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
-import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 import 'domain/blocs/configuration/configuration.dart';
 
@@ -115,7 +115,7 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
 
   @override
   Widget build(BuildContext context) {
-    logger.info('$_tag:$build');
+    Logger.log('$_tag:$build');
 
     return BlocBuilder<AppEvent, AppState>(
       bloc: _appBloc,
@@ -144,7 +144,7 @@ class _CVInitializedApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.info('$_tag:$build');
+    Logger.log('$_tag:$build');
 
     RepositoriesProvider repositories = RepositoriesProvider.of(context);
 

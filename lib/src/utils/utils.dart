@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/defaults.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
-import 'package:social_cv_client_flutter/src/utils/logger.dart';
+
+import 'logging_service.dart';
 
 String getInitials(String nameString) {
   if (nameString.isEmpty) return ' ';
@@ -42,7 +43,7 @@ List<DropdownMenuItem<String>> getDropDownMenuElementPerPage() {
 
 String translateError(BuildContext context, dynamic err) {
   CVLocalizations loc = CVLocalizations.of(context);
-  logger.info('Translating error');
+  Logger.log('Translating error');
 
   if (err is Exception) {
     if (err is FormatException)

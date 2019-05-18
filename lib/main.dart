@@ -7,7 +7,6 @@ import 'package:social_cv_client_flutter/src/app.dart';
 import 'package:social_cv_client_flutter/src/data/managers/local_configuration_manager.dart';
 import 'package:social_cv_client_flutter/src/data/managers/shared_preferences_manager.dart';
 import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
-import 'package:social_cv_client_flutter/src/utils/logger.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 // TODO automatically set this to false for release builds
@@ -18,8 +17,6 @@ Future<void> main() async {
   ///     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   void run() async {
-    initLogger(package: "CV App");
-
     ConfigRepository configRepository = LocalConfigManager();
     PreferencesRepository preferencesRepository = SharedPreferencesManager();
 
@@ -56,25 +53,23 @@ Future<void> main() async {
   }
 }
 
-///
 /// Global error handler. Show stack trace
-///
 void globalErrorHandler(details) {
-  String stackTrace;
+  StackTrace stackTrace;
 
   if (details is FlutterErrorDetails) {
     if (details.exception is Error) {
-      stackTrace = details.stack.toString();
+      stackTrace = details.stack;
     }
   } else if (details is Error) {
-    stackTrace = details.stackTrace.toString();
+    stackTrace = details.stackTrace;
   } else {
+    Logger.fatal(
+      details.toString(),
+      errorCode: ErrorCodes.UNHANDLED_EXCEPTION,
+    );
     throw details;
   }
 
-  LoggingService.fatal(
-    details.toString(),
-    errorCode: ErrorCodes.UNHANDLED_EXCEPTION,
-    stackTrace: stackTrace,
-  );
+  Logger.error('${details.runtimeType}', stackTrace: stackTrace);
 }

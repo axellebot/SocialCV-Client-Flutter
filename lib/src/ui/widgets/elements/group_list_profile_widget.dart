@@ -13,7 +13,8 @@ import 'package:social_cv_client_flutter/src/ui/widgets/sort_dialog_widget.dart'
 import 'package:social_cv_client_flutter/src/ui/widgets/sort_list_tile_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
-/// [SimpleGroupListProfile] is a dummy widget that use [groupIds] or [groups] or [groupBlocs] to create a list of [GroupProfileWidget]
+/// [SimpleGroupListProfile] is a dummy widget that use [groupIds] or [groups]
+/// or [groupBlocs] to create a list of [GroupProfileWidget]
 class SimpleGroupListProfile extends StatelessWidget {
   final List<String> groupIds;
   final List<GroupViewModel> groups;

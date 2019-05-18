@@ -12,6 +12,7 @@ import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 
+/// [PartProfileWidget] is an [PartWidget] for profile display purpose
 class PartProfileWidget extends PartWidget {
   PartProfileWidget(
       {Key key, String partId, PartViewModel part, PartBloc partBloc})

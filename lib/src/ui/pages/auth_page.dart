@@ -5,7 +5,7 @@ import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/login_form_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/register_form_widget.dart';
-import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 class AuthPage extends StatefulWidget {
   AuthPage({Key key}) : super(key: key);
@@ -27,7 +27,7 @@ class _AuthPageState extends State<AuthPage>
 
   @override
   Widget build(BuildContext context) {
-    logger.info('$_tag:$build');
+    Logger.log('$_tag:$build');
 
     return Scaffold(
       key: _scaffoldKey,

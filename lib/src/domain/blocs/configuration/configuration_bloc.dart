@@ -4,6 +4,7 @@ import 'package:social_cv_client_dart_common/repositories.dart';
 import 'package:social_cv_client_flutter/src/data/managers/local_configuration_manager.dart';
 import 'package:social_cv_client_flutter/src/data/managers/shared_preferences_manager.dart';
 import 'package:social_cv_client_flutter/src/domain/blocs/configuration/configuration.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
   final String _tag = '$ConfigurationBloc';
@@ -61,8 +62,9 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
         preferencesRepository: _preferencesRepository,
         configRepository: _configRepository,
       );
-    } catch (error) {
-      print(error.runtimeType);
+    } catch (error, stacktrace) {
+      Logger.error('${error.runtimeType}', stackTrace: stacktrace);
+      yield ConfigFailure(error: error);
     }
   }
 }

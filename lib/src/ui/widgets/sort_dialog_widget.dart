@@ -4,7 +4,7 @@ import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/sort_box_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/sort_list_tile_widget.dart';
-import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 class SortDialog extends StatefulWidget {
   const SortDialog({
@@ -31,7 +31,7 @@ class _SortDialogState extends State<SortDialog> {
               title: Text(sortItem.title),
               onChanged: (SortState value) {
                 setState(() {
-                  logger.info('${sortItem.field} $value');
+                  Logger.log('${sortItem.field} $value');
                   sortItem.value = value;
                 });
               },

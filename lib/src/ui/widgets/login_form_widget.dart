@@ -6,7 +6,7 @@ import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
-import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 class LoginFormWidget extends StatefulWidget {
   const LoginFormWidget({
@@ -37,7 +37,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    logger.info('$_tag:$build');
+    Logger.log('$_tag:$build');
 
     return BlocBuilder<LoginEvent, LoginState>(
       bloc: _loginBloc,
@@ -239,7 +239,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   Padding(
                     padding: EdgeInsets.only(top: 10.0, right: 40.0),
                     child: GestureDetector(
-                      onTap: () => print('Facebook button pressed'),
+                      onTap: () => Logger.log('Facebook button pressed'),
                       child: Container(
                         padding: const EdgeInsets.all(15.0),
                         decoration: new BoxDecoration(
@@ -256,7 +256,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   Padding(
                     padding: EdgeInsets.only(top: 10.0),
                     child: GestureDetector(
-                      onTap: () => print('Google button pressed'),
+                      onTap: () => Logger.log('Google button pressed'),
                       child: Container(
                         padding: const EdgeInsets.all(15.0),
                         decoration: new BoxDecoration(

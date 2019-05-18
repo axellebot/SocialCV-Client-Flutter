@@ -6,7 +6,7 @@ import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
-import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 
 class AccountPage extends StatefulWidget {
@@ -24,7 +24,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    logger.info('$_tag:$build');
+    Logger.log('$_tag:$build');
 
     return SafeArea(
       left: false,

@@ -8,7 +8,7 @@ import 'package:social_cv_client_flutter/src/ui/widgets/elements/profile_widget.
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/initial_circle_avatar_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
-import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 /// TODO : Build owner interaction with ProfileViewModel.owner
 
@@ -31,7 +31,7 @@ class ProfileProfilePage extends ProfileWidget {
 class _ProfileProfilePageState extends ProfileWidgetState<ProfileProfilePage> {
   @override
   Widget build(BuildContext context) {
-    logger.info('Building ProfilePage');
+    Logger.log('Building ProfilePage');
 
     return BlocBuilder<ProfileEvent, ProfileState>(
       bloc: profileBloc,
