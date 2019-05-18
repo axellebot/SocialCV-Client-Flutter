@@ -6,6 +6,7 @@ import 'package:social_cv_client_flutter/src/ui/pages/auth_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/elements/entry_profile_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/elements/group_profile_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/elements/part_profile_page.dart';
+import 'package:social_cv_client_flutter/src/ui/pages/elements/profile_profile_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/main_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/search_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/settings_page.dart';

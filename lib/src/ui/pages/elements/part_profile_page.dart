@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
-import 'package:social_cv_client_flutter/src/ui/widgets/elements/group_list_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/part_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
 
@@ -26,7 +25,6 @@ class _PartProfilePageState extends PartWidgetState<PartProfilePage> {
             appBar: AppBar(
               title: LoadingShadowContent(
                 numberOfTitleLines: 1,
-                numberOfContentLines: 0,
               ),
             ),
             body: SingleChildScrollView(
@@ -43,11 +41,8 @@ class _PartProfilePageState extends PartWidgetState<PartProfilePage> {
 
           return Scaffold(
             appBar: AppBar(title: Text(model.name)),
-            body: SingleChildScrollView(
-              child: GroupListWidget(
-                fromPartViewModel: model,
-                showOptions: true,
-              ),
+            body: ListView.builder(
+              itemBuilder: (BuildContext context, int index) {},
             ),
           );
         }

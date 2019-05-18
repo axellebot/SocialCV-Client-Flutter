@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/api_values.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
-import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/part_profile_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/profile_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
@@ -44,51 +42,10 @@ class _ProfileProfilePageState extends ProfileWidgetState<ProfileProfilePage> {
         if (state is ProfileLoaded) {
           slivers.add(_ProfilePageAppBar(profile: state.element));
           ProfileViewModel profile = state.element;
-          if (profile.type == kCVProfileTypeMain) {
-            slivers.addAll([
-              PartProfileWidget(
-                partId: profile.partIds.elementAt(0),
-              )
-            ]);
-          } else if (profile.type == kCVProfileTypeHeaderMain) {
-            slivers.addAll([
-              PartProfileWidget(
-                partId: profile.partIds.elementAt(0),
-              ),
-              PartProfileWidget(
-                partId: profile.partIds.elementAt(1),
-              )
-            ]);
-          } else if (profile.type == kCVProfileTypeMainSide) {
-            slivers.addAll([
-              PartProfileWidget(
-                partId: profile.partIds.elementAt(0),
-              ),
-              PartProfileWidget(
-                partId: profile.partIds.elementAt(1),
-              )
-            ]);
-          } else if (profile.type == kCVProfileTypeHeaderMainSide) {
-            slivers.addAll([
-              PartProfileWidget(
-                partId: profile.partIds.elementAt(0),
-              ),
-              PartProfileWidget(
-                partId: profile.partIds.elementAt(1),
-              ),
-              PartProfileWidget(
-                partId: profile.partIds.elementAt(2),
-              )
-            ]);
-          } else {
-            slivers.add(
-              SliverToBoxAdapter(
-                child: ErrorCard(
-                  message: CVLocalizations.of(context).notSupported,
-                ),
-              ),
-            );
-          }
+          slivers.addAll(profile.partIds
+              .map((partId) =>
+              SliverToBoxAdapter(child: PartProfileWidget(partId: partId)))
+              .toList());
         } else if (state is ProfileFailure) {
           slivers.add(
             SliverToBoxAdapter(
@@ -97,9 +54,10 @@ class _ProfileProfilePageState extends ProfileWidgetState<ProfileProfilePage> {
           );
         }
         return Scaffold(
-            body: CustomScrollView(
-          slivers: slivers,
-        ));
+          body: CustomScrollView(
+            slivers: slivers,
+          ),
+        );
       },
     );
   }

@@ -1,23 +1,23 @@
 import 'package:flutter/widgets.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
-import 'package:social_cv_client_flutter/src/ui/widgets/elements/element_widget.dart';
+import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
 
 /// If [profileBloc] given we assume that it have been already initialized
-abstract class ProfileWidget extends ElementWidget<ProfileViewModel> {
+abstract class ProfileWidget extends StatefulWidget {
+  final String profileId;
+  final ProfileViewModel profile;
   final ProfileBloc profileBloc;
 
-  ProfileWidget(
-      {Key key, String profileId, ProfileViewModel profile, this.profileBloc})
+  ProfileWidget({Key key, this.profileId, this.profile, this.profileBloc})
       : assert(profileId != null && profile == null && profileBloc == null),
         assert(profileId == null && profile != null && profileBloc == null),
         assert(profileId == null && profile == null && profileBloc != null),
-        super(key: key, elementId: profileId, element: profile);
+        super(key: key);
 }
 
 /// If [widget.profileBloc] exists the lifecycle of it will be managed by its creator
-abstract class ProfileWidgetState<T extends ProfileWidget>
-    extends ElementWidgetState<ProfileWidget> {
+abstract class ProfileWidgetState<T extends ProfileWidget> extends State<T> {
   ProfileBloc profileBloc;
 
   @override
@@ -27,10 +27,11 @@ abstract class ProfileWidgetState<T extends ProfileWidget>
     profileBloc = widget.profileBloc;
 
     if (profileBloc == null) {
-      profileBloc = ProfileBloc();
+      var provider = RepositoriesProvider.of(context);
+      profileBloc = ProfileBloc(cvRepository: provider.cvRepository);
       profileBloc.dispatch(ProfileInitialized(
-        withId: widget.elementId,
-        withProfile: widget.element,
+        profileId: widget.profileId,
+        profile: widget.profile,
       ));
     }
   }

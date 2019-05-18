@@ -5,7 +5,7 @@ import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/api_values.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
-import 'package:social_cv_client_flutter/src/ui/widgets/elements/entry_list_widget.dart';
+import 'package:social_cv_client_flutter/src/ui/widgets/elements/entry_list_profile_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/group_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
@@ -26,11 +26,11 @@ class _GroupProfileWidgetState extends GroupWidgetState<GroupProfileWidget> {
       bloc: groupBloc,
       builder: (BuildContext context, GroupState state) {
         if (state is GroupLoaded) {
-          GroupViewModel groupViewModel;
-          if (groupViewModel.type == kCVGroupTypeListHorizontal) {
-            return _GroupHorizontal(group: groupViewModel);
-          } else if (groupViewModel.type == kCVGroupTypeListVertical) {
-            return _GroupVertical(group: groupViewModel);
+          GroupViewModel group;
+          if (group.type == kCVGroupTypeListHorizontal) {
+            return _GroupHorizontal(group: group);
+          } else if (group.type == kCVGroupTypeListVertical) {
+            return _GroupVertical(group: group);
           } else {
             return ErrorContent(
                 message: CVLocalizations.of(context).notSupported);
@@ -75,9 +75,8 @@ class _GroupHorizontal extends StatelessWidget {
         ),
         Container(
           height: AppDimensions.horizontalEntryListHeight,
-          child: EntryListWidget(
-            fromGroupViewModel: group,
-            showOptions: false,
+          child: SimpleEntryListProfile(
+            entryIds: group.entryIds,
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
           ),
@@ -120,9 +119,8 @@ class _GroupVertical extends StatelessWidget {
         ),
         Card(
           elevation: 2.0,
-          child: EntryListWidget(
-            fromGroupViewModel: group,
-            showOptions: false,
+          child: SimpleEntryListProfile(
+            entryIds: group.entryIds,
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
-import 'package:social_cv_client_flutter/src/ui/widgets/elements/entry_list_widget.dart';
+import 'package:social_cv_client_flutter/src/ui/widgets/elements/entry_profile_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/group_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
 
@@ -39,15 +39,13 @@ class _GroupPageState extends GroupWidgetState<GroupPage> {
             ),
           );
         } else if (state is GroupLoaded) {
-          GroupViewModel model = state.element;
-
+          var model = state.element;
           return Scaffold(
             appBar: AppBar(title: Text(model.name)),
-            body: SingleChildScrollView(
-              child: EntryListWidget(
-                fromGroupViewModel: model,
-                showOptions: true,
-              ),
+            body: ListView.builder(
+              itemCount: model.entryIds.length,
+              itemBuilder: (BuildContext context, int index) =>
+                  EntryProfileWidget(entryId: model.entryIds[index]),
             ),
           );
         }

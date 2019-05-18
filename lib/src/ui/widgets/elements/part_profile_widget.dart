@@ -5,7 +5,7 @@ import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/api_values.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
-import 'package:social_cv_client_flutter/src/ui/widgets/elements/group_list_widget.dart';
+import 'package:social_cv_client_flutter/src/ui/widgets/elements/group_list_profile_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/part_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
@@ -34,7 +34,7 @@ class _PartProfileWidgetState extends PartWidgetState<PartProfileWidget> {
           );
         }
         if (state is PartLoaded) {
-          return _PartWidgetFromModel(partViewModel: state.element);
+          return _PartWidgetFromModel(part: state.element);
         } else if (state is PartFailure) {
           return ErrorContent(
             message: translateError(context, state.error),
@@ -49,20 +49,20 @@ class _PartProfileWidgetState extends PartWidgetState<PartProfileWidget> {
 
 class _PartWidgetFromModel extends StatelessWidget {
   _PartWidgetFromModel({
-    @required this.partViewModel,
+    @required this.part,
   }) : assert(PartViewModel != null);
 
-  final PartViewModel partViewModel;
+  final PartViewModel part;
 
   @override
   Widget build(BuildContext context) {
-    if (partViewModel.type == kCVPartTypeListHorizontal) {
+    if (part.type == kCVPartTypeListHorizontal) {
       return _PartWidgetFromModelHorizontal(
-        partViewModel: partViewModel,
+        partViewModel: part,
       );
-    } else if (partViewModel.type == kCVPartTypeListVertical) {
+    } else if (part.type == kCVPartTypeListVertical) {
       return _PartWidgetFromModelVertical(
-        partViewModel: partViewModel,
+        part: part,
       );
     } else {
       return ErrorContent(message: CVLocalizations.of(context).notSupported);
@@ -98,8 +98,8 @@ class _PartWidgetFromModelHorizontal extends StatelessWidget {
         ),
         Container(
           height: AppDimensions.horizontalGroupListHeight,
-          child: GroupListWidget(
-            fromPartViewModel: partViewModel,
+          child: SimpleGroupListProfile(
+            groupIds: partViewModel.groupIds,
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
           ),
@@ -111,10 +111,10 @@ class _PartWidgetFromModelHorizontal extends StatelessWidget {
 
 class _PartWidgetFromModelVertical extends StatelessWidget {
   _PartWidgetFromModelVertical({
-    @required this.partViewModel,
-  }) : assert(PartViewModel != null);
+    @required this.part,
+  }) : assert(part != null);
 
-  final PartViewModel partViewModel;
+  final PartViewModel part;
 
   @override
   Widget build(BuildContext context) {
@@ -124,19 +124,19 @@ class _PartWidgetFromModelVertical extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              partViewModel.name.toUpperCase(),
+              part.name.toUpperCase(),
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.bold),
             ),
             FlatButton(
               child: Text(CVLocalizations.of(context).partWidgetDetails),
-              onPressed: () => navigateToPart(context, partViewModel.id),
+              onPressed: () => navigateToPart(context, part.id),
             ),
           ],
         ),
-        GroupListWidget(
-          fromPartViewModel: partViewModel,
+        SimpleGroupListProfile(
+          groupIds: part.groupIds,
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),

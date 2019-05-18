@@ -74,8 +74,8 @@ class _MenuButtonConnectedState extends State<_MenuButtonConnected> {
             child: IconButton(
               onPressed: () => openMenuBottomSheet(context),
               icon: InitialCircleAvatar(
-                text: state.userModel.username,
-                backgroundImage: NetworkImage(state.userModel.picture),
+                text: state.user.username,
+                backgroundImage: NetworkImage(state.user.picture),
               ),
             ),
           );

@@ -58,7 +58,7 @@ class _AccountTileConnectedState extends State<_AccountTileConnected> {
           return Container();
         }
         if (state is AccountLoaded) {
-          var userModel = state.userModel;
+          var userModel = state.user;
           return ListTile(
             leading: InitialCircleAvatar(
               text: userModel.username,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
+import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
 class ErrorContent extends StatelessWidget {
@@ -27,7 +29,29 @@ class ErrorContent extends StatelessWidget {
   }
 }
 
+class ErrorTile extends StatelessWidget {
+  final String message;
+
+  const ErrorTile({
+    Key key,
+    @required this.message,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(MdiIcons.alertCircleOutline),
+      title: Text(CVLocalizations.of(context).errorOccurred),
+      subtitle: Text(message),
+    );
+  }
+}
+
 class ErrorCard extends StatelessWidget {
+  final String message;
+  final double height;
+  final double width;
+
   const ErrorCard({
     Key key,
     @required this.message,
@@ -35,10 +59,6 @@ class ErrorCard extends StatelessWidget {
     this.width,
   })  : assert(message != null),
         super(key: key);
-
-  final String message;
-  final double height;
-  final double width;
 
   @override
   Widget build(BuildContext context) {
