@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
-import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
+import 'package:social_cv_client_dart_common/repositories.dart';
 
 /// [EntryListWidget] is a clever widget that use an [EntryListBloc]
 /// based on [parentGroupId] or [ownerId] or [entryListBloc]
@@ -35,8 +36,8 @@ abstract class ComplexEntryListState<T extends EntryListWidget>
     entryListBloc = widget.entryListBloc;
 
     if (entryListBloc == null) {
-      var provider = RepositoriesProvider.of(context);
-      entryListBloc = EntryListBloc(cvRepository: provider.cvRepository);
+      final cvRepository = Provider.of<CVRepository>(context);
+      entryListBloc = EntryListBloc(cvRepository: cvRepository);
       entryListBloc.dispatch(EntryListInitialized(
         parentGroupId: widget.parentGroupId,
         ownerId: widget.ownerId,

@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
-import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
+import 'package:social_cv_client_dart_common/repositories.dart';
 
 /// If [entryBloc] given we assume that it have been already initialized
 abstract class EntryWidget extends StatefulWidget {
@@ -27,8 +28,8 @@ abstract class EntryWidgetState<T extends EntryWidget> extends State<T> {
     entryBloc = widget.entryBloc;
 
     if (entryBloc == null) {
-      var provider = RepositoriesProvider.of(context);
-      entryBloc = EntryBloc(cvRepository: provider.cvRepository);
+      final cvRepository = Provider.of<CVRepository>(context);
+      entryBloc = EntryBloc(cvRepository: cvRepository);
       entryBloc.dispatch(EntryInitialized(
         entryId: widget.entryId,
         entry: widget.entry,

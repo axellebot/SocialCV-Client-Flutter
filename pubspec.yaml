@@ -28,6 +28,9 @@ dependencies:
   # Bloc Pattern
   flutter_bloc: ^0.13.0
 
+  # Dependency Injection
+  provider: ^2.0.1
+
   # Storage
   shared_preferences: ^0.4.3
 

@@ -2,9 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/errors.dart';
-import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
+import 'package:social_cv_client_dart_common/repositories.dart';
+import 'package:social_cv_client_flutter/src/domain/blocs/configuration/configuration.dart';
 import 'package:social_cv_client_flutter/src/routes.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
@@ -13,8 +15,6 @@ import 'package:social_cv_client_flutter/src/ui/pages/splash_page.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
-
-import 'domain/blocs/configuration/configuration.dart';
 
 class ConfigWrapperApp extends StatefulWidget {
   const ConfigWrapperApp({Key key}) : super(key: key);
@@ -30,6 +30,8 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
   void initState() {
     super.initState();
     _configBloc = ConfigurationBloc();
+
+    /// Inform ConfigBloc that the application have been launched
     _configBloc.dispatch(AppLaunched());
   }
 
@@ -101,6 +103,9 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
     );
 
     _registerBloc = RegisterBloc(authenticationBloc: _authBloc);
+
+    /// Inform AuthBloc that the application have been configured
+    _authBloc.dispatch(AppStarted());
   }
 
   @override
@@ -124,7 +129,35 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
         } else if (state is AppLoading) {
           return LoadingApp();
         } else if (state is AppInitialized) {
-          return _CVInitializedApp(state: state);
+          /// Dependency Injection of repositories and blocs
+          /// Use updateShouldNotify to make dependencies available in
+          /// `initState` methods of children widgets
+          return MultiProvider(
+            providers: <Provider>[
+              Provider<CVRepository>.value(
+                value: _state.cvRepository,
+                updateShouldNotify: (previous, current) => false,
+              ),
+              Provider<ConfigRepository>.value(
+                value: _state.configRepository,
+                updateShouldNotify: (previous, current) => false,
+              ),
+              Provider<PreferencesRepository>.value(
+                value: _state.preferencesRepository,
+                updateShouldNotify: (previous, current) => false,
+              ),
+            ],
+            child: BlocProviderTree(
+              blocProviders: <BlocProvider>[
+                BlocProvider(bloc: _appBloc),
+                BlocProvider(bloc: _accountBloc),
+                BlocProvider(bloc: _authBloc),
+                BlocProvider(bloc: _loginBloc),
+                BlocProvider(bloc: _registerBloc),
+              ],
+              child: _InitializedApp(state: state),
+            ),
+          );
         } else if (state is AppFailure) {
           return ErrorApp(error: state.error);
         }
@@ -135,25 +168,19 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
   }
 }
 
-class _CVInitializedApp extends StatelessWidget {
-  final String _tag = "_CVInitializedApp";
-
-  const _CVInitializedApp({this.state});
+class _InitializedApp extends StatelessWidget {
+  final String _tag = '$_InitializedApp';
 
   final AppInitialized state;
+
+  _InitializedApp({this.state});
 
   @override
   Widget build(BuildContext context) {
     Logger.log('$_tag:$build');
 
-    RepositoriesProvider repositories = RepositoriesProvider.of(context);
-
     ///Routes
-    final routes = Routes(
-      cvRepository: repositories.cvRepository,
-      preferencesRepository: repositories.preferencesRepository,
-      configRepository: repositories.configRepository,
-    );
+    final routes = Routes(context);
 
     return MaterialApp(
       onGenerateTitle: (BuildContext context) =>

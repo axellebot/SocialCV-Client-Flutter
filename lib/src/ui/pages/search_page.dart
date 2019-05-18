@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/tags.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 
@@ -11,8 +10,6 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RepositoriesProvider _repositories = RepositoriesProvider.of(context);
-
     return Scaffold(
       body: CustomScrollView(
         slivers: [

@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
-import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
+import 'package:social_cv_client_dart_common/repositories.dart';
 
 /// If [groupBloc] given we assume that it have been already initialized and
 abstract class GroupWidget extends StatefulWidget {
@@ -27,8 +28,8 @@ abstract class GroupWidgetState<T extends GroupWidget> extends State<T> {
     groupBloc = widget.groupBloc;
 
     if (groupBloc == null) {
-      var provider = RepositoriesProvider.of(context);
-      groupBloc = GroupBloc(cvRepository: provider.cvRepository);
+      final cvRepository = Provider.of<CVRepository>(context);
+      groupBloc = GroupBloc(cvRepository: cvRepository);
       groupBloc.dispatch(GroupInitialized(
         groupId: widget.groupId,
         group: widget.group,

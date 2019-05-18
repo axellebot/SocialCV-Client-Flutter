@@ -1,6 +1,5 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/widgets.dart';
-import 'package:social_cv_client_dart_common/repositories.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/paths.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/auth_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/elements/entry_profile_page.dart';
@@ -16,20 +15,11 @@ class Routes {
   final String _tag = '$Routes';
   final Router router = Router();
 
-  Routes({
-    @required this.cvRepository,
-    @required this.configRepository,
-    @required this.preferencesRepository,
-  })  : assert(cvRepository != null, 'No CV repository given'),
-        assert(configRepository != null, 'No config repository given'),
-        assert(preferencesRepository != null,
-            'No preferences repositories given') {
+  final BuildContext context;
+
+  Routes(this.context) : assert(context != null, 'No $BuildContext given') {
     _defineRoutes();
   }
-
-  final CVRepository cvRepository;
-  final ConfigRepository configRepository;
-  final PreferencesRepository preferencesRepository;
 
   void _defineRoutes() {
     Logger.log('$_tag:$_defineRoutes');
@@ -79,7 +69,6 @@ class Routes {
       handler: Handler(
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
           Logger.log('Navigate to ${AppPaths.kPathSearch}');
-
           return SearchPage();
         },
       ),

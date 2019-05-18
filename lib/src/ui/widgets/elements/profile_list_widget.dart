@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
-import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
+import 'package:social_cv_client_dart_common/repositories.dart';
 
 /// If [profileListBloc] given we assume that it have been already initialized
 abstract class ProfileListWidget extends StatefulWidget {
@@ -32,8 +33,8 @@ abstract class ProfileListWidgetState<T extends ProfileListWidget>
     super.initState();
     profileListBloc = widget.profileListBloc;
     if (widget.profileListBloc == null) {
-      var provider = RepositoriesProvider.of(context);
-      profileListBloc = ProfileListBloc(cvRepository: provider.cvRepository);
+      final cvRepository = Provider.of<CVRepository>(context);
+      profileListBloc = ProfileListBloc(cvRepository: cvRepository);
       profileListBloc.dispatch(ProfileListInitialized(
         parentUserId: widget.parentUserId,
         ownerId: widget.ownerId,

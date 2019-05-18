@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/errors.dart';
-import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
@@ -81,8 +80,6 @@ class _AccountPageDetailsConnectedState
 
   @override
   Widget build(BuildContext context) {
-    RepositoriesProvider _repositories = RepositoriesProvider.of(context);
-
     return BlocBuilder<AccountEvent, AccountState>(
       bloc: _accountBloc,
       builder: (BuildContext context, AccountState state) {

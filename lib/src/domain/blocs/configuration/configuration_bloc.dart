@@ -41,6 +41,7 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
       /// Interceptors
       _apiInterceptor = ApiInterceptor(
         accessToken: await _preferencesRepository.getAccessToken(),
+        refreshToken: await _preferencesRepository.getRefreshToken(),
       );
 
       /// Managers

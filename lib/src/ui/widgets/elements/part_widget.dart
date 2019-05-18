@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
-import 'package:social_cv_client_flutter/src/data/repositories/repositories_provider.dart';
+import 'package:social_cv_client_dart_common/repositories.dart';
 
 /// If [partBloc] given we assume that it have been already initialized
 abstract class PartWidget extends StatefulWidget {
@@ -27,8 +28,8 @@ abstract class PartWidgetState<T extends PartWidget> extends State<T> {
     partBloc = widget.partBloc;
 
     if (partBloc == null) {
-      var provider = RepositoriesProvider.of(context);
-      partBloc = PartBloc(cvRepository: provider.cvRepository);
+      final cvRepository = Provider.of<CVRepository>(context);
+      partBloc = PartBloc(cvRepository: cvRepository);
       partBloc.dispatch(PartInitialized(
         partId: widget.partId,
         part: widget.part,
