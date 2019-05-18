@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 
 /// LoadingCard displays lines with opacity moving up and down
 /// Specify the number of loading lines to display
@@ -51,7 +52,7 @@ class _LoadingShadowContentState extends State<LoadingShadowContent>
 
   @override
   void dispose() {
-    _loadingOpacity.dispose();
+    _loadingOpacity?.dispose();
     super.dispose();
   }
 
@@ -80,7 +81,7 @@ class _LoadingShadowContentState extends State<LoadingShadowContent>
               height: 13.0,
               width: MediaQuery.of(context).size.width / _divideFactor,
 
-              ///constraints: BoxConstraints.expand(),
+              //constraints: BoxConstraints.expand(),
               decoration: BoxDecoration(
                   color: Colors.grey.withOpacity(_opacity.value),
                   borderRadius: BorderRadius.circular(6.5)),
@@ -169,6 +170,29 @@ class LoadingList extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class LoadingPage extends StatelessWidget {
+  LoadingPage({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(child: CircularProgressIndicator()),
+    );
+  }
+}
+
+class LoadingApp extends StatelessWidget {
+  LoadingApp({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: LoadingPage(),
+      color: AppColors.primaryColor,
     );
   }
 }

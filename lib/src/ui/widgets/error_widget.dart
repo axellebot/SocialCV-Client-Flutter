@@ -119,3 +119,15 @@ class ErrorPage extends ErrorWidget {
     );
   }
 }
+
+class ErrorApp extends ErrorWidget {
+  ErrorApp({Key key, @required Error error}) : super(key: key, error: error);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ErrorPage(error: error),
+      color: AppColors.primaryColor,
+    );
+  }
+}

@@ -11,6 +11,7 @@ import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.da
 import 'package:social_cv_client_flutter/src/ui/pages/main_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/splash_page.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
+import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 import 'domain/blocs/configuration/configuration.dart';
@@ -49,25 +50,25 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
             color: AppColors.primaryColor,
           );
         } else if (state is ConfigLoaded) {
-          return _CVApp(state);
+          return _ConfiguredApp(state);
         }
-        return ErrorRow(error: NotImplementedYetError());
+        return ErrorApp(error: NotImplementedYetError());
       },
     );
   }
 }
 
-class _CVApp extends StatefulWidget {
+class _ConfiguredApp extends StatefulWidget {
   final ConfigLoaded state;
 
-  _CVApp(this.state);
+  _ConfiguredApp(this.state);
 
   @override
-  State<StatefulWidget> createState() => _CVAppState();
+  State<StatefulWidget> createState() => _ConfiguredAppState();
 }
 
-class _CVAppState extends State<_CVApp> {
-  final String _tag = "_CVAppState";
+class _ConfiguredAppState extends State<_ConfiguredApp> {
+  final String _tag = '$_ConfiguredAppState';
 
   AppBloc _appBloc;
   AccountBloc _accountBloc;
@@ -114,19 +115,21 @@ class _CVAppState extends State<_CVApp> {
 
   @override
   Widget build(BuildContext context) {
-    logger.info('$_tag:build');
+    logger.info('$_tag:$build');
 
     return BlocBuilder<AppEvent, AppState>(
       bloc: _appBloc,
       builder: (BuildContext context, AppState state) {
-        if (state is AppUninitialized) Text('App Uninitialized');
+        if (state is AppUninitialized) {
+        } else if (state is AppLoading) {
+          return LoadingApp();
+        } else if (state is AppInitialized) {
+          return _CVInitializedApp(state: state);
+        } else if (state is AppFailure) {
+          return ErrorApp(error: state.error);
+        }
 
-        if (state is AppInitialized) return _CVInitializedApp(state: state);
-
-        if (state is AppFailure) return ErrorCard(error: state.error);
-
-        if (state is AppLoading)
-          return Center(child: CircularProgressIndicator());
+        return ErrorApp(error: NotImplementedYetError());
       },
     );
   }
@@ -141,12 +144,12 @@ class _CVInitializedApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.info('$_tag:build');
+    logger.info('$_tag:$build');
 
     RepositoriesProvider repositories = RepositoriesProvider.of(context);
 
     ///Routes
-    Routes routes = Routes(
+    final routes = Routes(
       cvRepository: repositories.cvRepository,
       preferencesRepository: repositories.preferencesRepository,
       configRepository: repositories.configRepository,

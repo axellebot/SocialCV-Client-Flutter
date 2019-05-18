@@ -6,7 +6,7 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('$_tag:build');
+    print('$_tag:$build');
 
     return Scaffold(
       backgroundColor: AppColors.primaryColor,

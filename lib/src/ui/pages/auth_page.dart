@@ -16,7 +16,7 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage>
     with SingleTickerProviderStateMixin {
-  static const String _TAG = '_AuthPageState';
+  final String _tag = '$_AuthPageState';
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -27,7 +27,7 @@ class _AuthPageState extends State<AuthPage>
 
   @override
   Widget build(BuildContext context) {
-    logger.info('$_TAG:build');
+    logger.info('$_tag:$build');
 
     return Scaffold(
       key: _scaffoldKey,
