@@ -437,9 +437,11 @@ packages:
   social_cv_client_dart_common:
     dependency: "direct main"
     description:
-      path: "..\\Social-CV-Client-Dart-common"
-      relative: true
-    source: path
+      path: "."
+      ref: "feature/blocs"
+      resolved-ref: "4f643a6b63a7eda24cb55a12c52d280d07aee4cc"
+      url: "https://github.com/axellebot/Social-CV-Client-Dart-common"
+    source: git
     version: "1.0.0"
   source_gen:
     dependency: transitive

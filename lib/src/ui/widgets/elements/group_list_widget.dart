@@ -34,7 +34,8 @@ abstract class GroupListWidgetState<T extends GroupListWidget>
     groupListBloc = widget.groupListBloc;
 
     if (widget.groupListBloc == null) {
-      final cvRepository = Provider.of<CVRepository>(context);
+      final cvRepository = Provider.of<CVRepository>(context, listen: false);
+
       groupListBloc = GroupListBloc(cvRepository: cvRepository);
       groupListBloc.dispatch(GroupListInitialized(
         parentPartId: widget.parentPartId,

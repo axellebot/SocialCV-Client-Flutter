@@ -11,12 +11,15 @@ abstract class CVLocalizations {
   }
 
   /// App
+  ///
   String get appName;
 
   /// Auth Page
+
   String get authTitle;
 
   /// Auth Stuff
+
   String get authNoEmailTitle;
 
   String get authNotEmailExplain;
@@ -87,9 +90,11 @@ abstract class CVLocalizations {
   String get accountMyProfile;
 
   /// Profile Page
+
   String get profileTitle;
 
   /// Settings Page
+
   String get settingsTitle;
 
   String get settingsThemeCTA;
@@ -101,14 +106,17 @@ abstract class CVLocalizations {
   String get settingsThemeDark;
 
   /// Search Page
+
   String get searchTitle;
 
   String get searchSearchBarHint;
 
   /// Profile Widget
+
   String get profileWidgetDetails;
 
   /// Profile Widget List
+
   String get profileListOptions;
 
   String get profileListSorting;
@@ -130,9 +138,11 @@ abstract class CVLocalizations {
   String get partListLoadMore;
 
   /// Group Widget
+
   String get groupWidgetDetails;
 
   /// Group Widget List
+
   String get groupListOptions;
 
   String get groupListSorting;
@@ -142,9 +152,11 @@ abstract class CVLocalizations {
   String get groupListLoadMore;
 
   /// Entry Widget
+
   String get entryWidgetDetails;
 
   /// Entry Widget List
+
   String get entryListOptions;
 
   String get entryListSorting;
@@ -154,71 +166,19 @@ abstract class CVLocalizations {
   String get entryListLoadMore;
 
   /// Sort Dialog
+
   String get sortDialogCancel;
 
   String get sortDialogConfirm;
 
-  /// Exception Error
-  String get exceptionFormatException;
-
-  String get exceptionTimeoutException;
-
-  ///Api Error
-  String get apiErrorWrongPasswordError;
-
-  String get apiErrorUserNotFoundError;
-
-  ///Server Error : HTTP 400
-  String get httpClientErrorBadRequest;
-
-  String get httpClientErrorPaymentRequired;
-
-  String get httpClientErrorForbidden;
-
-  String get httpClientErrorNotFound;
-
-  String get httpClientErrorMethodNotAllowed;
-
-  String get httpClientErrorNotAcceptable;
-
-  String get httpClientErrorRequestTimeout;
-
-  String get httpClientErrorConflict;
-
-  String get httpClientErrorGone;
-
-  String get httpClientErrorLengthRequired;
-
-  String get httpClientErrorPayloadTooLarge;
-
-  String get httpClientErrorURITooLong;
-
-  String get httpClientErrorUnsupportedMediaType;
-
-  String get httpClientErrorExpectationFailed;
-
-  String get httpClientErrorUpgradeRequired;
-
-  ///Server Error : HTTP 500
-  String get httpServerErrorInternalServerError;
-
-  String get httpServerErrorNotImplemented;
-
-  String get httpServerErrorBadGateway;
-
-  String get httpServerErrorServiceUnavailable;
-
-  String get httpServerErrorGatewayTimeout;
-
-  String get httpServerErrorHttpVersionNotSupported;
-
-  ///Menu Widget
+  /// Menu Widget
 
   String get menuPPCTA;
 
   String get menuToSCTA;
 
-  ///Others
+  /// Others
+
   String get middleDot;
 
   String get username;
@@ -262,6 +222,64 @@ abstract class CVLocalizations {
   String get notYetImplemented;
 
   String get notSupported;
+
+  /// Exception Error
+
+  String get exceptionFormatException;
+
+  String get exceptionTimeoutException;
+
+  /// Api Error
+
+  String get apiErrorWrongPasswordError;
+
+  String get apiErrorUserNotFoundError;
+
+  /// Server Error : HTTP 400
+
+  String get httpClientErrorBadRequest;
+
+  String get httpClientErrorPaymentRequired;
+
+  String get httpClientErrorForbidden;
+
+  String get httpClientErrorNotFound;
+
+  String get httpClientErrorMethodNotAllowed;
+
+  String get httpClientErrorNotAcceptable;
+
+  String get httpClientErrorRequestTimeout;
+
+  String get httpClientErrorConflict;
+
+  String get httpClientErrorGone;
+
+  String get httpClientErrorLengthRequired;
+
+  String get httpClientErrorPayloadTooLarge;
+
+  String get httpClientErrorURITooLong;
+
+  String get httpClientErrorUnsupportedMediaType;
+
+  String get httpClientErrorExpectationFailed;
+
+  String get httpClientErrorUpgradeRequired;
+
+  ///Server Error : HTTP 500
+
+  String get httpServerErrorInternalServerError;
+
+  String get httpServerErrorNotImplemented;
+
+  String get httpServerErrorBadGateway;
+
+  String get httpServerErrorServiceUnavailable;
+
+  String get httpServerErrorGatewayTimeout;
+
+  String get httpServerErrorHttpVersionNotSupported;
 }
 
 class CVLocalizationsDelegate extends LocalizationsDelegate<CVLocalizations> {

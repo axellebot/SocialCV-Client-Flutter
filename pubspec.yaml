@@ -8,10 +8,10 @@ dependencies:
 
   # Common Social CV Logic
   social_cv_client_dart_common:
-    path: ../Social-CV-Client-Dart-common
-  #    git:
-  #      url: https://github.com/axellebot/Social-CV-Client-Dart-common
-  #      ref: develop
+#    path: ../Social-CV-Client-Dart-common
+    git:
+      url: https://github.com/axellebot/Social-CV-Client-Dart-common
+      ref: feature/blocs
 
   flutter:
     sdk: flutter
@@ -70,7 +70,7 @@ flutter:
     - assets/images/account_card_details-blue.png
     - assets/images/default-avatar.png
     - assets/images/default-banner.jpg
-
+    - assets/images/login_logo.png
     - config.json # secret data
 
 

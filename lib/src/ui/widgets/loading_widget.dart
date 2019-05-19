@@ -5,9 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
 
-/// LoadingCard displays lines with opacity moving up and down
+/// [LoadingShadowContent] displays lines with opacity moving up and down
 /// Specify the number of loading lines to display
-
 class LoadingShadowContent extends StatefulWidget {
   final int numberOfTitleLines;
   final int numberOfContentLines;
@@ -114,6 +113,9 @@ class _LoadingShadowContentState extends State<LoadingShadowContent>
   }
 }
 
+/// [LoadingCard] is a [Card] like widget to display loading state
+///
+/// See [Card] widget for more documentation
 class LoadingCard extends StatelessWidget {
   const LoadingCard({
     Key key,
@@ -144,7 +146,9 @@ class LoadingCard extends StatelessWidget {
   }
 }
 
-/// A widget to list loading entries
+/// [LoadingList] is a [ListView] like widget to display loading state
+///
+/// See [ListView] widget for more documentation
 class LoadingList extends StatelessWidget {
   LoadingList({
     @required this.count,
@@ -175,8 +179,11 @@ class LoadingList extends StatelessWidget {
   }
 }
 
-class LoadingPage extends StatelessWidget {
-  LoadingPage({Key key}) : super(key: key);
+/// [LoadingScaffold] is a [Scaffold] like widget to display loading state
+///
+/// See [Scaffold] widget for more documentation
+class LoadingScaffold extends StatelessWidget {
+  LoadingScaffold({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -186,13 +193,16 @@ class LoadingPage extends StatelessWidget {
   }
 }
 
+/// [LoadingApp] is a [MaterialApp] like widget to display loading state
+///
+/// See [MaterialApp] widget for more documentation
 class LoadingApp extends StatelessWidget {
   LoadingApp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoadingPage(),
+      home: LoadingScaffold(),
       color: AppColors.primaryColor,
     );
   }

@@ -6,6 +6,9 @@ import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
+/// [ErrorWidget] is a based widget for [Error]
+///
+/// Must be initialized with an [error]
 abstract class ErrorWidget extends StatelessWidget {
   final Error error;
 
@@ -14,7 +17,9 @@ abstract class ErrorWidget extends StatelessWidget {
         super(key: key);
 }
 
-/// [ErrorIcon] is a [Icon] widget to display [Error]
+/// [ErrorIcon] is a [Icon] like widget to display [Error]
+///
+/// See [Icon] widget for more documentation
 class ErrorIcon extends StatelessWidget {
   final IconData icon;
   final double size;
@@ -43,26 +48,58 @@ class ErrorIcon extends StatelessWidget {
   }
 }
 
-/// [ErrorText] is a [Text] widget to display [Error]
+/// [ErrorText] is a [Text] like widget like to display [Error]
+///
+/// See [Text] widget for more documentation
 class ErrorText extends ErrorWidget {
+  final TextStyle style;
+  final StrutStyle strutStyle;
+
   final TextAlign textAlign;
+  final TextDirection textDirection;
+  final Locale locale;
+  final bool softWrap;
+  final TextOverflow overflow;
+  final double textScaleFactor;
+  final int maxLines;
+  final String semanticsLabel;
 
   ErrorText({
     Key key,
     @required Error error,
+    this.style,
+    this.strutStyle,
     this.textAlign = TextAlign.center,
+    this.textDirection,
+    this.locale,
+    this.softWrap,
+    this.overflow,
+    this.textScaleFactor,
+    this.maxLines,
+    this.semanticsLabel,
   }) : super(key: key, error: error);
 
   @override
   Widget build(BuildContext context) {
     return Text(
       translateError(context, error),
+      style: style,
+      strutStyle: strutStyle,
       textAlign: textAlign,
+      textDirection: textDirection,
+      locale: locale,
+      softWrap: softWrap,
+      overflow: overflow,
+      textScaleFactor: textScaleFactor,
+      maxLines: maxLines,
+      semanticsLabel: semanticsLabel,
     );
   }
 }
 
-/// [ErrorRow] is a [Row] widget to display [Error]
+/// [ErrorRow] is a [Row] like widget to display [Error]
+///
+/// See [Row] widget for more documentation
 class ErrorRow extends ErrorWidget {
   ErrorRow({Key key, @required Error error}) : super(key: key, error: error);
 
@@ -78,7 +115,9 @@ class ErrorRow extends ErrorWidget {
   }
 }
 
-/// [ErrorTile] is a [ListTile] widget to display [Error]
+/// [ErrorTile] is a [ListTile] like widget to display [Error]
+///
+/// See [ListTile] widget for more documentation
 class ErrorTile extends ErrorWidget {
   ErrorTile({Key key, @required Error error}) : super(key: key, error: error);
 
@@ -87,12 +126,17 @@ class ErrorTile extends ErrorWidget {
     return ListTile(
       leading: ErrorIcon(),
       title: Text(CVLocalizations.of(context).errorOccurred),
-      subtitle: ErrorText(error: error),
+      subtitle: ErrorText(
+        error: error,
+        textAlign: TextAlign.left,
+      ),
     );
   }
 }
 
-/// [ErrorCard] is a [Card] widget to display [Error]
+/// [ErrorCard] is a [Card] like widget to display [Error]
+///
+/// See [Card] widget for more documentation
 class ErrorCard extends ErrorWidget {
   final double height;
   final double width;
@@ -118,7 +162,9 @@ class ErrorCard extends ErrorWidget {
   }
 }
 
-/// [ErrorList] is a [ListView] widget to display [Error]
+/// [ErrorList] is a [ListView] like widget to display [Error]
+///
+/// See [ListView] widget for more documentation
 class ErrorList extends ErrorWidget {
   /// List behaviors
   final Axis scrollDirection;
@@ -148,7 +194,9 @@ class ErrorList extends ErrorWidget {
   }
 }
 
-/// [ErrorPage] is a [Scaffold] widget to display [Error]
+/// [ErrorPage] is a [Scaffold] like widget to display [Error]
+///
+/// See [Scaffold] widget for more documentation
 class ErrorPage extends ErrorWidget {
   ErrorPage({Key key, @required Error error}) : super(key: key, error: error);
 
@@ -160,6 +208,9 @@ class ErrorPage extends ErrorWidget {
   }
 }
 
+/// [ErrorPage] is a [MaterialApp] like widget to display [Error]
+///
+/// See [MaterialApp] widget for more documentation
 class ErrorApp extends ErrorWidget {
   ErrorApp({Key key, @required Error error}) : super(key: key, error: error);
 

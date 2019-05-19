@@ -1,103 +1,83 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_cv_client_dart_common/blocs.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/assets.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/login_form_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/register_form_widget.dart';
-import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 class AuthPage extends StatefulWidget {
-  AuthPage({Key key}) : super(key: key);
-
   @override
-  State<StatefulWidget> createState() => _AuthPageState();
+  _AuthPageState createState() => _AuthPageState();
 }
 
-class _AuthPageState extends State<AuthPage>
-    with SingleTickerProviderStateMixin {
+class _AuthPageState extends State<AuthPage> {
   final String _tag = '$_AuthPageState';
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  // Variable
+  double screenWidth;
+  double screenHeight;
+
+  static const _kDuration = const Duration(milliseconds: 300);
+
+  static const _kCurve = Curves.ease;
 
   PageController _pageController;
 
-  Color left = Colors.black;
-  Color right = Colors.white;
+  // Business
+  @override
+  void initState() {
+    print('$_tag:$initState()');
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    print('$_tag:$dispose()');
+    _pageController?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Logger.log('$_tag:$build');
+    print('$_tag:$build');
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
+
+    screenHeight = (screenHeight > AppDimensions.authPageMinHeight)
+        ? screenHeight
+        : AppDimensions.authPageMinHeight;
 
     return Scaffold(
-      key: _scaffoldKey,
-      body: NotificationListener<OverscrollIndicatorNotification>(
-        onNotification: (overScroll) {
-          overScroll.disallowGlow();
-        },
+      backgroundColor: AppColors.primaryColor,
+      body: BlocListenerTree(
+        blocListeners: <BlocListener>[
+          BlocListener<AuthenticationEvent, AuthenticationState>(
+            bloc: BlocProvider.of<AuthenticationBloc>(context),
+            listener: (BuildContext context, AuthenticationState state) {
+              if (state is AuthenticationAuthenticated) {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  backgroundColor: AppColors.successColor,
+                  content: Text(CVLocalizations.of(context).authSignInSucceed),
+                ));
+                Future.delayed(Duration(seconds: 1))
+                    .then((_) => Navigator.of(context).pop());
+              }
+            },
+          ),
+        ],
         child: SingleChildScrollView(
           child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height >= 775.0
-                ? MediaQuery.of(context).size.height
-                : 775.0,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.loginGradientStart,
-                  AppColors.loginGradientEnd
-                ],
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(1.0, 1.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp,
-              ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
+            height: screenHeight,
+            child: Stack(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 75.0),
-                  child: Image(
-                    width: 250.0,
-                    height: 191.0,
-                    fit: BoxFit.fill,
-                    image: new AssetImage('assets/img/login_logo.png'),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: _buildMenuBar(context),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: PageView(
-                    controller: _pageController,
-                    onPageChanged: (i) {
-                      if (i == 0) {
-                        setState(() {
-                          right = Colors.white;
-                          left = Colors.black;
-                        });
-                      } else if (i == 1) {
-                        setState(() {
-                          right = Colors.black;
-                          left = Colors.white;
-                        });
-                      }
-                    },
-                    children: <Widget>[
-                      new ConstrainedBox(
-                        constraints: const BoxConstraints.expand(),
-                        child: LoginFormWidget(),
-                      ),
-                      new ConstrainedBox(
-                        constraints: const BoxConstraints.expand(),
-                        child: RegisterFormWidget(),
-                      ),
-                    ],
-                  ),
-                ),
+                _buildHeaderSection(context),
+                _buildAuthSection(context)
               ],
             ),
           ),
@@ -106,129 +86,171 @@ class _AuthPageState extends State<AuthPage>
     );
   }
 
-  @override
-  void dispose() {
-    _pageController?.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-//    SystemChrome.setPreferredOrientations([
-//      DeviceOrientation.portraitUp,
-//      DeviceOrientation.portraitDown,
-//    ]);
-
-    _pageController = PageController();
-  }
-
-  Widget _buildMenuBar(BuildContext context) {
+  Widget _buildHeaderSection(BuildContext context) {
     return Container(
-      width: 300.0,
-      height: 50.0,
-      decoration: BoxDecoration(
-        color: Color(0x552B2B2B),
-        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+      height: screenHeight * 0.25,
+      width: screenWidth,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Image.asset(
+            AppAssets.loginLogoImage,
+            fit: BoxFit.scaleDown,
+          ),
+          Text(
+            CVLocalizations.of(context).authTitle,
+            style: Theme.of(context)
+                .textTheme
+                .title
+                .copyWith(color: AppColors.white),
+          ),
+        ],
       ),
-      child: CustomPaint(
-        painter: TabIndicationPainter(pageController: _pageController),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    );
+  }
+
+  Widget _buildAuthSection(BuildContext context) {
+    return Stack(
+      children: [
+        _buildAuthPageView(context),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Expanded(
-              child: FlatButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: _onSignInButtonPress,
-                child: Text(
-                  CVLocalizations.of(context).authSignIn,
-                  style: TextStyle(
-                    color: left,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
+            Container(
+              height: screenHeight * 0.25,
             ),
-            //Container(height: 33.0, width: 1.0, color: Colors.white),
-            Expanded(
-              child: FlatButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: _onSignUpButtonPress,
-                child: Text(
-                  CVLocalizations.of(context).authSignUp,
-                  style: TextStyle(
-                    color: right,
-                    fontSize: 16.0,
-                  ),
-                ),
+            Container(
+              height: screenHeight * 0.05,
+              color: Colors.transparent,
+              child: DotsIndicator(
+                color: AppColors.white,
+                controller: _pageController,
+                itemCount: 2,
+                onPageSelected: (int page) {
+                  _pageController.animateToPage(
+                    page,
+                    duration: _kDuration,
+                    curve: _kCurve,
+                  );
+                },
               ),
             ),
           ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAuthPageView(BuildContext context) {
+    return PageView(
+      controller: _pageController,
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            Container(
+              height: screenHeight * 0.25,
+            ),
+            Container(
+              height: screenHeight * 0.05,
+            ),
+            Container(
+              height: screenHeight * 0.70,
+              padding: EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[LoginFormWidget()],
+              ),
+            ),
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            Container(
+              height: screenHeight * 0.25,
+            ),
+            Container(
+              height: screenHeight * 0.05,
+            ),
+            Container(
+              height: screenHeight * 0.70,
+              padding: EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[RegisterFormWidget()],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// An indicator showing the currently selected page of a PageController
+class DotsIndicator extends AnimatedWidget {
+  DotsIndicator({
+    this.controller,
+    this.itemCount,
+    this.onPageSelected,
+    this.color: Colors.white,
+  }) : super(listenable: controller);
+
+  /// The PageController that this DotsIndicator is representing.
+  final PageController controller;
+
+  /// The number of items managed by the PageController
+  final int itemCount;
+
+  /// Called when a dot is tapped
+  final ValueChanged<int> onPageSelected;
+
+  /// The color of the dots.
+  ///
+  /// Defaults to `Colors.white`.
+  final Color color;
+
+  // The base size of the dots
+  static const double _kDotSize = 8.0;
+
+  // The increase in the size of the selected dot
+  static const double _kMaxZoom = 2.0;
+
+  // The distance between the center of each dot
+  static const double _kDotSpacing = 25.0;
+
+  Widget _buildDot(int index) {
+    double selectedness = Curves.easeOut.transform(
+      max(
+        0.0,
+        1.0 - ((controller.page ?? controller.initialPage) - index).abs(),
+      ),
+    );
+    double zoom = 1.0 + (_kMaxZoom - 1.0) * selectedness;
+    return new Container(
+      width: _kDotSpacing,
+      child: new Center(
+        child: new Material(
+          elevation: AppDimensions.defaultCardElevation,
+          color: color,
+          type: MaterialType.circle,
+          child: new Container(
+            width: _kDotSize * zoom,
+            height: _kDotSize * zoom,
+            child: new InkWell(
+              onTap: () => onPageSelected(index),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  void _onSignInButtonPress() {
-    _pageController.animateToPage(0,
-        duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+  Widget build(BuildContext context) {
+    return new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: new List<Widget>.generate(itemCount, _buildDot),
+    );
   }
-
-  void _onSignUpButtonPress() {
-    _pageController?.animateToPage(1,
-        duration: Duration(milliseconds: 500), curve: Curves.decelerate);
-  }
-}
-
-class TabIndicationPainter extends CustomPainter {
-  Paint painter;
-  final double dxTarget;
-  final double dxEntry;
-  final double radius;
-  final double dy;
-
-  final PageController pageController;
-
-  TabIndicationPainter(
-      {this.dxTarget = 125.0,
-      this.dxEntry = 25.0,
-      this.radius = 21.0,
-      this.dy = 25.0,
-      this.pageController})
-      : super(repaint: pageController) {
-    painter = new Paint()
-      ..color = Color(0xFFFFFFFF)
-      ..style = PaintingStyle.fill;
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final pos = pageController.position;
-    double fullExtent =
-        (pos.maxScrollExtent - pos.minScrollExtent + pos.viewportDimension);
-
-    double pageOffset = pos.extentBefore / fullExtent;
-
-    bool left2right = dxEntry < dxTarget;
-    Offset entry = new Offset(left2right ? dxEntry : dxTarget, dy);
-    Offset target = new Offset(left2right ? dxTarget : dxEntry, dy);
-
-    Path path = new Path();
-    path.addArc(
-        new Rect.fromCircle(center: entry, radius: radius), 0.5 * pi, 1 * pi);
-    path.addRect(
-        new Rect.fromLTRB(entry.dx, dy - radius, target.dx, dy + radius));
-    path.addArc(
-        new Rect.fromCircle(center: target, radius: radius), 1.5 * pi, 1 * pi);
-
-    canvas.translate(size.width * pageOffset, 0.0);
-    canvas.drawShadow(path, Color(0xFFfbab66), 3.0, true);
-    canvas.drawPath(path, painter);
-  }
-
-  @override
-  bool shouldRepaint(TabIndicationPainter oldDelegate) => true;
 }

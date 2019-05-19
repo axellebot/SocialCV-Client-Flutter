@@ -8,10 +8,12 @@ class CVLocalizationsEN implements CVLocalizations {
   const CVLocalizationsEN();
 
   /// App
+
   @override
   String get appName => 'Social CV';
 
   /// Auth Page
+
   @override
   String get authTitle => 'Connection';
 
@@ -98,6 +100,7 @@ class CVLocalizationsEN implements CVLocalizations {
   String get authOr => 'OR';
 
   /// Home Page
+
   @override
   String get homeTitle => 'Social CV';
 
@@ -119,10 +122,12 @@ class CVLocalizationsEN implements CVLocalizations {
   String get accountMyProfile => 'My profiles';
 
   /// Profile Page
+
   @override
   String get profileTitle => 'Profile';
 
   /// Settings Page
+
   @override
   String get settingsTitle => 'Settings';
 
@@ -139,6 +144,7 @@ class CVLocalizationsEN implements CVLocalizations {
   String get settingsThemeDark => 'Dark';
 
   /// Search Page
+
   @override
   String get searchTitle => 'Search';
 
@@ -146,9 +152,11 @@ class CVLocalizationsEN implements CVLocalizations {
   String get searchSearchBarHint => 'Search resume...';
 
   /// Profile Widget
+
   String get profileWidgetDetails => 'Profile details';
 
   /// Profile Widget List
+
   String get profileListOptions => 'Profile options';
 
   String get profileListSorting => 'Sorting Profiles';
@@ -158,9 +166,11 @@ class CVLocalizationsEN implements CVLocalizations {
   String get profileListLoadMore => 'Load more profiles';
 
   /// Part Widget
+
   String get partWidgetDetails => 'Part détails';
 
   /// Part Widget List
+
   @override
   String get partListOptions => 'Part list options';
 
@@ -174,9 +184,11 @@ class CVLocalizationsEN implements CVLocalizations {
   String get partListLoadMore => 'Load more parts';
 
   /// Group Widget
+
   String get groupWidgetDetails => 'Group détails';
 
   /// Group Widget List
+
   @override
   String get groupListOptions => 'Group list options';
 
@@ -190,9 +202,11 @@ class CVLocalizationsEN implements CVLocalizations {
   String get groupListLoadMore => 'Load more groups';
 
   /// Entry Widget
+
   String get entryWidgetDetails => 'Entry détails';
 
   /// Entry Widget List
+
   @override
   String get entryListOptions => 'Entry list options';
 
@@ -213,93 +227,15 @@ class CVLocalizationsEN implements CVLocalizations {
   String get sortDialogConfirm => 'Confirm';
 
   /// Menu Widget
+
   @override
   String get menuPPCTA => 'Privacy Policy';
 
   @override
   String get menuToSCTA => 'Terms of Service';
 
-  /// Exception Error
-  @override
-  String get exceptionFormatException => 'Exception : Wrong Format';
-
-  @override
-  String get exceptionTimeoutException => 'Exception : Request Timeout';
-
-  /// Api Error
-  @override
-  String get apiErrorWrongPasswordError => 'Wrong password';
-
-  @override
-  String get apiErrorUserNotFoundError => 'User not found';
-
-  /// Server Error : HTTP 400
-  @override
-  String get httpClientErrorBadRequest => 'Bad request';
-
-  @override
-  String get httpClientErrorPaymentRequired => 'Payment required';
-
-  @override
-  String get httpClientErrorForbidden => 'Forbidden';
-
-  @override
-  String get httpClientErrorNotFound => 'Not found';
-
-  @override
-  String get httpClientErrorMethodNotAllowed => 'Not allowed';
-
-  @override
-  String get httpClientErrorNotAcceptable => 'Not acceptable';
-
-  @override
-  String get httpClientErrorRequestTimeout => 'Request timeout';
-
-  @override
-  String get httpClientErrorConflict => 'Conflict';
-
-  @override
-  String get httpClientErrorGone => 'Gone';
-
-  @override
-  String get httpClientErrorLengthRequired => 'Length required';
-
-  @override
-  String get httpClientErrorPayloadTooLarge => 'Payload too large';
-
-  @override
-  String get httpClientErrorURITooLong => 'URI too long';
-
-  @override
-  String get httpClientErrorUnsupportedMediaType => 'Unsupported media type';
-
-  @override
-  String get httpClientErrorExpectationFailed => 'Expectation Failed';
-
-  @override
-  String get httpClientErrorUpgradeRequired => 'Upgrade required';
-
-  /// Server Error : HTTP 500
-  @override
-  String get httpServerErrorInternalServerError => 'Internal Server Error';
-
-  @override
-  String get httpServerErrorNotImplemented => 'Not implemented';
-
-  @override
-  String get httpServerErrorBadGateway => 'Bad Gateway';
-
-  @override
-  String get httpServerErrorServiceUnavailable => 'Service Unavailable';
-
-  @override
-  String get httpServerErrorGatewayTimeout => 'Gateway Timeout';
-
-  @override
-  String get httpServerErrorHttpVersionNotSupported =>
-      'HTTP Version Not Supported';
-
   /// Others
+
   @override
   String get middleDot => '·';
 
@@ -365,6 +301,89 @@ class CVLocalizationsEN implements CVLocalizations {
 
   @override
   String get notSupported => 'Not supported';
+
+  /// Exception Error
+  @override
+  String get exceptionFormatException => 'Exception : Wrong Format';
+
+  @override
+  String get exceptionTimeoutException => 'Exception : Request Timeout';
+
+  /// Api Error
+
+  @override
+  String get apiErrorWrongPasswordError => 'Wrong password';
+
+  @override
+  String get apiErrorUserNotFoundError => 'User not found';
+
+  /// Server Error : HTTP 400
+
+  @override
+  String get httpClientErrorBadRequest => 'Bad request';
+
+  @override
+  String get httpClientErrorPaymentRequired => 'Payment required';
+
+  @override
+  String get httpClientErrorForbidden => 'Forbidden';
+
+  @override
+  String get httpClientErrorNotFound => 'Not found';
+
+  @override
+  String get httpClientErrorMethodNotAllowed => 'Not allowed';
+
+  @override
+  String get httpClientErrorNotAcceptable => 'Not acceptable';
+
+  @override
+  String get httpClientErrorRequestTimeout => 'Request timeout';
+
+  @override
+  String get httpClientErrorConflict => 'Conflict';
+
+  @override
+  String get httpClientErrorGone => 'Gone';
+
+  @override
+  String get httpClientErrorLengthRequired => 'Length required';
+
+  @override
+  String get httpClientErrorPayloadTooLarge => 'Payload too large';
+
+  @override
+  String get httpClientErrorURITooLong => 'URI too long';
+
+  @override
+  String get httpClientErrorUnsupportedMediaType => 'Unsupported media type';
+
+  @override
+  String get httpClientErrorExpectationFailed => 'Expectation Failed';
+
+  @override
+  String get httpClientErrorUpgradeRequired => 'Upgrade required';
+
+  /// Server Error : HTTP 500
+
+  @override
+  String get httpServerErrorInternalServerError => 'Internal Server Error';
+
+  @override
+  String get httpServerErrorNotImplemented => 'Not implemented';
+
+  @override
+  String get httpServerErrorBadGateway => 'Bad Gateway';
+
+  @override
+  String get httpServerErrorServiceUnavailable => 'Service Unavailable';
+
+  @override
+  String get httpServerErrorGatewayTimeout => 'Gateway Timeout';
+
+  @override
+  String get httpServerErrorHttpVersionNotSupported =>
+      'HTTP Version Not Supported';
 
   /// Creates an object that provides US English resource values for the
   /// application.

@@ -3,17 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class AppColors {
-  ///Colors
-  static const Color blue = Colors.blue;
-  static const Color orange = Colors.deepOrange;
-  static const Color pink = Colors.pink;
+  /// Colors
+  static const Color colorBlue = Colors.blue;
+  static const Color colorOrange = Colors.deepOrange;
+  static const Color colorPink = Colors.pink;
   static const Color white = Colors.white;
-  static const Color black = Colors.black;
+  static const Color colorBlack = Colors.black;
 
-  /// Misc
-  static const Color errorColor = Colors.red;
-  static const Color warningColor = Colors.yellow;
+  /// Misc Colors
   static const Color successColor = Colors.green;
+  static const Color warningColor = Colors.yellow;
+  static const Color errorColor = Colors.red;
 
   ///Basics
   static const Color primaryColor = const Color(0xFF2196f3);

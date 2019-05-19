@@ -7,7 +7,6 @@ class AuthSharedPreferencesManager {
   final String _keyOAuthRefreshToken = 'OAUTH_REFRESH_TOKEN';
   final String _keyOAuthRefreshTokenExpiration =
       'OAUTH_REFRESH_TOKEN_EXPIRATION';
-  final String _keyAuthConnected = 'AUTH_CONNECTED';
 
   Future<SharedPreferences> get _prefs => SharedPreferences.getInstance();
 
@@ -19,7 +18,7 @@ class AuthSharedPreferencesManager {
 
   Future<String> getAccessToken() async {
     final prefs = await _prefs;
-    return prefs.getString(_keyOAuthAccessToken) ?? '';
+    return prefs.getString(_keyOAuthAccessToken);
   }
 
   Future<bool> setAccessToken(String accessToken) async {
@@ -34,7 +33,7 @@ class AuthSharedPreferencesManager {
 
   Future<int> getAccessTokenExpiration() async {
     final prefs = await _prefs;
-    return prefs.getInt(_keyOAuthAccessTokenExpiration) ?? '';
+    return prefs.getInt(_keyOAuthAccessTokenExpiration);
   }
 
   Future<bool> setAccessTokenExpiration(int accessTokenExpiration) async {
@@ -49,7 +48,7 @@ class AuthSharedPreferencesManager {
 
   Future<String> getRefreshToken() async {
     final prefs = await _prefs;
-    return prefs.getString(_keyOAuthRefreshToken) ?? '';
+    return prefs.getString(_keyOAuthRefreshToken);
   }
 
   Future<bool> setRefreshToken(String refreshToken) async {
@@ -64,7 +63,7 @@ class AuthSharedPreferencesManager {
 
   Future<String> getRefreshTokenExpiration() async {
     final prefs = await _prefs;
-    return prefs.getString(_keyOAuthRefreshTokenExpiration) ?? '';
+    return prefs.getString(_keyOAuthRefreshTokenExpiration);
   }
 
   Future<bool> setRefreshTokenExpiration(int refreshTokenExpiration) async {

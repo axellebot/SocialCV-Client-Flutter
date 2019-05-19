@@ -39,7 +39,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     super.initState();
 
     final authBloc = BlocProvider.of<AuthenticationBloc>(context);
-    final cvRepository = Provider.of<CVRepository>(context);
+    final cvRepository = Provider.of<CVRepository>(context, listen: false);
 
     _loginBloc = LoginBloc(
       authenticationBloc: authBloc,
@@ -83,18 +83,20 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(
-                                top: 20.0,
-                                bottom: 20.0,
-                                left: 25.0,
-                                right: 25.0),
+                              top: 20.0,
+                              bottom: 20.0,
+                              left: 25.0,
+                              right: 25.0,
+                            ),
                             child: TextField(
                               focusNode: myFocusNodeEmailLogin,
                               controller: loginEmailController,
                               keyboardType: TextInputType.emailAddress,
                               style: TextStyle(
-                                  fontSize: 16.0, color: Colors.black),
+                                fontSize: 16.0,
+                                color: Colors.black,
+                              ),
                               decoration: InputDecoration(
-                                border: InputBorder.none,
                                 icon: Icon(
                                   MdiIcons.email,
                                   color: Colors.black,
@@ -116,9 +118,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                               controller: loginPasswordController,
                               obscureText: _obscureTextLogin,
                               style: TextStyle(
-                                  fontSize: 16.0, color: Colors.black),
+                                fontSize: 16.0,
+                                color: Colors.black,
+                              ),
                               decoration: InputDecoration(
-                                border: InputBorder.none,
                                 icon: Icon(
                                   MdiIcons.lock,
                                   size: 22.0,

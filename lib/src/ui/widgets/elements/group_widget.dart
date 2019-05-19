@@ -28,7 +28,8 @@ abstract class GroupWidgetState<T extends GroupWidget> extends State<T> {
     groupBloc = widget.groupBloc;
 
     if (groupBloc == null) {
-      final cvRepository = Provider.of<CVRepository>(context);
+      final cvRepository = Provider.of<CVRepository>(context, listen: false);
+
       groupBloc = GroupBloc(cvRepository: cvRepository);
       groupBloc.dispatch(GroupInitialized(
         groupId: widget.groupId,

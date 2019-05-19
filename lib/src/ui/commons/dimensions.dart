@@ -1,9 +1,20 @@
 class AppDimensions {
+  /// Default values
+
+  static const double defaultCardElevation = 2.0;
+  static const double defaultCardPadding = 15.0;
+  static const double defaultFormInputPadding = 15.0;
+
   /// App
 
   static const double menuButtonPadding = 3.0;
 
+  /// Auth Page
+
+  static const double authPageMinHeight = 800.0;
+
   /// Card
+
   static const double cardDefaultElevation = 2.0;
   static const double cardDefaultPadding = 20.0;
 

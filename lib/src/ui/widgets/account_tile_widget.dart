@@ -22,10 +22,11 @@ class _AccountTitleState extends State<AccountTile> {
     return BlocBuilder<AuthenticationEvent, AuthenticationState>(
       bloc: BlocProvider.of<AuthenticationBloc>(context),
       builder: (BuildContext context, AuthenticationState state) {
-        if (state is AuthenticationAuthenticated)
+        if (state is AuthenticationAuthenticated) {
           return _AccountTileConnected();
-        if (state is AuthenticationUnauthenticated)
+        } else if (state is AuthenticationUnauthenticated) {
           return _AccountTileNotConnected();
+        }
         return ErrorTile(error: NotImplementedYetError());
       },
     );
@@ -66,7 +67,7 @@ class _AccountTileConnected extends StatelessWidget {
             ),
           );
         } else if (state is AccountFailed) {
-          return Container(child: Text('${state.error}'));
+          return ErrorTile(error: state.error);
         }
         return ErrorTile(error: NotImplementedYetError());
       },

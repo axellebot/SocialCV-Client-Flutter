@@ -28,7 +28,8 @@ abstract class EntryWidgetState<T extends EntryWidget> extends State<T> {
     entryBloc = widget.entryBloc;
 
     if (entryBloc == null) {
-      final cvRepository = Provider.of<CVRepository>(context);
+      final cvRepository = Provider.of<CVRepository>(context, listen: false);
+
       entryBloc = EntryBloc(cvRepository: cvRepository);
       entryBloc.dispatch(EntryInitialized(
         entryId: widget.entryId,

@@ -36,7 +36,7 @@ abstract class ComplexEntryListState<T extends EntryListWidget>
     entryListBloc = widget.entryListBloc;
 
     if (entryListBloc == null) {
-      final cvRepository = Provider.of<CVRepository>(context);
+      final cvRepository = Provider.of<CVRepository>(context, listen: false);
       entryListBloc = EntryListBloc(cvRepository: cvRepository);
       entryListBloc.dispatch(EntryListInitialized(
         parentGroupId: widget.parentGroupId,

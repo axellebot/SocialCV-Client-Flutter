@@ -10,7 +10,7 @@ For help getting started with Flutter, view our online
 ## Installation
 
 ### Config
-Use secret template `./secrets.json.dist` to add secret file `./secrets.json`
+Use secret template `./config.json.dist` to add secret file `./config.json`
 
 ### Generate models
 [documentation](https://flutter.io/json/)

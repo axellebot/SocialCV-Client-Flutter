@@ -28,7 +28,8 @@ abstract class ProfileWidgetState<T extends ProfileWidget> extends State<T> {
     profileBloc = widget.profileBloc;
 
     if (profileBloc == null) {
-      final cvRepository = Provider.of<CVRepository>(context);
+      final cvRepository = Provider.of<CVRepository>(context, listen: false);
+
       profileBloc = ProfileBloc(cvRepository: cvRepository);
       profileBloc.dispatch(ProfileInitialized(
         profileId: widget.profileId,

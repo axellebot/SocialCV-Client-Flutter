@@ -33,7 +33,8 @@ abstract class PartListWidgetState<T extends PartListWidget> extends State<T> {
     partListBloc = widget.partListBloc;
 
     if (widget.partListBloc == null) {
-      final cvRepository = Provider.of<CVRepository>(context);
+      final cvRepository = Provider.of<CVRepository>(context, listen: false);
+
       partListBloc = PartListBloc(cvRepository: cvRepository);
       partListBloc.dispatch(PartListInitialized(
         parentProfileId: widget.parentProfileId,

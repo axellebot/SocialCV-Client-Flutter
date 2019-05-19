@@ -33,7 +33,8 @@ abstract class ProfileListWidgetState<T extends ProfileListWidget>
     super.initState();
     profileListBloc = widget.profileListBloc;
     if (widget.profileListBloc == null) {
-      final cvRepository = Provider.of<CVRepository>(context);
+      final cvRepository = Provider.of<CVRepository>(context, listen: false);
+
       profileListBloc = ProfileListBloc(cvRepository: cvRepository);
       profileListBloc.dispatch(ProfileListInitialized(
         parentUserId: widget.parentUserId,

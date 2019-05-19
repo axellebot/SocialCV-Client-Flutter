@@ -39,7 +39,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
     super.initState();
 
     final authBloc = BlocProvider.of<AuthenticationBloc>(context);
-    final cvRepository = Provider.of<CVRepository>(context);
+    final cvRepository = Provider.of<CVRepository>(context, listen: false);
 
     _registerBloc = RegisterBloc(
       cvRepository: cvRepository,
@@ -63,7 +63,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
     return BlocBuilder<RegisterEvent, RegisterState>(
         bloc: _registerBloc,
         builder: (BuildContext context, RegisterState state) {
-          Container(
+          return Container(
             padding: EdgeInsets.only(top: 23.0),
             child: Column(
               children: <Widget>[
@@ -93,12 +93,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                                 controller: signupFisrtNameController,
                                 keyboardType: TextInputType.text,
                                 textCapitalization: TextCapitalization.words,
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Colors.black,
-                                ),
                                 decoration: InputDecoration(
-                                  border: InputBorder.none,
                                   icon: Icon(
                                     MdiIcons.account,
                                     color: Colors.black,
@@ -115,10 +110,11 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                  top: 20.0,
-                                  bottom: 20.0,
-                                  left: 25.0,
-                                  right: 25.0),
+                                top: 20.0,
+                                bottom: 20.0,
+                                left: 25.0,
+                                right: 25.0,
+                              ),
                               child: TextField(
                                 focusNode: myFocusNodeFirstName,
                                 controller: signupLastNameController,
@@ -129,7 +125,6 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                                   color: Colors.black,
                                 ),
                                 decoration: InputDecoration(
-                                  border: InputBorder.none,
                                   icon: Icon(
                                     MdiIcons.account,
                                     color: Colors.black,
@@ -155,9 +150,10 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                                 controller: signupEmailController,
                                 keyboardType: TextInputType.emailAddress,
                                 style: TextStyle(
-                                    fontSize: 16.0, color: Colors.black),
+                                  fontSize: 16.0,
+                                  color: Colors.black,
+                                ),
                                 decoration: InputDecoration(
-                                  border: InputBorder.none,
                                   icon: Icon(
                                     MdiIcons.email,
                                     color: Colors.black,
@@ -183,9 +179,10 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
                                 controller: signupPasswordController,
                                 obscureText: _obscureTextSignup,
                                 style: TextStyle(
-                                    fontSize: 16.0, color: Colors.black),
+                                  fontSize: 16.0,
+                                  color: Colors.black,
+                                ),
                                 decoration: InputDecoration(
-                                  border: InputBorder.none,
                                   icon: Icon(
                                     MdiIcons.lock,
                                     color: Colors.black,
