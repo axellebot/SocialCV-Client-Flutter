@@ -12,7 +12,6 @@ import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/main_page.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
-import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/splash_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
@@ -136,12 +135,15 @@ class _AppWrapperState extends State<_AppWrapper> {
   Widget build(BuildContext context) {
     Logger.log('$_tag:$build');
 
+    AppState tmpState = AppInitialized.defaultValues();
+
     return BlocBuilder<AppEvent, AppState>(
       bloc: _appBloc,
       builder: (BuildContext context, AppState state) {
-        if (state is AppLoading) {
-          return LoadingApp();
-        } else if (state is AppInitialized) {
+        if (state is AppLoading || state is AppInitialized) {
+          if (state is AppLoading) state = tmpState;
+          tmpState = state;
+
           /// Dependency Injection of repositories and blocs
           /// Use updateShouldNotify to make dependencies available in
           /// `initState` methods of children widgets
