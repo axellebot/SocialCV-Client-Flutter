@@ -3,7 +3,7 @@ import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 class SplashPage extends StatelessWidget {
-  final String _tag = 'SplashPage';
+  final String _tag = '$SplashPage';
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +20,18 @@ class SplashPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class SplashApp extends StatelessWidget {
+  SplashApp() : super();
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: SplashPage(),
+      color: AppColors.primaryColor,
     );
   }
 }

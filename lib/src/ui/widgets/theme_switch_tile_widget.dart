@@ -14,11 +14,6 @@ class ThemeSwitchTile extends StatelessWidget {
     return BlocBuilder<AppEvent, AppState>(
       bloc: _appBloc,
       builder: (BuildContext context, AppState state) {
-        if (state is AppUninitialized) {
-          return ListTile(
-            title: Text(CVLocalizations.of(context).settingsThemeCTA),
-          );
-        }
         if (state is AppLoading) {
           return ListTile(
             title: Text(CVLocalizations.of(context).settingsThemeCTA),
@@ -27,19 +22,20 @@ class ThemeSwitchTile extends StatelessWidget {
         }
         if (state is AppInitialized) {
           return SwitchListTile(
-              secondary: Icon(
-                state.theme == ThemeType.DARK
-                    ? MdiIcons.weatherSunny
-                    : MdiIcons.whiteBalanceSunny,
-              ),
-              title: Text(CVLocalizations.of(context).settingsThemeCTA),
-              value: state.theme == ThemeType.DARK ? true : false,
-              onChanged: (bool enable) {
-                if (enable)
-                  _appBloc.dispatch(AppThemeChanged(theme: ThemeType.DARK));
-                else
-                  _appBloc.dispatch(AppThemeChanged(theme: ThemeType.LIGHT));
-              });
+            secondary: Icon(
+              state.theme == ThemeType.DARK
+                  ? MdiIcons.weatherSunny
+                  : MdiIcons.whiteBalanceSunny,
+            ),
+            title: Text(CVLocalizations.of(context).settingsThemeCTA),
+            value: state.theme == ThemeType.DARK ? true : false,
+            onChanged: (bool enable) {
+              if (enable)
+                _appBloc.dispatch(AppThemeChanged(theme: ThemeType.DARK));
+              else
+                _appBloc.dispatch(AppThemeChanged(theme: ThemeType.LIGHT));
+            },
+          );
         }
       },
     );

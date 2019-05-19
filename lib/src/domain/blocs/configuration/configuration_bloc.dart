@@ -1,8 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:social_cv_client_dart_common/managers.dart';
 import 'package:social_cv_client_dart_common/repositories.dart';
-import 'package:social_cv_client_flutter/src/data/managers/asset_config_manager.dart';
-import 'package:social_cv_client_flutter/src/data/managers/shared_preferences_manager.dart';
+import 'package:social_cv_client_flutter/src/data/managers/app_shared_preferences_manager.dart';
+import 'package:social_cv_client_flutter/src/data/managers/auth_shared_preferences_manager.dart';
+import 'package:social_cv_client_flutter/src/data/managers/config_assets_manager.dart';
+import 'package:social_cv_client_flutter/src/data/repositories/local_app_preferences_repository.dart';
+import 'package:social_cv_client_flutter/src/data/repositories/local_auth_preferences_repository.dart';
+import 'package:social_cv_client_flutter/src/data/repositories/local_config_repository.dart';
 import 'package:social_cv_client_flutter/src/domain/blocs/configuration/configuration.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
@@ -11,16 +15,10 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
 
   ConfigurationBloc() : super();
 
-  /// Interceptors
-  ApiInterceptor _apiInterceptor;
-
-  /// Managers
-  CVApiManager _cvApiManager;
-  CVCacheManager _cvCacheManager;
-
   /// Repositories
   CVRepository _cvRepository;
-  PreferencesRepository _preferencesRepository;
+  AuthPreferencesRepository _authPreferencesRepository;
+  AppPreferencesRepository _appPreferencesRepository;
   ConfigRepository _configRepository;
 
   @override
@@ -37,23 +35,34 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
     try {
       yield ConfigLoading();
 
-      /// Preferences managers and repositories
-      _preferencesRepository = SharedPreferencesManager();
+      /// Managers
+      final _appSharedPreferencesManager = AppSharedPreferencesManager();
+      final _authSharedPreferencesManager = AuthSharedPreferencesManager();
+      final _localConfigManager = ConfigAssetsManager();
 
-      /// Config managers and repositories
-      _configRepository = AssetConfigManager();
+      /// Repositories
+      _appPreferencesRepository = LocalAppPreferencesRepository(
+        appSharedPreferencesManager: _appSharedPreferencesManager,
+      );
+      _authPreferencesRepository = LocalAuthPreferencesRepository(
+        authSharedPreferencesManager: _authSharedPreferencesManager,
+      );
+      _configRepository = LocalConfigRepository(
+        configAssetsManager: _localConfigManager,
+      );
 
       /// CV Managers and repositories
-      _apiInterceptor = ApiInterceptor(
-        accessToken: await _preferencesRepository.getAccessToken(),
-        refreshToken: await _preferencesRepository.getRefreshToken(),
+      final _apiInterceptor = ApiInterceptor(
+        accessToken: await _authPreferencesRepository.getAccessToken(),
+        refreshToken: await _authPreferencesRepository.getRefreshToken(),
       );
-      _cvApiManager = DefaultCVApiManager(
+
+      final _cvApiManager = DefaultCVApiManager(
         apiInterceptor: _apiInterceptor,
         apiBaseUrl: await _configRepository.getApiServerUrl(),
       );
 
-      _cvCacheManager = DefaultCVCacheManager();
+      final _cvCacheManager = DefaultCVCacheManager();
 
       _cvRepository = DefaultCloudCVRepository(
         cvApiManager: _cvApiManager,
@@ -62,7 +71,8 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
 
       yield ConfigLoaded(
         cvRepository: _cvRepository,
-        preferencesRepository: _preferencesRepository,
+        authPreferencesRepository: _authPreferencesRepository,
+        appPreferencesRepository: _appPreferencesRepository,
         configRepository: _configRepository,
       );
     } catch (error, stacktrace) {

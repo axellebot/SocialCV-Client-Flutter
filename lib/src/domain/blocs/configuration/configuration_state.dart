@@ -13,18 +13,37 @@ class ConfigLoading extends ConfigurationState {}
 
 class ConfigLoaded extends ConfigurationState {
   final CVRepository cvRepository;
-  final PreferencesRepository preferencesRepository;
+  final AuthPreferencesRepository authPreferencesRepository;
+  final AppPreferencesRepository appPreferencesRepository;
   final ConfigRepository configRepository;
 
   ConfigLoaded({
     @required this.cvRepository,
-    @required this.preferencesRepository,
+    @required this.authPreferencesRepository,
+    @required this.appPreferencesRepository,
     @required this.configRepository,
-  })  : assert(cvRepository != null, 'No $CVRepository given'),
+  })  : assert(
+          cvRepository != null,
+          'No $CVRepository given',
+        ),
         assert(
-            preferencesRepository != null, 'No $PreferencesRepository given'),
-        assert(configRepository != null, 'No $ConfigRepository given'),
-        super([cvRepository, preferencesRepository, configRepository]);
+          authPreferencesRepository != null,
+          'No $AuthPreferencesRepository given',
+        ),
+        assert(
+          appPreferencesRepository != null,
+          'No $AppPreferencesRepository given',
+        ),
+        assert(
+          configRepository != null,
+          'No $ConfigRepository given',
+        ),
+        super([
+          cvRepository,
+          authPreferencesRepository,
+          appPreferencesRepository,
+          configRepository,
+        ]);
 }
 
 class ConfigFailure extends ConfigurationState {

@@ -11,9 +11,9 @@ import 'package:social_cv_client_flutter/src/routes.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/main_page.dart';
-import 'package:social_cv_client_flutter/src/ui/pages/splash_page.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
+import 'package:social_cv_client_flutter/src/ui/widgets/splash_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 class ConfigWrapperApp extends StatefulWidget {
@@ -47,10 +47,7 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
       bloc: _configBloc,
       builder: (BuildContext context, ConfigurationState state) {
         if (state is ConfigLoading) {
-          return WidgetsApp(
-            home: SplashPage(),
-            color: AppColors.primaryColor,
-          );
+          return SplashApp();
         } else if (state is ConfigLoaded) {
           return BlocProvider<ConfigurationBloc>(
             bloc: _configBloc,
@@ -78,29 +75,32 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
   AppBloc _appBloc;
   AccountBloc _accountBloc;
   AuthenticationBloc _authBloc;
-  LoginBloc _loginBloc;
-  RegisterBloc _registerBloc;
 
   ConfigLoaded get _state => widget.state;
 
   @override
   void initState() {
     super.initState();
-    _appBloc = AppBloc(preferencesRepository: _state.preferencesRepository);
+    _appBloc = AppBloc(
+      appPreferencesRepository: _state.appPreferencesRepository,
+    );
 
     _accountBloc = AccountBloc(
       cvRepository: _state.cvRepository,
-      preferencesRepository: _state.preferencesRepository,
+      appPreferencesRepository: _state.appPreferencesRepository,
     );
 
     _authBloc = AuthenticationBloc(
       cvRepository: _state.cvRepository,
-      preferencesRepository: _state.preferencesRepository,
+      authPreferencesRepository: _state.authPreferencesRepository,
       configRepository: _state.configRepository,
       accountBloc: _accountBloc,
     );
 
-    /// Inform AuthBloc that the application have been configured
+    /// Inform AppBloc that the application just started
+    _appBloc.dispatch(AppConfigured());
+
+    /// Inform AuthBloc that the application just started
     _authBloc.dispatch(AppStarted());
   }
 
@@ -119,8 +119,7 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
     return BlocBuilder<AppEvent, AppState>(
       bloc: _appBloc,
       builder: (BuildContext context, AppState state) {
-        if (state is AppUninitialized) {
-        } else if (state is AppLoading) {
+        if (state is AppLoading) {
           return LoadingApp();
         } else if (state is AppInitialized) {
           /// Dependency Injection of repositories and blocs
@@ -136,8 +135,12 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
                 value: _state.configRepository,
                 updateShouldNotify: (previous, current) => false,
               ),
-              Provider<PreferencesRepository>.value(
-                value: _state.preferencesRepository,
+              Provider<AuthPreferencesRepository>.value(
+                value: _state.authPreferencesRepository,
+                updateShouldNotify: (previous, current) => false,
+              ),
+              Provider<AppPreferencesRepository>.value(
+                value: _state.appPreferencesRepository,
                 updateShouldNotify: (previous, current) => false,
               ),
             ],
@@ -146,8 +149,6 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
                 BlocProvider(bloc: _appBloc),
                 BlocProvider(bloc: _accountBloc),
                 BlocProvider(bloc: _authBloc),
-                BlocProvider(bloc: _loginBloc),
-                BlocProvider(bloc: _registerBloc),
               ],
               child: _InitializedApp(state: state),
             ),

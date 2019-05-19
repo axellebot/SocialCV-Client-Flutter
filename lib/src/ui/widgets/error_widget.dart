@@ -15,11 +15,20 @@ abstract class ErrorWidget extends StatelessWidget {
 
 /// [ErrorText] is a [Text] widget to display [Error]
 class ErrorText extends ErrorWidget {
-  ErrorText({Key key, @required Error error}) : super(key: key, error: error);
+  final TextAlign textAlign;
+
+  ErrorText({
+    Key key,
+    @required Error error,
+    this.textAlign = TextAlign.center,
+  }) : super(key: key, error: error);
 
   @override
   Widget build(BuildContext context) {
-    return Text(translateError(context, error));
+    return Text(
+      translateError(context, error),
+      textAlign: textAlign,
+    );
   }
 }
 
