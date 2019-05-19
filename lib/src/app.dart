@@ -52,7 +52,10 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
             color: AppColors.primaryColor,
           );
         } else if (state is ConfigLoaded) {
-          return _ConfiguredApp(state);
+          return BlocProvider<ConfigurationBloc>(
+            bloc: _configBloc,
+            child: _ConfiguredApp(state: state),
+          );
         }
         return ErrorApp(error: NotImplementedYetError());
       },
@@ -63,7 +66,7 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
 class _ConfiguredApp extends StatefulWidget {
   final ConfigLoaded state;
 
-  _ConfiguredApp(this.state);
+  _ConfiguredApp({Key key, @required this.state}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ConfiguredAppState();

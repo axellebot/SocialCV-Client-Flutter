@@ -70,7 +70,7 @@ class LogEntry {
 class Logger {
   static const _LOG_LENGTH = 256;
   static const _ACTIONS_LOG_LENGTH = 10;
-  static final _instance = Logger();
+  static final _instance = Logger._newInstance();
 
   final DateTime _startupTime = DateTime.now();
 
@@ -89,6 +89,7 @@ class Logger {
   /// -----------------------------------------------------------------------
   ///                            Constructor
   /// -----------------------------------------------------------------------
+  Logger._newInstance() : super();
 
   factory Logger() {
     return _instance;

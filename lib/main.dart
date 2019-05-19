@@ -41,7 +41,7 @@ void globalErrorHandler(details) {
     stackTrace = details.stackTrace;
   } else {
     Logger.fatal(
-      details.toString(),
+      '${details.runtimeType}',
       errorCode: ErrorCodes.UNHANDLED_EXCEPTION,
     );
     throw details;

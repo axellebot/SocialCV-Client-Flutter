@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/defaults.dart';
@@ -17,14 +16,6 @@ String getInitials(String nameString) {
       (nameArray.length == 1 ? ' ' : (nameArray[nameArray.length - 1])[0]);
 
   return initials;
-}
-
-void printException(dynamic e, StackTrace stackTrace, [String message]) {
-  if (message != null) {
-    debugPrint('$message: $e');
-  } else {
-    debugPrint(e.toString());
-  }
 }
 
 List<DropdownMenuItem<String>> getDropDownMenuElementPerPage() {
@@ -150,5 +141,5 @@ String translateError(BuildContext context, dynamic err) {
   }
 
   ///Default
-  return err.toString();
+  return '${err.runtimeType}';
 }
