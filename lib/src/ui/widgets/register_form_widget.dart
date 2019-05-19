@@ -7,6 +7,7 @@ import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/repositories.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 class RegisterFormWidget extends StatefulWidget {
   @override
@@ -14,6 +15,8 @@ class RegisterFormWidget extends StatefulWidget {
 }
 
 class _RegisterFormWidgetState extends State<RegisterFormWidget> {
+  final String _tag = '$_RegisterFormWidgetState';
+
   final FocusNode myFocusNodePassword = FocusNode();
   final FocusNode myFocusNodeEmail = FocusNode();
   final FocusNode myFocusNodeFirstName = FocusNode();
@@ -55,6 +58,8 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Logger.log('$_tag:$build');
+
     return BlocBuilder<RegisterEvent, RegisterState>(
         bloc: _registerBloc,
         builder: (BuildContext context, RegisterState state) {

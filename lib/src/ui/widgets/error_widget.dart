@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
@@ -11,6 +12,35 @@ abstract class ErrorWidget extends StatelessWidget {
   ErrorWidget({Key key, @required this.error})
       : assert(error != null, 'No $Error given'),
         super(key: key);
+}
+
+/// [ErrorIcon] is a [Icon] widget to display [Error]
+class ErrorIcon extends StatelessWidget {
+  final IconData icon;
+  final double size;
+  final Color color;
+  final String semanticLabel;
+  final TextDirection textDirection;
+
+  ErrorIcon({
+    Key key,
+    this.icon = MdiIcons.alertCircleOutline,
+    this.size,
+    this.color = AppColors.errorColor,
+    this.semanticLabel,
+    this.textDirection,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      icon,
+      size: size,
+      color: color,
+      semanticLabel: semanticLabel,
+      textDirection: textDirection,
+    );
+  }
 }
 
 /// [ErrorText] is a [Text] widget to display [Error]
@@ -41,8 +71,8 @@ class ErrorRow extends ErrorWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Icon(Icons.error, color: AppColors.errorColor),
-        Expanded(child: ErrorText(error: error))
+        ErrorIcon(),
+        Expanded(child: ErrorText(error: error)),
       ],
     );
   }
@@ -55,7 +85,7 @@ class ErrorTile extends ErrorWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(MdiIcons.alertCircleOutline),
+      leading: ErrorIcon(),
       title: Text(CVLocalizations.of(context).errorOccurred),
       subtitle: ErrorText(error: error),
     );
@@ -77,10 +107,11 @@ class ErrorCard extends ErrorWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: AppDimensions.cardDefaultElevation,
       child: Container(
         height: height,
         width: width,
-        padding: EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(AppDimensions.cardDefaultPadding),
         child: ErrorRow(error: error),
       ),
     );

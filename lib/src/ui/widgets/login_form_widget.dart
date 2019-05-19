@@ -11,9 +11,7 @@ import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 class LoginFormWidget extends StatefulWidget {
-  const LoginFormWidget({
-    Key key,
-  }) : super(key: key);
+  const LoginFormWidget({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _LoginFormWidgetState();

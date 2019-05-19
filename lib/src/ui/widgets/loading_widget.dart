@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
 
 /// LoadingCard displays lines with opacity moving up and down
 /// Specify the number of loading lines to display
@@ -133,7 +134,7 @@ class LoadingCard extends StatelessWidget {
       child: Container(
         height: height,
         width: width,
-        padding: EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(AppDimensions.cardDefaultPadding),
         child: LoadingShadowContent(
           numberOfTitleLines: numberOfTitleLines,
           numberOfContentLines: numberOfContentLines,

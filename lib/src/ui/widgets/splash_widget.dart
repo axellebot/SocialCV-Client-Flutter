@@ -16,7 +16,7 @@ class SplashPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             CircularProgressIndicator(),
-            Text("Social CV"),
+            Text('Social CV'),
           ],
         ),
       ),

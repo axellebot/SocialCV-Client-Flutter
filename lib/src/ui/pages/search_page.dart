@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/tags.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 /// Add controller for the input
 class SearchPage extends StatelessWidget {
-  const SearchPage({
-    Key key,
-  }) : super(key: key);
+  final String _tag = '$SearchPage';
+
+  SearchPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Logger.log('$_tag:$build');
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -18,7 +21,7 @@ class SearchPage extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: Hero(
-              tag: kHeroSearchFAB,
+              tag: AppHeroes.searchFab,
               child: Card(
                 child: Container(
                   padding: EdgeInsets.all(10.0),

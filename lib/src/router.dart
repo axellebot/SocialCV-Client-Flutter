@@ -11,13 +11,11 @@ import 'package:social_cv_client_flutter/src/ui/pages/search_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/settings_page.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
-class Routes {
-  final String _tag = '$Routes';
+class AppRouter {
+  final String _tag = '$AppRouter';
   final Router router = Router();
 
-  final BuildContext context;
-
-  Routes(this.context) : assert(context != null, 'No $BuildContext given') {
+  AppRouter() {
     _defineRoutes();
   }
 

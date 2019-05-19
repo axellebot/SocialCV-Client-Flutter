@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
 class ArcBannerImage extends StatelessWidget {
-  const ArcBannerImage({
-    Key key,
-    @required this.image,
-  }) : super(key: key);
+  final String _tag = '$ArcBannerImage';
 
-  final ImageProvider image;
+  final ImageProvider imageProvider;
+
+  ArcBannerImage({Key key, @required this.imageProvider})
+      : assert(imageProvider != null, 'No $ImageProvider given'),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Logger.log('$_tag:$build');
+
     var screenWidth = MediaQuery.of(context).size.width;
 
     return ClipPath(
       clipper: ArcClipper(),
       child: Image(
-        image: image,
+        image: imageProvider,
         width: screenWidth,
         height: 230.0,
         fit: BoxFit.cover,

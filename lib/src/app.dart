@@ -7,7 +7,7 @@ import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/repositories.dart';
 import 'package:social_cv_client_flutter/src/domain/blocs/configuration/configuration.dart';
-import 'package:social_cv_client_flutter/src/routes.dart';
+import 'package:social_cv_client_flutter/src/router.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/main_page.dart';
@@ -51,7 +51,27 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
         } else if (state is ConfigLoaded) {
           return BlocProvider<ConfigurationBloc>(
             bloc: _configBloc,
-            child: _ConfiguredApp(state: state),
+            child: MultiProvider(
+              providers: <Provider>[
+                Provider<CVRepository>.value(
+                  value: state.cvRepository,
+                  updateShouldNotify: (previous, current) => false,
+                ),
+                Provider<ConfigRepository>.value(
+                  value: state.configRepository,
+                  updateShouldNotify: (previous, current) => false,
+                ),
+                Provider<AuthPreferencesRepository>.value(
+                  value: state.authPreferencesRepository,
+                  updateShouldNotify: (previous, current) => false,
+                ),
+                Provider<AppPreferencesRepository>.value(
+                  value: state.appPreferencesRepository,
+                  updateShouldNotify: (previous, current) => false,
+                ),
+              ],
+              child: _AppWrapper(state: state),
+            ),
           );
         }
         return ErrorApp(error: NotImplementedYetError());
@@ -60,17 +80,17 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
   }
 }
 
-class _ConfiguredApp extends StatefulWidget {
+class _AppWrapper extends StatefulWidget {
   final ConfigLoaded state;
 
-  _ConfiguredApp({Key key, @required this.state}) : super(key: key);
+  _AppWrapper({Key key, @required this.state}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _ConfiguredAppState();
+  State<StatefulWidget> createState() => _AppWrapperState();
 }
 
-class _ConfiguredAppState extends State<_ConfiguredApp> {
-  final String _tag = '$_ConfiguredAppState';
+class _AppWrapperState extends State<_AppWrapper> {
+  final String _tag = '$_AppWrapperState';
 
   AppBloc _appBloc;
   AccountBloc _accountBloc;
@@ -125,33 +145,13 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
           /// Dependency Injection of repositories and blocs
           /// Use updateShouldNotify to make dependencies available in
           /// `initState` methods of children widgets
-          return MultiProvider(
-            providers: <Provider>[
-              Provider<CVRepository>.value(
-                value: _state.cvRepository,
-                updateShouldNotify: (previous, current) => false,
-              ),
-              Provider<ConfigRepository>.value(
-                value: _state.configRepository,
-                updateShouldNotify: (previous, current) => false,
-              ),
-              Provider<AuthPreferencesRepository>.value(
-                value: _state.authPreferencesRepository,
-                updateShouldNotify: (previous, current) => false,
-              ),
-              Provider<AppPreferencesRepository>.value(
-                value: _state.appPreferencesRepository,
-                updateShouldNotify: (previous, current) => false,
-              ),
+          return BlocProviderTree(
+            blocProviders: <BlocProvider>[
+              BlocProvider<AppBloc>(bloc: _appBloc),
+              BlocProvider<AuthenticationBloc>(bloc: _authBloc),
+              BlocProvider<AccountBloc>(bloc: _accountBloc),
             ],
-            child: BlocProviderTree(
-              blocProviders: <BlocProvider>[
-                BlocProvider(bloc: _appBloc),
-                BlocProvider(bloc: _accountBloc),
-                BlocProvider(bloc: _authBloc),
-              ],
-              child: _InitializedApp(state: state),
-            ),
+            child: _App(state: state),
           );
         } else if (state is AppFailure) {
           return ErrorApp(error: state.error);
@@ -163,26 +163,28 @@ class _ConfiguredAppState extends State<_ConfiguredApp> {
   }
 }
 
-class _InitializedApp extends StatelessWidget {
-  final String _tag = '$_InitializedApp';
+class _App extends StatelessWidget {
+  final String _tag = '$_App';
 
   final AppInitialized state;
 
-  _InitializedApp({this.state});
+  _App({Key key, @required this.state})
+      : assert(state != null, 'No $AppInitialized given'),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Logger.log('$_tag:$build');
 
     ///Routes
-    final routes = Routes(context);
+    final appRouter = AppRouter();
 
     return MaterialApp(
       onGenerateTitle: (BuildContext context) =>
           CVLocalizations.of(context).appName,
       theme: _buildCVTheme(state.theme),
       home: MainPage(),
-      onGenerateRoute: routes.router.generator,
+      onGenerateRoute: appRouter.router.generator,
 
       ///Use Fluro routes
       localizationsDelegates: [

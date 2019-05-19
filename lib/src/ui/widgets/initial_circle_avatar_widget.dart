@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
 class InitialCircleAvatar extends StatefulWidget {
+  final String text;
+  final double elevation;
+  final ImageProvider backgroundImage;
+  final double radius;
+  final double minRadius;
+  final double maxRadius;
+
   InitialCircleAvatar({
     Key key,
     this.text = '',
@@ -13,18 +21,13 @@ class InitialCircleAvatar extends StatefulWidget {
   })  : assert(radius == null || (minRadius == null && maxRadius == null)),
         super(key: key);
 
-  final String text;
-  final double elevation;
-  final ImageProvider backgroundImage;
-  final double radius;
-  final double minRadius;
-  final double maxRadius;
-
   @override
   _InitialCircleAvatarState createState() => new _InitialCircleAvatarState();
 }
 
 class _InitialCircleAvatarState extends State<InitialCircleAvatar> {
+  final String _tag = '$_InitialCircleAvatarState';
+
   bool _checkLoading = true;
 
   @override
@@ -43,6 +46,8 @@ class _InitialCircleAvatarState extends State<InitialCircleAvatar> {
 
   @override
   Widget build(BuildContext context) {
+    Logger.log('$_tag:$build');
+
     return _checkLoading == true
         ? Material(
             shape: CircleBorder(),

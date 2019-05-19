@@ -7,8 +7,8 @@ enum SortState {
   NoSort,
 }
 
-class Sortbox extends StatefulWidget {
-  const Sortbox({
+class SortBox extends StatelessWidget {
+  const SortBox({
     Key key,
     this.value,
     this.onChanged,
@@ -18,25 +18,20 @@ class Sortbox extends StatefulWidget {
   final ValueChanged<SortState> onChanged;
 
   /// The width of a checkbox widget.
-  static const double width = 18.0;
+  final double width = 18.0;
 
-  @override
-  _SortboxState createState() => _SortboxState();
-}
-
-class _SortboxState extends State<Sortbox> {
   @override
   Widget build(BuildContext context) {
     IconData iconSort;
-    if (widget.value == SortState.SortAsc) {
+    if (value == SortState.SortAsc) {
       iconSort = Icons.arrow_upward;
-    } else if (widget.value == SortState.SortDesc) {
+    } else if (value == SortState.SortDesc) {
       iconSort = Icons.arrow_downward;
     } else {
       iconSort = Icons.close;
     }
     return GestureDetector(
-      onTap: () => widget.onChanged(widget.value),
+      onTap: () => onChanged(value),
       child: Icon(iconSort),
     );
   }

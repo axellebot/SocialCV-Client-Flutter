@@ -38,7 +38,7 @@ class _MainPageState extends State<MainPage> {
       ),
       body: _children.elementAt(_currentIndex),
       floatingActionButton: FloatingActionButton.extended(
-        heroTag: kHeroSearchFAB,
+        heroTag: AppHeroes.searchFab,
         icon: Icon(Icons.search),
         label: Text(CVLocalizations.of(context).search),
         foregroundColor: Colors.white,
@@ -83,8 +83,14 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+    if (index == 0) {
+      setState(() {
+        _currentIndex = 0;
+      });
+    } else if (index == 2) {
+      setState(() {
+        _currentIndex = 1;
+      });
+    }
   }
 }

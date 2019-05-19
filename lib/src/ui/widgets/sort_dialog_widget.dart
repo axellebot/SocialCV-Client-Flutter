@@ -22,8 +22,12 @@ class SortDialog extends StatefulWidget {
 }
 
 class _SortDialogState extends State<SortDialog> {
+  final String _tag = '$_SortDialogState';
+
   @override
   Widget build(BuildContext context) {
+    Logger.log('$_tag:$build');
+
     final _listTiles = widget.sortItems
         .map((sortItem) => SortListTile(
               key: Key(sortItem.field),

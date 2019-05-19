@@ -8,18 +8,8 @@ import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 
-class AccountPage extends StatefulWidget {
-  const AccountPage({Key key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _AccountPageState();
-}
-
-class _AccountPageState extends State<AccountPage> {
-  final String _tag = '$_AccountPageState';
-
-  /// TODO: Add AuthenticationBloc
-  AuthenticationBloc get _authBloc => null;
+class AccountPage extends StatelessWidget {
+  final String _tag = '$AccountPage';
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +19,7 @@ class _AccountPageState extends State<AccountPage> {
       left: false,
       right: false,
       child: BlocBuilder<AuthenticationEvent, AuthenticationState>(
-        bloc: _authBloc,
+        bloc: BlocProvider.of<AuthenticationBloc>(context),
         builder: (BuildContext context, AuthenticationState state) {
           if (state is AuthenticationUninitialized) return Container();
           if (state is AuthenticationUnauthenticated)
@@ -66,22 +56,11 @@ class _AccountPageDetailsNotConnected extends StatelessWidget {
 //                       _AccountPageDetailsConnected                         //
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
-class _AccountPageDetailsConnected extends StatefulWidget {
-  _AccountPageDetailsConnected({Key key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _AccountPageDetailsConnectedState();
-}
-
-class _AccountPageDetailsConnectedState
-    extends State<_AccountPageDetailsConnected> {
-  /// TODO: Add AccountBloc
-  AccountBloc get _accountBloc => null;
-
+class _AccountPageDetailsConnected extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AccountEvent, AccountState>(
-      bloc: _accountBloc,
+      bloc: BlocProvider.of<AccountBloc>(context),
       builder: (BuildContext context, AccountState state) {
         if (state is AccountUninitialized) {
         } else if (state is AccountLoaded) {

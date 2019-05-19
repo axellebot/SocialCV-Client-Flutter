@@ -32,8 +32,8 @@ class _AuthPageState extends State<AuthPage>
     return Scaffold(
       key: _scaffoldKey,
       body: NotificationListener<OverscrollIndicatorNotification>(
-        onNotification: (overscroll) {
-          overscroll.disallowGlow();
+        onNotification: (overScroll) {
+          overScroll.disallowGlow();
         },
         child: SingleChildScrollView(
           child: Container(
@@ -59,10 +59,11 @@ class _AuthPageState extends State<AuthPage>
                 Padding(
                   padding: EdgeInsets.only(top: 75.0),
                   child: Image(
-                      width: 250.0,
-                      height: 191.0,
-                      fit: BoxFit.fill,
-                      image: new AssetImage('assets/img/login_logo.png')),
+                    width: 250.0,
+                    height: 191.0,
+                    fit: BoxFit.fill,
+                    image: new AssetImage('assets/img/login_logo.png'),
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 
@@ -12,6 +13,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Logger.log('$_tag:$build');
+
     return SafeArea(
       left: false,
       right: false,
@@ -20,8 +22,9 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Card(
+              elevation: AppDimensions.cardDefaultElevation,
               child: Container(
-                padding: EdgeInsets.all(25.0),
+                padding: EdgeInsets.all(AppDimensions.cardDefaultPadding),
                 child: Text(
                   CVLocalizations.of(context).homeWelcome,
                   style: Theme.of(context).textTheme.body2,

@@ -37,7 +37,7 @@ class SortListTile extends StatelessWidget {
           key: key,
           leading: Icon(Icons.unfold_more),
           title: title,
-          trailing: Sortbox(value: value, onChanged: onChanged),
+          trailing: SortBox(value: value, onChanged: onChanged),
           onTap: onChanged != null
               ? () {
                   if (value == SortState.SortAsc) onChanged(SortState.SortDesc);

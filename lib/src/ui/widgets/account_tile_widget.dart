@@ -6,6 +6,7 @@ import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/initial_circle_avatar_widget.dart';
+import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 
 class AccountTile extends StatefulWidget {
@@ -16,13 +17,10 @@ class AccountTile extends StatefulWidget {
 }
 
 class _AccountTitleState extends State<AccountTile> {
-  // TODO: Add AuthenticationBloc
-  AuthenticationBloc get _authBloc => null;
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationEvent, AuthenticationState>(
-      bloc: _authBloc,
+      bloc: BlocProvider.of<AuthenticationBloc>(context),
       builder: (BuildContext context, AuthenticationState state) {
         if (state is AuthenticationAuthenticated)
           return _AccountTileConnected();
@@ -40,21 +38,17 @@ class _AccountTitleState extends State<AccountTile> {
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 
-class _AccountTileConnected extends StatefulWidget {
+class _AccountTileConnected extends StatelessWidget {
+  final String _tag = '$_AccountTileConnected';
+
   _AccountTileConnected({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _AccountTileConnectedState();
-}
-
-class _AccountTileConnectedState extends State<_AccountTileConnected> {
-  // TODO: Add AccountBloc
-  AccountBloc get _accountBloc => null;
-
-  @override
   Widget build(BuildContext context) {
+    Logger.log('$_tag:$build');
+
     return BlocBuilder<AccountEvent, AccountState>(
-      bloc: _accountBloc,
+      bloc: BlocProvider.of<AccountBloc>(context),
       builder: (BuildContext context, AccountState state) {
         if (state is AccountUninitialized) {
         } else if (state is AccountLoaded) {
