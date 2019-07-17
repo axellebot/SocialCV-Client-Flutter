@@ -160,7 +160,9 @@ class _AuthPageState extends State<AuthPage> {
               padding: EdgeInsets.all(10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[LoginFormWidget()],
+                children: <Widget>[
+                  LoginForm(),
+                ],
               ),
             ),
           ],
@@ -178,7 +180,9 @@ class _AuthPageState extends State<AuthPage> {
               padding: EdgeInsets.all(10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[RegisterFormWidget()],
+                children: <Widget>[
+                  RegisterForm(),
+                ],
               ),
             ),
           ],

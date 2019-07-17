@@ -8,7 +8,7 @@ dependencies:
 
   # Common Social CV Logic
   social_cv_client_dart_common:
-#    path: ../Social-CV-Client-Dart-common
+    #path: ../Social-CV-Client-Dart-common
     git:
       url: https://github.com/axellebot/Social-CV-Client-Dart-common
       ref: feature/blocs

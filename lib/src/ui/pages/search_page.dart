@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/tags.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
-import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 /// Add controller for the input
 class SearchPage extends StatelessWidget {

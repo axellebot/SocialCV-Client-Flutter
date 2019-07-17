@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
-import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 class SplashPage extends StatelessWidget {
   final String _tag = '$SplashPage';

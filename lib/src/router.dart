@@ -9,7 +9,7 @@ import 'package:social_cv_client_flutter/src/ui/pages/elements/profile_profile_p
 import 'package:social_cv_client_flutter/src/ui/pages/main_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/search_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/settings_page.dart';
-import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 class AppRouter {
   final String _tag = '$AppRouter';

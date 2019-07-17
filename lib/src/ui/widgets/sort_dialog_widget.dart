@@ -4,7 +4,7 @@ import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/sort_box_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/sort_list_tile_widget.dart';
-import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 class SortDialog extends StatefulWidget {
   const SortDialog({

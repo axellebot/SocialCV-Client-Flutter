@@ -8,7 +8,7 @@ import 'package:social_cv_client_flutter/src/ui/widgets/elements/profile_widget.
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/initial_circle_avatar_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/loading_widget.dart';
-import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 /// TODO : Build owner interaction with ProfileViewModel.owner
 

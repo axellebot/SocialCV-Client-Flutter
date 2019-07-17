@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
-import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 class ThemeSwitchListTile extends StatelessWidget {
   final String _tag = '$ThemeSwitchListTile';

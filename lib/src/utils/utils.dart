@@ -5,7 +5,7 @@ import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/defaults.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 
-import 'logging_service.dart';
+import 'logger.dart';
 
 String getInitials(String nameString) {
   if (nameString.isEmpty) return ' ';

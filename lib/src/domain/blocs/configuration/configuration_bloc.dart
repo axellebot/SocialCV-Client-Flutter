@@ -8,7 +8,7 @@ import 'package:social_cv_client_flutter/src/data/repositories/local_app_prefere
 import 'package:social_cv_client_flutter/src/data/repositories/local_auth_preferences_repository.dart';
 import 'package:social_cv_client_flutter/src/data/repositories/local_config_repository.dart';
 import 'package:social_cv_client_flutter/src/domain/blocs/configuration/configuration.dart';
-import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
   final String _tag = '$ConfigurationBloc';

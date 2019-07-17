@@ -5,7 +5,7 @@ import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.da
 import 'package:social_cv_client_flutter/src/ui/pages/account_page.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/home_page.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/menu_button_widget.dart';
-import 'package:social_cv_client_flutter/src/utils/logging_service.dart';
+import 'package:social_cv_client_flutter/src/utils/logger.dart';
 import 'package:social_cv_client_flutter/src/utils/navigation.dart';
 
 class MainPage extends StatefulWidget {
