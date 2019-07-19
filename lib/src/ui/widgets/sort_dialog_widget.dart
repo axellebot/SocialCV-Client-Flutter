@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/sort_box_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/sort_list_tile_widget.dart';
@@ -46,8 +46,8 @@ class _SortDialogState extends State<SortDialog> {
       contentPadding: EdgeInsets.all(0.0),
       title: widget.title,
       content: Container(
-        width: AppDimensions.sortDialogWidth,
-        height: AppDimensions.sortDialogHeight,
+        width: AppStyles.sortDialogWidth,
+        height: AppStyles.sortDialogHeight,
         child: ReorderableListView(
           onReorder: _onReorder,
           children: _listTiles,

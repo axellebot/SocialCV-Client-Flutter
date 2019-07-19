@@ -3,8 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -50,7 +49,7 @@ class _LoginFormState extends State<LoginForm> {
         if (state is LoginFailure) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: AppColors.errorColor,
+              backgroundColor: AppStyles.errorColor,
               content: Text('${state.error.runtimeType}'),
             ),
           );
@@ -60,9 +59,9 @@ class _LoginFormState extends State<LoginForm> {
         bloc: _loginBloc,
         builder: (BuildContext context, LoginState state) {
           return Card(
-            elevation: AppDimensions.defaultCardElevation,
+            elevation: AppStyles.defaultCardElevation,
             child: Padding(
-              padding: EdgeInsets.all(AppDimensions.defaultCardPadding),
+              padding: AppStyles.defaultCardPadding,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -70,8 +69,7 @@ class _LoginFormState extends State<LoginForm> {
                 children: [
                   Center(child: Text('Login')),
                   Padding(
-                    padding: const EdgeInsets.all(
-                        AppDimensions.defaultFormInputPadding),
+                    padding: AppStyles.defaultFormInputPadding,
                     child: TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
@@ -83,8 +81,7 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(
-                        AppDimensions.defaultFormInputPadding),
+                    padding: AppStyles.defaultFormInputPadding,
                     child: TextFormField(
                       controller: loginPasswordController,
                       obscureText: _obscureTextLogin,

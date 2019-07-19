@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/models.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/part_profile_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/profile_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
@@ -80,9 +80,9 @@ class _ProfilePageAppBar extends StatelessWidget {
     );
 
     Widget avatarWidget = InitialCircleAvatar(
-      elevation: AppDimensions.profileAvatarElevation,
-      maxRadius: AppDimensions.profileAvatarMax,
-      minRadius: AppDimensions.profileAvatarMin,
+      elevation: AppStyles.profileAvatarElevation,
+      maxRadius: AppStyles.profileAvatarMax,
+      minRadius: AppStyles.profileAvatarMin,
       backgroundImage: AssetImage('images/default-avatar.png'),
     );
 
@@ -100,9 +100,9 @@ class _ProfilePageAppBar extends StatelessWidget {
       );
       avatarWidget = InitialCircleAvatar(
         text: profile.title,
-        elevation: AppDimensions.profileAvatarElevation,
-        maxRadius: AppDimensions.profileAvatarMax,
-        minRadius: AppDimensions.profileAvatarMin,
+        elevation: AppStyles.profileAvatarElevation,
+        maxRadius: AppStyles.profileAvatarMax,
+        minRadius: AppStyles.profileAvatarMin,
         backgroundImage: NetworkImage(profile.picture.toString()),
       );
 

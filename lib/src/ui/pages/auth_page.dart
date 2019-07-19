@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/assets.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/login_form_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/register_form_widget.dart';
@@ -49,12 +48,12 @@ class _AuthPageState extends State<AuthPage> {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
 
-    screenHeight = (screenHeight > AppDimensions.authPageMinHeight)
+    screenHeight = (screenHeight > AppStyles.authPageMinHeight)
         ? screenHeight
-        : AppDimensions.authPageMinHeight;
+        : AppStyles.authPageMinHeight;
 
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppStyles.primaryColor,
       body: BlocListenerTree(
         blocListeners: <BlocListener>[
           BlocListener<AuthenticationEvent, AuthenticationState>(
@@ -62,7 +61,7 @@ class _AuthPageState extends State<AuthPage> {
             listener: (BuildContext context, AuthenticationState state) {
               if (state is AuthenticationAuthenticated) {
                 Scaffold.of(context).showSnackBar(SnackBar(
-                  backgroundColor: AppColors.successColor,
+                  backgroundColor: AppStyles.successColor,
                   content: Text(CVLocalizations.of(context).authSignInSucceed),
                 ));
                 Future.delayed(Duration(seconds: 1))
@@ -104,7 +103,7 @@ class _AuthPageState extends State<AuthPage> {
             style: Theme.of(context)
                 .textTheme
                 .title
-                .copyWith(color: AppColors.white),
+                .copyWith(color: AppStyles.colorWhite),
           ),
         ],
       ),
@@ -125,7 +124,7 @@ class _AuthPageState extends State<AuthPage> {
               height: screenHeight * 0.05,
               color: Colors.transparent,
               child: DotsIndicator(
-                color: AppColors.white,
+                color: AppStyles.colorWhite,
                 controller: _pageController,
                 itemCount: 2,
                 onPageSelected: (int page) {
@@ -236,7 +235,7 @@ class DotsIndicator extends AnimatedWidget {
       width: _kDotSpacing,
       child: new Center(
         child: new Material(
-          elevation: AppDimensions.defaultCardElevation,
+          elevation: AppStyles.defaultCardElevation,
           color: color,
           type: MaterialType.circle,
           child: new Container(

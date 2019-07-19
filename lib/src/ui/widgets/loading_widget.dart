@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 
 /// [LoadingShadowContent] displays lines with opacity moving up and down
 /// Specify the number of loading lines to display
@@ -136,7 +135,7 @@ class LoadingCard extends StatelessWidget {
       child: Container(
         height: height,
         width: width,
-        padding: EdgeInsets.all(AppDimensions.cardDefaultPadding),
+        padding: AppStyles.cardDefaultPadding,
         child: LoadingShadowContent(
           numberOfTitleLines: numberOfTitleLines,
           numberOfContentLines: numberOfContentLines,
@@ -203,7 +202,7 @@ class LoadingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: LoadingScaffold(),
-      color: AppColors.primaryColor,
+      color: AppStyles.primaryColor,
     );
   }
 }

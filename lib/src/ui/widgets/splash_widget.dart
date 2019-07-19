@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
 
 class SplashPage extends StatelessWidget {
@@ -10,7 +10,7 @@ class SplashPage extends StatelessWidget {
     Logger.log('$_tag:$build');
 
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppStyles.primaryColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -31,7 +31,7 @@ class SplashApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: SplashPage(),
-      color: AppColors.primaryColor,
+      color: AppStyles.primaryColor,
     );
   }
 }

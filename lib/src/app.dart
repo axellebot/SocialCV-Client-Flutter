@@ -8,7 +8,7 @@ import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/repositories.dart';
 import 'package:social_cv_client_flutter/src/domain/blocs/configuration/configuration.dart';
 import 'package:social_cv_client_flutter/src/router.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/pages/main_page.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
@@ -212,13 +212,13 @@ class _App extends StatelessWidget {
     }
 
     return base.copyWith(
-      primaryColor: AppColors.primaryColor,
-      primaryColorLight: AppColors.primaryColorLight,
-      primaryColorDark: AppColors.primaryColorDark,
-      accentColor: AppColors.accentColor,
+      primaryColor: AppStyles.primaryColor,
+      primaryColorLight: AppStyles.primaryColorLight,
+      primaryColorDark: AppStyles.primaryColorDark,
+      accentColor: AppStyles.accentColor,
       buttonColor: (theme != ThemeType.DARK)
-          ? AppColors.white
-          : AppColors.primaryColorDark,
+          ? AppStyles.colorWhite
+          : AppStyles.primaryColorDark,
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(),
       ),

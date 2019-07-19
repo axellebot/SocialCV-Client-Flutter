@@ -4,7 +4,7 @@ import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/api_values.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/group_list_profile_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/part_widget.dart';
@@ -94,7 +94,7 @@ class _PartWidgetFromModelHorizontal extends StatelessWidget {
           ],
         ),
         Container(
-          height: AppDimensions.horizontalGroupListHeight,
+          height: AppStyles.groupHorizontalListHeight,
           child: SimpleGroupListProfile(
             groupIds: partViewModel.groupIds,
             scrollDirection: Axis.horizontal,

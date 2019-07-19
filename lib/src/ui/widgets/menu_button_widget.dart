@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/errors.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/initial_circle_avatar_widget.dart';
 import 'package:social_cv_client_flutter/src/utils/logger.dart';
@@ -15,7 +15,7 @@ class MenuButton extends StatelessWidget {
   MenuButton({
     Key key,
     this.padding = const EdgeInsets.symmetric(
-      vertical: AppDimensions.menuButtonPadding,
+      vertical: AppStyles.appMenuButtonVerticalPadding,
     ),
   }) : super(key: key);
 

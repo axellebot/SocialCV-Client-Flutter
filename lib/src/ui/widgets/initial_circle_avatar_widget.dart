@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:social_cv_client_flutter/src/utils/logger.dart';
 import 'package:social_cv_client_flutter/src/utils/utils.dart';
 
 class InitialCircleAvatar extends StatefulWidget {
-  final String text;
-  final double elevation;
-  final ImageProvider backgroundImage;
-  final double radius;
-  final double minRadius;
-  final double maxRadius;
-
-  InitialCircleAvatar({
+  const InitialCircleAvatar({
     Key key,
     this.text = '',
     this.elevation = 0.0,
@@ -21,33 +13,36 @@ class InitialCircleAvatar extends StatefulWidget {
   })  : assert(radius == null || (minRadius == null && maxRadius == null)),
         super(key: key);
 
+  final String text;
+  final double elevation;
+  final ImageProvider backgroundImage;
+  final double radius;
+  final double minRadius;
+  final double maxRadius;
+
   @override
-  _InitialCircleAvatarState createState() => new _InitialCircleAvatarState();
+  _InitialCircleAvatarState createState() => _InitialCircleAvatarState();
 }
 
 class _InitialCircleAvatarState extends State<InitialCircleAvatar> {
-  final String _tag = '$_InitialCircleAvatarState';
-
   bool _checkLoading = true;
 
   @override
   void initState() {
     super.initState();
     widget.backgroundImage
-        .resolve(new ImageConfiguration())
-        .addListener((_, __) {
+        ?.resolve(const ImageConfiguration())
+        ?.addListener(ImageStreamListener((_, __) {
       if (mounted) {
         setState(() {
           _checkLoading = false;
         });
       }
-    });
+    }));
   }
 
   @override
   Widget build(BuildContext context) {
-    Logger.log('$_tag:$build');
-
     return _checkLoading == true
         ? Material(
             shape: CircleBorder(),
@@ -56,7 +51,10 @@ class _InitialCircleAvatarState extends State<InitialCircleAvatar> {
               minRadius: widget.minRadius,
               maxRadius: widget.maxRadius,
               radius: widget.radius,
-              child: Text(getInitials(widget.text)),
+              child: Text(
+                getInitials(widget.text),
+                textAlign: TextAlign.center,
+              ),
             ),
           )
         : Material(

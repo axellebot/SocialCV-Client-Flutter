@@ -3,8 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:social_cv_client_dart_common/blocs.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/colors.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 
 class RegisterForm extends StatefulWidget {
   @override
@@ -62,7 +61,7 @@ class _RegisterFormState extends State<RegisterForm> {
         if (state is RegisterFailure) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: AppColors.errorColor,
+              backgroundColor: AppStyles.errorColor,
               content: Text('${state.error.runtimeType}'),
             ),
           );
@@ -72,9 +71,9 @@ class _RegisterFormState extends State<RegisterForm> {
         bloc: _registerBloc,
         builder: (BuildContext context, RegisterState state) {
           return Card(
-            elevation: AppDimensions.defaultCardElevation,
+            elevation: AppStyles.defaultCardElevation,
             child: Padding(
-              padding: EdgeInsets.all(AppDimensions.defaultCardPadding),
+              padding: AppStyles.defaultCardPadding,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -82,8 +81,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 children: [
                   Center(child: Text('Register')),
                   Padding(
-                    padding: const EdgeInsets.all(
-                        AppDimensions.defaultFormInputPadding),
+                    padding: AppStyles.defaultFormInputPadding,
                     child: TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Firstname',
@@ -91,8 +89,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(
-                        AppDimensions.defaultFormInputPadding),
+                    padding: AppStyles.defaultFormInputPadding,
                     child: TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Lastname',
@@ -100,8 +97,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(
-                        AppDimensions.defaultFormInputPadding),
+                    padding: AppStyles.defaultFormInputPadding,
                     child: TextFormField(
                       controller: signUpEmailController,
                       keyboardType: TextInputType.emailAddress,
@@ -112,8 +108,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(
-                        AppDimensions.defaultFormInputPadding),
+                    padding: AppStyles.defaultFormInputPadding,
                     child: TextFormField(
                       controller: signUpPasswordController,
                       obscureText: _obscureTextSignUp,
@@ -129,8 +124,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(
-                        AppDimensions.defaultFormInputPadding),
+                    padding: AppStyles.defaultFormInputPadding,
                     child: TextFormField(
                       controller: signUpConfirmPasswordController,
                       obscureText: _obscureTextSignUpConfirm,

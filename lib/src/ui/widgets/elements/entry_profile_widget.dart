@@ -4,7 +4,7 @@ import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/api_values.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/entry_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/error_widget.dart';
@@ -54,7 +54,7 @@ class _EntryWidgetMap extends StatelessWidget {
     return InkWell(
       onTap: () => navigateToEntry(context, entry: entry),
       child: Container(
-        padding: EdgeInsets.all(AppDimensions.entryPadding),
+        padding: AppStyles.entryPadding,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -85,11 +85,11 @@ class _EntryWidgetEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: AppDimensions.entryCardElevation,
+      elevation: AppStyles.entryCardElevation,
       child: Container(
-        height: AppDimensions.entryEventHeight,
-        width: AppDimensions.entryEventHWidth,
-        padding: const EdgeInsets.all(AppDimensions.entryPadding),
+        height: AppStyles.entryEventHeight,
+        width: AppStyles.entryEventHWidth,
+        padding: AppStyles.entryPadding,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,7 +156,7 @@ class _EntryWidgetTag extends StatelessWidget {
     });
 
     return Container(
-      padding: EdgeInsets.all(AppDimensions.entryPadding),
+      padding: AppStyles.entryPadding,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -178,7 +178,7 @@ class _EntryWidgetTag extends StatelessWidget {
           ),
           Wrap(
             alignment: WrapAlignment.start,
-            spacing: AppDimensions.entryTagSpacing,
+            spacing: AppStyles.entryTagSpacing,
             runSpacing: 0.0,
             children: _tagWidgets,
           )

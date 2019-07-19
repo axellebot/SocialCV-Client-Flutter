@@ -4,7 +4,7 @@ import 'package:social_cv_client_dart_common/blocs.dart';
 import 'package:social_cv_client_dart_common/errors.dart';
 import 'package:social_cv_client_dart_common/models.dart';
 import 'package:social_cv_client_flutter/src/ui/commons/api_values.dart';
-import 'package:social_cv_client_flutter/src/ui/commons/dimensions.dart';
+import 'package:social_cv_client_flutter/src/ui/commons/styles.dart';
 import 'package:social_cv_client_flutter/src/ui/localizations/cv_localization.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/entry_list_profile_widget.dart';
 import 'package:social_cv_client_flutter/src/ui/widgets/elements/group_widget.dart';
@@ -57,15 +57,17 @@ class _GroupHorizontal extends StatelessWidget {
       children: <Widget>[
         Container(
           padding: const EdgeInsets.symmetric(
-              horizontal: AppDimensions.groupPadding),
+            horizontal: AppStyles.groupHorizontalPadding,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
                 group.name.toUpperCase(),
                 style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold),
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               FlatButton(
                 child: Text(CVLocalizations.of(context).groupWidgetDetails),
@@ -75,7 +77,7 @@ class _GroupHorizontal extends StatelessWidget {
           ),
         ),
         Container(
-          height: AppDimensions.horizontalEntryListHeight,
+          height: AppStyles.entryHorizontalListHeight,
           child: SimpleEntryListProfile(
             entryIds: group.entryIds,
             scrollDirection: Axis.horizontal,
@@ -101,7 +103,7 @@ class _GroupVertical extends StatelessWidget {
       children: <Widget>[
         Container(
           padding: const EdgeInsets.symmetric(
-              horizontal: AppDimensions.groupPadding),
+              horizontal: AppStyles.groupHorizontalPadding),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
