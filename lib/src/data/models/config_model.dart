@@ -7,8 +7,10 @@ part 'config_model.g.dart';
 class ConfigDataModel {
   @JsonKey(name: 'apiServerUrl')
   String apiServerUrl;
+
   @JsonKey(name: 'clientId')
   String clientId;
+
   @JsonKey(name: 'clientSecret')
   String clientSecret;
 
@@ -24,6 +26,9 @@ class ConfigDataModel {
   Map<String, dynamic> toJson() => _$ConfigDataModelToJson(this);
 
   @override
-  String toString() =>
-      '$runtimeType{ apiServerUrl: $apiServerUrl, clientId: $clientId, clientSecret: $clientSecret }';
+  String toString() => '$runtimeType{ '
+      'apiServerUrl: $apiServerUrl, '
+      'clientId: $clientId, '
+      'clientSecret: $clientSecret'
+      ' }';
 }

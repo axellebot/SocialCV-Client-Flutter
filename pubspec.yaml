@@ -8,10 +8,10 @@ dependencies:
 
   # Common Social CV Logic
   social_cv_client_dart_common:
-    #path: ../Social-CV-Client-Dart-common
-    git:
-      url: https://github.com/axellebot/Social-CV-Client-Dart-common
-      ref: feature/blocs
+    path: ../Social-CV-Client-Dart-common
+    #git:
+    #  url: https://github.com/axellebot/Social-CV-Client-Dart-common
+    #  ref: feature/blocs
 
   flutter:
     sdk: flutter
@@ -26,10 +26,10 @@ dependencies:
   rxdart: ^0.22.0
 
   # Bloc Pattern
-  flutter_bloc: ^0.13.0
+  flutter_bloc: ^0.20.0
 
   # Dependency Injection
-  provider: ^2.0.1
+  provider: ^3.0.0
 
   # Storage
   shared_preferences: ^0.4.3

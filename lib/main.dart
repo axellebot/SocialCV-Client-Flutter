@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:social_cv_client_flutter/src/app.dart';
-import 'package:social_cv_client_flutter/src/utils/logger.dart';
+import 'package:social_cv_client_flutter/src/presentation/app.dart';
+import 'package:social_cv_client_flutter/src/presentation/utils/logger.dart';
 
 /// TODO: automatically set this to false for release builds
 const bool DEBUG_MODE = true;
 const bool DEBUG_PAINT_SIZE = false;
 
-Future<void> main() async {
+FutureOr<void> main() async {
   String _tag = '$main';
 
   /// SystemChrome.setPreferredOrientations(

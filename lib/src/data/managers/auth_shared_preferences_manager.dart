@@ -1,14 +1,17 @@
+import 'dart:async';
+
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:social_cv_client_flutter/data.dart';
 
 /// One of the possible Implementation of PreferencesService Interface
-class AuthSharedPreferencesManager {
+class AuthSharedPreferencesManager implements AuthInfoDataStore {
   final String _keyOAuthAccessToken = 'OAUTH_ACCESS_TOKEN';
   final String _keyOAuthAccessTokenExpiration = 'OAUTH_ACCESS_TOKEN_EXPIRATION';
   final String _keyOAuthRefreshToken = 'OAUTH_REFRESH_TOKEN';
   final String _keyOAuthRefreshTokenExpiration =
       'OAUTH_REFRESH_TOKEN_EXPIRATION';
 
-  Future<SharedPreferences> get _prefs => SharedPreferences.getInstance();
+  FutureOr<SharedPreferences> get _prefs => SharedPreferences.getInstance();
 
   AuthSharedPreferencesManager();
 
@@ -16,65 +19,88 @@ class AuthSharedPreferencesManager {
   /// ------------------------- Tokens -------------------------
   /// ----------------------------------------------------------
 
-  Future<String> getAccessToken() async {
+  @override
+  FutureOr<String> getAccessToken() async {
     final prefs = await _prefs;
     return prefs.getString(_keyOAuthAccessToken);
   }
 
-  Future<bool> setAccessToken(String accessToken) async {
+  @override
+  FutureOr<String> setAccessToken(String token) async {
     final prefs = await _prefs;
-    return prefs.setString(_keyOAuthAccessToken, accessToken);
+    return (await prefs.setString(_keyOAuthAccessToken, token)) ? token : null;
   }
 
-  Future<bool> deleteAccessToken() async {
+  @override
+  FutureOr<String> deleteAccessToken() async {
     final prefs = await _prefs;
-    return prefs.remove(_keyOAuthAccessToken);
+    await prefs.remove(_keyOAuthAccessToken);
+    return null;
   }
 
-  Future<int> getAccessTokenExpiration() async {
+  @override
+  FutureOr<DateTime> getAccessTokenExpiration() async {
     final prefs = await _prefs;
-    return prefs.getInt(_keyOAuthAccessTokenExpiration);
+    return DateTime.parse(prefs.getString(_keyOAuthAccessTokenExpiration));
   }
 
-  Future<bool> setAccessTokenExpiration(int accessTokenExpiration) async {
+  @override
+  FutureOr<DateTime> setAccessTokenExpiration(DateTime expiration) async {
     final prefs = await _prefs;
-    return prefs.setInt(_keyOAuthAccessTokenExpiration, accessTokenExpiration);
+    return (await prefs.setString(
+            _keyOAuthAccessTokenExpiration, expiration.toIso8601String()))
+        ? expiration
+        : null;
   }
 
-  Future<bool> deleteAccessTokenExpiration() async {
+  @override
+  FutureOr<DateTime> deleteAccessTokenExpiration() async {
     final prefs = await _prefs;
-    return prefs.remove(_keyOAuthAccessTokenExpiration);
+    await prefs.remove(_keyOAuthAccessTokenExpiration);
+    return null;
   }
 
-  Future<String> getRefreshToken() async {
+  @override
+  FutureOr<String> getRefreshToken() async {
     final prefs = await _prefs;
     return prefs.getString(_keyOAuthRefreshToken);
   }
 
-  Future<bool> setRefreshToken(String refreshToken) async {
+  @override
+  FutureOr<String> setRefreshToken(String refreshToken) async {
     final prefs = await _prefs;
-    return prefs.setString(_keyOAuthRefreshToken, refreshToken);
+    return (await prefs.setString(_keyOAuthRefreshToken, refreshToken))
+        ? refreshToken
+        : null;
   }
 
-  Future<bool> deleteRefreshToken() async {
+  @override
+  FutureOr<String> deleteRefreshToken() async {
     final prefs = await _prefs;
-    return prefs.remove(_keyOAuthRefreshToken);
+    await prefs.remove(_keyOAuthRefreshToken);
+    return null;
   }
 
-  Future<String> getRefreshTokenExpiration() async {
+  @override
+  FutureOr<DateTime> getRefreshTokenExpiration() async {
     final prefs = await _prefs;
-    return prefs.getString(_keyOAuthRefreshTokenExpiration);
+    return DateTime.parse(prefs.getString(_keyOAuthRefreshTokenExpiration));
   }
 
-  Future<bool> setRefreshTokenExpiration(int refreshTokenExpiration) async {
+  @override
+  FutureOr<DateTime> setRefreshTokenExpiration(DateTime expiration) async {
     final prefs = await _prefs;
-    return prefs.setInt(
-        _keyOAuthRefreshTokenExpiration, refreshTokenExpiration);
+    return (await prefs.setString(
+            _keyOAuthRefreshTokenExpiration, expiration.toIso8601String()))
+        ? expiration
+        : null;
   }
 
-  Future<bool> deleteRefreshTokenExpiration() async {
+  @override
+  FutureOr<DateTime> deleteRefreshTokenExpiration() async {
     final prefs = await _prefs;
-    return prefs.remove(_keyOAuthRefreshTokenExpiration);
+    await prefs.remove(_keyOAuthRefreshTokenExpiration);
+    return null;
   }
 
   /// ----------------------------------------------------------
@@ -82,9 +108,9 @@ class AuthSharedPreferencesManager {
   /// ----------------------------------------------------------
 
   Future deleteAll() async {
-    await this.deleteAccessToken();
-    await this.deleteAccessTokenExpiration();
-    await this.deleteRefreshToken();
-    await this.deleteRefreshTokenExpiration();
+    await deleteAccessToken();
+    await deleteAccessTokenExpiration();
+    await deleteRefreshToken();
+    await deleteRefreshTokenExpiration();
   }
 }

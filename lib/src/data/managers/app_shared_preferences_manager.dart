@@ -1,75 +1,50 @@
+import 'dart:async';
+
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:social_cv_client_flutter/data.dart';
 
-/// One of the possible Implementation of PreferencesService Interface
-class AppSharedPreferencesManager {
-  final String _keyUserId = 'USER_ID';
-  final String _keyUserEmail = 'USER_EMAIL';
-  final String _keyAppTheme = 'APP_THEME';
+/// Application preferences manager implementation
+/// providing [AppPrefsDataStore]
+class AppPrefsManager implements AppPrefsDataStore {
+  final String _keyAppDarkMode = 'APP_DARK_MODE';
 
-  Future<SharedPreferences> get _prefs => SharedPreferences.getInstance();
+  FutureOr<SharedPreferences> get _prefs => SharedPreferences.getInstance();
 
-  AppSharedPreferencesManager();
+  AppPrefsManager();
 
-  /// ----------------------------------------------------------
-  /// ------------------------- User ---------------------------
-  /// ----------------------------------------------------------
+  /// --------------------------------------------------------------------------
+  ///                                Dark Mode
+  /// --------------------------------------------------------------------------
 
-  Future<bool> setUserId(String userId) async {
-    final prefs = await _prefs;
-    return prefs.setString(_keyUserId, userId);
+  @override
+  FutureOr<bool> getDarkMode() async {
+    final storage = await _prefs;
+    return storage.getBool(_keyAppDarkMode);
   }
 
-  Future<String> getUserId() async {
-    final prefs = await _prefs;
-    return prefs.getString(_keyUserId);
+  @override
+  FutureOr<bool> toggleDarkMode(bool darkMode) async {
+    final storage = await _prefs;
+    return await storage.setBool(
+      _keyAppDarkMode,
+      darkMode,
+    );
   }
 
-  Future<bool> deleteUserId() async {
-    final prefs = await _prefs;
-    return prefs.remove(_keyUserId);
+  @override
+  FutureOr<bool> deleteDarkMode() async {
+    final storage = await _prefs;
+    await storage.remove(_keyAppDarkMode);
+    return null;
   }
 
-  Future<void> setUserEmail(String userEmail) async {
-    final prefs = await _prefs;
-    return prefs.setString(_keyUserEmail, userEmail);
-  }
+  /// --------------------------------------------------------------------------
+  ///                                    All
+  /// --------------------------------------------------------------------------
 
-  Future<String> getUserEmail() async {
-    final prefs = await _prefs;
-    return prefs.getString(_keyUserEmail);
-  }
-
-  Future<void> deleteUserEmail() async {
-    final prefs = await _prefs;
-    return prefs.remove(_keyUserEmail);
-  }
-
-  /// ----------------------------------------------------------
-  /// ------------------------- Theme --------------------------
-  /// ----------------------------------------------------------
-
-  Future<String> getAppTheme() async {
-    final SharedPreferences prefs = await _prefs;
-    return prefs.getString(_keyAppTheme);
-  }
-
-  Future<bool> setAppTheme(String theme) async {
-    final SharedPreferences prefs = await _prefs;
-    return prefs.setString(_keyAppTheme, theme);
-  }
-
-  Future<bool> deleteAppTheme() async {
-    final SharedPreferences prefs = await _prefs;
-    return prefs.remove(_keyAppTheme);
-  }
-
-  /// ----------------------------------------------------------
-  /// -------------------------- All ---------------------------
-  /// ----------------------------------------------------------
-
-  Future deleteAll() async {
-    await this.deleteUserId();
-    await this.deleteUserEmail();
-    await this.deleteAppTheme();
+  @override
+  Future<void> deleteAll() async {
+    final storage = await _prefs;
+    await storage.remove(_keyAppDarkMode);
   }
 }
