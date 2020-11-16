@@ -1,9 +1,32 @@
 /// ----------------------------------------------------------------------------
-///                          Commons
+///                             Libs
 /// ----------------------------------------------------------------------------
 
 export 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-export 'package:social_cv_client_dart_common/presentation.dart';
+
+/// ----------------------------------------------------------------------------
+///                               Mappers
+/// ----------------------------------------------------------------------------
+
+export 'package:social_cv_client_flutter/src/presentation/mappers/model_mapper.dart';
+
+/// ----------------------------------------------------------------------------
+///                               View Models
+/// ----------------------------------------------------------------------------
+
+export 'package:social_cv_client_flutter/src/presentation/models/api_models.dart';
+export 'package:social_cv_client_flutter/src/presentation/models/cursor_model.dart';
+export 'package:social_cv_client_flutter/src/presentation/models/element_model.dart';
+export 'package:social_cv_client_flutter/src/presentation/models/entry_model.dart';
+export 'package:social_cv_client_flutter/src/presentation/models/group_model.dart';
+export 'package:social_cv_client_flutter/src/presentation/models/part_model.dart';
+export 'package:social_cv_client_flutter/src/presentation/models/profile_model.dart';
+export 'package:social_cv_client_flutter/src/presentation/models/user_model.dart';
+
+/// ----------------------------------------------------------------------------
+///                          Commons
+/// ----------------------------------------------------------------------------
+
 export 'package:social_cv_client_flutter/src/presentation/commons/api_values.dart';
 export 'package:social_cv_client_flutter/src/presentation/commons/assets.dart';
 export 'package:social_cv_client_flutter/src/presentation/commons/paths.dart';
@@ -15,13 +38,12 @@ export 'package:social_cv_client_flutter/src/presentation/commons/tags.dart';
 /// ----------------------------------------------------------------------------
 
 export 'package:social_cv_client_flutter/src/presentation/localizations/cv_localization.dart';
-export 'package:social_cv_client_flutter/src/presentation/pages/account_page.dart';
-export 'package:social_cv_client_flutter/src/presentation/pages/account_page.dart';
 
 /// ----------------------------------------------------------------------------
 ///                            Pages
 /// ----------------------------------------------------------------------------
 
+export 'package:social_cv_client_flutter/src/presentation/pages/account_page.dart';
 export 'package:social_cv_client_flutter/src/presentation/pages/auth_page.dart';
 export 'package:social_cv_client_flutter/src/presentation/pages/elements/entry_profile_page.dart';
 export 'package:social_cv_client_flutter/src/presentation/pages/elements/group_profile_page.dart';

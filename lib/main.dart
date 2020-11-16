@@ -6,7 +6,9 @@ import 'package:social_cv_client_flutter/src/presentation/app.dart';
 import 'package:social_cv_client_flutter/src/presentation/utils/logger.dart';
 
 /// TODO: automatically set this to false for release builds
+// ignore: constant_identifier_names
 const bool DEBUG_MODE = true;
+// ignore: constant_identifier_names
 const bool DEBUG_PAINT_SIZE = false;
 
 FutureOr<void> main() async {

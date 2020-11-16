@@ -4,7 +4,7 @@ import 'package:social_cv_client_flutter/presentation.dart';
 
 class AppRouter {
   final String _tag = '$AppRouter';
-  final Router router = Router();
+  final FluroRouter router = FluroRouter();
 
   AppRouter() {
     _defineRoutes();
