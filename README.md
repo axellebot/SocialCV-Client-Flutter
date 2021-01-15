@@ -7,10 +7,21 @@ A new Flutter application about "resumes".
 For help getting started with Flutter, view our online
 [documentation](https://flutter.io/).
 
+## Directory structure
+
+- Date:
+Contains data layer shared classes that are not framework dependent (e.g. Flutter, AngularDart) or interfaces that must be used by client application
+- Domain:
+Contains domain layer company rules
+- Bloc:
+Contains shared business logic components
+- Presentation:
+Contains commons classes
+
 ## Installation
 
 ### Config
-Use secret template `./secrets.json.dist` to add secret file `./secrets.json`
+Use secret template `./config.json.dist` to add secret file `./config.json`
 
 ### Generate models
 [documentation](https://flutter.io/json/)
