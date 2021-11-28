@@ -11,7 +11,10 @@ abstract class ElementBloc<T extends ElementEntity, R, E, S>
 
   T element;
 
-  ElementBloc({@required this.repository})
-      : assert(repository != null, 'No $R given'),
-        super();
+  ElementBloc({
+    @required this.repository,
+    @required S initialState,
+  })  : assert(repository != null, 'No $R given'),
+        assert(initialState != null, 'No $S given'),
+        super(initialState);
 }

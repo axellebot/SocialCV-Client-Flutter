@@ -12,7 +12,7 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class ProfileInitialized extends ProfileEvent
-    with ElementInitialized<ProfileEntity> {
+    with ElementInitialize<ProfileEntity> {
   ProfileInitialized({String profileId, ProfileEntity profile})
       : assert(
           profileId != null && profile == null,

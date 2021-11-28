@@ -31,7 +31,7 @@ abstract class ProfileWidgetState<T extends ProfileWidget> extends State<T> {
           Provider.of<ProfileRepository>(context, listen: false);
 
       profileBloc = ProfileBloc(repository: profileRepo);
-      profileBloc.dispatch(ProfileInitialized(
+      profileBloc.add(ProfileInitialized(
         profileId: widget.profileId,
         profile: widget.profile,
       ));
@@ -40,7 +40,7 @@ abstract class ProfileWidgetState<T extends ProfileWidget> extends State<T> {
 
   @override
   void dispose() {
-    if (widget.profileBloc == null) profileBloc.dispose();
+    if (widget.profileBloc == null) profileBloc.close();
     super.dispose();
   }
 }

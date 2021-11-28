@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
                 padding: AppStyles.cardDefaultPadding,
                 child: Text(
                   CVLocalizations.of(context).homeWelcome,
-                  style: Theme.of(context).textTheme.body2,
+                  style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),
             ),

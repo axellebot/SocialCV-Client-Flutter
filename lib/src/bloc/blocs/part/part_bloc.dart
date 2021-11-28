@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
@@ -8,38 +11,30 @@ class PartBloc
   final String _tag = '$PartBloc';
 
   PartBloc({@required PartRepository repository})
-      : super(repository: repository);
+      : super(
+          repository: repository,
+          initialState: PartUninitialized(),
+        ) {
+    on<PartInitialize>(_onInitialize);
+    on<PartRefresh>(_onRefresh);
+  }
 
   /// [_fallBackId] is used if [element] is never assigned and
   /// an [PartRefresh] is dispatched
   String _fallBackId;
 
-  @override
-  PartState get initialState => PartUninitialized();
-
-  @override
-  Stream<PartState> mapEventToState(PartEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-    if (event is PartInitialized) {
-      yield* _mapInitializedEventToState(event);
-    } else if (event is PartRefresh) {
-      yield* _mapRefreshEventToState(event);
-    }
-  }
-
   /// --------------------------------------------------------------------------
   ///                         All Event map to State
   /// --------------------------------------------------------------------------
 
-  /// Map [PartInitialized] to [PartState]
-  ///
-  /// ```dart
-  /// yield* _mapInitializedEventToState(event);
-  /// ```
-  Stream<PartState> _mapInitializedEventToState(PartInitialized event) async* {
-    print('$_tag:_mapInitializedEventToState($event)');
+  /// Map [PartInitialize] to [PartState]
+  FutureOr<void> _onInitialize(
+    PartInitialize event,
+    Emitter<PartState> emit,
+  ) async {
+    print('$_tag:_onInitialize($event,$emit)');
     try {
-      yield PartLoading();
+      emit(PartLoading());
 
       if (event.elementId != null) {
         _fallBackId = event.elementId;
@@ -49,21 +44,20 @@ class PartBloc
         element = event.element;
       }
 
-      yield PartLoaded(part: element);
+      emit(PartLoaded(part: element));
     } catch (error) {
-      yield PartFailure(error: error);
+      emit(PartFailure(error: error));
     }
   }
 
   /// Map [PartRefresh] to [PartState]
-  ///
-  /// ```dart
-  /// yield* _mapRefreshEventToState(event);
-  /// ```
-  Stream<PartState> _mapRefreshEventToState(PartRefresh event) async* {
-    print('$_tag:_mapRefreshEventToState($event)');
+  FutureOr<void> _onRefresh(
+    PartRefresh event,
+    Emitter<PartState> emit,
+  ) async {
+    print('$_tag:_onRefresh($event,$emit)');
     try {
-      yield PartLoading();
+      emit(PartLoading());
 
       element = await repository.getById(
         element?.id ?? _fallBackId,
@@ -72,9 +66,9 @@ class PartBloc
 
       _fallBackId = element.id;
 
-      yield PartLoaded(part: element);
+      emit(PartLoaded(part: element));
     } catch (error) {
-      yield PartFailure(error: error);
+      emit(PartFailure(error: error));
     }
   }
 }

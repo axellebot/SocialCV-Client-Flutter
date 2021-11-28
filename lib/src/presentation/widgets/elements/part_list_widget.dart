@@ -36,7 +36,7 @@ abstract class PartListWidgetState<T extends PartListWidget> extends State<T> {
       final partRepo = Provider.of<PartRepository>(context, listen: false);
 
       partListBloc = PartListBloc(repository: partRepo);
-      partListBloc.dispatch(PartListInitialized(
+      partListBloc.add(PartListInitialize(
         parentProfileId: widget.parentProfileId,
         ownerId: widget.ownerId,
       ));
@@ -45,7 +45,7 @@ abstract class PartListWidgetState<T extends PartListWidget> extends State<T> {
 
   @override
   void dispose() {
-    if (widget.partListBloc == null) partListBloc.dispose();
+    if (widget.partListBloc == null) partListBloc.close();
     super.dispose();
   }
 }

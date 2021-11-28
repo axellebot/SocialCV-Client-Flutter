@@ -17,30 +17,20 @@ class IdentityBloc extends Bloc<IdentityEvent, IdentityState> {
     @required this.identityRepo,
     @required this.authBloc,
   })  : assert(identityRepo != null, 'No $IdentityRepository given'),
-        super() {
-    authBlocSubscription = authBloc.state.listen((state) {
+        super(IdentityUninitialized()) {
+    on<IdentityRefresh>(_onIdentityRefresh);
+
+    authBlocSubscription = authBloc.stream.listen((state) {
       if (state is AuthenticationAuthenticated) {
-        dispatch(IdentityRefresh());
+        add(IdentityRefresh());
       }
     });
   }
 
   @override
-  void dispose() {
-    authBlocSubscription.cancel();
-    super.dispose();
-  }
-
-  @override
-  IdentityState get initialState => IdentityUninitialized();
-
-  @override
-  Stream<IdentityState> mapEventToState(IdentityEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-
-    if (event is IdentityRefresh) {
-      yield* _mapAccountRefreshToState(event);
-    }
+  Future<void> close() async {
+    await authBlocSubscription.cancel();
+    await super.close();
   }
 
   /// -----------------------------------------------------------------------
@@ -48,19 +38,17 @@ class IdentityBloc extends Bloc<IdentityEvent, IdentityState> {
   /// -----------------------------------------------------------------------
 
   /// Map [IdentityRefresh] to [IdentityState]
-  ///
-  /// ```dart
-  /// yield* _mapAccountRefreshToState(event);
-  /// ```
-  Stream<IdentityState> _mapAccountRefreshToState(
-      IdentityRefresh event) async* {
+  FutureOr<void> _onIdentityRefresh(
+    IdentityRefresh event,
+    Emitter<IdentityState> emit,
+  ) async {
     try {
-      yield IdentityLoading();
+      emit(IdentityLoading());
       final userModel = await identityRepo.getIdentity();
-      yield IdentityLoaded(user: userModel);
+      emit(IdentityLoaded(user: userModel));
     } catch (error) {
-      print('$_tag:_mapAccountRefreshToState -> ${error.runtimeType}');
-      yield IdentityFailed(error: error);
+      print('$_tag:_onIdentityRefresh -> ${error.runtimeType}');
+      emit(IdentityFailed(error: error));
     }
   }
 }

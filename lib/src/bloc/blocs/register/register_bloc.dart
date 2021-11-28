@@ -12,18 +12,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   RegisterBloc({@required this.cvAuthService})
       : assert(cvAuthService != null, 'No $CVAuthService given'),
-        super();
-
-  @override
-  RegisterState get initialState => RegisterInitial();
-
-  @override
-  Stream<RegisterState> mapEventToState(RegisterEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-
-    if (event is RegistrationEvent) {
-      yield* _mapRegistrationEventToState(event);
-    }
+        super(RegisterInitial()) {
+    on<RegistrationEvent>(_mapRegistrationEventToState);
   }
 
   /// -----------------------------------------------------------------------
@@ -31,26 +21,24 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   /// -----------------------------------------------------------------------
 
   /// Map [RegistrationEvent] to [RegisterState]
-  ///
-  /// ```dart
-  /// yield* _mapRegistrationEventToState(event);
-  /// ```
-  Stream<RegisterState> _mapRegistrationEventToState(
-      RegistrationEvent event) async* {
+  FutureOr<void> _mapRegistrationEventToState(
+    RegistrationEvent event,
+    Emitter<RegisterState> emit,
+  ) async {
     try {
       if (event is RegistrationEvent) {
-        yield RegisterLoading();
+        emit(RegisterLoading());
         cvAuthService.register(
           fName: event.fName,
           lName: event.lName,
           email: event.email,
           password: event.password,
         );
-        await Future.delayed(Duration(seconds: 2));
-        yield RegisterInitial();
+        await Future.delayed(const Duration(seconds: 2));
+        emit(RegisterInitial());
       }
     } catch (error) {
-      yield RegisterFailure(error: error);
+      emit(RegisterFailure(error: error));
     }
   }
 }

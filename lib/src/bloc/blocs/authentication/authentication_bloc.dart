@@ -27,10 +27,14 @@ class AuthenticationBloc
         assert(authInfoRepository != null, 'No $AppPrefsRepository given'),
         assert(loginBloc != null, 'No $LoginBloc given'),
         assert(registerBloc != null, 'No $RegisterBloc given'),
-        super() {
-    loginBlocSubscription = loginBloc.state.listen((state) {
+        super(AuthenticationUninitialized()) {
+    loginBlocSubscription = loginBloc.stream.listen((state) {
+      on<AppStarted>(_onAppStart);
+      on<Login>(_onLogin);
+      on<Logout>(_onLogout);
+
       if (state is LoginSucceed) {
-        dispatch(LoggedIn(
+        add(Login(
           accessToken: state.accessToken,
           accessTokenExpiration: state.accessTokenExpiration,
           refreshToken: state.refreshToken,
@@ -38,9 +42,9 @@ class AuthenticationBloc
       }
     });
 
-    registerBlocSubscription = registerBloc.state.listen((state) {
+    registerBlocSubscription = registerBloc.stream.listen((state) {
       if (state is RegisterSucceed) {
-        dispatch(LoggedIn(
+        add(Login(
           accessToken: state.accessToken,
           accessTokenExpiration: state.accessTokenExpiration,
           refreshToken: state.refreshToken,
@@ -50,26 +54,10 @@ class AuthenticationBloc
   }
 
   @override
-  void dispose() {
-    loginBlocSubscription.cancel();
-    registerBlocSubscription.cancel();
-    super.dispose();
-  }
-
-  @override
-  AuthenticationState get initialState => AuthenticationUninitialized();
-
-  @override
-  Stream<AuthenticationState> mapEventToState(
-      AuthenticationEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-    if (event is AppStarted) {
-      yield* _mapAppStartedToState(event);
-    } else if (event is LoggedIn) {
-      yield* _mapLoggedInToState(event);
-    } else if (event is LoggedOut) {
-      yield* _mapLoggedOutToState(event);
-    }
+  Future<void> close() async {
+    await loginBlocSubscription.cancel();
+    await registerBlocSubscription.cancel();
+    await super.close();
   }
 
   /// -----------------------------------------------------------------------
@@ -77,11 +65,10 @@ class AuthenticationBloc
   /// -----------------------------------------------------------------------
 
   /// Map [AppStarted] to [AuthenticationState]
-  ///
-  /// ```dart
-  /// yield* _mapAppStartedToState(event);
-  /// ```
-  Stream<AuthenticationState> _mapAppStartedToState(AppStarted event) async* {
+  FutureOr<void> _onAppStart(
+    AppStarted event,
+    Emitter<AuthenticationState> emit,
+  ) async {
     try {
       final token = await authInfoRepository.getAccessToken();
 
@@ -89,41 +76,39 @@ class AuthenticationBloc
       /// TODO: Check refresh token expiration, if it's expired set state to Unauthenticated
 
       if (token != null && token?.length > 0) {
-        yield AuthenticationAuthenticated();
+        emit(AuthenticationAuthenticated());
       } else {
-        yield AuthenticationUnauthenticated();
+        emit(AuthenticationUnauthenticated());
       }
     } catch (error) {
-      yield AuthenticationFailed(error: error);
+      emit(AuthenticationFailed(error: error));
     }
   }
 
-  /// Map [LoggedIn] to [AuthenticationState]
-  ///
-  /// ```dart
-  /// yield* _mapLoggedInToState(event);
-  /// ```
-  Stream<AuthenticationState> _mapLoggedInToState(LoggedIn event) async* {
-    yield AuthenticationLoading();
+  /// Map [Login] to [AuthenticationState]
+  FutureOr<void> _onLogin(
+    Login event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    emit(AuthenticationLoading());
     await authInfoRepository.setAccessToken(event.accessToken);
     await authInfoRepository
         .setAccessTokenExpiration(event.accessTokenExpiration);
     await authInfoRepository.setRefreshToken(event.refreshToken);
-    yield AuthenticationAuthenticated();
+    emit(AuthenticationAuthenticated());
   }
 
-  /// Map [LoggedIn] to [AuthenticationState]
-  ///
-  /// ```dart
-  /// yield* _mapLoggedInToState(event);
-  /// ```
-  Stream<AuthenticationState> _mapLoggedOutToState(LoggedOut event) async* {
-    yield AuthenticationLoading();
+  /// Map [Logout] to [AuthenticationState]
+  FutureOr<void> _onLogout(
+    Logout event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    emit(AuthenticationLoading());
     await cvAuthService.logout();
     await authInfoRepository.deleteAccessToken();
     await authInfoRepository.deleteAccessTokenExpiration();
     await authInfoRepository.deleteRefreshToken();
     await authInfoRepository.deleteRefreshTokenExpiration();
-    yield AuthenticationUnauthenticated();
+    emit(AuthenticationUnauthenticated());
   }
 }

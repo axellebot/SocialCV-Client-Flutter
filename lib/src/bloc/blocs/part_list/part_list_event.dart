@@ -11,19 +11,19 @@ abstract class PartListEvent extends Equatable {
   String toString() => '$runtimeType{}';
 }
 
-class PartListInitialized extends PartListEvent
-    with ElementListInitialized<PartEntity> {
-  PartListInitialized({
+class PartListInitialize extends PartListEvent
+    with ElementListInitialize<PartEntity> {
+  PartListInitialize({
     String parentProfileId,
     String ownerId,
     Cursor cursor,
   })  : assert(
           parentProfileId != null && ownerId == null,
-          '$PartListInitialized must be created with a parentId or an ownerId',
+          '$PartListInitialize must be created with a parentId or an ownerId',
         ),
         assert(
           parentProfileId == null && ownerId != null,
-          '$PartListInitialized must be created with a parentId or an ownerId',
+          '$PartListInitialize must be created with a parentId or an ownerId',
         ),
         super([parentProfileId, ownerId]) {
     this.parentId = parentProfileId;

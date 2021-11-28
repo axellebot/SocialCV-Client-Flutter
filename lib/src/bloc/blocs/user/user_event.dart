@@ -11,8 +11,8 @@ abstract class UserEvent extends Equatable {
   String toString() => '$runtimeType{}';
 }
 
-class UserInitialized extends UserEvent with ElementInitialized<UserEntity> {
-  UserInitialized({String userId, UserEntity user})
+class UserInitialize extends UserEvent with ElementInitialize<UserEntity> {
+  UserInitialize({String userId, UserEntity user})
       : assert(userId != null && user == null),
         assert(userId == null && user != null),
         super([userId, user]) {

@@ -30,7 +30,7 @@ abstract class GroupWidgetState<T extends GroupWidget> extends State<T> {
       final groupRepo = Provider.of<GroupRepository>(context, listen: false);
 
       groupBloc = GroupBloc(repository: groupRepo);
-      groupBloc.dispatch(GroupInitialized(
+      groupBloc.add(GroupInitialize(
         groupId: widget.groupId,
         group: widget.group,
       ));
@@ -39,7 +39,7 @@ abstract class GroupWidgetState<T extends GroupWidget> extends State<T> {
 
   @override
   void dispose() {
-    if (widget.groupBloc == null) groupBloc.dispose();
+    if (widget.groupBloc == null) groupBloc.close();
     super.dispose();
   }
 }

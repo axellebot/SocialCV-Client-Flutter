@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
@@ -11,30 +12,25 @@ class PartListBloc extends ElementListBloc<PartEntity, PartRepository,
   final String _tag = '$PartListBloc';
 
   PartListBloc({@required PartRepository repository})
-      : super(repository: repository);
-
-  @override
-  PartListState get initialState => PartListUninitialized();
-
-  @override
-  Stream<PartListState> mapEventToState(PartListEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-    if (event is PartListInitialized) {
-      yield* _mapPartListInitializedEventToState(event);
-    } else if (event is PartListRefresh) {
-      yield* _mapPartListRefreshEventToState(event);
-    } else if (event is PartListLoadMore) {
-      yield* _mapPartListLoadMoreEventToState(event);
-    }
+      : super(
+          repository: repository,
+          initialState: PartListUninitialized(),
+        ) {
+    on<PartListInitialize>(_onInitialize);
+    on<PartListRefresh>(_onRefresh);
+    on<PartListLoadMore>(_onLoadMore);
   }
 
   /// --------------------------------------------------------------------------
   ///                         All Event map to State
   /// --------------------------------------------------------------------------
 
-  Stream<PartListState> _mapPartListInitializedEventToState(
-      PartListInitialized event) async* {
-    print('$_tag:_mapPartListInitializedEventToState($event)');
+  /// Map [PartListInitialize] to [PartListState]
+  FutureOr<void> _onInitialize(
+    PartListInitialize event,
+    Emitter<PartListState> emit,
+  ) async {
+    print('$_tag:_onInitialize($event,$emit)');
     try {
       /// TODO: Add refresh indicator stream
 
@@ -44,32 +40,33 @@ class PartListBloc extends ElementListBloc<PartEntity, PartRepository,
 
       elements = await _getParts(cursor: cursor);
 
-      yield PartListLoaded(parts: elements);
+      emit(PartListLoaded(parts: elements));
     } catch (error) {
-      yield PartListFailure(error: error);
+      emit(PartListFailure(error: error));
     }
   }
 
-  Stream<PartListState> _mapPartListRefreshEventToState(
-      PartListRefresh event) async* {
-    print('$_tag:_mapPartListRefreshEventToState($event)');
+  /// Map [PartListRefresh] to [PartListState]
+  FutureOr<void> _onRefresh(
+    PartListRefresh event,
+    Emitter<PartListState> emit,
+  ) async {
+    print('$_tag:_onRefresh($event,$emit)');
     try {
       /// TODO: Add refresh indicator stream
       elements = await _getParts(cursor: cursor);
-      yield PartListLoaded(parts: elements);
+      emit(PartListLoaded(parts: elements));
     } catch (error) {
-      yield PartListFailure(error: error);
+      emit(PartListFailure(error: error));
     }
   }
 
   /// Map [PartListLoadMore] to [PartListState]
-  ///
-  /// ```dart
-  /// yield* _mapPartListLoadMoreEventToState(event);
-  /// ```
-  Stream<PartListState> _mapPartListLoadMoreEventToState(
-      PartListLoadMore event) async* {
-    print('$_tag:_mapPartListLoadMoreEventToState($event)');
+  FutureOr<void> _onLoadMore(
+    PartListLoadMore event,
+    Emitter<PartListState> emit,
+  ) async {
+    print('$_tag:_onLoadMore($event,$emit)');
     try {
       /// TODO: Add load more indicator stream
 
@@ -83,9 +80,9 @@ class PartListBloc extends ElementListBloc<PartEntity, PartRepository,
       /// Save cursor limit if use list refreshed
       cursor = cursor.copyWith(limit: elements.length);
 
-      yield PartListLoaded(parts: elements);
+      emit(PartListLoaded(parts: elements));
     } catch (error) {
-      yield PartListFailure(error: error);
+      emit(PartListFailure(error: error));
     }
   }
 

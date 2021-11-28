@@ -37,7 +37,7 @@ abstract class GroupListWidgetState<T extends GroupListWidget>
       final groupRepo = Provider.of<GroupRepository>(context, listen: false);
 
       groupListBloc = GroupListBloc(repository: groupRepo);
-      groupListBloc.dispatch(GroupListInitialized(
+      groupListBloc.add(GroupListInitialize(
         parentPartId: widget.parentPartId,
         ownerId: widget.ownerId,
       ));
@@ -46,7 +46,7 @@ abstract class GroupListWidgetState<T extends GroupListWidget>
 
   @override
   void dispose() {
-    if (widget.groupListBloc == null) groupListBloc.dispose();
+    if (widget.groupListBloc == null) groupListBloc.close();
     super.dispose();
   }
 }

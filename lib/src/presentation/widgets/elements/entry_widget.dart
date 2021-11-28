@@ -30,7 +30,7 @@ abstract class EntryWidgetState<T extends EntryWidget> extends State<T> {
       final repo = Provider.of<EntryRepository>(context, listen: false);
 
       entryBloc = EntryBloc(repository: repo);
-      entryBloc.dispatch(EntryInitialized(
+      entryBloc.add(EntryInitialize(
         entryId: widget.entryId,
         entry: widget.entry,
       ));
@@ -39,7 +39,7 @@ abstract class EntryWidgetState<T extends EntryWidget> extends State<T> {
 
   @override
   void dispose() {
-    if (widget.entryBloc == null) entryBloc.dispose();
+    if (widget.entryBloc == null) entryBloc.close();
     super.dispose();
   }
 }

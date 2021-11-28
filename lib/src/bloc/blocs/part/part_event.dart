@@ -9,15 +9,15 @@ abstract class PartEvent extends Equatable {
   String toString() => '$runtimeType{}';
 }
 
-class PartInitialized extends PartEvent with ElementInitialized<PartEntity> {
-  PartInitialized({String partId, PartEntity part})
+class PartInitialize extends PartEvent with ElementInitialize<PartEntity> {
+  PartInitialize({String partId, PartEntity part})
       : assert(
           partId != null && part == null,
-          '$PartInitialized must be created with a $PartEntity or its ID',
+          '$PartInitialize must be created with a $PartEntity or its ID',
         ),
         assert(
           partId == null && part != null,
-          '$PartInitialized must be created with a $PartEntity or its ID',
+          '$PartInitialize must be created with a $PartEntity or its ID',
         ),
         super([partId, part]) {
     elementId = partId;

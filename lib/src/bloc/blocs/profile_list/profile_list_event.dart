@@ -11,19 +11,19 @@ abstract class ProfileListEvent extends Equatable {
   String toString() => '$runtimeType{}';
 }
 
-class ProfileListInitialized extends ProfileListEvent
-    with ElementListInitialized<ProfileEntity> {
-  ProfileListInitialized({
+class ProfileListInitialize extends ProfileListEvent
+    with ElementListInitialize<ProfileEntity> {
+  ProfileListInitialize({
     String parentUserId,
     String ownerId,
     Cursor cursor,
   })  : assert(
           parentUserId != null && ownerId == null,
-          '$ProfileListInitialized must be created with a parentId or an ownerId',
+          '$ProfileListInitialize must be created with a parentId or an ownerId',
         ),
         assert(
           parentUserId == null && ownerId != null,
-          '$ProfileListInitialized must be created with a parentId or an ownerId',
+          '$ProfileListInitialize must be created with a parentId or an ownerId',
         ),
         super([parentUserId, ownerId]) {
     this.parentId = parentUserId;

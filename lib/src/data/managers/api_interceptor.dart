@@ -98,7 +98,8 @@ dynamic checkApiResponse(Response response, {StackTrace stackTrace}) {
 dynamic apiErrorCatcher(dynamic err) {
   if (err is DioError && err.response != null) {
     final Response response = err.response;
-    final StackTrace stackTrace = (err?.error as dynamic).stackTrace as StackTrace;
+    final StackTrace stackTrace =
+        (err?.error as dynamic).stackTrace as StackTrace;
 
     checkApiResponse(response, stackTrace: stackTrace);
 

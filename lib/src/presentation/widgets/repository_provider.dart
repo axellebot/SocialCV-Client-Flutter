@@ -15,7 +15,7 @@ class RepositoryProvider<CVRepository> extends InheritedWidget {
   bool updateShouldNotify(InheritedWidget _) => false;
 
   static T of<T extends Object>(BuildContext context) {
-    final type = typeOf<RepositoryProvider<T>>();
-    return context.inheritFromWidgetOfExactType(type) as T;
+    return context
+        .getElementForInheritedWidgetOfExactType<RepositoryProvider<T>>() as T;
   }
 }

@@ -37,7 +37,7 @@ abstract class ProfileListWidgetState<T extends ProfileListWidget>
           Provider.of<ProfileRepository>(context, listen: false);
 
       profileListBloc = ProfileListBloc(repository: profileRepo);
-      profileListBloc.dispatch(ProfileListInitialized(
+      profileListBloc.add(ProfileListInitialize(
         parentUserId: widget.parentUserId,
         ownerId: widget.ownerId,
       ));
@@ -46,7 +46,7 @@ abstract class ProfileListWidgetState<T extends ProfileListWidget>
 
   @override
   void dispose() {
-    if (widget.profileListBloc == null) profileListBloc.dispose();
+    if (widget.profileListBloc == null) profileListBloc.close();
     super.dispose();
   }
 }

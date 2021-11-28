@@ -9,12 +9,12 @@ abstract class AppEvent extends Equatable {
   String toString() => '$runtimeType{}';
 }
 
-class AppConfigured extends AppEvent {}
+class AppConfigure extends AppEvent {}
 
-class AppThemeChanged extends AppEvent {
+class AppThemeChange extends AppEvent {
   final bool darkMode;
 
-  AppThemeChanged({@required this.darkMode}) : super([darkMode]);
+  AppThemeChange({@required this.darkMode}) : super([darkMode]);
 
   @override
   String toString() => '$runtimeType{ '

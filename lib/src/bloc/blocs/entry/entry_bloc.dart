@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
@@ -8,37 +11,28 @@ class EntryBloc
   final String _tag = '$EntryBloc';
 
   EntryBloc({@required EntryRepository repository})
-      : super(repository: repository);
+      : super(
+          repository: repository,
+          initialState: EntryUninitialized(),
+        ) {
+    on<EntryInitialize>(_onInitialize);
+    on<EntryRefresh>(_onRefresh);
+  }
 
   /// [_fallBackId] is used if [element] is never assigned and
   /// an [EntryRefresh] is dispatched
   String _fallBackId;
 
-  @override
-  EntryState get initialState => EntryUninitialized();
-
-  @override
-  Stream<EntryState> mapEventToState(EntryEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-    if (event is EntryInitialized) {
-      yield* _mapInitializedEventToState(event);
-    } else if (event is EntryRefresh) {
-      yield* _mapRefreshEventToState(event);
-    }
-  }
-
   /// --------------------------------------------------------------------------
   ///                         All Event map to State
   /// --------------------------------------------------------------------------
 
-  /// Map [EntryInitialized] to [EntryState]
-  ///
-  /// ```dart
-  /// yield* _mapInitializedEventToState(event);
-  /// ```
-  Stream<EntryState> _mapInitializedEventToState(
-      EntryInitialized event) async* {
-    print('$_tag:_mapInitializedEventToState($event)');
+  /// Map [EntryInitialize] to [EntryState]
+  FutureOr<void> _onInitialize(
+    EntryInitialize event,
+    Emitter<EntryState> emit,
+  ) async* {
+    print('$_tag:_onInitialize($event,$emit)');
     try {
       yield EntryLoading();
 
@@ -57,14 +51,13 @@ class EntryBloc
   }
 
   /// Map [EntryRefresh] to [EntryState]
-  ///
-  /// ```dart
-  /// yield* _mapRefreshEventToState(event);
-  /// ```
-  Stream<EntryState> _mapRefreshEventToState(EntryRefresh event) async* {
-    print('$_tag:_mapRefreshEventToState($event)');
+  FutureOr<void> _onRefresh(
+    EntryRefresh event,
+    Emitter<EntryState> emit,
+  ) async {
+    print('$_tag:_onRefresh($event,$emit)');
     try {
-      yield EntryLoading();
+      emit(EntryLoading());
 
       element = await repository.getById(
         element?.id ?? _fallBackId,
@@ -73,9 +66,9 @@ class EntryBloc
 
       _fallBackId = element.id;
 
-      yield EntryLoaded(entry: element);
+      emit(EntryLoaded(entry: element));
     } catch (error) {
-      yield EntryFailure(error: error);
+      emit(EntryFailure(error: error));
     }
   }
 }

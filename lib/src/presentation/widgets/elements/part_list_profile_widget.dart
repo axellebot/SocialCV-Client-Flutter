@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/src/presentation/localizations/cv_localization.dart';
+import 'package:social_cv_client_flutter/src/presentation/utils/utils.dart';
 import 'package:social_cv_client_flutter/src/presentation/widgets/elements/part_list_widget.dart';
 import 'package:social_cv_client_flutter/src/presentation/widgets/elements/part_profile_widget.dart';
 import 'package:social_cv_client_flutter/src/presentation/widgets/error_widget.dart';
@@ -10,7 +11,6 @@ import 'package:social_cv_client_flutter/src/presentation/widgets/loading_widget
 import 'package:social_cv_client_flutter/src/presentation/widgets/sort_box_widget.dart';
 import 'package:social_cv_client_flutter/src/presentation/widgets/sort_dialog_widget.dart';
 import 'package:social_cv_client_flutter/src/presentation/widgets/sort_list_tile_widget.dart';
-import 'package:social_cv_client_flutter/src/presentation/utils/utils.dart';
 
 /// [SimplePartListProfile] is a dummy widget that use [partIds] or [parts] or
 /// [partBlocs] to create a list of [PartProfileWidget]

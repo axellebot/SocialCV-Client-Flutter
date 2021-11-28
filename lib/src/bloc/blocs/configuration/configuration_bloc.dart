@@ -7,7 +7,9 @@ import 'package:social_cv_client_flutter/presentation.dart';
 class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
   final String _tag = '$ConfigurationBloc';
 
-  ConfigurationBloc() : super();
+  ConfigurationBloc() : super(ConfigLoading()) {
+    on<AppLaunched>(_onAppLaunch);
+  }
 
   /// Services
   FoundationConfigService _foundationConfigService;
@@ -25,23 +27,16 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
   GroupRepository _groupRepository;
   EntryRepository _entryRepository;
 
-  @override
-  ConfigurationState get initialState => ConfigLoading();
-
-  @override
-  Stream<ConfigurationState> mapEventToState(ConfigurationEvent event) async* {
-    if (event is AppLaunched) {
-      yield* _mapAppLaunchedEventToState();
-    }
-  }
-
   /// -----------------------------------------------------------------------
   ///                       All Event map to State
   /// -----------------------------------------------------------------------
 
-  Stream<ConfigurationState> _mapAppLaunchedEventToState() async* {
+  Future<void> _onAppLaunch(
+    AppLaunched appLaunched,
+    Emitter<ConfigurationState> emit,
+  ) async {
     try {
-      yield ConfigLoading();
+      emit(ConfigLoading());
 
       _foundationConfigService = ConfigAssetsManager();
 
@@ -159,7 +154,7 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
 
       // Return config
 
-      yield ConfigLoaded(
+      emit(ConfigLoaded(
         cvAuthService: _cvAuthService,
         authInfoRepository: _authInfoRepository,
         appPrefsRepository: _appPrefsRepository,
@@ -169,10 +164,10 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
         partRepository: _partRepository,
         groupRepository: _groupRepository,
         entryRepository: _entryRepository,
-      );
+      ));
     } catch (error, stacktrace) {
       Logger.error('${error.runtimeType}', stackTrace: stacktrace);
-      yield ConfigFailure(error: error);
+      emit(ConfigFailure(error: error));
     }
   }
 }

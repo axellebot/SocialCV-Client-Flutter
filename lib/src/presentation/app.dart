@@ -23,12 +23,12 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
     _configBloc = ConfigurationBloc();
 
     /// Inform ConfigBloc that the application have been launched
-    _configBloc.dispatch(AppLaunched());
+    _configBloc.add(AppLaunched());
   }
 
   @override
   void dispose() {
-    _configBloc?.dispose();
+    _configBloc?.close();
     super.dispose();
   }
 
@@ -134,19 +134,19 @@ class _BlocWrapperState extends State<_BlocWrapper> {
     );
 
     // Inform AppBloc that the application just started
-    _appBloc.dispatch(AppConfigured());
+    _appBloc.add(AppConfigure());
 
     // Inform AuthBloc that the application just started
-    _authBloc.dispatch(AppStarted());
+    _authBloc.add(AppStarted());
   }
 
   @override
   void dispose() {
-    _appBloc?.dispose();
-    _loginBloc?.dispose();
-    _registerBloc?.dispose();
-    _identityBloc?.dispose();
-    _authBloc?.dispose();
+    _appBloc?.close();
+    _loginBloc?.close();
+    _registerBloc?.close();
+    _identityBloc?.close();
+    _authBloc?.close();
     super.dispose();
   }
 
@@ -195,8 +195,8 @@ class _App extends StatelessWidget {
             onGenerateRoute: appRouter.router.generator,
 
             // Use Fluro routes
-            localizationsDelegates: [
-              const CVLocalizationsDelegate(),
+            localizationsDelegates: const [
+              CVLocalizationsDelegate(),
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
             ],
@@ -227,32 +227,32 @@ class _App extends StatelessWidget {
       primaryColor: AppStyles.primaryColor,
       primaryColorLight: AppStyles.primaryColorLight,
       primaryColorDark: AppStyles.primaryColorDark,
-      accentColor: AppStyles.accentColor,
-      inputDecorationTheme: InputDecorationTheme(
-        hasFloatingPlaceholder: true,
+      colorScheme:
+          themeData.colorScheme.copyWith(secondary: AppStyles.accentColor),
+      inputDecorationTheme: const InputDecorationTheme(
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: OutlineInputBorder(),
       ),
     );
 
-    Color buttonColor;
-    ButtonThemeData buttonTheme;
+    ButtonThemeData buttonThemeData;
     IconThemeData iconThemeData;
+    TextTheme textThemeData;
+
     if (!darkMode) {
-      buttonColor = AppStyles.colorWhite;
-      buttonTheme = ButtonThemeData(buttonColor: themeData.primaryColorLight);
-      iconThemeData = IconThemeData(color: Colors.black);
+      buttonThemeData =
+          ButtonThemeData(buttonColor: themeData.primaryColorLight);
+      iconThemeData = const IconThemeData(color: Colors.black);
     } else {
-      buttonColor = AppStyles.primaryColorDark;
-      buttonTheme = ButtonThemeData(buttonColor: themeData.primaryColorDark);
-      iconThemeData = IconThemeData(color: Colors.white);
+      buttonThemeData =
+          ButtonThemeData(buttonColor: themeData.primaryColorDark);
+      iconThemeData = const IconThemeData(color: Colors.white);
     }
 
     return themeData.copyWith(
-      buttonColor: buttonColor,
-      buttonTheme: buttonTheme,
+      buttonTheme: buttonThemeData,
       textTheme: _buildCVTextTheme(themeData.textTheme),
       primaryTextTheme: _buildCVTextTheme(themeData.primaryTextTheme),
-      accentTextTheme: _buildCVTextTheme(themeData.accentTextTheme),
       iconTheme: iconThemeData,
     );
   }

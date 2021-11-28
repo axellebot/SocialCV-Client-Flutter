@@ -18,52 +18,40 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           appPreferencesRepository != null,
           'No $AppPrefsRepository given',
         ),
-        super();
-
-  @override
-  AppState get initialState => AppUninitialized();
-
-  @override
-  Stream<AppState> mapEventToState(AppEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-    if (event is AppConfigured) {
-      yield* _mapAppConfiguredToState(event);
-    } else if (event is AppThemeChanged) {
-      yield* _mapAppThemeChangedToState(event);
-    }
+        super(AppUninitialized()) {
+    on<AppConfigure>(_onConfigure);
+    on<AppThemeChange>(_onAppThemeChange);
   }
 
   /// -----------------------------------------------------------------------
   ///                       All Event map to State
   /// -----------------------------------------------------------------------
 
-  /// Map [AppThemeChanged] to [AppState]
-  ///
-  /// ```dart
-  /// yield* _mapAppThemeChangedToState(event);
-  /// ```
-  Stream<AppState> _mapAppThemeChangedToState(AppThemeChanged event) async* {
+  /// Map [AppConfigure] to [AppState]
+  FutureOr<void> _onConfigure(
+    AppConfigure event,
+    Emitter<AppState> emit,
+  ) async {
     try {
-      yield AppLoading();
-      await appPreferencesRepository.toggleDarkMode(event.darkMode);
-      yield AppInitialized(darkMode: event.darkMode);
+      emit(AppLoading());
+      final darkMode = await appPreferencesRepository.getDarkMode() ?? false;
+      emit(AppInitialized(darkMode: darkMode));
     } catch (error) {
-      yield AppFailure(error: error);
+      emit(AppFailure(error: error));
     }
   }
 
-  /// Map [AppConfigured] to [AppState]
-  ///
-  /// ```dart
-  /// yield* _mapAppConfiguredToState(event);
-  /// ```
-  Stream<AppState> _mapAppConfiguredToState(AppConfigured event) async* {
+  /// Map [AppThemeChange] to [AppState]
+  FutureOr<void> _onAppThemeChange(
+    AppThemeChange event,
+    Emitter<AppState> emit,
+  ) async {
     try {
-      yield AppLoading();
-      final darkMode = await appPreferencesRepository.getDarkMode() ?? false;
-      yield AppInitialized(darkMode: darkMode);
+      emit(AppLoading());
+      await appPreferencesRepository.toggleDarkMode(event.darkMode);
+      emit(AppInitialized(darkMode: event.darkMode));
     } catch (error) {
-      yield AppFailure(error: error);
+      emit(AppFailure(error: error));
     }
   }
 }

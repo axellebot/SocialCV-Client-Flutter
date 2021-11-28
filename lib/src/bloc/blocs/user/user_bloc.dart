@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
@@ -8,62 +11,53 @@ class UserBloc
   final String _tag = '$UserBloc';
 
   UserBloc({@required UserRepository repository})
-      : super(repository: repository);
+      : super(
+          repository: repository,
+          initialState: UserUninitialized(),
+        ) {
+    on<UserInitialize>(_onInitialize);
+    on<UserRefresh>(_onRefresh);
+  }
 
   /// [_fallBackId] is used if [element] is never assigned and
   /// an [UserRefresh] is dispatched
   String _fallBackId;
 
-  @override
-  UserState get initialState => UserUninitialized();
-
-  @override
-  Stream<UserState> mapEventToState(UserEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-    if (event is UserInitialized) {
-      yield* _mapInitializedEventToState(event);
-    } else if (event is UserRefresh) {
-      yield* _mapRefreshEventToState(event);
-    }
-  }
-
   /// --------------------------------------------------------------------------
   ///                         All Event map to State
   /// --------------------------------------------------------------------------
 
-  /// Map [UserInitialized] to [UserState]
-  ///
-  /// ```dart
-  /// yield* _mapInitializedEventToState(event);
-  /// ```
-  Stream<UserState> _mapInitializedEventToState(UserInitialized event) async* {
-    print('$_tag:_mapInitializedEventToState($event)');
+  /// Map [UserInitialize] to [UserState]
+  FutureOr<void> _onInitialize(
+    UserInitialize event,
+    Emitter<UserState> emit,
+  ) async {
+    print('$_tag:_onInitialize($event,$emit)');
     try {
-      yield UserLoading();
+      emit(UserLoading());
 
       if (event.elementId != null) {
         _fallBackId = event.elementId;
-        element = await await repository.getById(event.elementId);
+        element = await repository.getById(event.elementId);
       } else if (event.element != null) {
         _fallBackId = event.element.id;
         element = event.element;
       }
 
-      yield UserLoaded(user: element);
+      emit(UserLoaded(user: element));
     } catch (error) {
-      yield UserFailure(error: error);
+      emit(UserFailure(error: error));
     }
   }
 
   /// Map [UserRefresh] to [UserState]
-  ///
-  /// ```dart
-  /// yield* _mapRefreshEventToState(event);
-  /// ```
-  Stream<UserState> _mapRefreshEventToState(UserRefresh event) async* {
-    print('$_tag:_mapRefreshEventToState($event)');
+  FutureOr<void> _onRefresh(
+    UserRefresh event,
+    Emitter<UserState> emit,
+  ) async {
+    print('$_tag:_onRefresh($event,$emit)');
     try {
-      yield UserLoading();
+      emit(UserLoading());
 
       element = await repository.getById(
         element?.id ?? _fallBackId,
@@ -72,9 +66,9 @@ class UserBloc
 
       _fallBackId = element.id;
 
-      yield UserLoaded(user: element);
+      emit(UserLoaded(user: element));
     } catch (error) {
-      yield UserFailure(error: error);
+      emit(UserFailure(error: error));
     }
   }
 }

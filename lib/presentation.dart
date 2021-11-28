@@ -1,5 +1,5 @@
 /// ----------------------------------------------------------------------------
-///                             Libs
+///                          Libs - Commons
 /// ----------------------------------------------------------------------------
 
 export 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -11,7 +11,7 @@ export 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 export 'package:social_cv_client_flutter/src/presentation/mappers/model_mapper.dart';
 
 /// ----------------------------------------------------------------------------
-///                               View Models
+///                         Presentation Layer - ViewModels
 /// ----------------------------------------------------------------------------
 
 export 'package:social_cv_client_flutter/src/presentation/models/api_models.dart';
@@ -24,9 +24,8 @@ export 'package:social_cv_client_flutter/src/presentation/models/profile_model.d
 export 'package:social_cv_client_flutter/src/presentation/models/user_model.dart';
 
 /// ----------------------------------------------------------------------------
-///                          Commons
+///                        Presentations Layer - Commons
 /// ----------------------------------------------------------------------------
-
 export 'package:social_cv_client_flutter/src/presentation/commons/api_values.dart';
 export 'package:social_cv_client_flutter/src/presentation/commons/assets.dart';
 export 'package:social_cv_client_flutter/src/presentation/commons/paths.dart';
@@ -34,13 +33,13 @@ export 'package:social_cv_client_flutter/src/presentation/commons/styles.dart';
 export 'package:social_cv_client_flutter/src/presentation/commons/tags.dart';
 
 /// ----------------------------------------------------------------------------
-///                          Localizations
+///                         Presentation Layer - Localizations
 /// ----------------------------------------------------------------------------
 
 export 'package:social_cv_client_flutter/src/presentation/localizations/cv_localization.dart';
 
 /// ----------------------------------------------------------------------------
-///                            Pages
+///                         Presentation Layer - Pages
 /// ----------------------------------------------------------------------------
 
 export 'package:social_cv_client_flutter/src/presentation/pages/account_page.dart';
@@ -56,7 +55,7 @@ export 'package:social_cv_client_flutter/src/presentation/pages/search_page.dart
 export 'package:social_cv_client_flutter/src/presentation/pages/settings_page.dart';
 
 /// ----------------------------------------------------------------------------
-///                            Utils
+///                         Presentation Layer - Utils
 /// ----------------------------------------------------------------------------
 
 export 'package:social_cv_client_flutter/src/presentation/router.dart';
@@ -66,7 +65,7 @@ export 'package:social_cv_client_flutter/src/presentation/utils/translate_error.
 export 'package:social_cv_client_flutter/src/presentation/utils/utils.dart';
 
 /// ----------------------------------------------------------------------------
-///                            Widget
+///                         Presentation Layer - Widgets
 /// ----------------------------------------------------------------------------
 
 export 'package:social_cv_client_flutter/src/presentation/widgets/account_tile_widget.dart';

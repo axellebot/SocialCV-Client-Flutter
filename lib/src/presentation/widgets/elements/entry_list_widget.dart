@@ -38,7 +38,7 @@ abstract class ComplexEntryListState<T extends EntryListWidget>
     if (entryListBloc == null) {
       final repo = Provider.of<EntryRepository>(context, listen: false);
       entryListBloc = EntryListBloc(repository: repo);
-      entryListBloc.dispatch(EntryListInitialized(
+      entryListBloc.add(EntryListInitialize(
         parentGroupId: widget.parentGroupId,
         ownerId: widget.ownerId,
       ));
@@ -47,7 +47,7 @@ abstract class ComplexEntryListState<T extends EntryListWidget>
 
   @override
   void dispose() {
-    if (widget.entryListBloc == null) entryListBloc.dispose();
+    if (widget.entryListBloc == null) entryListBloc.close();
     super.dispose();
   }
 }

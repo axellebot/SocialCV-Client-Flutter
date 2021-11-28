@@ -11,19 +11,19 @@ abstract class EntryListEvent extends Equatable {
   String toString() => '$runtimeType{}';
 }
 
-class EntryListInitialized extends EntryListEvent
-    with ElementListInitialized<EntryEntity> {
-  EntryListInitialized({
+class EntryListInitialize extends EntryListEvent
+    with ElementListInitialize<EntryEntity> {
+  EntryListInitialize({
     String parentGroupId,
     String ownerId,
     Cursor cursor,
   })  : assert(
           parentGroupId != null && ownerId == null,
-          '$EntryListInitialized must be created with a parentId or an ownerId',
+          '$EntryListInitialize must be created with a parentId or an ownerId',
         ),
         assert(
           parentGroupId == null && ownerId != null,
-          '$EntryListInitialized must be created with a parentId or an ownerId',
+          '$EntryListInitialize must be created with a parentId or an ownerId',
         ),
         super([parentGroupId, ownerId]) {
     this.parentId = parentGroupId;

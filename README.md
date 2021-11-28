@@ -27,6 +27,8 @@ Use secret template `./config.json.dist` to add secret file `./config.json`
 [documentation](https://flutter.io/json/)
 
 Generate : `flutter packages pub run build_runner build` | `flutter packages pub run build_runner watch`
+Generate and delete conflicting outputs : `flutter packages pub run build_runner build
+--delete-conflicting-outputs`
 
 ## License
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
@@ -11,35 +12,25 @@ class EntryListBloc extends ElementListBloc<EntryEntity, EntryRepository,
   final String _tag = '$EntryListBloc';
 
   EntryListBloc({@required EntryRepository repository})
-      : super(repository: repository);
-
-  @override
-  EntryListState get initialState => EntryListUninitialized();
-
-  @override
-  Stream<EntryListState> mapEventToState(EntryListEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-    if (event is EntryListInitialized) {
-      yield* _mapEntryListInitializedEventToState(event);
-    } else if (event is EntryListRefresh) {
-      yield* _mapEntryListRefreshEventToState(event);
-    } else if (event is EntryListLoadMore) {
-      yield* _mapEntryListLoadMoreEventToState(event);
-    }
+      : super(
+          repository: repository,
+          initialState: EntryListUninitialized(),
+        ) {
+    on<EntryListInitialize>(_onInitialize);
+    on<EntryListRefresh>(_onListRefresh);
+    on<EntryListLoadMore>(_onLoadMore);
   }
 
   /// --------------------------------------------------------------------------
   ///                         All Event map to State
   /// --------------------------------------------------------------------------
 
-  /// Map [EntryListInitialized] to [EntryListState]
-  ///
-  /// ```dart
-  /// yield* _mapEntryListInitializedEventToState(event);
-  /// ```
-  Stream<EntryListState> _mapEntryListInitializedEventToState(
-      EntryListInitialized event) async* {
-    print('$_tag:_mapEntryListInitializedEventToState($event)');
+  /// Map [EntryListInitialize] to [EntryListState]
+  FutureOr<void> _onInitialize(
+    EntryListInitialize event,
+    Emitter<EntryListState> emit,
+  ) async {
+    print('$_tag:_onInitialize($event,$emit)');
     try {
       /// TODO: Add refresh indicator stream
 
@@ -49,37 +40,33 @@ class EntryListBloc extends ElementListBloc<EntryEntity, EntryRepository,
 
       elements = await _getEntries(cursor: event.cursor);
 
-      yield EntryListLoaded(entries: elements);
+      emit(EntryListLoaded(entries: elements));
     } catch (error) {
-      yield EntryListFailure(error: error);
+      emit(EntryListFailure(error: error));
     }
   }
 
   /// Map [EntryListRefresh] to [EntryListState]
-  ///
-  /// ```dart
-  /// yield* _mapEntryListRefreshEventToState(event);
-  /// ```
-  Stream<EntryListState> _mapEntryListRefreshEventToState(
-      EntryListRefresh event) async* {
-    print('$_tag:_mapEntryListRefreshEventToState($event)');
+  FutureOr<void> _onListRefresh(
+    EntryListRefresh event,
+    Emitter<EntryListState> emit,
+  ) async {
+    print('$_tag:_onListRefresh($event,$emit)');
     try {
       /// TODO: Add refresh indicator stream
       elements = await _getEntries(cursor: cursor);
-      yield EntryListLoaded(entries: elements);
+      emit(EntryListLoaded(entries: elements));
     } catch (error) {
-      yield EntryListFailure(error: error);
+      emit(EntryListFailure(error: error));
     }
   }
 
   /// Map [EntryListLoadMore] to [EntryListState]
-  ///
-  /// ```dart
-  /// yield* _mapEntryListRefreshEventToState(event);
-  /// ```
-  Stream<EntryListState> _mapEntryListLoadMoreEventToState(
-      EntryListLoadMore event) async* {
-    print('$_tag:_mapEntryListLoadMoreEventToState($event)');
+  FutureOr<void> _onLoadMore(
+    EntryListLoadMore event,
+    Emitter<EntryListState> emit,
+  ) async {
+    print('$_tag:_onLoadMore($event,$emit)');
     try {
       /// TODO: Add load more indicator stream
 
@@ -93,9 +80,9 @@ class EntryListBloc extends ElementListBloc<EntryEntity, EntryRepository,
       /// Save cursor limit if use list refreshed
       cursor = cursor.copyWith(limit: elements.length);
 
-      yield EntryListLoaded(entries: elements);
+      emit(EntryListLoaded(entries: elements));
     } catch (error) {
-      yield EntryListFailure(error: error);
+      emit(EntryListFailure(error: error));
     }
   }
 

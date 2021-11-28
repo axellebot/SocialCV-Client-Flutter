@@ -18,7 +18,7 @@ FutureOr<void> main() async {
   ///     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   void run() async {
-    runApp(ConfigWrapperApp());
+    runApp(const ConfigWrapperApp());
   }
 
   FlutterError.onError = globalErrorHandler;

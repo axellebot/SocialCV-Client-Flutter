@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
@@ -8,39 +11,30 @@ class ProfileBloc extends ElementBloc<ProfileEntity, ProfileRepository,
   final String _tag = '$ProfileBloc';
 
   ProfileBloc({@required ProfileRepository repository})
-      : super(repository: repository);
+      : super(
+          repository: repository,
+          initialState: ProfileUninitialized(),
+        ) {
+    on<ProfileInitialized>(_onInitialize);
+    on<ProfileRefresh>(_onRefresh);
+  }
 
   /// [_fallBackId] is used if [element] is never assigned and
   /// an [ProfileRefresh] is dispatched
   String _fallBackId;
-
-  @override
-  ProfileState get initialState => ProfileUninitialized();
-
-  @override
-  Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-    if (event is ProfileInitialized) {
-      yield* _mapInitializedEventToState(event);
-    } else if (event is ProfileRefresh) {
-      yield* _mapRefreshEventToState(event);
-    }
-  }
 
   /// --------------------------------------------------------------------------
   ///                         All Event map to State
   /// --------------------------------------------------------------------------
 
   /// Map [ProfileInitialized] to [ProfileState]
-  ///
-  /// ```dart
-  /// yield* _mapInitializedEventToState(event);
-  /// ```
-  Stream<ProfileState> _mapInitializedEventToState(
-      ProfileInitialized event) async* {
-    print('$_tag:_mapInitializedEventToState($event)');
+  FutureOr<void> _onInitialize(
+    ProfileInitialized event,
+    Emitter<ProfileState> emit,
+  ) async {
+    print('$_tag:_onInitialize($event,$emit)');
     try {
-      yield ProfileLoading();
+      emit(ProfileLoading());
 
       if (event.elementId != null) {
         _fallBackId = event.elementId;
@@ -50,21 +44,20 @@ class ProfileBloc extends ElementBloc<ProfileEntity, ProfileRepository,
         element = event.element;
       }
 
-      yield ProfileLoaded(profile: element);
+      emit(ProfileLoaded(profile: element));
     } catch (error) {
-      yield ProfileFailure(error: error);
+      emit(ProfileFailure(error: error));
     }
   }
 
   /// Map [ProfileRefresh] to [ProfileState]
-  ///
-  /// ```dart
-  /// yield* _mapRefreshEventToState(event);
-  /// ```
-  Stream<ProfileState> _mapRefreshEventToState(ProfileRefresh event) async* {
-    print('$_tag:_mapRefreshEventToState($event)');
+  FutureOr<void> _onRefresh(
+    ProfileRefresh event,
+    Emitter<ProfileState> emit,
+  ) async {
+    print('$_tag:_onRefresh($event,$emit)');
     try {
-      yield ProfileLoading();
+      emit(ProfileLoading());
 
       element = await repository.getById(
         element?.id ?? _fallBackId,
@@ -73,9 +66,9 @@ class ProfileBloc extends ElementBloc<ProfileEntity, ProfileRepository,
 
       _fallBackId = element.id;
 
-      yield ProfileLoaded(profile: element);
+      emit(ProfileLoaded(profile: element));
     } catch (error) {
-      yield ProfileFailure(error: error);
+      emit(ProfileFailure(error: error));
     }
   }
 }

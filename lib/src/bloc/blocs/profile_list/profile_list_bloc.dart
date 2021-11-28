@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
@@ -11,35 +12,25 @@ class ProfileListBloc extends ElementListBloc<ProfileEntity, ProfileRepository,
   final String _tag = '$ProfileListBloc';
 
   ProfileListBloc({@required ProfileRepository repository})
-      : super(repository: repository);
-
-  @override
-  ProfileListState get initialState => ProfileListUninitialized();
-
-  @override
-  Stream<ProfileListState> mapEventToState(ProfileListEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-    if (event is ProfileListInitialized) {
-      yield* _mapProfileListInitializedEventToState(event);
-    } else if (event is ProfileListRefresh) {
-      yield* _mapProfileListRefreshEventToState(event);
-    } else if (event is ProfileListLoadMore) {
-      yield* _mapProfileListLoadMoreEventToState(event);
-    }
+      : super(
+          repository: repository,
+          initialState: ProfileListUninitialized(),
+        ) {
+    on<ProfileListInitialize>(_onInitialize);
+    on<ProfileListRefresh>(_onRefresh);
+    on<ProfileListLoadMore>(_onLoadMore);
   }
 
   /// --------------------------------------------------------------------------
   ///                         All Event map to State
   /// --------------------------------------------------------------------------
 
-  /// Map [ProfileListInitialized] to [ProfileListState]
-  ///
-  /// ```dart
-  /// yield* _mapProfileListInitializedEventToState(event);
-  /// ```
-  Stream<ProfileListState> _mapProfileListInitializedEventToState(
-      ProfileListInitialized event) async* {
-    print('$_tag:_mapProfileListInitializedEventToState($event)');
+  /// Map [ProfileListInitialize] to [ProfileListState]
+  FutureOr<void> _onInitialize(
+    ProfileListInitialize event,
+    Emitter<ProfileListState> emit,
+  ) async {
+    print('$_tag:_onInitialize($event,$emit)');
     try {
       /// TODO: Add refresh indicator stream
 
@@ -49,37 +40,33 @@ class ProfileListBloc extends ElementListBloc<ProfileEntity, ProfileRepository,
 
       elements = await _getProfiles(cursor: cursor);
 
-      yield ProfileListLoaded(profiles: elements);
+      emit(ProfileListLoaded(profiles: elements));
     } catch (error) {
-      yield ProfileListFailure(error: error);
+      emit(ProfileListFailure(error: error));
     }
   }
 
   /// Map [ProfileListRefresh] to [ProfileListState]
-  ///
-  /// ```dart
-  /// yield* _mapProfileListRefreshEventToState(event);
-  /// ```
-  Stream<ProfileListState> _mapProfileListRefreshEventToState(
-      ProfileListRefresh event) async* {
-    print('$_tag:_mapProfileListRefreshEventToState($event)');
+  FutureOr<void> _onRefresh(
+    ProfileListRefresh event,
+    Emitter<ProfileListState> emit,
+  ) async {
+    print('$_tag:_onRefresh($event,$emit)');
     try {
       /// TODO: Add refresh indicator stream
       elements = await _getProfiles(cursor: cursor);
-      yield ProfileListLoaded(profiles: elements);
+      emit(ProfileListLoaded(profiles: elements));
     } catch (error) {
-      yield ProfileListFailure(error: error);
+      emit(ProfileListFailure(error: error));
     }
   }
 
   /// Map [ProfileListLoadMore] to [ProfileListState]
-  ///
-  /// ```dart
-  /// yield* _mapProfileListLoadMoreEventToState(event);
-  /// ```
-  Stream<ProfileListState> _mapProfileListLoadMoreEventToState(
-      ProfileListLoadMore event) async* {
-    print('$_tag:_mapProfileListLoadMoreEventToState($event)');
+  FutureOr<void> _onLoadMore(
+    ProfileListLoadMore event,
+    Emitter<ProfileListState> emit,
+  ) async {
+    print('$_tag:_onLoadMore($event,$emit)');
     try {
       /// TODO: Add load more indicator stream
 
@@ -93,9 +80,9 @@ class ProfileListBloc extends ElementListBloc<ProfileEntity, ProfileRepository,
       /// Save cursor limit if use list refreshed
       cursor = cursor.copyWith(limit: elements.length);
 
-      yield ProfileListLoaded(profiles: elements);
+      emit(ProfileListLoaded(profiles: elements));
     } catch (error) {
-      yield ProfileListFailure(error: error);
+      emit(ProfileListFailure(error: error));
     }
   }
 

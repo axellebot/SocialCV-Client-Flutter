@@ -1,6 +1,6 @@
 import 'package:social_cv_client_flutter/domain.dart';
 
-mixin ElementInitialized<T extends ElementEntity> {
+mixin ElementInitialize<T extends ElementEntity> {
   String elementId;
   T element;
 

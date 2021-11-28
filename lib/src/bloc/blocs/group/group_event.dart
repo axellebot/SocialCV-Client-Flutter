@@ -11,15 +11,15 @@ abstract class GroupEvent extends Equatable {
   String toString() => '$runtimeType{}';
 }
 
-class GroupInitialized extends GroupEvent with ElementInitialized<GroupEntity> {
-  GroupInitialized({String groupId, GroupEntity group})
+class GroupInitialize extends GroupEvent with ElementInitialize<GroupEntity> {
+  GroupInitialize({String groupId, GroupEntity group})
       : assert(
           groupId != null && group == null,
-          '$GroupInitialized must be created with a $GroupEntity or its ID',
+          '$GroupInitialize must be created with a $GroupEntity or its ID',
         ),
         assert(
           groupId == null && group != null,
-          '$GroupInitialized must be created with a $GroupEntity or its ID',
+          '$GroupInitialize must be created with a $GroupEntity or its ID',
         ),
         super([groupId, group]) {
     this.elementId = groupId;

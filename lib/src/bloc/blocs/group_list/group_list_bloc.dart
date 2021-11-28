@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
@@ -11,35 +12,25 @@ class GroupListBloc extends ElementListBloc<GroupEntity, GroupRepository,
   final String _tag = '$GroupListBloc';
 
   GroupListBloc({@required GroupRepository repository})
-      : super(repository: repository);
-
-  @override
-  GroupListState get initialState => GroupListUninitialized();
-
-  @override
-  Stream<GroupListState> mapEventToState(GroupListEvent event) async* {
-    print('$_tag:mapEventToState($event)');
-    if (event is GroupListInitialized) {
-      yield* _mapGroupListInitializedEventToState(event);
-    } else if (event is GroupListRefresh) {
-      yield* _mapGroupListRefreshEventToState(event);
-    } else if (event is GroupListLoadMore) {
-      yield* _mapGroupListLoadMoreEventToState(event);
-    }
+      : super(
+          repository: repository,
+          initialState: GroupListUninitialized(),
+        ) {
+    on<GroupListInitialize>(_onInitialize);
+    on<GroupListRefresh>(_onRefresh);
+    on<GroupListLoadMore>(_onLoadMore);
   }
 
   /// --------------------------------------------------------------------------
   ///                         All Event map to State
   /// --------------------------------------------------------------------------
 
-  /// Map [GroupListInitialized] to [GroupListState]
-  ///
-  /// ```dart
-  /// yield* _mapGroupListInitializedEventToState(event);
-  /// ```
-  Stream<GroupListState> _mapGroupListInitializedEventToState(
-      GroupListInitialized event) async* {
-    print('$_tag:_mapGroupListInitializedEventToState($event)');
+  /// Map [GroupListInitialize] to [GroupListState]
+  FutureOr<void> _onInitialize(
+    GroupListInitialize event,
+    Emitter<GroupListState> emit,
+  ) async {
+    print('$_tag:_onInitialize($event,$emit)');
     try {
       /// TODO: Add refresh indicator stream
 
@@ -49,37 +40,33 @@ class GroupListBloc extends ElementListBloc<GroupEntity, GroupRepository,
 
       elements = await _getGroups(cursor: cursor);
 
-      yield GroupListLoaded(groups: elements);
+      emit(GroupListLoaded(groups: elements));
     } catch (error) {
-      yield GroupListFailure(error: error);
+      emit(GroupListFailure(error: error));
     }
   }
 
   /// Map [GroupListRefresh] to [GroupListState]
-  ///
-  /// ```dart
-  /// yield* _mapGroupListRefreshEventToState(event);
-  /// ```
-  Stream<GroupListState> _mapGroupListRefreshEventToState(
-      GroupListRefresh event) async* {
-    print('$_tag:_mapGroupListRefreshEventToState($event)');
+  FutureOr<void> _onRefresh(
+    GroupListRefresh event,
+    Emitter<GroupListState> emit,
+  ) async {
+    print('$_tag:_onRefresh($event,$emit)');
     try {
       /// TODO: Add refresh indicator stream
       elements = await _getGroups(cursor: cursor);
-      yield GroupListLoaded(groups: elements);
+      emit(GroupListLoaded(groups: elements));
     } catch (error) {
-      yield GroupListFailure(error: error);
+      emit(GroupListFailure(error: error));
     }
   }
 
   /// Map [GroupListLoadMore] to [GroupListState]
-  ///
-  /// ```dart
-  /// yield* _mapGroupListLoadMoreEventToState(event);
-  /// ```
-  Stream<GroupListState> _mapGroupListLoadMoreEventToState(
-      GroupListLoadMore event) async* {
-    print('$_tag:_mapGroupListLoadMoreEventToState($event)');
+  FutureOr<void> _onLoadMore(
+    GroupListLoadMore event,
+    Emitter<GroupListState> emit,
+  ) async {
+    print('$_tag:_onLoadMore($event,$emit)');
     try {
       /// TODO: Add load more indicator stream
 
@@ -93,9 +80,9 @@ class GroupListBloc extends ElementListBloc<GroupEntity, GroupRepository,
       /// Save cursor limit if use list refreshed
       cursor = cursor.copyWith(limit: elements.length);
 
-      yield GroupListLoaded(groups: elements);
+      emit(GroupListLoaded(groups: elements));
     } catch (error) {
-      yield GroupListFailure(error: error);
+      emit(GroupListFailure(error: error));
     }
   }
 

@@ -10,15 +10,15 @@ abstract class EntryEvent extends Equatable {
   String toString() => '$runtimeType{}';
 }
 
-class EntryInitialized extends EntryEvent with ElementInitialized<EntryEntity> {
-  EntryInitialized({String entryId, EntryEntity entry})
+class EntryInitialize extends EntryEvent with ElementInitialize<EntryEntity> {
+  EntryInitialize({String entryId, EntryEntity entry})
       : assert(
           entryId != null && entry == null,
-          '$EntryInitialized must be created with an $EntryEntity or its ID',
+          '$EntryInitialize must be created with an $EntryEntity or its ID',
         ),
         assert(
           entryId == null && entry != null,
-          '$EntryInitialized must be created with an $EntryEntity or its ID',
+          '$EntryInitialize must be created with an $EntryEntity or its ID',
         ),
         super([entryId, entry]) {
     elementId = entryId;

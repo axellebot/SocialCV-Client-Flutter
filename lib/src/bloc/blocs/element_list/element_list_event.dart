@@ -1,7 +1,7 @@
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
 
-mixin ElementListInitialized<T extends ElementEntity> {
+mixin ElementListInitialize<T extends ElementEntity> {
   String parentId;
   String ownerId;
   Cursor cursor;

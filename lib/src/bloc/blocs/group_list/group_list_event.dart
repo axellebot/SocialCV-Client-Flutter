@@ -11,19 +11,19 @@ abstract class GroupListEvent extends Equatable {
   String toString() => '$runtimeType{}';
 }
 
-class GroupListInitialized extends GroupListEvent
-    with ElementListInitialized<GroupEntity> {
-  GroupListInitialized({
+class GroupListInitialize extends GroupListEvent
+    with ElementListInitialize<GroupEntity> {
+  GroupListInitialize({
     String parentPartId,
     String ownerId,
     Cursor cursor,
   })  : assert(
           parentPartId != null && ownerId == null,
-          '$GroupListInitialized must be created with a parentId or an ownerId',
+          '$GroupListInitialize must be created with a parentId or an ownerId',
         ),
         assert(
           parentPartId == null && ownerId != null,
-          '$GroupListInitialized must be created with a parentId or an ownerId',
+          '$GroupListInitialize must be created with a parentId or an ownerId',
         ),
         super([parentPartId, ownerId]) {
     this.parentId = parentPartId;

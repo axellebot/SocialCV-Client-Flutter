@@ -25,7 +25,7 @@ class ThemeSwitchTile extends StatelessWidget {
             title: Text(CVLocalizations.of(context).settingsDarkModeCTA),
             value: darkMode,
             onChanged: (bool newValue) =>
-                _appBloc.dispatch(AppThemeChanged(darkMode: newValue)),
+                _appBloc.add(AppThemeChange(darkMode: newValue)),
           );
         }
         return Container(child: Text('${state.runtimeType} state unhandled'));

@@ -9,13 +9,13 @@ abstract class AuthenticationEvent extends Equatable {
 /// Use [AppStarted] to begin auth process on startup
 class AppStarted extends AuthenticationEvent {}
 
-/// Use [LoggedIn] to inform that user just logged in
-class LoggedIn extends AuthenticationEvent {
+/// Use [Login] to inform that user just logged in
+class Login extends AuthenticationEvent {
   final String accessToken;
   final DateTime accessTokenExpiration;
   final String refreshToken;
 
-  LoggedIn({
+  Login({
     @required this.accessToken,
     @required this.accessTokenExpiration,
     @required this.refreshToken,
@@ -33,5 +33,5 @@ class LoggedIn extends AuthenticationEvent {
       ' }';
 }
 
-/// Use [LoggedOut] to request logout
-class LoggedOut extends AuthenticationEvent {}
+/// Use [Logout] to request logout
+class Logout extends AuthenticationEvent {}

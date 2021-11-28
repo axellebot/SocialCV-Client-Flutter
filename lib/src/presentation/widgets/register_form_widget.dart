@@ -48,7 +48,7 @@ class _RegisterFormState extends State<RegisterForm> {
     final RegisterBloc _registerBloc = BlocProvider.of<RegisterBloc>(context);
 
     void _registerPressed() {
-      _registerBloc.dispatch(RegistrationEvent(
+      _registerBloc.add(RegistrationEvent(
         email: signUpEmailController.text,
         password: signUpPasswordController.text,
         fName: signUpFirstNameController.text,
