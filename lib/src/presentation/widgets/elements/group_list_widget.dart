@@ -2,14 +2,15 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
+import 'package:social_cv_client_flutter/presentation.dart';
 
 abstract class GroupListWidget extends StatefulWidget {
-  final String parentPartId;
-  final String ownerId;
-  final GroupListBloc groupListBloc;
+  final String? parentPartId;
+  final String? ownerId;
+  final GroupListBloc? groupListBloc;
 
-  GroupListWidget({
-    Key key,
+  const GroupListWidget({
+    Key? key,
     this.parentPartId,
     this.ownerId,
     this.groupListBloc,
@@ -25,7 +26,7 @@ abstract class GroupListWidget extends StatefulWidget {
 /// If [widget.groupListBloc] exists the lifecycle of it will be managed by its creator
 abstract class GroupListWidgetState<T extends GroupListWidget>
     extends State<T> {
-  GroupListBloc groupListBloc;
+  GroupListBloc? groupListBloc;
 
   @override
   void initState() {
@@ -37,16 +38,17 @@ abstract class GroupListWidgetState<T extends GroupListWidget>
       final groupRepo = Provider.of<GroupRepository>(context, listen: false);
 
       groupListBloc = GroupListBloc(repository: groupRepo);
-      groupListBloc.add(GroupListInitialize(
+      groupListBloc!.add(GroupListInitialize(
         parentPartId: widget.parentPartId,
         ownerId: widget.ownerId,
+        cursor: const Cursor(),
       ));
     }
   }
 
   @override
   void dispose() {
-    if (widget.groupListBloc == null) groupListBloc.close();
+    if (widget.groupListBloc == null) groupListBloc!.close();
     super.dispose();
   }
 }

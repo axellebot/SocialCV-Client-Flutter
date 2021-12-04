@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 /// [RegisterEvent] that must be dispatch to [RegisterBloc]
 abstract class RegisterEvent extends Equatable {
-  RegisterEvent([List props = const []]) : super(props);
+  const RegisterEvent() : super();
+
+  @override
+  List<Object> get props => [];
 }
 
 class RegistrationEvent extends RegisterEvent {
@@ -12,12 +14,16 @@ class RegistrationEvent extends RegisterEvent {
   final String email;
   final String password;
 
-  RegistrationEvent({
-    @required this.fName,
-    @required this.lName,
-    @required this.email,
-    @required this.password,
-  }) : super([fName, lName, email, password]);
+  const RegistrationEvent({
+    required this.fName,
+    required this.lName,
+    required this.email,
+    required this.password,
+  }) : super();
+
+  @override
+  List<Object> get props =>
+      super.props..addAll([fName, lName, email, password]);
 
   @override
   String toString() => '$runtimeType{ '

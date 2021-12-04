@@ -5,14 +5,17 @@ import 'package:social_cv_client_flutter/domain.dart';
 /// [GroupEvent] that must be dispatch to [GroupBloc]
 
 abstract class GroupEvent extends Equatable {
-  GroupEvent([List props = const []]) : super(props);
+  const GroupEvent() : super();
+
+  @override
+  List<Object?> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
 }
 
 class GroupInitialize extends GroupEvent with ElementInitialize<GroupEntity> {
-  GroupInitialize({String groupId, GroupEntity group})
+  GroupInitialize({String? groupId, GroupEntity? group})
       : assert(
           groupId != null && group == null,
           '$GroupInitialize must be created with a $GroupEntity or its ID',
@@ -21,10 +24,13 @@ class GroupInitialize extends GroupEvent with ElementInitialize<GroupEntity> {
           groupId == null && group != null,
           '$GroupInitialize must be created with a $GroupEntity or its ID',
         ),
-        super([groupId, group]) {
-    this.elementId = groupId;
-    this.element = group;
+        super() {
+    elementId = groupId;
+    element = group;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([elementId, element]);
 
   @override
   String toString() => '$runtimeType{ id: $elementId, element: $element }';

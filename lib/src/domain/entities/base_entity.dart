@@ -1,8 +1,15 @@
 abstract class BaseEntity {
   String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int version;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? version;
+
+  BaseEntity({
+    required this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.version,
+  });
 
   @override
   String toString() => '$runtimeType{ '

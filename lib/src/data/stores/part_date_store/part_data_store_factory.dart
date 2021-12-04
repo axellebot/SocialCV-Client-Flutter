@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 
 class PartDataStoreFactory {
@@ -6,10 +5,9 @@ class PartDataStoreFactory {
   final PartDataStore memoryDataStore;
 
   PartDataStoreFactory({
-    @required this.cloudDataStore,
-    @required this.memoryDataStore,
-  })  : assert(cloudDataStore != null, 'No cloud $PartDataStore given'),
-        assert(memoryDataStore != null, 'No memory $PartDataStore given');
+    required this.cloudDataStore,
+    required this.memoryDataStore,
+  });
 
   PartDataStore get create => cloudDataStore;
 

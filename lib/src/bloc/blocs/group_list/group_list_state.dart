@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
 abstract class GroupListState extends Equatable {
-  GroupListState([List props = const []]) : super(props);
+  const GroupListState() : super();
+
+  @override
+  List<Object> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -15,9 +17,12 @@ class GroupListUninitialized extends GroupListState
 
 class GroupListLoading extends GroupListState
     with ElementListLoading<GroupEntity> {
-  GroupListLoading({int count = 0}) : super([count]) {
+  GroupListLoading({int count = 0}) : super() {
     this.count = count;
   }
+
+  @override
+  List<Object> get props => super.props..addAll([count]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -27,9 +32,12 @@ class GroupListLoading extends GroupListState
 
 class GroupListLoaded extends GroupListState
     with ElementListLoaded<GroupEntity> {
-  GroupListLoaded({@required List<GroupEntity> groups}) : super([groups]) {
+  GroupListLoaded({required List<GroupEntity?> groups}) : super() {
     elements = groups;
   }
+
+  @override
+  List<Object> get props => super.props..addAll([elements]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -39,11 +47,12 @@ class GroupListLoaded extends GroupListState
 
 class GroupListFailure extends GroupListState
     with ElementListFailure<GroupEntity> {
-  GroupListFailure({@required dynamic error})
-      : assert(error != null, 'No error given'),
-        super([error]) {
+  GroupListFailure({required Object error}) : super() {
     this.error = error;
   }
+
+  @override
+  List<Object> get props => super.props..addAll([error]);
 
   @override
   String toString() => '$runtimeType{ '

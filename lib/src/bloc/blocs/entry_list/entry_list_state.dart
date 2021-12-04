@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
 abstract class EntryListState extends Equatable {
-  EntryListState([List props = const []]) : super(props);
+  const EntryListState() : super();
+
+  @override
+  List<Object?> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -15,9 +17,12 @@ class EntryListUninitialized extends EntryListState
 
 class EntryListLoading extends EntryListState
     with ElementListLoading<EntryEntity> {
-  EntryListLoading({int count = 0}) : super([count]) {
+  EntryListLoading({int count = 0}) : super() {
     this.count = count;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([count]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -27,9 +32,12 @@ class EntryListLoading extends EntryListState
 
 class EntryListLoaded extends EntryListState
     with ElementListLoaded<EntryEntity> {
-  EntryListLoaded({@required List<EntryEntity> entries}) : super([entries]) {
+  EntryListLoaded({required List<EntryEntity> entries}) : super() {
     elements = entries;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([elements]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -39,11 +47,12 @@ class EntryListLoaded extends EntryListState
 
 class EntryListFailure extends EntryListState
     with ElementListFailure<EntryEntity> {
-  EntryListFailure({@required dynamic error})
-      : assert(error != null, 'No error given'),
-        super([error]) {
+  EntryListFailure({required Object error}) : super() {
     this.error = error;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([error]);
 
   @override
   String toString() => '$runtimeType{ '

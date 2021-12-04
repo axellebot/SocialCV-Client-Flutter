@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
@@ -9,20 +8,22 @@ class ImplIdentityRepository extends IdentityRepository {
 
   final IdentityDataStoreFactory factory;
 
-  ImplIdentityRepository({@required this.factory}) : assert(factory != null);
+  ImplIdentityRepository({
+    required this.factory,
+  });
 
   @override
   FutureOr<UserEntity> getIdentity() async {
-    print('$_tag:getAccount');
+    print('$_tag:getIdentity()');
 
     final dataModel = await factory.memoryDataStore.getIdentity();
 
     if (dataModel == null) {
       final dataModel = await factory.cloudDataStore.getIdentity();
-      factory.memoryDataStore.setIdentity(dataModel);
+      factory.memoryDataStore.setIdentity(dataModel!);
     }
 
-    return dataModel;
+    return dataModel!;
   }
 
 //  @override

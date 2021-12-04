@@ -81,7 +81,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Center(
-                    child: Text(CVLocalizations.of(context).authRegisterTitle),
+                    child: Text(CVLocalizations.of(context)!.authRegisterTitle),
                   ),
                   Padding(
                     padding: AppStyles.defaultFormInputPadding,
@@ -105,8 +105,8 @@ class _RegisterFormState extends State<RegisterForm> {
                       controller: signUpEmailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        hintText: CVLocalizations.of(context).formEmailHint,
-                        labelText: CVLocalizations.of(context).formEmailLabel,
+                        hintText: CVLocalizations.of(context)!.formEmailHint,
+                        labelText: CVLocalizations.of(context)!.formEmailLabel,
                       ),
                     ),
                   ),
@@ -123,7 +123,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           onPressed: _togglePasswordVisibility,
                         ),
                         labelText:
-                            CVLocalizations.of(context).formPasswordLabel,
+                            CVLocalizations.of(context)!.formPasswordLabel,
                       ),
                     ),
                   ),
@@ -140,12 +140,12 @@ class _RegisterFormState extends State<RegisterForm> {
                           onPressed: _togglePasswordConfirmationVisibility,
                         ),
                         labelText:
-                            CVLocalizations.of(context).formPassword2Label,
+                            CVLocalizations.of(context)!.formPassword2Label,
                       ),
                     ),
                   ),
                   MaterialButton(
-                    child: Text(CVLocalizations.of(context).authRegisterCTA),
+                    child: Text(CVLocalizations.of(context)!.authRegisterCTA),
                     onPressed:
                         state is! RegisterLoading ? _registerPressed : null,
                   ),

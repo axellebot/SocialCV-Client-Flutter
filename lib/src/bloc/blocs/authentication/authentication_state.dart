@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 abstract class AuthenticationState extends Equatable {
-  AuthenticationState([List props = const []]) : super(props);
+  const AuthenticationState() : super();
+
+  @override
+  List<Object> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -17,11 +19,14 @@ class AuthenticationUnauthenticated extends AuthenticationState {}
 class AuthenticationLoading extends AuthenticationState {}
 
 class AuthenticationFailed extends AuthenticationState {
-  final dynamic error;
+  final Object error;
 
-  AuthenticationFailed({@required this.error})
-      : assert(error != null, 'No error given'),
-        super([error]);
+  const AuthenticationFailed({
+    required this.error,
+  }) : super();
+
+  @override
+  List<Object> get props => super.props..addAll([error]);
 
   @override
   String toString() => '$runtimeType{ '

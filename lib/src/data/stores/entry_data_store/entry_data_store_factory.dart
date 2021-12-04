@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 
 class EntryDataStoreFactory {
@@ -10,10 +9,9 @@ class EntryDataStoreFactory {
   EntryDataStore get create => cloudDataStore;
 
   EntryDataStoreFactory({
-    @required this.cloudDataStore,
-    @required this.memoryDataStore,
-  })  : assert(cloudDataStore != null, 'No cloud $EntryDataStore given'),
-        assert(memoryDataStore != null, 'No memory $EntryDataStore given');
+    required this.cloudDataStore,
+    required this.memoryDataStore,
+  });
 
   @override
   String toString() => '$runtimeType{ '

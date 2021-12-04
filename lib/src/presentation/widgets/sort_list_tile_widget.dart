@@ -9,24 +9,24 @@ class SortListItem {
     this.value,
   });
 
-  final String title;
-  final String field;
-  SortState value;
+  final String? title;
+  final String? field;
+  SortState? value;
 }
 
 class SortListTile extends StatelessWidget {
   const SortListTile({
-    Key key,
+    Key? key,
     this.activeColor,
     this.title,
     this.value,
     this.onChanged,
   }) : super(key: key);
 
-  final Color activeColor;
-  final Widget title;
-  final ValueChanged<SortState> onChanged;
-  final SortState value;
+  final Color? activeColor;
+  final Widget? title;
+  final ValueChanged<SortState?>? onChanged;
+  final SortState? value;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,10 @@ class SortListTile extends StatelessWidget {
           trailing: SortBox(value: value, onChanged: onChanged),
           onTap: onChanged != null
               ? () {
-                  if (value == SortState.SortAsc) onChanged(SortState.SortDesc);
-                  if (value == SortState.SortDesc) onChanged(SortState.NoSort);
-                  if (value == SortState.NoSort) onChanged(SortState.SortAsc);
+                  if (value == SortState.sortAsc)
+                    onChanged!(SortState.sortDesc);
+                  if (value == SortState.sortDesc) onChanged!(SortState.noSort);
+                  if (value == SortState.noSort) onChanged!(SortState.sortAsc);
                 }
               : null,
         ),

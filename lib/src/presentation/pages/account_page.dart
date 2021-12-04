@@ -28,24 +28,25 @@ class AccountPage extends StatelessWidget {
           else if (state is AuthenticationAuthenticated)
             return _AccountPageDetailsConnected();
           else if (state is AuthenticationLoading)
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
+          else
+            return Container();
         },
       ),
     );
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//                                                                            //
-//                       _AccountPageDetailsNotConnected                      //
-//                                                                            //
-////////////////////////////////////////////////////////////////////////////////
+/// ----------------------------------------------------------------------------
+///                      _AccountPageDetailsNotConnected
+/// ----------------------------------------------------------------------------
+
 class _AccountPageDetailsNotConnected extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: RaisedButton(
-        child: Text(CVLocalizations.of(context).authLoginCTA),
+      child: ElevatedButton(
+        child: Text(CVLocalizations.of(context)!.authLoginCTA),
         onPressed: () => navigateToLogin(context),
       ),
     );
@@ -68,7 +69,7 @@ class _AccountPageDetailsConnected extends StatelessWidget {
             children: <Widget>[
               ExpansionTile(
                 leading: Icon(MdiIcons.accountBoxMultiple),
-                title: Text(CVLocalizations.of(context).accountMyProfile),
+                title: Text(CVLocalizations.of(context)!.accountMyProfile),
                 children: <Widget>[
 //                  BlocProvider(
 //                    bloc: ElementListBloc<ProfileEntity>(

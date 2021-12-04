@@ -5,7 +5,7 @@ import 'package:social_cv_client_flutter/presentation.dart';
 class SearchPage extends StatelessWidget {
   final String _tag = '$SearchPage';
 
-  SearchPage({Key key}) : super(key: key);
+  SearchPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class SearchPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: Text(CVLocalizations.of(context).searchTitle),
+            title: Text(CVLocalizations.of(context)!.searchTitle),
           ),
           SliverToBoxAdapter(
             child: Hero(
@@ -27,9 +27,10 @@ class SearchPage extends StatelessWidget {
                     onSubmitted: null,
                     autofocus: true,
                     decoration: InputDecoration(
-                      labelText: CVLocalizations.of(context).search,
+                      labelText: CVLocalizations.of(context)!.search,
                       prefixIcon: Icon(Icons.search),
-                      hintText: CVLocalizations.of(context).searchSearchBarHint,
+                      hintText:
+                          CVLocalizations.of(context)!.searchSearchBarHint,
                     ),
                   ),
                 ),

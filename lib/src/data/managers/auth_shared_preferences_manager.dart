@@ -20,97 +20,93 @@ class AuthSharedPreferencesManager implements AuthInfoDataStore {
   /// ----------------------------------------------------------
 
   @override
-  FutureOr<String> getAccessToken() async {
+  FutureOr<String?> getAccessToken() async {
     final prefs = await _prefs;
     return prefs.getString(_keyOAuthAccessToken);
   }
 
   @override
-  FutureOr<String> setAccessToken(String token) async {
+  FutureOr<bool> setAccessToken(String token) async {
     final prefs = await _prefs;
-    return (await prefs.setString(_keyOAuthAccessToken, token)) ? token : null;
+    return await prefs.setString(_keyOAuthAccessToken, token);
   }
 
   @override
-  FutureOr<String> deleteAccessToken() async {
+  FutureOr<bool> deleteAccessToken() async {
     final prefs = await _prefs;
-    await prefs.remove(_keyOAuthAccessToken);
-    return null;
+    return await prefs.remove(_keyOAuthAccessToken);
   }
 
   @override
-  FutureOr<DateTime> getAccessTokenExpiration() async {
+  FutureOr<DateTime?> getAccessTokenExpiration() async {
     final prefs = await _prefs;
-    return DateTime.parse(prefs.getString(_keyOAuthAccessTokenExpiration));
+    final String? tmp = prefs.getString(_keyOAuthAccessTokenExpiration);
+    return tmp != null ? DateTime.parse(tmp) : null;
   }
 
   @override
-  FutureOr<DateTime> setAccessTokenExpiration(DateTime expiration) async {
+  FutureOr<bool> setAccessTokenExpiration(DateTime expiration) async {
     final prefs = await _prefs;
-    return (await prefs.setString(
-            _keyOAuthAccessTokenExpiration, expiration.toIso8601String()))
-        ? expiration
-        : null;
+    return await prefs.setString(
+      _keyOAuthAccessTokenExpiration,
+      expiration.toIso8601String(),
+    );
   }
 
   @override
-  FutureOr<DateTime> deleteAccessTokenExpiration() async {
+  FutureOr<bool> deleteAccessTokenExpiration() async {
     final prefs = await _prefs;
-    await prefs.remove(_keyOAuthAccessTokenExpiration);
-    return null;
+    return await prefs.remove(_keyOAuthAccessTokenExpiration);
   }
 
   @override
-  FutureOr<String> getRefreshToken() async {
+  FutureOr<String?> getRefreshToken() async {
     final prefs = await _prefs;
     return prefs.getString(_keyOAuthRefreshToken);
   }
 
   @override
-  FutureOr<String> setRefreshToken(String refreshToken) async {
+  FutureOr<bool> setRefreshToken(String? refreshToken) async {
     final prefs = await _prefs;
-    return (await prefs.setString(_keyOAuthRefreshToken, refreshToken))
-        ? refreshToken
-        : null;
+    return await prefs.setString(_keyOAuthRefreshToken, refreshToken!);
   }
 
   @override
-  FutureOr<String> deleteRefreshToken() async {
+  FutureOr<bool> deleteRefreshToken() async {
     final prefs = await _prefs;
-    await prefs.remove(_keyOAuthRefreshToken);
-    return null;
+    return prefs.remove(_keyOAuthRefreshToken);
   }
 
   @override
-  FutureOr<DateTime> getRefreshTokenExpiration() async {
+  FutureOr<DateTime?> getRefreshTokenExpiration() async {
     final prefs = await _prefs;
-    return DateTime.parse(prefs.getString(_keyOAuthRefreshTokenExpiration));
+    final String? tmp = prefs.getString(_keyOAuthRefreshTokenExpiration);
+    return tmp != null ? DateTime.parse(tmp) : null;
   }
 
   @override
-  FutureOr<DateTime> setRefreshTokenExpiration(DateTime expiration) async {
+  FutureOr<bool> setRefreshTokenExpiration(DateTime expiration) async {
     final prefs = await _prefs;
-    return (await prefs.setString(
-            _keyOAuthRefreshTokenExpiration, expiration.toIso8601String()))
-        ? expiration
-        : null;
+    return await prefs.setString(
+      _keyOAuthRefreshTokenExpiration,
+      expiration.toIso8601String(),
+    );
   }
 
   @override
-  FutureOr<DateTime> deleteRefreshTokenExpiration() async {
+  FutureOr<bool> deleteRefreshTokenExpiration() async {
     final prefs = await _prefs;
-    await prefs.remove(_keyOAuthRefreshTokenExpiration);
-    return null;
+    return await prefs.remove(_keyOAuthRefreshTokenExpiration);
   }
 
   /// ----------------------------------------------------------
   /// -------------------------- All ---------------------------
   /// ----------------------------------------------------------
 
-  Future deleteAll() async {
-    await deleteAccessToken();
-    await deleteAccessTokenExpiration();
-    await deleteRefreshToken();
-    await deleteRefreshTokenExpiration();
+  FutureOr<bool> deleteAll() async {
+    return await deleteAccessToken() &
+        await deleteAccessTokenExpiration() &
+        await deleteRefreshToken() &
+        await deleteRefreshTokenExpiration();
   }
 }

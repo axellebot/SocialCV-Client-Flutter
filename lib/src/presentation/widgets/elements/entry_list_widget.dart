@@ -2,16 +2,17 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
+import 'package:social_cv_client_flutter/presentation.dart';
 
 /// [EntryListWidget] is a clever widget that use an [EntryListBloc]
 /// based on [parentGroupId] or [ownerId] or [entryListBloc]
 abstract class EntryListWidget extends StatefulWidget {
-  final String parentGroupId;
-  final String ownerId;
-  final EntryListBloc entryListBloc;
+  final String? parentGroupId;
+  final String? ownerId;
+  final EntryListBloc? entryListBloc;
 
   const EntryListWidget({
-    Key key,
+    Key? key,
     this.parentGroupId,
     this.ownerId,
     this.entryListBloc,
@@ -27,7 +28,7 @@ abstract class EntryListWidget extends StatefulWidget {
 /// If [widget.entryListBloc] exists the lifecycle of it will be managed by its creator
 abstract class ComplexEntryListState<T extends EntryListWidget>
     extends State<T> {
-  EntryListBloc entryListBloc;
+  EntryListBloc? entryListBloc;
 
   @override
   void initState() {
@@ -38,16 +39,17 @@ abstract class ComplexEntryListState<T extends EntryListWidget>
     if (entryListBloc == null) {
       final repo = Provider.of<EntryRepository>(context, listen: false);
       entryListBloc = EntryListBloc(repository: repo);
-      entryListBloc.add(EntryListInitialize(
+      entryListBloc!.add(EntryListInitialize(
         parentGroupId: widget.parentGroupId,
         ownerId: widget.ownerId,
+        cursor: const Cursor(),
       ));
     }
   }
 
   @override
   void dispose() {
-    if (widget.entryListBloc == null) entryListBloc.close();
+    if (widget.entryListBloc == null) entryListBloc!.close();
     super.dispose();
   }
 }

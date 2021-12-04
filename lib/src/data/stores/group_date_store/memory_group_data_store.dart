@@ -9,13 +9,14 @@ class MemoryGroupDataStore implements GroupDataStore {
 
   MemoryGroupDataStore();
 
-  final _groups = <String, CacheModel<GroupDataModel>>{};
+  final Map<String, CacheModel<GroupDataModel>> _groups =
+      <String, CacheModel<GroupDataModel>>{};
 
   @override
-  FutureOr<GroupDataModel> getGroup(String groupId) async {
+  FutureOr<GroupDataModel?> getGroup(String groupId) async {
     print('$_tag:getGroup($groupId)');
 
-    final CacheModel<GroupDataModel> cacheModel = _groups[groupId];
+    final CacheModel<GroupDataModel>? cacheModel = _groups[groupId];
     return (cacheModel != null && !cacheModel.isExpired())
         ? cacheModel.model
         : null;
@@ -25,10 +26,11 @@ class MemoryGroupDataStore implements GroupDataStore {
   FutureOr<GroupDataModel> setGroup(GroupDataModel groupModel) async {
     print('$_tag:setGroup($groupModel)');
 
-    final DateTime expiration =
-        generateExpirationDateTime(Duration(minutes: 1));
-    final cacheModel =
-        CacheModel<GroupDataModel>(model: groupModel, expiration: expiration);
+    final DateTime expiration = defaultExpirationDateTime;
+    final cacheModel = CacheModel<GroupDataModel>(
+      model: groupModel,
+      expiration: expiration,
+    );
     _groups[groupModel.id] = cacheModel;
 
     return cacheModel.model;
@@ -47,7 +49,7 @@ class MemoryGroupDataStore implements GroupDataStore {
     Cursor cursor = const Cursor(),
   }) {
     // TODO: implement getGroupsFromPart
-    return null;
+    return [];
   }
 
   @override

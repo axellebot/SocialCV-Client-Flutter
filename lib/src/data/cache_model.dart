@@ -1,11 +1,8 @@
-import 'package:meta/meta.dart';
-
 class CacheModel<T> {
   CacheModel({
-    @required this.model,
-    @required this.expiration,
-  })  : assert(model != null),
-        assert(model != null);
+    required this.model,
+    required this.expiration,
+  });
 
   T model;
   DateTime expiration;

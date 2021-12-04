@@ -6,9 +6,7 @@ class ArcBannerImage extends StatelessWidget {
 
   final ImageProvider imageProvider;
 
-  ArcBannerImage({Key key, @required this.imageProvider})
-      : assert(imageProvider != null, 'No $ImageProvider given'),
-        super(key: key);
+  ArcBannerImage({Key? key, required this.imageProvider}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

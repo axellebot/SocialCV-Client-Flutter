@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'config_model.g.dart';
 
@@ -15,9 +14,9 @@ class ConfigDataModel {
   String clientSecret;
 
   ConfigDataModel({
-    @required this.apiServerUrl,
-    @required this.clientId,
-    @required this.clientSecret,
+    required this.apiServerUrl,
+    required this.clientId,
+    required this.clientSecret,
   }) : super();
 
   factory ConfigDataModel.fromJson(Map<String, dynamic> json) =>

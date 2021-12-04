@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
 abstract class ProfileState extends Equatable {
-  ProfileState([List props = const []]) : super(props);
+  const ProfileState() : super();
+
+  @override
+  List<Object> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -16,9 +18,14 @@ class ProfileUninitialized extends ProfileState
 class ProfileLoading extends ProfileState with ElementLoading<ProfileEntity> {}
 
 class ProfileLoaded extends ProfileState with ElementLoaded<ProfileEntity> {
-  ProfileLoaded({ProfileEntity profile}) : super([profile]) {
+  ProfileLoaded({
+    required ProfileEntity profile,
+  }) : super() {
     element = profile;
   }
+
+  @override
+  List<Object> get props => super.props..addAll([element]);
 
   @override
   String toString() {
@@ -29,11 +36,14 @@ class ProfileLoaded extends ProfileState with ElementLoaded<ProfileEntity> {
 }
 
 class ProfileFailure extends ProfileState with ElementFailure<ProfileEntity> {
-  ProfileFailure({@required dynamic error})
-      : assert(error != null, 'No error given'),
-        super([error]) {
+  ProfileFailure({
+    required Object error,
+  }) : super() {
     this.error = error;
   }
+
+  @override
+  List<Object> get props => super.props..addAll([error]);
 
   @override
   String toString() => '$runtimeType{ '

@@ -1,5 +1,5 @@
 class NotImplementedYetError extends Error {
-  final String message;
+  final String? message;
 
   NotImplementedYetError([this.message]);
 

@@ -33,7 +33,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     print('$_tag:build');
-    LoginBloc _loginBloc = BlocProvider.of<LoginBloc>(context);
+    final LoginBloc _loginBloc = BlocProvider.of<LoginBloc>(context);
 
     void _loginPressed() {
       _loginBloc.add(LoginButtonPressed(
@@ -67,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Center(
-                    child: Text(CVLocalizations.of(context).authLoginTitle),
+                    child: Text(CVLocalizations.of(context)!.authLoginTitle),
                   ),
                   Padding(
                     padding: AppStyles.defaultFormInputPadding,
@@ -76,8 +76,8 @@ class _LoginFormState extends State<LoginForm> {
                       textInputAction: TextInputAction.next,
                       controller: loginEmailController,
                       decoration: InputDecoration(
-                        hintText: CVLocalizations.of(context).formEmailHint,
-                        labelText: CVLocalizations.of(context).formEmailLabel,
+                        hintText: CVLocalizations.of(context)!.formEmailHint,
+                        labelText: CVLocalizations.of(context)!.formEmailLabel,
                       ),
                     ),
                   ),
@@ -94,12 +94,12 @@ class _LoginFormState extends State<LoginForm> {
                           onPressed: _toggleLoginPassword,
                         ),
                         labelText:
-                            CVLocalizations.of(context).formPasswordLabel,
+                            CVLocalizations.of(context)!.formPasswordLabel,
                       ),
                     ),
                   ),
                   MaterialButton(
-                    child: Text(CVLocalizations.of(context).authLoginCTA),
+                    child: Text(CVLocalizations.of(context)!.authLoginCTA),
                     onPressed: state is! LoginLoading ? _loginPressed : null,
                   ),
                 ],

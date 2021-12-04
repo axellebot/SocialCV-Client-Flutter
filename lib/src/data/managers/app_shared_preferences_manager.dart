@@ -17,13 +17,13 @@ class AppPrefsManager implements AppPrefsDataStore {
   /// --------------------------------------------------------------------------
 
   @override
-  FutureOr<bool> getDarkMode() async {
+  FutureOr<bool?> getDarkMode() async {
     final storage = await _prefs;
     return storage.getBool(_keyAppDarkMode);
   }
 
   @override
-  FutureOr<bool> toggleDarkMode(bool darkMode) async {
+  FutureOr<bool> setDarkMode(bool darkMode) async {
     final storage = await _prefs;
     return await storage.setBool(
       _keyAppDarkMode,
@@ -34,8 +34,7 @@ class AppPrefsManager implements AppPrefsDataStore {
   @override
   FutureOr<bool> deleteDarkMode() async {
     final storage = await _prefs;
-    await storage.remove(_keyAppDarkMode);
-    return null;
+    return storage.remove(_keyAppDarkMode);
   }
 
   /// --------------------------------------------------------------------------
@@ -43,8 +42,8 @@ class AppPrefsManager implements AppPrefsDataStore {
   /// --------------------------------------------------------------------------
 
   @override
-  Future<void> deleteAll() async {
+  FutureOr<bool> deleteAllPrefs() async {
     final storage = await _prefs;
-    await storage.remove(_keyAppDarkMode);
+    return await storage.remove(_keyAppDarkMode);
   }
 }

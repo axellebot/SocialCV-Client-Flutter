@@ -6,9 +6,17 @@ import 'package:social_cv_client_flutter/presentation.dart';
 
 /// [GroupProfileWidget] is an [GroupWidget] for profile display purpose
 class GroupProfileWidget extends GroupWidget {
-  GroupProfileWidget(
-      {Key key, String groupId, GroupEntity group, GroupBloc groupBloc})
-      : super(key: key, groupId: groupId, group: group, groupBloc: groupBloc);
+  const GroupProfileWidget({
+    Key? key,
+    String? groupId,
+    GroupEntity? group,
+    GroupBloc? groupBloc,
+  }) : super(
+          key: key,
+          groupId: groupId,
+          group: group,
+          groupBloc: groupBloc,
+        );
 
   @override
   State<StatefulWidget> createState() => _GroupProfileWidgetState();
@@ -21,7 +29,7 @@ class _GroupProfileWidgetState extends GroupWidgetState<GroupProfileWidget> {
       bloc: groupBloc,
       builder: (BuildContext context, GroupState state) {
         if (state is GroupLoaded) {
-          GroupEntity group;
+          final GroupEntity group = state.element;
           if (group.type == kCVGroupTypeListHorizontal) {
             return _GroupHorizontal(group: group);
           } else if (group.type == kCVGroupTypeListVertical) {
@@ -38,8 +46,8 @@ class _GroupProfileWidgetState extends GroupWidgetState<GroupProfileWidget> {
 
 class _GroupHorizontal extends StatelessWidget {
   const _GroupHorizontal({
-    @required this.group,
-  }) : assert(group != null);
+    required this.group,
+  });
 
   final GroupEntity group;
 
@@ -56,14 +64,14 @@ class _GroupHorizontal extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                group.name.toUpperCase(),
+                group.name!.toUpperCase(),
                 style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              FlatButton(
-                child: Text(CVLocalizations.of(context).groupWidgetDetails),
+              TextButton(
+                child: Text(CVLocalizations.of(context)!.groupWidgetDetails),
                 onPressed: () => navigateToGroup(context, group: group),
               ),
             ],
@@ -84,8 +92,8 @@ class _GroupHorizontal extends StatelessWidget {
 
 class _GroupVertical extends StatelessWidget {
   const _GroupVertical({
-    @required this.group,
-  }) : assert(group != null);
+    required this.group,
+  });
 
   final GroupEntity group;
 
@@ -101,13 +109,13 @@ class _GroupVertical extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                group.name.toUpperCase(),
+                group.name!.toUpperCase(),
                 style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold),
               ),
-              FlatButton(
-                child: Text(CVLocalizations.of(context).groupWidgetDetails),
+              TextButton(
+                child: Text(CVLocalizations.of(context)!.groupWidgetDetails),
                 onPressed: () => navigateToGroup(context, group: group),
               ),
             ],

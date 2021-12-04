@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
@@ -11,7 +10,7 @@ class PartListBloc extends ElementListBloc<PartEntity, PartRepository,
     PartListEvent, PartListState> {
   final String _tag = '$PartListBloc';
 
-  PartListBloc({@required PartRepository repository})
+  PartListBloc({required PartRepository repository})
       : super(
           repository: repository,
           initialState: PartListUninitialized(),
@@ -70,7 +69,7 @@ class PartListBloc extends ElementListBloc<PartEntity, PartRepository,
     try {
       /// TODO: Add load more indicator stream
 
-      List<PartEntity> parts = await _getParts(
+      final List<PartEntity> parts = await _getParts(
         cursor: event.cursor.copyWith(offset: elements.length),
       );
 
@@ -86,16 +85,16 @@ class PartListBloc extends ElementListBloc<PartEntity, PartRepository,
     }
   }
 
-  FutureOr<List<PartEntity>> _getParts({@required Cursor cursor}) async {
+  FutureOr<List<PartEntity>> _getParts({required Cursor cursor}) async {
     print('$_tag:_getParts({cursor: $cursor})');
     if (parentId != null) {
       return await repository.getPartsFromProfile(
-        parentId,
+        parentId!,
         cursor: cursor,
       );
     } else if (ownerId != null) {
       return await repository.getPartsFromUser(
-        ownerId,
+        ownerId!,
         cursor: cursor,
       );
     } else {

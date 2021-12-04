@@ -6,16 +6,16 @@ class RepositoryProvider<CVRepository> extends InheritedWidget {
   final CVRepository repository;
 
   const RepositoryProvider({
-    Key key,
-    @required Widget child,
-    @required this.repository,
+    Key? key,
+    required Widget child,
+    required this.repository,
   }) : super(key: key, child: child);
 
   @override
   bool updateShouldNotify(InheritedWidget _) => false;
 
-  static T of<T extends Object>(BuildContext context) {
+  static T? of<T extends Object>(BuildContext context) {
     return context
-        .getElementForInheritedWidgetOfExactType<RepositoryProvider<T>>() as T;
+        .getElementForInheritedWidgetOfExactType<RepositoryProvider<T>>() as T?;
   }
 }

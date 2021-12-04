@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
@@ -15,24 +14,20 @@ class AuthenticationBloc
   final LoginBloc loginBloc;
   final RegisterBloc registerBloc;
 
-  StreamSubscription registerBlocSubscription;
-  StreamSubscription loginBlocSubscription;
+  late StreamSubscription registerBlocSubscription;
+  late StreamSubscription loginBlocSubscription;
 
   AuthenticationBloc({
-    @required this.cvAuthService,
-    @required this.authInfoRepository,
-    @required this.loginBloc,
-    @required this.registerBloc,
-  })  : assert(cvAuthService != null, 'No $CVAuthService given'),
-        assert(authInfoRepository != null, 'No $AppPrefsRepository given'),
-        assert(loginBloc != null, 'No $LoginBloc given'),
-        assert(registerBloc != null, 'No $RegisterBloc given'),
-        super(AuthenticationUninitialized()) {
-    loginBlocSubscription = loginBloc.stream.listen((state) {
-      on<AppStarted>(_onAppStart);
-      on<Login>(_onLogin);
-      on<Logout>(_onLogout);
+    required this.cvAuthService,
+    required this.authInfoRepository,
+    required this.loginBloc,
+    required this.registerBloc,
+  }) : super(AuthenticationUninitialized()) {
+    on<AppStarted>(_onAppStart);
+    on<Login>(_onLogin);
+    on<Logout>(_onLogout);
 
+    loginBlocSubscription = loginBloc.stream.listen((state) {
       if (state is LoginSucceed) {
         add(Login(
           accessToken: state.accessToken,
@@ -70,12 +65,12 @@ class AuthenticationBloc
     Emitter<AuthenticationState> emit,
   ) async {
     try {
-      final token = await authInfoRepository.getAccessToken();
+      final String? accessToken = await authInfoRepository.getAccessToken();
 
       /// TODO: Check access token expiration and fetch new access token with refresh token
       /// TODO: Check refresh token expiration, if it's expired set state to Unauthenticated
 
-      if (token != null && token?.length > 0) {
+      if (accessToken != null) {
         emit(AuthenticationAuthenticated());
       } else {
         emit(AuthenticationUnauthenticated());

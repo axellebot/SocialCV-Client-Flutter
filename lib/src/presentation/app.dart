@@ -8,14 +8,14 @@ import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
 
 class ConfigWrapperApp extends StatefulWidget {
-  const ConfigWrapperApp({Key key}) : super(key: key);
+  const ConfigWrapperApp({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ConfigWrapperAppState();
 }
 
 class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
-  ConfigurationBloc _configBloc;
+  ConfigurationBloc? _configBloc;
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
     _configBloc = ConfigurationBloc();
 
     /// Inform ConfigBloc that the application have been launched
-    _configBloc.add(AppLaunched());
+    _configBloc!.add(AppLaunched());
   }
 
   @override
@@ -44,7 +44,7 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
           /// Use updateShouldNotify to make dependencies available in
           /// `initState` methods of children widgets
           return BlocProvider<ConfigurationBloc>.value(
-            value: _configBloc,
+            value: _configBloc!,
             child: MultiProvider(
               providers: <Provider>[
                 Provider<CVAuthService>.value(
@@ -94,7 +94,7 @@ class _ConfigWrapperAppState extends State<ConfigWrapperApp> {
 class _BlocWrapper extends StatefulWidget {
   final ConfigLoaded state;
 
-  const _BlocWrapper({Key key, @required this.state}) : super(key: key);
+  const _BlocWrapper({Key? key, required this.state}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _BlocWrapperState();
@@ -103,11 +103,11 @@ class _BlocWrapper extends StatefulWidget {
 class _BlocWrapperState extends State<_BlocWrapper> {
   final String _tag = '$_BlocWrapperState';
 
-  AppBloc _appBloc;
-  IdentityBloc _identityBloc;
-  LoginBloc _loginBloc;
-  RegisterBloc _registerBloc;
-  AuthenticationBloc _authBloc;
+  AppBloc? _appBloc;
+  IdentityBloc? _identityBloc;
+  LoginBloc? _loginBloc;
+  RegisterBloc? _registerBloc;
+  AuthenticationBloc? _authBloc;
 
   ConfigLoaded get _state => widget.state;
 
@@ -124,20 +124,20 @@ class _BlocWrapperState extends State<_BlocWrapper> {
     _authBloc = AuthenticationBloc(
       authInfoRepository: _state.authInfoRepository,
       cvAuthService: _state.cvAuthService,
-      loginBloc: _loginBloc,
-      registerBloc: _registerBloc,
+      loginBloc: _loginBloc!,
+      registerBloc: _registerBloc!,
     );
 
     _identityBloc = IdentityBloc(
       identityRepo: _state.identityRepository,
-      authBloc: _authBloc,
+      authBloc: _authBloc!,
     );
 
     // Inform AppBloc that the application just started
-    _appBloc.add(AppConfigure());
+    _appBloc!.add(AppConfigure());
 
     // Inform AuthBloc that the application just started
-    _authBloc.add(AppStarted());
+    _authBloc!.add(AppStarted());
   }
 
   @override
@@ -156,11 +156,11 @@ class _BlocWrapperState extends State<_BlocWrapper> {
 
     return MultiBlocProvider(
       providers: <BlocProvider>[
-        BlocProvider<AppBloc>.value(value: _appBloc),
-        BlocProvider<AuthenticationBloc>.value(value: _authBloc),
-        BlocProvider<IdentityBloc>.value(value: _identityBloc),
-        BlocProvider<LoginBloc>.value(value: _loginBloc),
-        BlocProvider<RegisterBloc>.value(value: _registerBloc),
+        BlocProvider<AppBloc>.value(value: _appBloc!),
+        BlocProvider<AuthenticationBloc>.value(value: _authBloc!),
+        BlocProvider<IdentityBloc>.value(value: _identityBloc!),
+        BlocProvider<LoginBloc>.value(value: _loginBloc!),
+        BlocProvider<RegisterBloc>.value(value: _registerBloc!),
       ],
       child: _App(),
     );
@@ -170,7 +170,7 @@ class _BlocWrapperState extends State<_BlocWrapper> {
 class _App extends StatelessWidget {
   final String _tag = '$_App';
 
-  _App({Key key}) : super(key: key);
+  _App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +179,7 @@ class _App extends StatelessWidget {
     ///Routes
     final appRouter = AppRouter();
 
-    AppInitialized tmpState;
+    late AppInitialized tmpState;
 
     return BlocBuilder(
       bloc: BlocProvider.of<AppBloc>(context),
@@ -189,7 +189,7 @@ class _App extends StatelessWidget {
 
           return MaterialApp(
             onGenerateTitle: (BuildContext context) =>
-                CVLocalizations.of(context).appName,
+                CVLocalizations.of(context)!.appName,
             theme: _buildCVTheme(tmpState.darkMode),
             home: const MainPage(),
             onGenerateRoute: appRouter.router.generator,
@@ -237,7 +237,6 @@ class _App extends StatelessWidget {
 
     ButtonThemeData buttonThemeData;
     IconThemeData iconThemeData;
-    TextTheme textThemeData;
 
     if (!darkMode) {
       buttonThemeData =

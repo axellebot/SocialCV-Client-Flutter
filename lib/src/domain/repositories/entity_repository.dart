@@ -25,6 +25,6 @@ abstract class EntityRepository<T extends BaseEntity> {
     Cursor cursor = const Cursor(),
   });
 
-// TODO: Add delete
-// TODO: Add create
+  /// TODO: Add delete
+  /// TODO: Add create
 }

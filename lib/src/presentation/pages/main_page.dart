@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key key}) : super(key: key);
+  const MainPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _MainPageState();
@@ -23,7 +25,7 @@ class _MainPageState extends State<MainPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(CVLocalizations.of(context).appName),
+        title: Text(CVLocalizations.of(context)!.appName),
         centerTitle: true,
         actions: [
           MenuButton(),
@@ -32,8 +34,8 @@ class _MainPageState extends State<MainPage> {
       body: _children.elementAt(_currentIndex),
       floatingActionButton: FloatingActionButton.extended(
         heroTag: AppHeroes.searchFab,
-        icon: Icon(Icons.search),
-        label: Text(CVLocalizations.of(context).search),
+        icon: const Icon(Icons.search),
+        label: Text(CVLocalizations.of(context)!.search),
         foregroundColor: Colors.white,
         onPressed: () => navigateToSearch(context),
       ),
@@ -55,19 +57,20 @@ class _MainPageState extends State<MainPage> {
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(MdiIcons.homeOutline),
-              activeIcon: Icon(MdiIcons.home),
-              title: Text(CVLocalizations.of(context).homeCTA),
+              icon: const Icon(MdiIcons.homeOutline),
+              activeIcon: const Icon(MdiIcons.home),
+              label: CVLocalizations.of(context)!.homeCTA,
             ),
+
+            ///Fake item
             const BottomNavigationBarItem(
-              ///Fake item
               icon: SizedBox(),
-              title: SizedBox(),
+              label: '',
             ),
             BottomNavigationBarItem(
-              icon: Icon(MdiIcons.accountOutline),
-              activeIcon: Icon(MdiIcons.account),
-              title: Text(CVLocalizations.of(context).accountCTA),
+              icon: const Icon(MdiIcons.accountOutline),
+              activeIcon: const Icon(MdiIcons.account),
+              label: CVLocalizations.of(context)!.accountCTA,
             ),
           ],
         ),

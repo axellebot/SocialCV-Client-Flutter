@@ -1,13 +1,11 @@
-import 'package:meta/meta.dart';
-
 abstract class ElementViewModel {
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int version;
+  String? id;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? version;
 
   ElementViewModel({
-    @required this.id,
+    required this.id,
     this.createdAt,
     this.updatedAt,
     this.version,

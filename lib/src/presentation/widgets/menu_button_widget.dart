@@ -9,7 +9,7 @@ class MenuButton extends StatelessWidget {
   final EdgeInsetsGeometry padding;
 
   MenuButton({
-    Key key,
+    Key? key,
     this.padding = const EdgeInsets.symmetric(
       vertical: AppStyles.appMenuButtonVerticalPadding,
     ),
@@ -59,7 +59,7 @@ class _MenuButtonNotConnected extends StatelessWidget {
 class _MenuButtonConnected extends StatelessWidget {
   final String _tag = '$_MenuButtonConnected';
 
-  _MenuButtonConnected({Key key}) : super(key: key);
+  _MenuButtonConnected({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class _MenuButtonConnected extends StatelessWidget {
             onPressed: () => openMenuBottomSheet(context),
             icon: InitialCircleAvatar(
               text: state.user.username,
-              backgroundImage: NetworkImage(state.user.picture),
+              backgroundImage: NetworkImage(state.user.picture!),
             ),
           );
         } else if (state is IdentityFailed) {

@@ -1,16 +1,16 @@
 import 'package:social_cv_client_flutter/presentation.dart';
 
 class EntryViewModel extends ElementViewModel {
-  String name;
-  String type;
+  String? name;
+  String? type;
   dynamic content;
-  String startDate;
-  String endDate;
-  String location;
-  String ownerId;
+  String? startDate;
+  String? endDate;
+  String? location;
+  String? ownerId;
 
   EntryViewModel({
-    String id,
+    String? id,
     this.name,
     this.type,
     this.content,
@@ -18,9 +18,9 @@ class EntryViewModel extends ElementViewModel {
     this.endDate,
     this.location,
     this.ownerId,
-    DateTime createdAt,
-    DateTime updatedAt,
-    int version,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? version,
   }) : super(
           id: id,
           createdAt: createdAt,
@@ -29,18 +29,18 @@ class EntryViewModel extends ElementViewModel {
         );
 
   EntryViewModel copyWith({
-    String id,
-    String name,
-    String type,
-    String content,
-    String startDate,
-    String endDate,
-    String location,
-    String groupId,
-    String ownerId,
-    DateTime createdAt,
-    DateTime updatedAt,
-    int version,
+    String? id,
+    String? name,
+    String? type,
+    String? content,
+    String? startDate,
+    String? endDate,
+    String? location,
+    String? groupId,
+    String? ownerId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? version,
   }) {
     return EntryViewModel(
       id: id ?? this.id,

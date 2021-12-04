@@ -1,22 +1,18 @@
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
 class ApiException extends AppException {
   ApiException._internal({
-    @required AppExceptionType type,
-    String message,
-    StackTrace stackTrace,
-  })  : assert(type != null, ' No $AppExceptionType given'),
-        super(type: type, message: message, stackTrace: stackTrace);
+    required AppExceptionType type,
+    String? message,
+    StackTrace? stackTrace,
+  }) : super(type: type, message: message, stackTrace: stackTrace);
 
   factory ApiException.fromDioRequest({
-    @required String errorCode,
-    String message,
-    StackTrace stackTrace,
+    required String errorCode,
+    String? message,
+    StackTrace? stackTrace,
   }) {
-    assert(errorCode != null);
-
-    final AppExceptionType errorType = _apiErrorCodes[errorCode];
+    final AppExceptionType? errorType = _apiErrorCodes[errorCode];
 
     return ApiException._internal(
       type: errorType ?? AppExceptionType.somethingWentWrong,

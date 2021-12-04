@@ -5,12 +5,16 @@ import 'package:social_cv_client_flutter/domain.dart';
 
 /// If [partBloc] given we assume that it have been already initialized
 abstract class PartWidget extends StatefulWidget {
-  final String partId;
-  final PartEntity part;
-  final PartBloc partBloc;
+  final String? partId;
+  final PartEntity? part;
+  final PartBloc? partBloc;
 
-  const PartWidget({Key key, this.partId, this.part, this.partBloc})
-      : assert(partId != null && part == null && partBloc == null),
+  const PartWidget({
+    Key? key,
+    this.partId,
+    this.part,
+    this.partBloc,
+  })  : assert(partId != null && part == null && partBloc == null),
         assert(partId == null && part != null && partBloc == null),
         assert(partId == null && part == null && partBloc != null),
         super(key: key);
@@ -18,7 +22,7 @@ abstract class PartWidget extends StatefulWidget {
 
 /// If [widget.partBloc] exists the lifecycle of it will be managed by its creator
 abstract class PartWidgetState<T extends PartWidget> extends State<T> {
-  PartBloc partBloc;
+  PartBloc? partBloc;
 
   @override
   void initState() {
@@ -30,7 +34,7 @@ abstract class PartWidgetState<T extends PartWidget> extends State<T> {
       final partRepo = Provider.of<PartRepository>(context, listen: false);
 
       partBloc = PartBloc(repository: partRepo);
-      partBloc.add(PartInitialize(
+      partBloc!.add(PartInitialize(
         partId: widget.partId,
         part: widget.part,
       ));
@@ -39,7 +43,7 @@ abstract class PartWidgetState<T extends PartWidget> extends State<T> {
 
   @override
   void dispose() {
-    if (widget.partBloc == null) partBloc.close();
+    if (widget.partBloc == null) partBloc!.close();
     super.dispose();
   }
 }

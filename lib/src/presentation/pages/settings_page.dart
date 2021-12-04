@@ -3,7 +3,7 @@ import 'package:social_cv_client_flutter/presentation.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -11,14 +11,14 @@ class SettingsPage extends StatelessWidget {
     Logger.log('Building SettingsPage');
     return Scaffold(
       appBar: AppBar(
-        title: Text(CVLocalizations.of(context).settingsTitle),
+        title: Text(CVLocalizations.of(context)!.settingsTitle),
       ),
       body: SafeArea(
         left: false,
         right: false,
         child: ListView(
-          children: [
-            const ThemeSwitchTile(),
+          children: const [
+            ThemeSwitchTile(),
             AboutListTile(icon: Icon(Icons.info)),
           ],
         ),

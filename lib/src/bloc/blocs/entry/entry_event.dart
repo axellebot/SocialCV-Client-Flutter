@@ -4,15 +4,20 @@ import 'package:social_cv_client_flutter/domain.dart';
 
 /// [EntryEvent] that must be dispatch to [EntryBloc]
 abstract class EntryEvent extends Equatable {
-  EntryEvent([List props = const []]) : super(props);
+  const EntryEvent() : super();
+
+  @override
+  List<Object?> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
 }
 
 class EntryInitialize extends EntryEvent with ElementInitialize<EntryEntity> {
-  EntryInitialize({String entryId, EntryEntity entry})
-      : assert(
+  EntryInitialize({
+    String? entryId,
+    EntryEntity? entry,
+  })  : assert(
           entryId != null && entry == null,
           '$EntryInitialize must be created with an $EntryEntity or its ID',
         ),
@@ -20,10 +25,13 @@ class EntryInitialize extends EntryEvent with ElementInitialize<EntryEntity> {
           entryId == null && entry != null,
           '$EntryInitialize must be created with an $EntryEntity or its ID',
         ),
-        super([entryId, entry]) {
+        super() {
     elementId = entryId;
     element = entry;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([elementId, element]);
 
   @override
   String toString() => '$runtimeType{ '

@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 /// [AuthenticationEvent] that must be dispatch to [AuthenticationBloc]
 abstract class AuthenticationEvent extends Equatable {
-  AuthenticationEvent([List props = const []]) : super(props);
+  const AuthenticationEvent() : super();
+
+  @override
+  List<Object> get props => [];
 }
 
 /// Use [AppStarted] to begin auth process on startup
@@ -15,21 +17,25 @@ class Login extends AuthenticationEvent {
   final DateTime accessTokenExpiration;
   final String refreshToken;
 
-  Login({
-    @required this.accessToken,
-    @required this.accessTokenExpiration,
-    @required this.refreshToken,
-  }) : super([
-          accessToken,
-          accessTokenExpiration,
-          refreshToken,
-        ]);
+  const Login({
+    required this.accessToken,
+    required this.accessTokenExpiration,
+    required this.refreshToken,
+  }) : super();
+
+  @override
+  List<Object> get props => super.props
+    ..addAll([
+      accessToken,
+      accessTokenExpiration,
+      refreshToken,
+    ]);
 
   @override
   String toString() => '$runtimeType{ '
       'accessToken: $accessToken, '
       'accessTokenExpiration: $accessTokenExpiration, '
-      'refreshToken: $refreshToken, '
+      'refreshToken: $refreshToken'
       ' }';
 }
 

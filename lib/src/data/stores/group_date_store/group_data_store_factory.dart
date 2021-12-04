@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 
 class GroupDataStoreFactory {
@@ -6,10 +5,9 @@ class GroupDataStoreFactory {
   final GroupDataStore memoryDataStore;
 
   GroupDataStoreFactory({
-    @required this.cloudDataStore,
-    @required this.memoryDataStore,
-  })  : assert(cloudDataStore != null, 'No cloud $GroupDataStore given'),
-        assert(memoryDataStore != null, 'No memory $GroupDataStore given');
+    required this.cloudDataStore,
+    required this.memoryDataStore,
+  });
 
   GroupDataStore get create => cloudDataStore;
 

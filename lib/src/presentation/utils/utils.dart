@@ -20,7 +20,7 @@ List<DropdownMenuItem<String>> getDropDownMenuElementPerPage() {
     kCVItemsPerPage3,
     kCVItemsPerPage4
   ];
-  final List<DropdownMenuItem<String>> items = List();
+  final List<DropdownMenuItem<String>> items = [];
   for (String value in _values) {
     items.add(DropdownMenuItem(value: value, child: Text(value)));
   }

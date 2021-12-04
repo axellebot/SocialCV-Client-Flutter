@@ -4,7 +4,6 @@ export 'package:social_cv_client_flutter/src/data/cache_model.dart';
 ///                                Exceptions
 /// ----------------------------------------------------------------------------
 export 'package:social_cv_client_flutter/src/data/exceptions/api_exceptions.dart';
-export 'package:social_cv_client_flutter/src/data/managers/api_interceptor.dart';
 
 /// ----------------------------------------------------------------------------
 ///                                Managers
@@ -13,6 +12,7 @@ export 'package:social_cv_client_flutter/src/data/managers/app_shared_preference
 export 'package:social_cv_client_flutter/src/data/managers/auth_shared_preferences_manager.dart';
 export 'package:social_cv_client_flutter/src/data/managers/config_assets_manager.dart';
 export 'package:social_cv_client_flutter/src/data/managers/cv_api_manager.dart';
+export 'package:social_cv_client_flutter/src/data/managers/oauth_interceptor.dart';
 
 /// ----------------------------------------------------------------------------
 ///                                Models

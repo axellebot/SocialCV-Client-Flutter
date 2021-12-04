@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
@@ -13,12 +12,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final AppPrefsRepository appPreferencesRepository;
 
   AppBloc({
-    @required this.appPreferencesRepository,
-  })  : assert(
-          appPreferencesRepository != null,
-          'No $AppPrefsRepository given',
-        ),
-        super(AppUninitialized()) {
+    required this.appPreferencesRepository,
+  }) : super(AppUninitialized()) {
     on<AppConfigure>(_onConfigure);
     on<AppThemeChange>(_onAppThemeChange);
   }

@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 
 class AuthInfoDataStoreFactory {
@@ -8,8 +7,7 @@ class AuthInfoDataStoreFactory {
 
   AuthInfoDataStore get create => diskDataStore;
 
-  AuthInfoDataStoreFactory({@required this.diskDataStore})
-      : assert(diskDataStore != null, 'No disk $AuthInfoDataStore given');
+  AuthInfoDataStoreFactory({required this.diskDataStore});
 
   @override
   String toString() => '$runtimeType{ '

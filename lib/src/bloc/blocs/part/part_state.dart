@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
 abstract class PartState extends Equatable {
-  PartState([List props = const []]) : super(props);
+  const PartState() : super();
+
+  @override
+  List<Object> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -16,22 +18,30 @@ class PartUninitialized extends PartState
 class PartLoading extends PartState with ElementLoading<PartEntity> {}
 
 class PartLoaded extends PartState with ElementLoaded<PartEntity> {
-  PartLoaded({PartEntity part}) : super([part]) {
+  PartLoaded({
+    required PartEntity part,
+  }) : super() {
     element = part;
   }
 
   @override
+  List<Object> get props => super.props..addAll([element]);
+
+  @override
   String toString() {
-    return '$runtimeType{ part: $element }';
+    return '$runtimeType{ '
+        'part: $element'
+        ' }';
   }
 }
 
 class PartFailure extends PartState with ElementFailure<PartEntity> {
-  PartFailure({@required dynamic error})
-      : assert(error != null, 'No error given'),
-        super([error]) {
+  PartFailure({required Object error}) : super() {
     this.error = error;
   }
+
+  @override
+  List<Object> get props => super.props..addAll([error]);
 
   @override
   String toString() => '$runtimeType{ '

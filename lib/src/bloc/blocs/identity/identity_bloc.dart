@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
@@ -11,13 +10,12 @@ class IdentityBloc extends Bloc<IdentityEvent, IdentityState> {
 
   final IdentityRepository identityRepo;
   final AuthenticationBloc authBloc;
-  StreamSubscription authBlocSubscription;
+  late StreamSubscription authBlocSubscription;
 
   IdentityBloc({
-    @required this.identityRepo,
-    @required this.authBloc,
-  })  : assert(identityRepo != null, 'No $IdentityRepository given'),
-        super(IdentityUninitialized()) {
+    required this.identityRepo,
+    required this.authBloc,
+  }) : super(IdentityUninitialized()) {
     on<IdentityRefresh>(_onIdentityRefresh);
 
     authBlocSubscription = authBloc.stream.listen((state) {

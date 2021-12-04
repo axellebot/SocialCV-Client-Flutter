@@ -9,11 +9,11 @@ import 'package:social_cv_client_flutter/src/presentation/widgets/error_widget.d
 import 'package:social_cv_client_flutter/src/presentation/widgets/initial_circle_avatar_widget.dart';
 
 class ProfileTile extends ProfileWidget {
-  ProfileTile({
-    Key key,
-    String profileId,
-    ProfileEntity profile,
-    ProfileBloc profileBloc,
+  const ProfileTile({
+    Key? key,
+    String? profileId,
+    ProfileEntity? profile,
+    ProfileBloc? profileBloc,
   }) : super(
           key: key,
           profileId: profileId,
@@ -33,7 +33,7 @@ class _ProfileTileState extends ProfileWidgetState<ProfileTile> {
       builder: (BuildContext context, ProfileState state) {
         if (state is ProfileLoading) {
         } else if (state is ProfileLoaded) {
-          var profile = state.element;
+          final profile = state.element;
           return ListTile(
             leading: InitialCircleAvatar(
               backgroundImage: NetworkImage('${profile.picture ?? ''}'),
@@ -41,7 +41,7 @@ class _ProfileTileState extends ProfileWidgetState<ProfileTile> {
             title: Text(profile.title ?? ''),
             subtitle: Text(profile.subtitle ?? ''),
             onTap: () => navigateToProfile(context, profile.id),
-            trailing: Icon(MdiIcons.accountDetails),
+            trailing: const Icon(MdiIcons.accountDetails),
           );
         } else if (state is ProfileFailure) {
           return ErrorTile(error: state.error);

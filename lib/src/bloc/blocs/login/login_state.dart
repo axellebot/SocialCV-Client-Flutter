@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 abstract class LoginState extends Equatable {
-  LoginState([List props = const []]) : super(props);
+  const LoginState() : super();
+
+  @override
+  List<Object> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -13,11 +15,14 @@ class LoginInitial extends LoginState {}
 class LoginLoading extends LoginState {}
 
 class LoginFailure extends LoginState {
-  final dynamic error;
+  final Object error;
 
-  LoginFailure({@required this.error})
-      : assert(error != null, 'No error given'),
-        super([error]);
+  const LoginFailure({
+    required this.error,
+  }) : super();
+
+  @override
+  List<Object> get props => super.props..addAll([error]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -30,11 +35,19 @@ class LoginSucceed extends LoginState {
   final DateTime accessTokenExpiration;
   final String refreshToken;
 
-  LoginSucceed({
-    @required this.accessToken,
-    @required this.accessTokenExpiration,
-    @required this.refreshToken,
-  }) : super([accessToken, accessTokenExpiration, refreshToken]);
+  const LoginSucceed({
+    required this.accessToken,
+    required this.accessTokenExpiration,
+    required this.refreshToken,
+  }) : super();
+
+  @override
+  List<Object> get props => super.props
+    ..addAll([
+      accessToken,
+      accessTokenExpiration,
+      refreshToken,
+    ]);
 
   @override
   String toString() => '$runtimeType{ '

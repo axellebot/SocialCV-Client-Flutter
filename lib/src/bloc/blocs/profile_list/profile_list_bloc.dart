@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
@@ -11,7 +10,7 @@ class ProfileListBloc extends ElementListBloc<ProfileEntity, ProfileRepository,
     ProfileListEvent, ProfileListState> {
   final String _tag = '$ProfileListBloc';
 
-  ProfileListBloc({@required ProfileRepository repository})
+  ProfileListBloc({required ProfileRepository repository})
       : super(
           repository: repository,
           initialState: ProfileListUninitialized(),
@@ -86,16 +85,16 @@ class ProfileListBloc extends ElementListBloc<ProfileEntity, ProfileRepository,
     }
   }
 
-  FutureOr<List<ProfileEntity>> _getProfiles({@required Cursor cursor}) async {
+  FutureOr<List<ProfileEntity>> _getProfiles({required Cursor cursor}) async {
     print('$_tag:_getProfiles({cursor: $cursor})');
     if (parentId != null) {
       return await repository.getProfilesFromUser(
-        parentId,
+        parentId!,
         cursor: cursor,
       );
     } else if (ownerId != null) {
       return await repository.getProfilesFromUser(
-        ownerId,
+        ownerId!,
         cursor: cursor,
       );
     } else {

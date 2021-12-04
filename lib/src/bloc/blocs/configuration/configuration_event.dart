@@ -2,7 +2,10 @@ import 'package:equatable/equatable.dart';
 
 /// [ConfigurationEvent] that must be dispatch to [AppBloc]
 abstract class ConfigurationEvent extends Equatable {
-  ConfigurationEvent([List props = const []]) : super(props);
+  const ConfigurationEvent() : super();
+
+  @override
+  List<Object> get props => [];
 
   @override
   String toString() => '$runtimeType{}';

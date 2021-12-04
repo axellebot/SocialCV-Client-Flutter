@@ -7,7 +7,7 @@ import 'package:social_cv_client_flutter/src/presentation/widgets/loading_widget
 
 class PartProfilePage extends PartWidget {
   const PartProfilePage(
-      {Key key, String partId, PartEntity part, PartBloc partBloc})
+      {Key? key, String? partId, PartEntity? part, PartBloc? partBloc})
       : super(key: key, partId: partId, part: part, partBloc: partBloc);
 
   @override
@@ -40,7 +40,7 @@ class _PartProfilePageState extends PartWidgetState<PartProfilePage> {
           final PartEntity model = state.element;
 
           return Scaffold(
-            appBar: AppBar(title: Text(model.name)),
+            appBar: AppBar(title: Text(model.name!)),
             body: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return Container();

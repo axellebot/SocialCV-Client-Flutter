@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
@@ -10,7 +9,7 @@ class ImplGroupRepository extends GroupRepository {
 
   final GroupDataStoreFactory factory;
 
-  ImplGroupRepository({@required this.factory}) : assert(factory != null);
+  ImplGroupRepository({required this.factory});
 
   @override
   FutureOr<GroupEntity> getById(
@@ -18,15 +17,14 @@ class ImplGroupRepository extends GroupRepository {
     bool force = false,
   }) async {
     print('$_tag:getById($id)');
-    assert(id != null);
 
-    GroupDataModel dataModel;
+    GroupDataModel? dataModel;
 
     if (!force) dataModel = await factory.memoryDataStore.getGroup(id);
 
     if (dataModel == null) {
       dataModel = await factory.cloudDataStore.getGroup(id);
-      await factory.memoryDataStore.setGroup(dataModel);
+      await factory.memoryDataStore.setGroup(dataModel!);
     }
 
     return dataModel;
@@ -58,7 +56,6 @@ class ImplGroupRepository extends GroupRepository {
     /// TODO: Add sort
     Cursor cursor = const Cursor(),
   }) async {
-    assert(partId != null);
     print('$_tag:getGroupsFromPart($partId)');
 
     final dataModels = await factory.cloudDataStore.getGroupsFromPart(
@@ -80,7 +77,6 @@ class ImplGroupRepository extends GroupRepository {
     /// TODO: Add sort
     Cursor cursor = const Cursor(),
   }) async {
-    assert(userId != null);
     print('$_tag:getGroupsFromUser($userId)');
 
     final dataModels = await factory.cloudDataStore.getGroupsFromUser(

@@ -15,17 +15,17 @@ void navigateToSearch(BuildContext context) {
   Navigator.of(context).pushNamed(AppPaths.kPathSearch);
 }
 
-void navigateToProfile(BuildContext context, String profileId) {
+void navigateToProfile(BuildContext context, String? profileId) {
   Navigator.of(context)
       .pushNamed('${AppPaths.kPathProfiles}/${profileId ?? ''}');
 }
 
-void navigateToPart(BuildContext context, String partId) {
+void navigateToPart(BuildContext context, String? partId) {
   Navigator.of(context).pushNamed('${AppPaths.kPathParts}/${partId ?? ''}');
 }
 
 void navigateToGroup(BuildContext context,
-    {String groupId, GroupEntity group}) {
+    {String? groupId, GroupEntity? group}) {
   assert(groupId != null || group != null);
   if (group != null) {
     Navigator.of(context)
@@ -36,13 +36,13 @@ void navigateToGroup(BuildContext context,
 //    );
   } else if (groupId != null) {
     Navigator.of(context).pushNamed(
-      '${AppPaths.kPathGroups}/${groupId ?? ''}',
+      '${AppPaths.kPathGroups}/${groupId}',
     );
   }
 }
 
 void navigateToEntry(BuildContext context,
-    {String entryId, EntryEntity entry}) {
+    {String? entryId, EntryEntity? entry}) {
   assert(entryId != null || entry != null);
   if (entry != null) {
     Navigator.of(context)
@@ -52,8 +52,7 @@ void navigateToEntry(BuildContext context,
 //      arguments: entry,
 //    );
   } else if (entryId != null) {
-    Navigator.of(context)
-        .pushNamed('${AppPaths.kPathEntries}/${entryId ?? ''}');
+    Navigator.of(context).pushNamed('${AppPaths.kPathEntries}/${entryId}');
   }
 }
 

@@ -6,9 +6,17 @@ import 'package:social_cv_client_flutter/presentation.dart';
 
 /// [PartProfileWidget] is an [PartWidget] for profile display purpose
 class PartProfileWidget extends PartWidget {
-  PartProfileWidget(
-      {Key key, String partId, PartEntity part, PartBloc partBloc})
-      : super(key: key, partId: partId, part: part, partBloc: partBloc);
+  const PartProfileWidget({
+    Key? key,
+    String? partId,
+    PartEntity? part,
+    PartBloc? partBloc,
+  }) : super(
+          key: key,
+          partId: partId,
+          part: part,
+          partBloc: partBloc,
+        );
 
   @override
   State<StatefulWidget> createState() => _PartProfileWidgetState();
@@ -37,21 +45,21 @@ class _PartProfileWidgetState extends PartWidgetState<PartProfileWidget> {
 }
 
 class _PartWidgetFromModel extends StatelessWidget {
-  _PartWidgetFromModel({
-    @required this.part,
-  }) : assert(PartEntity != null);
+  const _PartWidgetFromModel({
+    required this.part,
+  });
 
-  final PartEntity part;
+  final PartEntity? part;
 
   @override
   Widget build(BuildContext context) {
-    if (part.type == kCVPartTypeListHorizontal) {
+    if (part!.type == kCVPartTypeListHorizontal) {
       return _PartWidgetFromModelHorizontal(
         partEntity: part,
       );
-    } else if (part.type == kCVPartTypeListVertical) {
+    } else if (part!.type == kCVPartTypeListVertical) {
       return _PartWidgetFromModelVertical(
-        part: part,
+        part: part!,
       );
     } else {
       return ErrorRow(error: NotImplementedYetError());
@@ -60,11 +68,11 @@ class _PartWidgetFromModel extends StatelessWidget {
 }
 
 class _PartWidgetFromModelHorizontal extends StatelessWidget {
-  _PartWidgetFromModelHorizontal({
-    @required this.partEntity,
-  }) : assert(PartEntity != null);
+  const _PartWidgetFromModelHorizontal({
+    required this.partEntity,
+  });
 
-  final PartEntity partEntity;
+  final PartEntity? partEntity;
 
   @override
   Widget build(BuildContext context) {
@@ -74,21 +82,21 @@ class _PartWidgetFromModelHorizontal extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              partEntity.name.toUpperCase(),
+              partEntity!.name!.toUpperCase(),
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.bold),
             ),
-            FlatButton(
-              child: Text(CVLocalizations.of(context).partWidgetDetails),
-              onPressed: () => navigateToPart(context, partEntity.id),
+            TextButton(
+              child: Text(CVLocalizations.of(context)!.partWidgetDetails),
+              onPressed: () => navigateToPart(context, partEntity!.id),
             ),
           ],
         ),
         Container(
           height: AppStyles.groupHorizontalListHeight,
           child: SimpleGroupListProfile(
-            groupIds: partEntity.groupIds,
+            groupIds: partEntity!.groupIds,
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
           ),
@@ -99,9 +107,9 @@ class _PartWidgetFromModelHorizontal extends StatelessWidget {
 }
 
 class _PartWidgetFromModelVertical extends StatelessWidget {
-  _PartWidgetFromModelVertical({
-    @required this.part,
-  }) : assert(part != null);
+  const _PartWidgetFromModelVertical({
+    required this.part,
+  });
 
   final PartEntity part;
 
@@ -113,13 +121,13 @@ class _PartWidgetFromModelVertical extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              part.name.toUpperCase(),
+              part.name!.toUpperCase(),
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.bold),
             ),
-            FlatButton(
-              child: Text(CVLocalizations.of(context).partWidgetDetails),
+            TextButton(
+              child: Text(CVLocalizations.of(context)!.partWidgetDetails),
               onPressed: () => navigateToPart(context, part.id),
             ),
           ],

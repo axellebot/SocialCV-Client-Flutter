@@ -1,24 +1,24 @@
 import 'package:social_cv_client_flutter/presentation.dart';
 
 class UserViewModel extends ElementViewModel {
-  bool disabled;
-  String email;
-  String username;
-  String picture;
-  List<String> profileIds;
+  bool? disabled;
+  String? email;
+  String? username;
+  String? picture;
+  List<String>? profileIds;
   dynamic permission;
 
   UserViewModel({
-    String id,
+    String? id,
     this.disabled,
     this.email,
     this.username,
     this.picture,
     this.profileIds,
     this.permission,
-    DateTime createdAt,
-    DateTime updatedAt,
-    int version,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? version,
   }) : super(
           id: id,
           createdAt: createdAt,

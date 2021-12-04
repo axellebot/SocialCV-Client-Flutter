@@ -8,8 +8,17 @@ import 'package:social_cv_client_flutter/src/presentation/widgets/error_widget.d
 import 'package:social_cv_client_flutter/src/presentation/widgets/loading_widget.dart';
 
 class GroupPage extends GroupWidget {
-  GroupPage({Key key, String groupId, GroupEntity group, GroupBloc groupBloc})
-      : super(key: key, groupId: groupId, group: group, groupBloc: groupBloc);
+  const GroupPage({
+    Key? key,
+    String? groupId,
+    GroupEntity? group,
+    GroupBloc? groupBloc,
+  }) : super(
+          key: key,
+          groupId: groupId,
+          group: group,
+          groupBloc: groupBloc,
+        );
 
   @override
   State<StatefulWidget> createState() => _GroupPageState();
@@ -29,9 +38,9 @@ class _GroupPageState extends GroupWidgetState<GroupPage> {
                 numberOfContentLines: 0,
               ),
             ),
-            body: SingleChildScrollView(
+            body: const SingleChildScrollView(
               child: SingleChildScrollView(
-                child: const LoadingShadowContent(
+                child: LoadingShadowContent(
                   numberOfContentLines: 2,
                   padding: EdgeInsets.all(10.0),
                 ),
@@ -39,13 +48,13 @@ class _GroupPageState extends GroupWidgetState<GroupPage> {
             ),
           );
         } else if (state is GroupLoaded) {
-          var model = state.element;
+          final model = state.element;
           return Scaffold(
-            appBar: AppBar(title: Text(model.name)),
+            appBar: AppBar(title: Text(model.name!)),
             body: ListView.builder(
-              itemCount: model.entryIds.length,
+              itemCount: model.entryIds!.length,
               itemBuilder: (BuildContext context, int index) =>
-                  EntryProfileWidget(entryId: model.entryIds[index]),
+                  EntryProfileWidget(entryId: model.entryIds![index]),
             ),
           );
         }

@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 abstract class RegisterState extends Equatable {
-  RegisterState([List props = const []]) : super(props);
+  const RegisterState() : super();
+
+  @override
+  List<Object> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -13,11 +15,12 @@ class RegisterInitial extends RegisterState {}
 class RegisterLoading extends RegisterState {}
 
 class RegisterFailure extends RegisterState {
-  final dynamic error;
+  final Object error;
 
-  RegisterFailure({@required this.error})
-      : assert(error != null, 'No error given'),
-        super([error]);
+  const RegisterFailure({required this.error}) : super();
+
+  @override
+  List<Object> get props => super.props..addAll([error]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -30,16 +33,24 @@ class RegisterSucceed extends RegisterState {
   final DateTime accessTokenExpiration;
   final String refreshToken;
 
-  RegisterSucceed({
-    @required this.accessToken,
-    @required this.accessTokenExpiration,
-    @required this.refreshToken,
-  }) : super([accessToken, accessTokenExpiration, refreshToken]);
+  const RegisterSucceed({
+    required this.accessToken,
+    required this.accessTokenExpiration,
+    required this.refreshToken,
+  }) : super();
+
+  @override
+  List<Object> get props => super.props
+    ..addAll([
+      accessToken,
+      accessTokenExpiration,
+      refreshToken,
+    ]);
 
   @override
   String toString() => '$runtimeType{ '
       'accessToken: $accessToken, '
       'accessToken: $accessTokenExpiration, '
-      'refreshToken: $refreshToken '
+      'refreshToken: $refreshToken'
       ' }';
 }

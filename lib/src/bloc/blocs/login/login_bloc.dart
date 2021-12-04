@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
@@ -12,9 +11,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final CVAuthService cvAuthService;
 
   LoginBloc({
-    @required this.cvAuthService,
-  })  : assert(cvAuthService != null, 'No $CVAuthService given'),
-        super(LoginInitial()) {
+    required this.cvAuthService,
+  }) : super(LoginInitial()) {
     on<LoginButtonPressed>(_onLoginButtonPressed);
   }
 
@@ -35,9 +33,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
 
         emit(LoginSucceed(
-          accessToken: auth.accessToken,
-          accessTokenExpiration: auth.accessTokenExpiration,
-          refreshToken: auth.refreshToken,
+          accessToken: auth.accessToken!,
+          accessTokenExpiration: auth.accessTokenExpiration!,
+          refreshToken: auth.refreshToken!,
         ));
       }
     } catch (error) {

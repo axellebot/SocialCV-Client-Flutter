@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
 part 'envelop_models.g.dart';
@@ -10,10 +9,10 @@ part 'envelop_models.g.dart';
 
 abstract class _Envelop extends Object {
   @JsonKey(name: 'error')
-  final bool error;
+  final bool? error;
 
   @JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   _Envelop({
     this.error,
@@ -28,9 +27,9 @@ class DataEnvelop<T> extends _Envelop {
   T data;
 
   DataEnvelop({
-    bool error,
-    String message,
-    this.data,
+    bool? error,
+    String? message,
+    required this.data,
   }) : super(error: error, message: message);
 
   factory DataEnvelop.fromJson(Map<String, dynamic> json) =>
@@ -45,13 +44,13 @@ class DataArrayEnvelop<T> extends _Envelop {
   @_GenericConverter()
   List<T> data;
 
-  int total;
+  int? total;
 
   DataArrayEnvelop({
-    bool error,
-    String message,
-    this.data,
+    bool? error,
+    String? message,
     this.total,
+    required this.data,
   }) : super(error: error, message: message);
 
   factory DataArrayEnvelop.fromJson(Map<String, dynamic> json) =>
@@ -77,18 +76,18 @@ class DataArrayEnvelop<T> extends _Envelop {
 /// T generic
 /// ```
 ///
-class _GenericConverter<T> implements JsonConverter<T, Object> {
+class _GenericConverter<T> implements JsonConverter<T, dynamic> {
   const _GenericConverter();
 
   @override
-  T fromJson(Object json) {
+  T fromJson(Object? json) {
     print('fromJson');
-    final T t = (T as dynamic)?.fromJson(json) as T
+    final T? t = (T as dynamic)?.fromJson(json) as T?
         // This will only work if `json` is a native JSON type:
         //   num, String, bool, null, etc
         // *and* is assignable to `T`.
         ??
-        json as T;
+        json as T?;
 
     if (t == null) {
       throw Exception('Type $T no supported');
@@ -97,25 +96,25 @@ class _GenericConverter<T> implements JsonConverter<T, Object> {
   }
 
   @override
-  Object toJson(T object) {
+  dynamic toJson(T object) {
     print('toJson');
     // This will only work if `object` is a native JSON type:
     //   num, String, bool, null, etc
     // Or if it has a `toJson()` function`.
-    return (object as dynamic)?.toJson() ?? object;
+    return (object as dynamic)?.toJson() ?? object as Object;
   }
 }
 
 @JsonSerializable()
 class RequestAuthDataModel extends Object {
   @JsonKey(name: 'username')
-  final String username;
+  final String? username;
   @JsonKey(name: 'password')
-  final String password;
+  final String? password;
 
   RequestAuthDataModel({
-    @required this.username,
-    @required this.password,
+    required this.username,
+    required this.password,
   })  : assert(username != null && password != null),
         super();
 
@@ -135,26 +134,26 @@ class RequestAuthDataModel extends Object {
 class ResponseAuthDataModel implements AuthEntity {
   @JsonKey(name: 'access_token')
   @override
-  String accessToken;
+  String? accessToken;
 
   @JsonKey(name: 'refresh_token')
   @override
-  String refreshToken;
+  String? refreshToken;
 
   @JsonKey(name: 'expires_in')
   int accessTokenExpiresIn;
 
   @JsonKey(name: 'token_type')
   @override
-  String tokenType;
+  String? tokenType;
 
   @override
-  DateTime accessTokenExpiration;
+  DateTime? accessTokenExpiration;
 
   ResponseAuthDataModel({
     this.accessToken,
     this.refreshToken,
-    this.accessTokenExpiresIn,
+    required this.accessTokenExpiresIn,
     this.tokenType,
   }) : super() {
     accessTokenExpiration =

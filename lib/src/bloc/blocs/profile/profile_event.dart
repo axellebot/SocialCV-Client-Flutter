@@ -5,7 +5,10 @@ import 'package:social_cv_client_flutter/domain.dart';
 /// [ProfileEvent] that must be dispatch to [ProfileBloc]
 
 abstract class ProfileEvent extends Equatable {
-  ProfileEvent([List props = const []]) : super(props);
+  const ProfileEvent() : super();
+
+  @override
+  List<Object?> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -13,8 +16,10 @@ abstract class ProfileEvent extends Equatable {
 
 class ProfileInitialized extends ProfileEvent
     with ElementInitialize<ProfileEntity> {
-  ProfileInitialized({String profileId, ProfileEntity profile})
-      : assert(
+  ProfileInitialized({
+    String? profileId,
+    ProfileEntity? profile,
+  })  : assert(
           profileId != null && profile == null,
           '$ProfileInitialized must be created with an $ProfileEntity or its ID',
         ),
@@ -22,10 +27,13 @@ class ProfileInitialized extends ProfileEvent
           profileId == null && profile != null,
           '$ProfileInitialized must be created with an $ProfileEntity or its ID',
         ),
-        super([profileId, profile]) {
-    this.elementId = profileId;
-    this.element = profile;
+        super() {
+    elementId = profileId;
+    element = profile;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([elementId, element]);
 
   @override
   String toString() => '$runtimeType{ '

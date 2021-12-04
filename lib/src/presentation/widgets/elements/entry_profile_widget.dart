@@ -6,9 +6,17 @@ import 'package:social_cv_client_flutter/presentation.dart';
 
 /// [EntryProfileWidget] is an [EntryWidget] for profile display purpose
 class EntryProfileWidget extends EntryWidget {
-  EntryProfileWidget(
-      {Key key, String entryId, EntryEntity entry, EntryBloc entryBloc})
-      : super(key: key, entryId: entryId, entry: entry, entryBloc: entryBloc);
+  const EntryProfileWidget({
+    Key? key,
+    String? entryId,
+    EntryEntity? entry,
+    EntryBloc? entryBloc,
+  }) : super(
+          key: key,
+          entryId: entryId,
+          entry: entry,
+          entryBloc: entryBloc,
+        );
 
   @override
   State<StatefulWidget> createState() => _EntryProfileWidgetState();
@@ -39,9 +47,9 @@ class _EntryProfileWidgetState extends EntryWidgetState<EntryProfileWidget> {
 class _EntryWidgetMap extends StatelessWidget {
   final EntryEntity entry;
 
-  _EntryWidgetMap({
-    @required this.entry,
-  }) : assert(EntryEntity != null);
+  const _EntryWidgetMap({
+    required this.entry,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +80,9 @@ class _EntryWidgetMap extends StatelessWidget {
 class _EntryWidgetEvent extends StatelessWidget {
   final EntryEntity entry;
 
-  _EntryWidgetEvent({
-    @required this.entry,
-  }) : assert(EntryEntity != null);
+  const _EntryWidgetEvent({
+    required this.entry,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -123,8 +131,8 @@ class _EntryWidgetEvent extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                FlatButton(
-                  child: Text(CVLocalizations.of(context).entryWidgetDetails),
+                TextButton(
+                  child: Text(CVLocalizations.of(context)!.entryWidgetDetails),
                   onPressed: () => navigateToEntry(context, entry: entry),
                 )
               ],
@@ -139,7 +147,7 @@ class _EntryWidgetEvent extends StatelessWidget {
 class _EntryWidgetTag extends StatelessWidget {
   final EntryEntity entry;
 
-  _EntryWidgetTag(this.entry);
+  const _EntryWidgetTag(this.entry);
 
   @override
   Widget build(BuildContext context) {
@@ -156,14 +164,14 @@ class _EntryWidgetTag extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                entry.name.toUpperCase() ?? '',
+                entry.name!.toUpperCase(),
                 style: TextStyle(
                   color: Theme.of(context).accentColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              FlatButton(
-                child: Text(CVLocalizations.of(context).entryWidgetDetails),
+              TextButton(
+                child: Text(CVLocalizations.of(context)!.entryWidgetDetails),
                 onPressed: () => navigateToEntry(context, entry: entry),
               )
             ],

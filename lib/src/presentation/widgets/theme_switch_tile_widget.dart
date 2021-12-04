@@ -6,7 +6,7 @@ import 'package:social_cv_client_flutter/src/presentation/localizations/cv_local
 
 class ThemeSwitchTile extends StatelessWidget {
   const ThemeSwitchTile({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class ThemeSwitchTile extends StatelessWidget {
             secondary: Icon(
               darkMode ? MdiIcons.weatherSunny : MdiIcons.whiteBalanceSunny,
             ),
-            title: Text(CVLocalizations.of(context).settingsDarkModeCTA),
+            title: Text(CVLocalizations.of(context)!.settingsDarkModeCTA),
             value: darkMode,
             onChanged: (bool newValue) =>
                 _appBloc.add(AppThemeChange(darkMode: newValue)),

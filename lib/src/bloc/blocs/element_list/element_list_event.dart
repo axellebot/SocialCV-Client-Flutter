@@ -2,9 +2,9 @@ import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
 
 mixin ElementListInitialize<T extends ElementEntity> {
-  String parentId;
-  String ownerId;
-  Cursor cursor;
+  String? parentId;
+  String? ownerId;
+  late Cursor cursor;
 
   @override
   String toString() => '$runtimeType{ '
@@ -20,7 +20,7 @@ mixin ElementListRefresh<T extends ElementEntity> {
 }
 
 mixin ElementListLoadMore<T extends ElementEntity> {
-  Cursor cursor;
+  late Cursor cursor;
 
   @override
   String toString() => '$runtimeType{ '

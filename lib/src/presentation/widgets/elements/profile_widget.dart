@@ -5,12 +5,16 @@ import 'package:social_cv_client_flutter/domain.dart';
 
 /// If [profileBloc] given we assume that it have been already initialized
 abstract class ProfileWidget extends StatefulWidget {
-  final String profileId;
-  final ProfileEntity profile;
-  final ProfileBloc profileBloc;
+  final String? profileId;
+  final ProfileEntity? profile;
+  final ProfileBloc? profileBloc;
 
-  const ProfileWidget({Key key, this.profileId, this.profile, this.profileBloc})
-      : assert(profileId != null && profile == null && profileBloc == null),
+  const ProfileWidget({
+    Key? key,
+    this.profileId,
+    this.profile,
+    this.profileBloc,
+  })  : assert(profileId != null && profile == null && profileBloc == null),
         assert(profileId == null && profile != null && profileBloc == null),
         assert(profileId == null && profile == null && profileBloc != null),
         super(key: key);
@@ -18,7 +22,7 @@ abstract class ProfileWidget extends StatefulWidget {
 
 /// If [widget.profileBloc] exists the lifecycle of it will be managed by its creator
 abstract class ProfileWidgetState<T extends ProfileWidget> extends State<T> {
-  ProfileBloc profileBloc;
+  ProfileBloc? profileBloc;
 
   @override
   void initState() {
@@ -31,7 +35,7 @@ abstract class ProfileWidgetState<T extends ProfileWidget> extends State<T> {
           Provider.of<ProfileRepository>(context, listen: false);
 
       profileBloc = ProfileBloc(repository: profileRepo);
-      profileBloc.add(ProfileInitialized(
+      profileBloc!.add(ProfileInitialized(
         profileId: widget.profileId,
         profile: widget.profile,
       ));
@@ -40,7 +44,7 @@ abstract class ProfileWidgetState<T extends ProfileWidget> extends State<T> {
 
   @override
   void dispose() {
-    if (widget.profileBloc == null) profileBloc.close();
+    if (widget.profileBloc == null) profileBloc!.close();
     super.dispose();
   }
 }

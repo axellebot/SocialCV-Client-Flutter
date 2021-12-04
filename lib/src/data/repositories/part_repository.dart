@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
@@ -10,7 +9,9 @@ class ImplPartRepository extends PartRepository {
 
   final PartDataStoreFactory factory;
 
-  ImplPartRepository({@required this.factory}) : assert(factory != null);
+  ImplPartRepository({
+    required this.factory,
+  });
 
   @override
   FutureOr<PartEntity> getById(
@@ -19,13 +20,13 @@ class ImplPartRepository extends PartRepository {
   }) async {
     print('$_tag:getById($id)');
 
-    PartDataModel dataModel;
+    PartDataModel? dataModel;
 
     if (!force) dataModel = await factory.memoryDataStore.getPart(id);
 
     if (dataModel == null) {
       dataModel = await factory.cloudDataStore.getPart(id);
-      factory.memoryDataStore.setPart(dataModel);
+      factory.memoryDataStore.setPart(dataModel!);
     }
 
     return dataModel;
@@ -57,7 +58,6 @@ class ImplPartRepository extends PartRepository {
     /// TODO: Add sort
     Cursor cursor = const Cursor(),
   }) async {
-    assert(profileId != null);
     print('$_tag:getPartsFromProfile');
 
     final dataModels = await factory.cloudDataStore.getPartsFromProfile(

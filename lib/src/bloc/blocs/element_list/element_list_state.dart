@@ -6,7 +6,7 @@ mixin ElementListUninitialized<T extends ElementEntity> {
 }
 
 mixin ElementListLoading<T extends ElementEntity> {
-  int count;
+  late int count;
 
   @override
   String toString() => '$runtimeType{ '
@@ -15,7 +15,7 @@ mixin ElementListLoading<T extends ElementEntity> {
 }
 
 mixin ElementListLoaded<T extends ElementEntity> {
-  List<T> elements;
+  late List<T?> elements;
 
   @override
   String toString() => '$runtimeType{ '
@@ -24,7 +24,7 @@ mixin ElementListLoaded<T extends ElementEntity> {
 }
 
 mixin ElementListFailure<T extends ElementEntity> {
-  dynamic error;
+  late Object error;
 
   @override
   String toString() => '$runtimeType{ '

@@ -7,17 +7,17 @@ import 'package:social_cv_client_flutter/presentation.dart';
 /// [SimpleProfileListProfile] is a dummy widget that use [profileIds] or [profiles] or
 /// [profileBlocs] to create a list of [ProfileTile]
 class SimpleProfileListProfile extends StatelessWidget {
-  final List<String> profileIds;
-  final List<ProfileEntity> profiles;
-  final List<ProfileBloc> profileBlocs;
+  final List<String>? profileIds;
+  final List<ProfileEntity>? profiles;
+  final List<ProfileBloc>? profileBlocs;
 
   /// List behaviors
   final Axis scrollDirection;
   final bool shrinkWrap;
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
   const SimpleProfileListProfile({
-    Key key,
+    Key? key,
     this.profileIds,
     this.profiles,
     this.profileBlocs,
@@ -33,21 +33,21 @@ class SimpleProfileListProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int itemCount;
-    IndexedWidgetBuilder itemBuilder;
+    int? itemCount;
+    late IndexedWidgetBuilder itemBuilder;
 
-    if (profileIds != null && profileIds.isNotEmpty) {
-      itemCount = profileIds.length;
+    if (profileIds != null && profileIds!.isNotEmpty) {
+      itemCount = profileIds!.length;
       itemBuilder = (BuildContext context, int index) =>
-          ProfileTile(profileId: profileIds[index]);
-    } else if (profiles != null && profiles.isNotEmpty) {
-      itemCount = profiles.length;
+          ProfileTile(profileId: profileIds![index]);
+    } else if (profiles != null && profiles!.isNotEmpty) {
+      itemCount = profiles!.length;
       itemBuilder = (BuildContext context, int index) =>
-          ProfileTile(profile: profiles[index]);
-    } else if (profileBlocs != null && profileBlocs.isNotEmpty) {
-      itemCount = profileBlocs.length;
+          ProfileTile(profile: profiles![index]);
+    } else if (profileBlocs != null && profileBlocs!.isNotEmpty) {
+      itemCount = profileBlocs!.length;
       itemBuilder = (BuildContext context, int index) =>
-          ProfileTile(profileBloc: profileBlocs[index]);
+          ProfileTile(profileBloc: profileBlocs![index]);
     }
 
     return ListView.builder(
@@ -69,13 +69,13 @@ class ComplexProfileListProfile extends ProfileListWidget {
   /// List behaviors
   final Axis scrollDirection;
   final bool shrinkWrap;
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
-  ComplexProfileListProfile({
-    Key key,
-    String parentUserId,
-    String ownerId,
-    ProfileListBloc profileListBloc,
+  const ComplexProfileListProfile({
+    Key? key,
+    String? parentUserId,
+    String? ownerId,
+    ProfileListBloc? profileListBloc,
 
     /// Options
     this.showOptions = false,
@@ -111,7 +111,7 @@ class _ProfileListProfileState
           );
         } else if (state is ProfileListLoaded) {
           final List<SortListItem> sortItems = <SortListItem>[
-            SortListItem(field: 'name', title: 'Name', value: SortState.NoSort)
+            SortListItem(field: 'name', title: 'Name', value: SortState.noSort)
           ];
 
           final sortRow = Row(
@@ -125,7 +125,7 @@ class _ProfileListProfileState
                     builder: (BuildContext context) {
                       return SortDialog(
                         title: Text(
-                            CVLocalizations.of(context).profileListSorting),
+                            CVLocalizations.of(context)!.profileListSorting),
                         sortItems: sortItems,
                       );
                     },
@@ -134,9 +134,9 @@ class _ProfileListProfileState
               ),
               DropdownButton(
                 value: null,
-                hint: Text(CVLocalizations.of(context).profileListItemPerPage),
+                hint: Text(CVLocalizations.of(context)!.profileListItemPerPage),
                 items: getDropDownMenuElementPerPage(),
-                onChanged: (value) {},
+                onChanged: (dynamic value) {},
               )
             ],
           );
@@ -150,10 +150,10 @@ class _ProfileListProfileState
               for (var profile in state.elements) ProfileTile(profile: profile),
               if (widget.showOptions)
                 Center(
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: null,
                     child:
-                        Text(CVLocalizations.of(context).profileListLoadMore),
+                        Text(CVLocalizations.of(context)!.profileListLoadMore),
                   ),
                 ),
             ],

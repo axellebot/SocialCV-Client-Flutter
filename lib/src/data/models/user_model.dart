@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
@@ -9,41 +8,43 @@ part 'user_model.g.dart';
 class UserDataModel extends ElementDataModel implements UserEntity {
   @JsonKey(name: 'disabled')
   @override
-  bool disabled;
+  bool? disabled;
 
   @JsonKey(name: 'email')
   @override
-  String email;
+  String? email;
 
   @JsonKey(name: 'username')
   @override
-  String username;
+  String? username;
 
   @JsonKey(name: 'picture')
   @override
-  String picture;
+  String? picture;
 
   @JsonKey(name: 'profiles')
   @override
-  List<String> profileIds;
+  List<String>? profileIds;
 
   @JsonKey(name: 'permission')
   @override
   dynamic permission;
 
   UserDataModel({
-    @required String id,
+    required String id,
     this.disabled,
     this.email,
     this.username,
     this.picture,
     this.profileIds,
     this.permission,
-    DateTime createdAt,
-    DateTime updatedAt,
-    int version,
+    String? ownerId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? version,
   }) : super(
           id: id,
+          ownerId: ownerId,
           createdAt: createdAt,
           updatedAt: updatedAt,
           version: version,

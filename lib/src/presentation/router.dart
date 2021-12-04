@@ -16,7 +16,7 @@ class AppRouter {
     router.define(
       AppPaths.kPathHome,
       handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
           Logger.log('Navigate to ${AppPaths.kPathHome}');
           return const MainPage();
         },
@@ -26,7 +26,7 @@ class AppRouter {
     router.define(
       AppPaths.kPathAccount,
       handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
           Logger.log('Navigate to ${AppPaths.kPathAccount}');
           return const MainPage();
         },
@@ -36,7 +36,7 @@ class AppRouter {
     router.define(
       AppPaths.kPathLogin,
       handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
           Logger.log('Navigate to ${AppPaths.kPathLogin}');
           return AuthPage();
         },
@@ -46,9 +46,9 @@ class AppRouter {
     router.define(
       AppPaths.kPathSettings,
       handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
           Logger.log('Navigate to ${AppPaths.kPathSettings}');
-          return SettingsPage();
+          return const SettingsPage();
         },
       ),
     );
@@ -56,7 +56,7 @@ class AppRouter {
     router.define(
       AppPaths.kPathSearch,
       handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
           Logger.log('Navigate to ${AppPaths.kPathSearch}');
           return SearchPage();
         },
@@ -66,9 +66,8 @@ class AppRouter {
     router.define(
       '${AppPaths.kPathProfiles}/:${AppPaths.kParamProfileId}',
       handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          final String profileId =
-              params[AppPaths.kParamProfileId][0] as String;
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+          final String? profileId = params[AppPaths.kParamProfileId]![0];
 
           Logger.log('Navigate to ${AppPaths.kPathProfiles}/$profileId');
 
@@ -80,8 +79,8 @@ class AppRouter {
     router.define(
       '${AppPaths.kPathParts}/:${AppPaths.kParamPartId}',
       handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          final String partId = params[AppPaths.kParamPartId][0] as String;
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+          final String? partId = params[AppPaths.kParamPartId]![0];
 
           Logger.log('Navigate to ${AppPaths.kPathParts}/$partId');
 
@@ -93,8 +92,8 @@ class AppRouter {
     router.define(
       '${AppPaths.kPathGroups}/:${AppPaths.kParamGroupId}',
       handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          final String groupId = params[AppPaths.kParamGroupId][0] as String;
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+          final String? groupId = params[AppPaths.kParamGroupId]![0];
 
           Logger.log('Navigate to ${AppPaths.kPathGroups}/$groupId');
 
@@ -106,8 +105,8 @@ class AppRouter {
     router.define(
       '${AppPaths.kPathEntries}/:${AppPaths.kParamEntryId}',
       handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
-          final String entryId = params[AppPaths.kParamEntryId][0] as String;
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+          final String? entryId = params[AppPaths.kParamEntryId]![0];
 
           Logger.log('Navigate to ${AppPaths.kPathEntries}/$entryId');
 

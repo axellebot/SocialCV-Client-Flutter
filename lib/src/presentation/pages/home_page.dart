@@ -5,7 +5,7 @@ class HomePage extends StatelessWidget {
   final String _tag = '$HomePage';
 
   HomePage({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
               child: Container(
                 padding: AppStyles.cardDefaultPadding,
                 child: Text(
-                  CVLocalizations.of(context).homeWelcome,
+                  CVLocalizations.of(context)!.homeWelcome,
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),

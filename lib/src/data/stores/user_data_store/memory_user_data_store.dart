@@ -9,13 +9,15 @@ class MemoryUserDataStore implements UserDataStore {
 
   MemoryUserDataStore();
 
-  final _users = <String, CacheModel<UserDataModel>>{};
+  final Map<String?, CacheModel<UserDataModel>> _users =
+      <String?, CacheModel<UserDataModel>>{};
 
   @override
-  FutureOr<UserDataModel> getUser(String userId) async {
+  FutureOr<UserDataModel?> getUser(String userId) async {
     print('$_tag:getUser($userId)');
 
-    final CacheModel<UserDataModel> cacheModel = _users[userId];
+    final CacheModel<UserDataModel?>? cacheModel = _users[userId];
+
     return (cacheModel != null && !cacheModel.isExpired())
         ? cacheModel.model
         : null;
@@ -25,8 +27,7 @@ class MemoryUserDataStore implements UserDataStore {
   FutureOr<UserDataModel> setUser(UserDataModel userModel) async {
     print('$_tag:setUser($userModel)');
 
-    final DateTime expiration =
-        generateExpirationDateTime(Duration(minutes: 1));
+    final DateTime expiration = defaultExpirationDateTime;
     final cacheModel =
         CacheModel<UserDataModel>(model: userModel, expiration: expiration);
     _users[userModel.id] = cacheModel;

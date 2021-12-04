@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 abstract class AppState extends Equatable {
-  AppState([List props = const []]) : super(props);
+  const AppState() : super();
+
+  @override
+  List<Object> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -13,7 +15,12 @@ class AppUninitialized extends AppState {}
 class AppInitialized extends AppState {
   final bool darkMode;
 
-  AppInitialized({this.darkMode = false}) : super([darkMode]);
+  const AppInitialized({
+    this.darkMode = false,
+  }) : super();
+
+  @override
+  List<Object> get props => super.props..addAll([darkMode]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -22,11 +29,14 @@ class AppInitialized extends AppState {
 }
 
 class AppFailure extends AppState {
-  final dynamic error;
+  final Object error;
 
-  AppFailure({@required this.error})
-      : assert(error != null, 'No error given'),
-        super([error]);
+  const AppFailure({
+    required this.error,
+  }) : super();
+
+  @override
+  List<Object> get props => super.props..addAll([error]);
 
   @override
   String toString() => '$runtimeType{ '

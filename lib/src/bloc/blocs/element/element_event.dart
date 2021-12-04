@@ -1,8 +1,8 @@
 import 'package:social_cv_client_flutter/domain.dart';
 
 mixin ElementInitialize<T extends ElementEntity> {
-  String elementId;
-  T element;
+  String? elementId;
+  T? element;
 
   @override
   String toString() => '$runtimeType{ '

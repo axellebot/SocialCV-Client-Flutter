@@ -1,47 +1,45 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
 class ImplAuthInfoRepository implements AuthInfoRepository {
   final AuthInfoDataStoreFactory factory;
 
-  ImplAuthInfoRepository({@required this.factory})
-      : assert(factory != null, 'No $AuthInfoDataStoreFactory given');
+  ImplAuthInfoRepository({required this.factory});
 
   /// --------------------------------------------------------------------------
   ///                             Access Token
   /// --------------------------------------------------------------------------
 
   @override
-  FutureOr<String> getAccessToken() {
-    return factory.diskDataStore.getAccessToken();
+  FutureOr<bool> setAccessToken(String token) async {
+    return await factory.diskDataStore.setAccessToken(token);
   }
 
   @override
-  FutureOr<void> setAccessToken(String token) {
-    return factory.diskDataStore.setAccessToken(token);
+  FutureOr<String?> getAccessToken() async {
+    return await factory.diskDataStore.getAccessToken();
   }
 
   @override
-  FutureOr<void> deleteAccessToken() {
-    return factory.diskDataStore.deleteAccessToken();
+  FutureOr<bool> deleteAccessToken() async {
+    return await factory.diskDataStore.deleteAccessToken();
   }
 
   @override
-  FutureOr<DateTime> getAccessTokenExpiration() {
-    return factory.diskDataStore.getAccessTokenExpiration();
+  FutureOr<bool> setAccessTokenExpiration(DateTime expiration) async {
+    return await factory.diskDataStore.setAccessTokenExpiration(expiration);
   }
 
   @override
-  FutureOr<void> setAccessTokenExpiration(DateTime expiration) {
-    return factory.diskDataStore.setAccessTokenExpiration(expiration);
+  FutureOr<DateTime?> getAccessTokenExpiration() async {
+    return await factory.diskDataStore.getAccessTokenExpiration();
   }
 
   @override
-  FutureOr<void> deleteAccessTokenExpiration() {
-    return factory.diskDataStore.deleteAccessTokenExpiration();
+  FutureOr<bool> deleteAccessTokenExpiration() async {
+    return await factory.diskDataStore.deleteAccessTokenExpiration();
   }
 
   /// --------------------------------------------------------------------------
@@ -49,32 +47,32 @@ class ImplAuthInfoRepository implements AuthInfoRepository {
   /// --------------------------------------------------------------------------
 
   @override
-  FutureOr<String> getRefreshToken() {
-    return factory.diskDataStore.getRefreshToken();
+  FutureOr<bool> setRefreshToken(String token) async {
+    return await factory.diskDataStore.setRefreshToken(token);
   }
 
   @override
-  FutureOr<void> setRefreshToken(String token) {
-    return factory.diskDataStore.setRefreshToken(token);
+  FutureOr<String?> getRefreshToken() async {
+    return await factory.diskDataStore.getRefreshToken();
   }
 
   @override
-  FutureOr<void> deleteRefreshToken() {
-    return factory.diskDataStore.deleteRefreshToken();
+  FutureOr<bool> deleteRefreshToken() async {
+    return await factory.diskDataStore.deleteRefreshToken();
   }
 
   @override
-  FutureOr<DateTime> getRefreshTokenExpiration() {
-    return factory.diskDataStore.getRefreshTokenExpiration();
+  FutureOr<DateTime?> getRefreshTokenExpiration() async {
+    return await factory.diskDataStore.getRefreshTokenExpiration();
   }
 
   @override
-  FutureOr<void> setRefreshTokenExpiration(DateTime expiration) {
-    return factory.diskDataStore.setRefreshTokenExpiration(expiration);
+  FutureOr<bool> setRefreshTokenExpiration(DateTime expiration) async {
+    return await factory.diskDataStore.setRefreshTokenExpiration(expiration);
   }
 
   @override
-  FutureOr<void> deleteRefreshTokenExpiration() {
-    return factory.diskDataStore.deleteRefreshTokenExpiration();
+  FutureOr<bool> deleteRefreshTokenExpiration() async {
+    return await factory.diskDataStore.deleteRefreshTokenExpiration();
   }
 }

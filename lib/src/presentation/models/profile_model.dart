@@ -1,16 +1,16 @@
 import 'package:social_cv_client_flutter/presentation.dart';
 
 class ProfileViewModel extends ElementViewModel {
-  String title;
-  String subtitle;
-  Uri picture;
-  Uri cover;
-  String type;
-  List<String> partIds;
-  String ownerId;
+  String? title;
+  String? subtitle;
+  Uri? picture;
+  Uri? cover;
+  String? type;
+  List<String>? partIds;
+  String? ownerId;
 
   ProfileViewModel({
-    String id,
+    String? id,
     this.title,
     this.subtitle,
     this.picture,
@@ -18,9 +18,9 @@ class ProfileViewModel extends ElementViewModel {
     this.partIds,
     this.type,
     this.ownerId,
-    DateTime createdAt,
-    DateTime updatedAt,
-    int version,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? version,
   }) : super(
           id: id,
           createdAt: createdAt,
@@ -29,17 +29,17 @@ class ProfileViewModel extends ElementViewModel {
         );
 
   ProfileViewModel copyWith({
-    String id,
-    String title,
-    String subtitle,
-    Uri picture,
-    Uri cover,
-    List<String> partIds,
-    String type,
-    String ownerId,
-    DateTime createdAt,
-    DateTime updatedAt,
-    int version,
+    String? id,
+    String? title,
+    String? subtitle,
+    Uri? picture,
+    Uri? cover,
+    List<String>? partIds,
+    String? type,
+    String? ownerId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? version,
   }) {
     return ProfileViewModel(
       id: id ?? this.id,

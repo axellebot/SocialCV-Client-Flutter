@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
@@ -11,7 +10,7 @@ class EntryListBloc extends ElementListBloc<EntryEntity, EntryRepository,
     EntryListEvent, EntryListState> {
   final String _tag = '$EntryListBloc';
 
-  EntryListBloc({@required EntryRepository repository})
+  EntryListBloc({required EntryRepository repository})
       : super(
           repository: repository,
           initialState: EntryListUninitialized(),
@@ -86,16 +85,16 @@ class EntryListBloc extends ElementListBloc<EntryEntity, EntryRepository,
     }
   }
 
-  FutureOr<List<EntryEntity>> _getEntries({@required Cursor cursor}) async {
+  FutureOr<List<EntryEntity>> _getEntries({required Cursor cursor}) async {
     print('$_tag:_getEntries({cursor: $cursor})');
     if (parentId != null) {
       return await repository.getEntriesFromGroup(
-        parentId,
+        parentId!,
         cursor: cursor,
       );
     } else if (ownerId != null) {
       return await repository.getEntriesFromUser(
-        ownerId,
+        ownerId!,
         cursor: cursor,
       );
     } else {

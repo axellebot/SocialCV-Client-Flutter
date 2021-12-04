@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
@@ -10,7 +9,7 @@ class ProfileBloc extends ElementBloc<ProfileEntity, ProfileRepository,
     ProfileEvent, ProfileState> {
   final String _tag = '$ProfileBloc';
 
-  ProfileBloc({@required ProfileRepository repository})
+  ProfileBloc({required ProfileRepository repository})
       : super(
           repository: repository,
           initialState: ProfileUninitialized(),
@@ -18,10 +17,6 @@ class ProfileBloc extends ElementBloc<ProfileEntity, ProfileRepository,
     on<ProfileInitialized>(_onInitialize);
     on<ProfileRefresh>(_onRefresh);
   }
-
-  /// [_fallBackId] is used if [element] is never assigned and
-  /// an [ProfileRefresh] is dispatched
-  String _fallBackId;
 
   /// --------------------------------------------------------------------------
   ///                         All Event map to State
@@ -37,14 +32,12 @@ class ProfileBloc extends ElementBloc<ProfileEntity, ProfileRepository,
       emit(ProfileLoading());
 
       if (event.elementId != null) {
-        _fallBackId = event.elementId;
-        element = await await repository.getById(event.elementId);
+        element = await repository.getById(event.elementId!);
       } else if (event.element != null) {
-        _fallBackId = event.element.id;
         element = event.element;
       }
 
-      emit(ProfileLoaded(profile: element));
+      emit(ProfileLoaded(profile: element!));
     } catch (error) {
       emit(ProfileFailure(error: error));
     }
@@ -60,13 +53,11 @@ class ProfileBloc extends ElementBloc<ProfileEntity, ProfileRepository,
       emit(ProfileLoading());
 
       element = await repository.getById(
-        element?.id ?? _fallBackId,
+        element!.id,
         force: true,
       );
 
-      _fallBackId = element.id;
-
-      emit(ProfileLoaded(profile: element));
+      emit(ProfileLoaded(profile: element!));
     } catch (error) {
       emit(ProfileFailure(error: error));
     }

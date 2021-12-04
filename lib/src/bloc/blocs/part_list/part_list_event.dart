@@ -5,7 +5,10 @@ import 'package:social_cv_client_flutter/presentation.dart';
 
 /// [PartListEvent] that must be dispatch to [PartListBloc]
 abstract class PartListEvent extends Equatable {
-  PartListEvent([List props = const []]) : super(props);
+  const PartListEvent() : super();
+
+  @override
+  List<Object?> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -14,9 +17,9 @@ abstract class PartListEvent extends Equatable {
 class PartListInitialize extends PartListEvent
     with ElementListInitialize<PartEntity> {
   PartListInitialize({
-    String parentProfileId,
-    String ownerId,
-    Cursor cursor,
+    String? parentProfileId,
+    String? ownerId,
+    required Cursor cursor,
   })  : assert(
           parentProfileId != null && ownerId == null,
           '$PartListInitialize must be created with a parentId or an ownerId',
@@ -25,11 +28,14 @@ class PartListInitialize extends PartListEvent
           parentProfileId == null && ownerId != null,
           '$PartListInitialize must be created with a parentId or an ownerId',
         ),
-        super([parentProfileId, ownerId]) {
-    this.parentId = parentProfileId;
+        super() {
+    parentId = parentProfileId;
     this.ownerId = ownerId;
     this.cursor = cursor;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([parentId, ownerId, cursor]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -44,11 +50,14 @@ class PartListRefresh extends PartListEvent
 
 class PartListLoadMore extends PartListEvent
     with ElementListLoadMore<PartEntity> {
-  PartListLoadMore({Cursor cursor})
-      : assert(cursor != null),
-        super([cursor]) {
+  PartListLoadMore({
+    required Cursor cursor,
+  }) : super() {
     this.cursor = cursor;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([cursor]);
 
   @override
   String toString() => '$runtimeType{ '

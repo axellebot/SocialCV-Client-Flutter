@@ -12,14 +12,11 @@ class LoadingShadowContent extends StatefulWidget {
   final EdgeInsetsGeometry padding;
 
   const LoadingShadowContent({
-    Key key,
+    Key? key,
     this.numberOfTitleLines = 0,
     this.numberOfContentLines = 0,
     this.padding = const EdgeInsets.all(0.0),
-  })  : assert(numberOfTitleLines != null),
-        assert(numberOfContentLines != null),
-        assert(padding != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _LoadingShadowContentState createState() => _LoadingShadowContentState();
@@ -27,10 +24,10 @@ class LoadingShadowContent extends StatefulWidget {
 
 class _LoadingShadowContentState extends State<LoadingShadowContent>
     with SingleTickerProviderStateMixin {
-  AnimationController _loadingOpacity;
-  Animation<double> _opacity;
-  Random _rand;
-  double _divideFactor;
+  AnimationController? _loadingOpacity;
+  late Animation<double> _opacity;
+  late Random _rand;
+  late double _divideFactor;
 
   _LoadingShadowContentState();
 
@@ -42,7 +39,7 @@ class _LoadingShadowContentState extends State<LoadingShadowContent>
       vsync: this,
       duration: Duration(milliseconds: 1500),
     );
-    _opacity = Tween(begin: 0.4, end: 1.0).animate(_loadingOpacity)
+    _opacity = Tween(begin: 0.4, end: 1.0).animate(_loadingOpacity!)
       ..addListener(() {
         setState(() {});
       });
@@ -57,13 +54,13 @@ class _LoadingShadowContentState extends State<LoadingShadowContent>
   }
 
   void _animateForward() async {
-    await _loadingOpacity.forward().then((_) {
+    await _loadingOpacity!.forward().then((_) {
       _animateReverse();
     });
   }
 
   void _animateReverse() async {
-    await _loadingOpacity.reverse().then((_) {
+    await _loadingOpacity!.reverse().then((_) {
       _animateForward();
     });
   }
@@ -118,15 +115,15 @@ class _LoadingShadowContentState extends State<LoadingShadowContent>
 /// See [Card] widget for more documentation
 class LoadingCard extends StatelessWidget {
   const LoadingCard({
-    Key key,
+    Key? key,
     this.height,
     this.width,
     this.numberOfTitleLines = 1,
     this.numberOfContentLines = 3,
   }) : super(key: key);
 
-  final double height;
-  final double width;
+  final double? height;
+  final double? width;
   final int numberOfTitleLines;
   final int numberOfContentLines;
 
@@ -150,18 +147,18 @@ class LoadingCard extends StatelessWidget {
 ///
 /// See [ListView] widget for more documentation
 class LoadingList extends StatelessWidget {
-  LoadingList({
-    @required this.count,
+  const LoadingList({
+    required this.count,
     this.scrollDirection = Axis.vertical,
     this.shrinkWrap = false,
     this.physics,
-  }) : assert(count != null);
+  });
 
   final int count;
 
   final Axis scrollDirection;
   final bool shrinkWrap;
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
   @override
   Widget build(BuildContext context) {
@@ -183,12 +180,12 @@ class LoadingList extends StatelessWidget {
 ///
 /// See [Scaffold] widget for more documentation
 class LoadingScaffold extends StatelessWidget {
-  const LoadingScaffold({Key key}) : super(key: key);
+  const LoadingScaffold({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: const CircularProgressIndicator()),
+    return const Scaffold(
+      body: Center(child: CircularProgressIndicator()),
     );
   }
 }
@@ -197,12 +194,12 @@ class LoadingScaffold extends StatelessWidget {
 ///
 /// See [MaterialApp] widget for more documentation
 class LoadingApp extends StatelessWidget {
-  const LoadingApp({Key key}) : super(key: key);
+  const LoadingApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const LoadingScaffold(),
+      home: LoadingScaffold(),
       color: AppStyles.primaryColor,
     );
   }

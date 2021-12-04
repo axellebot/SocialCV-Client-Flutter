@@ -1,15 +1,13 @@
-import 'package:meta/meta.dart';
-
 abstract class AppException implements Exception {
-  final String message;
-  final StackTrace stackTrace;
+  final String? message;
+  final StackTrace? stackTrace;
   final AppExceptionType type;
 
   const AppException({
-    @required this.type,
+    required this.type,
     this.message,
     this.stackTrace,
-  }) : assert(type != null, 'No $AppExceptionType given');
+  });
 }
 
 enum AppExceptionType {

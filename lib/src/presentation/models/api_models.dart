@@ -1,8 +1,8 @@
 class AccessTokenViewModelModel {
-  final String accessToken;
-  final String refreshToken;
-  final int accessTokenExpiresAt;
-  final String tokenType;
+  final String? accessToken;
+  final String? refreshToken;
+  final int? accessTokenExpiresAt;
+  final String? tokenType;
 
   AccessTokenViewModelModel({
     this.accessToken,

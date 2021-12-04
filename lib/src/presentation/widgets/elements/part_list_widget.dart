@@ -2,14 +2,15 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
+import 'package:social_cv_client_flutter/presentation.dart';
 
 abstract class PartListWidget extends StatefulWidget {
-  final String parentProfileId;
-  final String ownerId;
-  final PartListBloc partListBloc;
+  final String? parentProfileId;
+  final String? ownerId;
+  final PartListBloc? partListBloc;
 
-  PartListWidget({
-    Key key,
+  const PartListWidget({
+    Key? key,
     this.parentProfileId,
     this.ownerId,
     this.partListBloc,
@@ -24,7 +25,7 @@ abstract class PartListWidget extends StatefulWidget {
 
 /// If [widget.partListBloc] exists the lifecycle of it will be managed by its creator
 abstract class PartListWidgetState<T extends PartListWidget> extends State<T> {
-  PartListBloc partListBloc;
+  PartListBloc? partListBloc;
 
   @override
   void initState() {
@@ -36,16 +37,17 @@ abstract class PartListWidgetState<T extends PartListWidget> extends State<T> {
       final partRepo = Provider.of<PartRepository>(context, listen: false);
 
       partListBloc = PartListBloc(repository: partRepo);
-      partListBloc.add(PartListInitialize(
+      partListBloc!.add(PartListInitialize(
         parentProfileId: widget.parentProfileId,
         ownerId: widget.ownerId,
+        cursor: Cursor(),
       ));
     }
   }
 
   @override
   void dispose() {
-    if (widget.partListBloc == null) partListBloc.close();
+    if (widget.partListBloc == null) partListBloc!.close();
     super.dispose();
   }
 }

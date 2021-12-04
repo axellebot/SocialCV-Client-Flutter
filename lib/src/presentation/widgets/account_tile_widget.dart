@@ -5,7 +5,7 @@ import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
 
 class AccountTile extends StatefulWidget {
-  const AccountTile({Key key}) : super(key: key);
+  const AccountTile({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _AccountTitleState();
@@ -35,7 +35,7 @@ class _AccountTitleState extends State<AccountTile> {
 class _AccountTileConnected extends StatelessWidget {
   final String _tag = '$_AccountTileConnected';
 
-  _AccountTileConnected({Key key}) : super(key: key);
+  _AccountTileConnected({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +50,10 @@ class _AccountTileConnected extends StatelessWidget {
           return ListTile(
             leading: InitialCircleAvatar(
               text: userModel.username,
-              backgroundImage: NetworkImage(userModel.picture),
+              backgroundImage: NetworkImage(userModel.picture!),
             ),
-            title: Text(userModel.username),
-            subtitle: Text(userModel.email),
+            title: Text(userModel.username!),
+            subtitle: Text(userModel.email!),
             trailing: IconButton(
               icon: Icon(MdiIcons.logout),
               onPressed: () => null, // TODO: Add logout
@@ -68,17 +68,15 @@ class _AccountTileConnected extends StatelessWidget {
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-//                                                                            //
-//                       _AccountTileNotConnected                             //
-//                                                                            //
-////////////////////////////////////////////////////////////////////////////////
+/// ----------------------------------------------------------------------------
+///                       _AccountTileNotConnected
+/// ----------------------------------------------------------------------------
 class _AccountTileNotConnected extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       child: ListTile(
-        title: Center(child: Text(CVLocalizations.of(context).authLoginCTA)),
+        title: Center(child: Text(CVLocalizations.of(context)!.authLoginCTA)),
         trailing: Icon(MdiIcons.login),
       ),
       onTap: () => navigateToLogin(context),

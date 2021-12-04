@@ -5,12 +5,16 @@ import 'package:social_cv_client_flutter/domain.dart';
 
 /// If [groupBloc] given we assume that it have been already initialized and
 abstract class GroupWidget extends StatefulWidget {
-  final String groupId;
-  final GroupEntity group;
-  final GroupBloc groupBloc;
+  final String? groupId;
+  final GroupEntity? group;
+  final GroupBloc? groupBloc;
 
-  GroupWidget({Key key, this.groupId, this.group, this.groupBloc})
-      : assert(groupId != null && group == null && groupBloc == null),
+  const GroupWidget({
+    Key? key,
+    this.groupId,
+    this.group,
+    this.groupBloc,
+  })  : assert(groupId != null && group == null && groupBloc == null),
         assert(groupId == null && group != null && groupBloc == null),
         assert(groupId == null && group == null && groupBloc != null),
         super(key: key);
@@ -18,7 +22,7 @@ abstract class GroupWidget extends StatefulWidget {
 
 /// If [widget.groupBloc] exists the lifecycle of it will be managed by its creator
 abstract class GroupWidgetState<T extends GroupWidget> extends State<T> {
-  GroupBloc groupBloc;
+  GroupBloc? groupBloc;
 
   @override
   void initState() {
@@ -30,7 +34,7 @@ abstract class GroupWidgetState<T extends GroupWidget> extends State<T> {
       final groupRepo = Provider.of<GroupRepository>(context, listen: false);
 
       groupBloc = GroupBloc(repository: groupRepo);
-      groupBloc.add(GroupInitialize(
+      groupBloc!.add(GroupInitialize(
         groupId: widget.groupId,
         group: widget.group,
       ));
@@ -39,7 +43,7 @@ abstract class GroupWidgetState<T extends GroupWidget> extends State<T> {
 
   @override
   void dispose() {
-    if (widget.groupBloc == null) groupBloc.close();
+    if (widget.groupBloc == null) groupBloc!.close();
     super.dispose();
   }
 }

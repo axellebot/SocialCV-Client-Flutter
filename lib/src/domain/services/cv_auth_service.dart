@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
 /// Service for authentication purpose
@@ -15,8 +14,8 @@ abstract class CVAuthService {
   ///
   /// Must return an [AuthDataModel]
   FutureOr<AuthEntity> authenticate({
-    @required String email,
-    @required String password,
+    required String email,
+    required String password,
   });
 
   /// Register
@@ -25,10 +24,10 @@ abstract class CVAuthService {
   ///
   /// Must return an [AuthDataModel]
   FutureOr<AuthEntity> register({
-    @required String fName,
-    @required String lName,
-    @required String email,
-    @required String password,
+    required String fName,
+    required String lName,
+    required String email,
+    required String password,
   });
 
   FutureOr<void> logout();

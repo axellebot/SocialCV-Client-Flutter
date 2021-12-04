@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
 abstract class BaseDataModel implements BaseEntity {
@@ -9,18 +8,18 @@ abstract class BaseDataModel implements BaseEntity {
 
   @JsonKey(name: 'createdAt')
   @override
-  DateTime createdAt;
+  DateTime? createdAt;
 
   @JsonKey(name: 'updatedAt')
   @override
-  DateTime updatedAt;
+  DateTime? updatedAt;
 
   @JsonKey(name: '__v')
   @override
-  int version;
+  int? version;
 
   BaseDataModel({
-    @required this.id,
+    required this.id,
     this.createdAt,
     this.updatedAt,
     this.version,

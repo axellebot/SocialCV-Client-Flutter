@@ -1,17 +1,15 @@
-import 'package:social_cv_client_flutter/domain.dart';
-
-mixin ElementUninitialized<T extends ElementEntity> {
+mixin ElementUninitialized<T> {
   @override
   String toString() => '$runtimeType{}';
 }
 
-mixin ElementLoading<T extends ElementEntity> {
+mixin ElementLoading<T> {
   @override
   String toString() => '$runtimeType{}';
 }
 
-mixin ElementLoaded<T extends ElementEntity> {
-  T element;
+mixin ElementLoaded<T> {
+  late final T element;
 
   @override
   String toString() => '$runtimeType{ '
@@ -19,8 +17,8 @@ mixin ElementLoaded<T extends ElementEntity> {
       ' }';
 }
 
-mixin ElementFailure<T extends ElementEntity> {
-  dynamic error;
+mixin ElementFailure<T> {
+  late final Object error;
 
   @override
   String toString() => '$runtimeType{ '

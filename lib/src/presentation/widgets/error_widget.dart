@@ -8,11 +8,9 @@ import 'package:social_cv_client_flutter/presentation.dart';
 ///
 /// Must be initialized with an [error]
 abstract class CustomErrorWidget extends StatelessWidget {
-  final dynamic error;
+  final Object error;
 
-  const CustomErrorWidget({Key key, @required this.error})
-      : assert(error != null, 'No error given'),
-        super(key: key);
+  const CustomErrorWidget({Key? key, required this.error}) : super(key: key);
 }
 
 /// [ErrorIcon] is a [Icon] like widget to display error
@@ -20,13 +18,13 @@ abstract class CustomErrorWidget extends StatelessWidget {
 /// See [Icon] widget for more documentation
 class ErrorIcon extends StatelessWidget {
   final IconData icon;
-  final double size;
+  final double? size;
   final Color color;
-  final String semanticLabel;
-  final TextDirection textDirection;
+  final String? semanticLabel;
+  final TextDirection? textDirection;
 
   const ErrorIcon({
-    Key key,
+    Key? key,
     this.icon = MdiIcons.alertCircleOutline,
     this.size,
     this.color = AppStyles.errorColor,
@@ -50,21 +48,21 @@ class ErrorIcon extends StatelessWidget {
 ///
 /// See [Text] widget for more documentation
 class ErrorText extends CustomErrorWidget {
-  final TextStyle style;
-  final StrutStyle strutStyle;
+  final TextStyle? style;
+  final StrutStyle? strutStyle;
 
   final TextAlign textAlign;
-  final TextDirection textDirection;
-  final Locale locale;
-  final bool softWrap;
-  final TextOverflow overflow;
-  final double textScaleFactor;
-  final int maxLines;
-  final String semanticsLabel;
+  final TextDirection? textDirection;
+  final Locale? locale;
+  final bool? softWrap;
+  final TextOverflow? overflow;
+  final double? textScaleFactor;
+  final int? maxLines;
+  final String? semanticsLabel;
 
   const ErrorText({
-    Key key,
-    @required dynamic error,
+    Key? key,
+    required Object error,
     this.style,
     this.strutStyle,
     this.textAlign = TextAlign.center,
@@ -81,8 +79,8 @@ class ErrorText extends CustomErrorWidget {
   Widget build(BuildContext context) {
     return Text(
       translateError(context, error),
-      style: style as TextStyle,
-      strutStyle: strutStyle as StrutStyle,
+      style: style,
+      strutStyle: strutStyle,
       textAlign: textAlign,
       textDirection: textDirection,
       locale: locale,
@@ -99,7 +97,7 @@ class ErrorText extends CustomErrorWidget {
 ///
 /// See [Row] widget for more documentation
 class ErrorRow extends CustomErrorWidget {
-  const ErrorRow({Key key, @required dynamic error})
+  const ErrorRow({Key? key, required Object error})
       : super(key: key, error: error);
 
   @override
@@ -118,14 +116,14 @@ class ErrorRow extends CustomErrorWidget {
 ///
 /// See [ListTile] widget for more documentation
 class ErrorTile extends CustomErrorWidget {
-  const ErrorTile({Key key, @required dynamic error})
+  const ErrorTile({Key? key, required Object error})
       : super(key: key, error: error);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: const ErrorIcon(),
-      title: Text(CVLocalizations.of(context).errorOccurred),
+      title: Text(CVLocalizations.of(context)!.errorOccurred),
       subtitle: ErrorText(
         error: error,
         textAlign: TextAlign.left,
@@ -138,12 +136,12 @@ class ErrorTile extends CustomErrorWidget {
 ///
 /// See [Card] widget for more documentation
 class ErrorCard extends CustomErrorWidget {
-  final double height;
-  final double width;
+  final double? height;
+  final double? width;
 
   const ErrorCard({
-    Key key,
-    @required dynamic error,
+    Key? key,
+    required Object error,
     this.height,
     this.width,
   }) : super(key: key, error: error);
@@ -169,11 +167,11 @@ class ErrorList extends CustomErrorWidget {
   /// List behaviors
   final Axis scrollDirection;
   final bool shrinkWrap;
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
   const ErrorList({
-    Key key,
-    @required dynamic error,
+    Key? key,
+    required Object error,
 
     /// List behaviors
     this.scrollDirection = Axis.vertical,
@@ -198,7 +196,7 @@ class ErrorList extends CustomErrorWidget {
 ///
 /// See [Scaffold] widget for more documentation
 class ErrorPage extends CustomErrorWidget {
-  const ErrorPage({Key key, @required dynamic error})
+  const ErrorPage({Key? key, required Object error})
       : super(key: key, error: error);
 
   @override
@@ -213,7 +211,7 @@ class ErrorPage extends CustomErrorWidget {
 ///
 /// See [MaterialApp] widget for more documentation
 class ErrorApp extends CustomErrorWidget {
-  const ErrorApp({Key key, @required dynamic error})
+  const ErrorApp({Key? key, required Object error})
       : super(key: key, error: error);
 
   @override

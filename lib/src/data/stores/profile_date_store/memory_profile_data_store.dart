@@ -9,13 +9,14 @@ class MemoryProfileDataStore implements ProfileDataStore {
 
   MemoryProfileDataStore();
 
-  final _profiles = <String, CacheModel<ProfileDataModel>>{};
+  final Map<String, CacheModel<ProfileDataModel>> _profiles =
+      <String, CacheModel<ProfileDataModel>>{};
 
   @override
-  FutureOr<ProfileDataModel> getProfile(String profileId) async {
+  FutureOr<ProfileDataModel?> getProfile(String profileId) async {
     print('$_tag:getProfile($profileId)');
 
-    final CacheModel<ProfileDataModel> cacheModel = _profiles[profileId];
+    final CacheModel<ProfileDataModel>? cacheModel = _profiles[profileId];
     return (cacheModel != null && !cacheModel.isExpired())
         ? cacheModel.model
         : null;
@@ -25,10 +26,11 @@ class MemoryProfileDataStore implements ProfileDataStore {
   FutureOr<ProfileDataModel> setProfile(ProfileDataModel profileModel) async {
     print('$_tag:setProfile($profileModel)');
 
-    final DateTime expiration =
-        generateExpirationDateTime(Duration(minutes: 1));
+    final DateTime expiration = defaultExpirationDateTime;
     final cacheModel = CacheModel<ProfileDataModel>(
-        model: profileModel, expiration: expiration);
+      model: profileModel,
+      expiration: expiration,
+    );
     _profiles[profileModel.id] = cacheModel;
 
     return cacheModel.model;
@@ -43,7 +45,7 @@ class MemoryProfileDataStore implements ProfileDataStore {
 
   @override
   FutureOr<List<ProfileDataModel>> getProfilesFromUser(
-    String userId, {
+    String? userId, {
     Cursor cursor = const Cursor(),
   }) {
     return _profiles.values

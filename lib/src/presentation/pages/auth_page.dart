@@ -12,10 +12,10 @@ class _AuthPageState extends State<AuthPage> {
   final String _tag = '$_AuthPageState';
 
   // Variable
-  double screenWidth;
-  double screenHeight;
+  double? screenWidth;
+  double? screenHeight;
 
-  PageController _pageController;
+  PageController? _pageController;
 
   Color left = Colors.black;
   Color right = Colors.white;
@@ -41,7 +41,7 @@ class _AuthPageState extends State<AuthPage> {
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
 
-    screenHeight = (screenHeight > AppStyles.authPageMinHeight)
+    screenHeight = (screenHeight! > AppStyles.authPageMinHeight)
         ? screenHeight
         : AppStyles.authPageMinHeight;
 
@@ -55,7 +55,7 @@ class _AuthPageState extends State<AuthPage> {
               if (state is AuthenticationAuthenticated) {
                 Scaffold.of(context).showSnackBar(SnackBar(
                   backgroundColor: AppStyles.successColor,
-                  content: Text(CVLocalizations.of(context).authLoginSucceed),
+                  content: Text(CVLocalizations.of(context)!.authLoginSucceed),
                 ));
                 Future.delayed(const Duration(seconds: 1))
                     .then((_) => Navigator.of(context).pop());
@@ -80,7 +80,7 @@ class _AuthPageState extends State<AuthPage> {
 
   Widget _buildHeaderSection(BuildContext context) {
     return Container(
-      height: screenHeight * 0.25,
+      height: screenHeight! * 0.25,
       width: screenWidth,
     );
   }
@@ -93,7 +93,7 @@ class _AuthPageState extends State<AuthPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              height: screenHeight * 0.25,
+              height: screenHeight! * 0.25,
             ),
             Container(
               width: 300.0,
@@ -113,7 +113,7 @@ class _AuthPageState extends State<AuthPage> {
                         highlightColor: Colors.transparent,
                         onPressed: _onSignInButtonPress,
                         child: Text(
-                          CVLocalizations.of(context).authBubbleLoginCTA,
+                          CVLocalizations.of(context)!.authBubbleLoginCTA,
                           style: TextStyle(
                             color: left,
                             fontSize: 16.0,
@@ -128,7 +128,7 @@ class _AuthPageState extends State<AuthPage> {
                         highlightColor: Colors.transparent,
                         onPressed: _onSignUpButtonPress,
                         child: Text(
-                          CVLocalizations.of(context).authBubbleRegisterCTA,
+                          CVLocalizations.of(context)!.authBubbleRegisterCTA,
                           style: TextStyle(
                             color: right,
                             fontSize: 16.0,
@@ -166,13 +166,13 @@ class _AuthPageState extends State<AuthPage> {
         Column(
           children: <Widget>[
             Container(
-              height: screenHeight * 0.25,
+              height: screenHeight! * 0.25,
             ),
             Container(
-              height: screenHeight * 0.05,
+              height: screenHeight! * 0.05,
             ),
             Container(
-              height: screenHeight * 0.70,
+              height: screenHeight! * 0.70,
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -184,13 +184,13 @@ class _AuthPageState extends State<AuthPage> {
         Column(
           children: <Widget>[
             Container(
-              height: screenHeight * 0.25,
+              height: screenHeight! * 0.25,
             ),
             Container(
-              height: screenHeight * 0.05,
+              height: screenHeight! * 0.05,
             ),
             Container(
-              height: screenHeight * 0.70,
+              height: screenHeight! * 0.70,
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -204,7 +204,7 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void _onSignInButtonPress() {
-    _pageController.animateToPage(0,
+    _pageController!.animateToPage(0,
         duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
   }
 

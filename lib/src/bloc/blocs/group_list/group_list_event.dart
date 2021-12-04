@@ -5,7 +5,10 @@ import 'package:social_cv_client_flutter/presentation.dart';
 
 /// [GroupListEvent] that must be dispatch to [GroupListBloc]
 abstract class GroupListEvent extends Equatable {
-  GroupListEvent([List props = const []]) : super(props);
+  const GroupListEvent() : super();
+
+  @override
+  List<Object?> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -14,9 +17,9 @@ abstract class GroupListEvent extends Equatable {
 class GroupListInitialize extends GroupListEvent
     with ElementListInitialize<GroupEntity> {
   GroupListInitialize({
-    String parentPartId,
-    String ownerId,
-    Cursor cursor,
+    String? parentPartId,
+    String? ownerId,
+    required Cursor cursor,
   })  : assert(
           parentPartId != null && ownerId == null,
           '$GroupListInitialize must be created with a parentId or an ownerId',
@@ -25,11 +28,14 @@ class GroupListInitialize extends GroupListEvent
           parentPartId == null && ownerId != null,
           '$GroupListInitialize must be created with a parentId or an ownerId',
         ),
-        super([parentPartId, ownerId]) {
-    this.parentId = parentPartId;
+        super() {
+    parentId = parentPartId;
     this.ownerId = ownerId;
     this.cursor = cursor;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([parentId, ownerId, cursor]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -44,11 +50,12 @@ class GroupListRefresh extends GroupListEvent
 
 class GroupListLoadMore extends GroupListEvent
     with ElementListLoadMore<GroupEntity> {
-  GroupListLoadMore({Cursor cursor})
-      : assert(cursor != null),
-        super([cursor]) {
+  GroupListLoadMore({required Cursor cursor}) : super() {
     this.cursor = cursor;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([cursor]);
 
   @override
   String toString() => '$runtimeType{ '

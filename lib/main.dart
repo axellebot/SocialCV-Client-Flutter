@@ -11,43 +11,34 @@ const bool DEBUG_MODE = true;
 // ignore: constant_identifier_names
 const bool DEBUG_PAINT_SIZE = false;
 
-FutureOr<void> main() async {
-  String _tag = '$main';
+void main() {
+  final String _tag = '$main';
 
   /// SystemChrome.setPreferredOrientations(
   ///     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
+  /// Global error handler. Show stack trace
+  void otherErrorHandler(Object error, StackTrace stack) {
+    Logger.fatal('${error}', stackTrace: stack);
+  }
+
   void run() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    FlutterError.onError = (FlutterErrorDetails errorDetails) {
+      FlutterError.presentError(errorDetails);
+      Logger.fatal(
+        '${errorDetails.exception}',
+        stackTrace: errorDetails.stack,
+      );
+      //exit(1);
+    };
     runApp(const ConfigWrapperApp());
   }
 
-  FlutterError.onError = globalErrorHandler;
-
   if (DEBUG_MODE) {
     debugPaintSizeEnabled = DEBUG_PAINT_SIZE;
+    runZonedGuarded(run, otherErrorHandler);
+  } else {
     run();
-  } else {
-    runZoned(run, onError: globalErrorHandler);
   }
-}
-
-/// Global error handler. Show stack trace
-void globalErrorHandler(details) {
-  StackTrace stackTrace;
-
-  if (details is FlutterErrorDetails) {
-    if (details.exception is Error) {
-      stackTrace = details.stack;
-    }
-  } else if (details is Error) {
-    stackTrace = details.stackTrace;
-  } else {
-    Logger.fatal(
-      '${details.runtimeType}',
-      errorCode: ErrorCodes.UNHANDLED_EXCEPTION,
-    );
-    throw details;
-  }
-
-  Logger.error('${details.runtimeType}', stackTrace: stackTrace);
 }

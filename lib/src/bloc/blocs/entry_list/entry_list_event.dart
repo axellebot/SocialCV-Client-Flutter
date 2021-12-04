@@ -5,7 +5,10 @@ import 'package:social_cv_client_flutter/presentation.dart';
 
 /// [EntryListEvent] that must be dispatch to [EntryListBloc]
 abstract class EntryListEvent extends Equatable {
-  EntryListEvent([List props = const []]) : super(props);
+  const EntryListEvent() : super();
+
+  @override
+  List<Object?> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -14,22 +17,17 @@ abstract class EntryListEvent extends Equatable {
 class EntryListInitialize extends EntryListEvent
     with ElementListInitialize<EntryEntity> {
   EntryListInitialize({
-    String parentGroupId,
-    String ownerId,
-    Cursor cursor,
-  })  : assert(
-          parentGroupId != null && ownerId == null,
-          '$EntryListInitialize must be created with a parentId or an ownerId',
-        ),
-        assert(
-          parentGroupId == null && ownerId != null,
-          '$EntryListInitialize must be created with a parentId or an ownerId',
-        ),
-        super([parentGroupId, ownerId]) {
-    this.parentId = parentGroupId;
+    String? parentGroupId,
+    String? ownerId,
+    required Cursor cursor,
+  }) : super() {
+    parentId = parentGroupId;
     this.ownerId = ownerId;
     this.cursor = cursor;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([parentId, ownerId, cursor]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -44,11 +42,14 @@ class EntryListRefresh extends EntryListEvent
 
 class EntryListLoadMore extends EntryListEvent
     with ElementListLoadMore<EntryEntity> {
-  EntryListLoadMore({Cursor cursor})
-      : assert(cursor != null),
-        super([cursor]) {
+  EntryListLoadMore({
+    required Cursor cursor,
+  }) : super() {
     this.cursor = cursor;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([cursor]);
 
   @override
   String toString() => '$runtimeType{ '

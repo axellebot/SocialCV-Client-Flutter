@@ -4,7 +4,7 @@ import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
 
 abstract class PartDataStore {
-  FutureOr<PartDataModel> getPart(String partId);
+  FutureOr<PartDataModel?> getPart(String partId);
 
   FutureOr<PartDataModel> setPart(PartDataModel partModel);
 

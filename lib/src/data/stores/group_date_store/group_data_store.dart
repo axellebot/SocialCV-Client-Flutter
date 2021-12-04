@@ -4,7 +4,7 @@ import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
 
 abstract class GroupDataStore {
-  FutureOr<GroupDataModel> getGroup(String groupId);
+  FutureOr<GroupDataModel?> getGroup(String groupId);
 
   FutureOr<GroupDataModel> setGroup(GroupDataModel groupModel);
 

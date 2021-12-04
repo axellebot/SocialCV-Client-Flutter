@@ -5,13 +5,13 @@ class MenuBottomSheet extends StatelessWidget {
   final String _tag = '$MenuBottomSheet';
 
   MenuBottomSheet({
-    Key key,
+    Key? key,
     this.backgroundColor,
     this.borderRadius = const BorderRadius.only(
         topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
   }) : super(key: key);
 
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final BorderRadius borderRadius;
 
   @override
@@ -24,24 +24,24 @@ class MenuBottomSheet extends StatelessWidget {
       child: Wrap(
         children: <Widget>[
           const AccountTile(),
-          Divider(),
+          const Divider(),
           const ThemeSwitchTile(),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text(CVLocalizations.of(context).settingsCTA),
+            leading: const Icon(Icons.settings),
+            title: Text(CVLocalizations.of(context)!.settingsCTA),
             onTap: () => navigateToSettings(context),
           ),
-          Divider(),
+          const Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               MaterialButton(
-                child: Text(CVLocalizations.of(context).menuPPCTA),
+                child: Text(CVLocalizations.of(context)!.menuPPCTA),
                 onPressed: null,
               ),
               const Text('·'),
               MaterialButton(
-                child: Text(CVLocalizations.of(context).menuToSCTA),
+                child: Text(CVLocalizations.of(context)!.menuToSCTA),
                 onPressed: null,
               ),
             ],

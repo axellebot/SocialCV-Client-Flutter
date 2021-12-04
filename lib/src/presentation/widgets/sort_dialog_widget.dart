@@ -8,13 +8,12 @@ import 'package:social_cv_client_flutter/src/presentation/widgets/sort_list_tile
 
 class SortDialog extends StatefulWidget {
   const SortDialog({
-    Key key,
+    Key? key,
     this.title,
-    @required this.sortItems,
-  })  : assert(sortItems != null),
-        super(key: key);
+    required this.sortItems,
+  }) : super(key: key);
 
-  final Widget title;
+  final Widget? title;
   final List<SortListItem> sortItems;
 
   @override
@@ -30,10 +29,10 @@ class _SortDialogState extends State<SortDialog> {
 
     final _listTiles = widget.sortItems
         .map((sortItem) => SortListTile(
-              key: Key(sortItem.field),
+              key: Key(sortItem.field!),
               value: sortItem.value,
-              title: Text(sortItem.title),
-              onChanged: (SortState value) {
+              title: Text(sortItem.title!),
+              onChanged: (SortState? value) {
                 setState(() {
                   Logger.log('${sortItem.field} $value');
                   sortItem.value = value;
@@ -43,7 +42,7 @@ class _SortDialogState extends State<SortDialog> {
         .toList();
 
     return AlertDialog(
-      contentPadding: EdgeInsets.all(0.0),
+      contentPadding: const EdgeInsets.all(0.0),
       title: widget.title,
       content: Container(
         width: AppStyles.sortDialogWidth,
@@ -55,13 +54,13 @@ class _SortDialogState extends State<SortDialog> {
       ),
       actions: <Widget>[
         SimpleDialogOption(
-          child: Text(CVLocalizations.of(context).sortDialogCancel),
+          child: Text(CVLocalizations.of(context)!.sortDialogCancel),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         SimpleDialogOption(
-          child: Text(CVLocalizations.of(context).sortDialogConfirm),
+          child: Text(CVLocalizations.of(context)!.sortDialogConfirm),
           onPressed: null,
         ),
       ],

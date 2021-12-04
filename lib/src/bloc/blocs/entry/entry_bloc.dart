@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
@@ -10,7 +9,7 @@ class EntryBloc
     extends ElementBloc<EntryEntity, EntryRepository, EntryEvent, EntryState> {
   final String _tag = '$EntryBloc';
 
-  EntryBloc({@required EntryRepository repository})
+  EntryBloc({required EntryRepository repository})
       : super(
           repository: repository,
           initialState: EntryUninitialized(),
@@ -18,10 +17,6 @@ class EntryBloc
     on<EntryInitialize>(_onInitialize);
     on<EntryRefresh>(_onRefresh);
   }
-
-  /// [_fallBackId] is used if [element] is never assigned and
-  /// an [EntryRefresh] is dispatched
-  String _fallBackId;
 
   /// --------------------------------------------------------------------------
   ///                         All Event map to State
@@ -31,22 +26,20 @@ class EntryBloc
   FutureOr<void> _onInitialize(
     EntryInitialize event,
     Emitter<EntryState> emit,
-  ) async* {
+  ) async {
     print('$_tag:_onInitialize($event,$emit)');
     try {
-      yield EntryLoading();
+      emit(EntryLoading());
 
       if (event.elementId != null) {
-        _fallBackId = event.elementId;
-        element = await repository.getById(event.elementId);
+        element = await repository.getById(event.elementId!);
       } else if (event.element != null) {
-        _fallBackId = event.element.id;
         element = event.element;
       }
 
-      yield EntryLoaded(entry: element);
+      emit(EntryLoaded(entry: element!));
     } catch (error) {
-      yield EntryFailure(error: error);
+      emit(EntryFailure(error: error));
     }
   }
 
@@ -60,13 +53,11 @@ class EntryBloc
       emit(EntryLoading());
 
       element = await repository.getById(
-        element?.id ?? _fallBackId,
+        element!.id,
         force: true,
       );
 
-      _fallBackId = element.id;
-
-      emit(EntryLoaded(entry: element));
+      emit(EntryLoaded(entry: element!));
     } catch (error) {
       emit(EntryFailure(error: error));
     }

@@ -10,13 +10,14 @@ class MemoryEntryDataStore implements EntryDataStore {
 
   MemoryEntryDataStore();
 
-  final _entries = <String, CacheModel<EntryDataModel>>{};
+  final Map<String, CacheModel<EntryDataModel>> _entries =
+      <String, CacheModel<EntryDataModel>>{};
 
   @override
-  FutureOr<EntryDataModel> getEntry(String entryId) async {
+  FutureOr<EntryDataModel?> getEntry(String entryId) async {
     print('$_tag:getEntry($entryId)');
 
-    final CacheModel<EntryDataModel> cacheModel = _entries[entryId];
+    final CacheModel<EntryDataModel>? cacheModel = _entries[entryId];
     return (cacheModel != null && !cacheModel.isExpired())
         ? cacheModel.model
         : null;
@@ -26,10 +27,11 @@ class MemoryEntryDataStore implements EntryDataStore {
   FutureOr<EntryDataModel> setEntry(EntryDataModel entryModel) async {
     print('$_tag:setEntry($entryModel)');
 
-    final DateTime expiration =
-        generateExpirationDateTime(Duration(minutes: 1));
-    final cacheModel =
-        CacheModel<EntryDataModel>(model: entryModel, expiration: expiration);
+    final DateTime expiration = defaultExpirationDateTime;
+    final cacheModel = CacheModel<EntryDataModel>(
+      model: entryModel,
+      expiration: expiration,
+    );
     _entries[entryModel.id] = cacheModel;
 
     return cacheModel.model;

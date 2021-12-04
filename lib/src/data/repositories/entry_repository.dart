@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
@@ -10,7 +9,9 @@ class ImplEntryRepository extends EntryRepository {
 
   final EntryDataStoreFactory factory;
 
-  ImplEntryRepository({@required this.factory}) : assert(factory != null);
+  ImplEntryRepository({
+    required this.factory,
+  });
 
   @override
   FutureOr<EntryEntity> getById(
@@ -18,15 +19,14 @@ class ImplEntryRepository extends EntryRepository {
     bool force = false,
   }) async {
     print('$_tag:getById($id)');
-    assert(id != null);
 
-    EntryDataModel dataModel;
+    EntryDataModel? dataModel;
 
     if (!force) dataModel = await factory.memoryDataStore.getEntry(id);
 
     if (dataModel == null) {
       dataModel = await factory.cloudDataStore.getEntry(id);
-      factory.memoryDataStore.setEntry(dataModel);
+      factory.memoryDataStore.setEntry(dataModel!);
     }
 
     return dataModel;
@@ -59,7 +59,6 @@ class ImplEntryRepository extends EntryRepository {
     Cursor cursor = const Cursor(),
   }) async {
     print('$_tag:getEntriesFromGroup($groupId)');
-    assert(groupId != null);
 
     final dataModels = await factory.cloudDataStore.getEntriesFromGroup(
       groupId,
@@ -81,7 +80,6 @@ class ImplEntryRepository extends EntryRepository {
     Cursor cursor = const Cursor(),
   }) async {
     print('$_tag:getEntriesFromUser($userId)');
-    assert(userId != null);
 
     final dataModels = await factory.cloudDataStore.getEntriesFromUser(
       userId,

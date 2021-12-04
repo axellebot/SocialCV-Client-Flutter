@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
@@ -11,7 +10,7 @@ class GroupListBloc extends ElementListBloc<GroupEntity, GroupRepository,
     GroupListEvent, GroupListState> {
   final String _tag = '$GroupListBloc';
 
-  GroupListBloc({@required GroupRepository repository})
+  GroupListBloc({required GroupRepository repository})
       : super(
           repository: repository,
           initialState: GroupListUninitialized(),
@@ -86,16 +85,16 @@ class GroupListBloc extends ElementListBloc<GroupEntity, GroupRepository,
     }
   }
 
-  FutureOr<List<GroupEntity>> _getGroups({@required Cursor cursor}) async {
+  FutureOr<List<GroupEntity>> _getGroups({required Cursor cursor}) async {
     print('$_tag:_getGroups({cursor: $cursor})');
     if (parentId != null) {
       return await repository.getGroupsFromPart(
-        parentId,
+        parentId!,
         cursor: cursor,
       );
     } else if (ownerId != null) {
       return await repository.getGroupsFromUser(
-        ownerId,
+        ownerId!,
         cursor: cursor,
       );
     } else {

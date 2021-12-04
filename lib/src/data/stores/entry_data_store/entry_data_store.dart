@@ -4,7 +4,7 @@ import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
 
 abstract class EntryDataStore {
-  FutureOr<EntryDataModel> getEntry(String entryId);
+  FutureOr<EntryDataModel?> getEntry(String entryId);
 
   FutureOr<EntryDataModel> setEntry(EntryDataModel entryModel);
 

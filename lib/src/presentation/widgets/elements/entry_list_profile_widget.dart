@@ -7,17 +7,17 @@ import 'package:social_cv_client_flutter/presentation.dart';
 /// [SimpleEntryListProfile] is a dummy widget that use [entryIds] or [entries]
 /// or [entryBlocs] to create a list of [EntryProfileWidget]
 class SimpleEntryListProfile extends StatelessWidget {
-  final List<String> entryIds;
-  final List<EntryEntity> entries;
-  final List<EntryBloc> entryBlocs;
+  final List<String>? entryIds;
+  final List<EntryEntity>? entries;
+  final List<EntryBloc>? entryBlocs;
 
   /// List behaviors
   final Axis scrollDirection;
   final bool shrinkWrap;
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
   const SimpleEntryListProfile({
-    Key key,
+    Key? key,
     this.entryIds,
     this.entries,
     this.entryBlocs,
@@ -33,21 +33,21 @@ class SimpleEntryListProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int itemCount;
-    IndexedWidgetBuilder itemBuilder;
+    int? itemCount;
+    late IndexedWidgetBuilder itemBuilder;
 
-    if (entryIds != null && entryIds.isNotEmpty) {
-      itemCount = entryIds.length;
+    if (entryIds != null && entryIds!.isNotEmpty) {
+      itemCount = entryIds!.length;
       itemBuilder = (BuildContext context, int index) =>
-          EntryProfileWidget(entryId: entryIds[index]);
-    } else if (entries != null && entries.isNotEmpty) {
-      itemCount = entries.length;
+          EntryProfileWidget(entryId: entryIds![index]);
+    } else if (entries != null && entries!.isNotEmpty) {
+      itemCount = entries!.length;
       itemBuilder = (BuildContext context, int index) =>
-          EntryProfileWidget(entry: entries[index]);
-    } else if (entryBlocs != null && entryBlocs.isNotEmpty) {
-      itemCount = entryBlocs.length;
+          EntryProfileWidget(entry: entries![index]);
+    } else if (entryBlocs != null && entryBlocs!.isNotEmpty) {
+      itemCount = entryBlocs!.length;
       itemBuilder = (BuildContext context, int index) =>
-          EntryProfileWidget(entryBloc: entryBlocs[index]);
+          EntryProfileWidget(entryBloc: entryBlocs![index]);
     }
 
     return ListView.builder(
@@ -68,13 +68,13 @@ class ComplexEntryListProfile extends EntryListWidget {
   /// List behaviors
   final Axis scrollDirection;
   final bool shrinkWrap;
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
-  ComplexEntryListProfile({
-    Key key,
-    String parentGroupId,
-    String ownerId,
-    EntryListBloc entryListBloc,
+  const ComplexEntryListProfile({
+    Key? key,
+    String? parentGroupId,
+    String? ownerId,
+    EntryListBloc? entryListBloc,
 
     /// Options
     this.showOptions = false,
@@ -110,7 +110,7 @@ class _EntryListProfileState
           );
         } else if (state is EntryListLoaded) {
           final List<SortListItem> sortItems = <SortListItem>[
-            SortListItem(field: 'name', title: 'Name', value: SortState.NoSort)
+            SortListItem(field: 'name', title: 'Name', value: SortState.noSort)
           ];
 
           final sortRow = Row(
@@ -124,7 +124,7 @@ class _EntryListProfileState
                     builder: (BuildContext context) {
                       return SortDialog(
                         title:
-                            Text(CVLocalizations.of(context).entryListSorting),
+                            Text(CVLocalizations.of(context)!.entryListSorting),
                         sortItems: sortItems,
                       );
                     },
@@ -133,9 +133,9 @@ class _EntryListProfileState
               ),
               DropdownButton(
                 value: null,
-                hint: Text(CVLocalizations.of(context).partListItemPerPage),
+                hint: Text(CVLocalizations.of(context)!.partListItemPerPage),
                 items: getDropDownMenuElementPerPage(),
-                onChanged: (value) {},
+                onChanged: (dynamic value) {},
               )
             ],
           );
@@ -150,9 +150,9 @@ class _EntryListProfileState
                 EntryProfileWidget(entry: entry),
               if (widget.showOptions)
                 Center(
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: null,
-                    child: Text(CVLocalizations.of(context).entryListLoadMore),
+                    child: Text(CVLocalizations.of(context)!.entryListLoadMore),
                   ),
                 ),
             ],

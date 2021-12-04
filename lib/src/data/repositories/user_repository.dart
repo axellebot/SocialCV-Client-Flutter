@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
@@ -10,23 +9,24 @@ class ImplUserRepository extends UserRepository {
 
   final UserDataStoreFactory factory;
 
-  ImplUserRepository({@required this.factory}) : assert(factory != null);
+  ImplUserRepository({
+    required this.factory,
+  });
 
   @override
   FutureOr<UserEntity> getById(
     String id, {
     bool force = false,
   }) async {
-    assert(id != null);
     print('$_tag:getUser($id)');
 
-    UserDataModel dataModel;
+    UserDataModel? dataModel;
 
     if (!force) dataModel = await factory.memoryDataStore.getUser(id);
 
     if (dataModel == null) {
       dataModel = await factory.cloudDataStore.getUser(id);
-      factory.memoryDataStore.setUser(dataModel);
+      factory.memoryDataStore.setUser(dataModel!);
     }
 
     return dataModel;

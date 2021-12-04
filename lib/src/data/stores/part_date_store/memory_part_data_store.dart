@@ -10,24 +10,23 @@ class MemoryPartDataStore implements PartDataStore {
 
   MemoryPartDataStore();
 
-  final _parts = <String, CacheModel<PartDataModel>>{};
+  final Map<String?, CacheModel<PartDataModel>> _parts =
+      <String, CacheModel<PartDataModel>>{};
 
   @override
-  FutureOr<PartDataModel> getPart(String partId) async {
+  FutureOr<PartDataModel?> getPart(String partId) async {
     print('$_tag:getPart($partId)');
 
-    final CacheModel<PartDataModel> cacheModel = _parts[partId];
-    return (cacheModel != null && !cacheModel.isExpired())
-        ? cacheModel.model
-        : null;
+    final CacheModel<PartDataModel>? cacheModel = _parts[partId];
+
+    return cacheModel?.model;
   }
 
   @override
   FutureOr<PartDataModel> setPart(PartDataModel partModel) async {
     print('$_tag:setPart($partModel)');
 
-    final DateTime expiration =
-        generateExpirationDateTime(Duration(minutes: 1));
+    final DateTime expiration = defaultExpirationDateTime;
     final cacheModel =
         CacheModel<PartDataModel>(model: partModel, expiration: expiration);
     _parts[partModel.id] = cacheModel;
@@ -44,7 +43,7 @@ class MemoryPartDataStore implements PartDataStore {
 
   @override
   FutureOr<List<PartDataModel>> getPartsFromProfile(
-    String profileId, {
+    String? profileId, {
     Cursor cursor = const Cursor(),
   }) {
     // TODO: implement getPartsFromProfile
@@ -53,7 +52,7 @@ class MemoryPartDataStore implements PartDataStore {
 
   @override
   FutureOr<List<PartDataModel>> getPartsFromUser(
-    String userId, {
+    String? userId, {
     Cursor cursor = const Cursor(),
   }) {
     return _parts.values

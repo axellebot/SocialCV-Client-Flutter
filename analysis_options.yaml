@@ -27,7 +27,6 @@ linter:
     - close_sinks
     - constant_identifier_names
     - control_flow_in_finally
-    - directives_ordering
     - empty_catches
     - empty_constructor_bodies
     - empty_statements
@@ -43,6 +42,7 @@ linter:
     - no_duplicate_case_values
     - non_constant_identifier_names
     - null_closures
+    - only_throw_errors
     - package_api_docs
     - package_names
     - package_prefixed_library_names
@@ -51,7 +51,6 @@ linter:
     - prefer_asserts_in_initializer_lists
     - prefer_collection_literals
     - prefer_conditional_assignment
-    - prefer_const_constructors
     - prefer_const_constructors_in_immutables
     - prefer_const_declarations
     - prefer_const_literals_to_create_immutables

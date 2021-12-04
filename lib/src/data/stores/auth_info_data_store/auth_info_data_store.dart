@@ -6,54 +6,54 @@ abstract class AuthInfoDataStore {
   /// --------------------------------------------------------------------------
 
   /// Set access token ([String])
-  FutureOr<String> setAccessToken(String accessToken);
+  FutureOr<bool> setAccessToken(String accessToken);
 
   /// Get access token
   ///
   /// Must return a access token ([String]) or [null] otherwise
-  FutureOr<String> getAccessToken();
+  FutureOr<String?> getAccessToken();
 
   /// Delete access token
-  FutureOr<String> deleteAccessToken();
+  FutureOr<bool> deleteAccessToken();
 
   /// Set access token expiration datetime as([DateTime])
-  FutureOr<DateTime> setAccessTokenExpiration(DateTime expiration);
+  FutureOr<bool> setAccessTokenExpiration(DateTime expiration);
 
   /// Get access token expiration time
   ///
   /// Must return the access token expiration datetime ([DateTime])
   /// or [null] otherwise
-  FutureOr<DateTime> getAccessTokenExpiration();
+  FutureOr<DateTime?> getAccessTokenExpiration();
 
   /// Delete access token expiration datetime
-  FutureOr<DateTime> deleteAccessTokenExpiration();
+  FutureOr<bool> deleteAccessTokenExpiration();
 
   /// --------------------------------------------------------------------------
   ///                             Refresh Token
   /// --------------------------------------------------------------------------
 
   /// Set refresh token ([String])
-  FutureOr<String> setRefreshToken(String token);
+  FutureOr<bool> setRefreshToken(String? token);
 
   /// Get refresh token
   ///
   /// Must return a refresh token ([String]) or [null] otherwise
-  FutureOr<String> getRefreshToken();
+  FutureOr<String?> getRefreshToken();
 
   /// Delete refresh token
-  FutureOr<String> deleteRefreshToken();
+  FutureOr<bool> deleteRefreshToken();
 
   /// Set refresh token expiration datetime as timestamp ([int])
-  FutureOr<DateTime> setRefreshTokenExpiration(DateTime expiration);
+  FutureOr<bool> setRefreshTokenExpiration(DateTime expiration);
 
   /// Get refresh token expiration datetime
   ///
   /// Must return the access token expiration datetime ([DateTime])
   /// or [null] otherwise
-  FutureOr<DateTime> getRefreshTokenExpiration();
+  FutureOr<DateTime?> getRefreshTokenExpiration();
 
   /// Delete refresh token expiration date
-  FutureOr<DateTime> deleteRefreshTokenExpiration();
+  FutureOr<bool> deleteRefreshTokenExpiration();
 
   /// --------------------------------------------------------------------------
   ///                                Misc

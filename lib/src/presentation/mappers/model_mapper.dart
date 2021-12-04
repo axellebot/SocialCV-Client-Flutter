@@ -6,13 +6,13 @@ import 'package:social_cv_client_flutter/src/data/models/envelop_models.dart';
 class ModelMapper {
   final String _tag = '$ModelMapper';
 
-  static ModelMapper _instance;
+  static ModelMapper? _instance;
 
   static _initState() {
     _instance = ModelMapper();
   }
 
-  static ModelMapper get instance {
+  static ModelMapper? get instance {
     if (_instance == null) {
       _initState();
     }

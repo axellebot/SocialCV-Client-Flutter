@@ -1,20 +1,20 @@
 import 'package:social_cv_client_flutter/presentation.dart';
 
 class PartViewModel extends ElementViewModel {
-  String name;
-  List<String> groupIds;
-  String type;
-  String ownerId;
+  String? name;
+  List<String>? groupIds;
+  String? type;
+  String? ownerId;
 
   PartViewModel({
-    String id,
+    String? id,
     this.name,
     this.groupIds,
     this.type,
     this.ownerId,
-    DateTime createdAt,
-    DateTime updatedAt,
-    int version,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? version,
   }) : super(
           id: id,
           createdAt: createdAt,
@@ -23,14 +23,14 @@ class PartViewModel extends ElementViewModel {
         );
 
   PartViewModel copyWith({
-    String id,
-    String name,
-    List<String> groupIds,
-    String type,
-    String ownerId,
-    DateTime createdAt,
-    DateTime updatedAt,
-    int version,
+    String? id,
+    String? name,
+    List<String>? groupIds,
+    String? type,
+    String? ownerId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? version,
   }) {
     return PartViewModel(
       id: id ?? this.id,

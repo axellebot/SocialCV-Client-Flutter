@@ -8,27 +8,26 @@ class MemoryIdentityDataStore implements IdentityDataStore {
 
   MemoryIdentityDataStore();
 
-  CacheModel<UserDataModel> _accountCache;
+  CacheModel<UserDataModel>? _accountCache;
 
   @override
-  FutureOr<UserDataModel> getIdentity() async {
-    print('$_tag:getAccount()');
+  FutureOr<UserDataModel?> getIdentity() async {
+    print('$_tag:getIdentity()');
 
-    return (_accountCache != null && !_accountCache.isExpired())
-        ? _accountCache.model
+    return (_accountCache != null && !_accountCache!.isExpired())
+        ? _accountCache!.model
         : null;
   }
 
   @override
   FutureOr<UserDataModel> setIdentity(UserDataModel userModel) async {
-    print('$_tag:setAccount($userModel)');
+    print('$_tag:setIdentity($userModel)');
 
-    final DateTime expiration =
-        generateExpirationDateTime(Duration(minutes: 1));
+    final DateTime expiration = defaultExpirationDateTime;
     _accountCache =
         CacheModel<UserDataModel>(model: userModel, expiration: expiration);
 
-    return _accountCache.model;
+    return _accountCache!.model;
   }
 
   @override

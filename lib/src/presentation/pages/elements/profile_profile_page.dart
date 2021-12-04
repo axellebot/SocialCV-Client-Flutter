@@ -7,16 +7,17 @@ import 'package:social_cv_client_flutter/presentation.dart';
 /// TODO : Build owner interaction with ProfileEntity.owner
 
 class ProfileProfilePage extends ProfileWidget {
-  ProfileProfilePage(
-      {Key key,
-      String profileId,
-      ProfileEntity profile,
-      ProfileBloc profileBloc})
-      : super(
-            key: key,
-            profileId: profileId,
-            profile: profile,
-            profileBloc: profileBloc);
+  const ProfileProfilePage({
+    Key? key,
+    String? profileId,
+    ProfileEntity? profile,
+    ProfileBloc? profileBloc,
+  }) : super(
+          key: key,
+          profileId: profileId,
+          profile: profile,
+          profileBloc: profileBloc,
+        );
 
   @override
   State<StatefulWidget> createState() => _ProfileProfilePageState();
@@ -30,12 +31,12 @@ class _ProfileProfilePageState extends ProfileWidgetState<ProfileProfilePage> {
     return BlocBuilder<ProfileBloc, ProfileState>(
       bloc: profileBloc,
       builder: (BuildContext context, ProfileState state) {
-        List<Widget> slivers = [];
+        final List<Widget> slivers = [];
 
         if (state is ProfileLoaded) {
           slivers.add(_ProfilePageAppBar(profile: state.element));
-          ProfileEntity profile = state.element;
-          slivers.addAll(profile.partIds
+          final ProfileEntity profile = state.element;
+          slivers.addAll(profile.partIds!
               .map((partId) =>
                   SliverToBoxAdapter(child: PartProfileWidget(partId: partId)))
               .toList());
@@ -57,23 +58,23 @@ class _ProfileProfilePageState extends ProfileWidgetState<ProfileProfilePage> {
 }
 
 class _ProfilePageAppBar extends StatelessWidget {
-  final ProfileEntity profile;
+  final ProfileEntity? profile;
 
-  _ProfilePageAppBar({@required this.profile});
+  const _ProfilePageAppBar({required this.profile});
 
   @override
   Widget build(BuildContext context) {
-    Widget titleWidget = LoadingShadowContent(
+    Widget titleWidget = const LoadingShadowContent(
       numberOfTitleLines: 1,
       numberOfContentLines: 0,
     );
 
-    Widget subtitleWidget = LoadingShadowContent(
+    Widget subtitleWidget = const LoadingShadowContent(
       numberOfTitleLines: 1,
       numberOfContentLines: 0,
     );
 
-    Widget avatarWidget = InitialCircleAvatar(
+    Widget avatarWidget = const InitialCircleAvatar(
       elevation: AppStyles.profileAvatarElevation,
       maxRadius: AppStyles.profileAvatarMax,
       minRadius: AppStyles.profileAvatarMin,
@@ -85,23 +86,23 @@ class _ProfilePageAppBar extends StatelessWidget {
       fit: BoxFit.cover,
     );
 
-    if (this.profile != null) {
+    if (profile != null) {
       titleWidget = Text(
-        profile.title,
+        profile!.title!,
       );
       subtitleWidget = Text(
-        profile.subtitle,
+        profile!.subtitle!,
       );
       avatarWidget = InitialCircleAvatar(
-        text: profile.title,
+        text: profile!.title,
         elevation: AppStyles.profileAvatarElevation,
         maxRadius: AppStyles.profileAvatarMax,
         minRadius: AppStyles.profileAvatarMin,
-        backgroundImage: NetworkImage(profile.picture.toString()),
+        backgroundImage: NetworkImage(profile!.picture.toString()),
       );
 
       bannerWidget = Image.network(
-        profile.cover.toString(),
+        profile!.cover.toString(),
         fit: BoxFit.cover,
       );
     }
@@ -114,7 +115,7 @@ class _ProfilePageAppBar extends StatelessWidget {
       ],
     );
 
-    Widget backgroundWidget = Stack(
+    final Widget backgroundWidget = Stack(
       children: [
         Stack(
           fit: StackFit.expand,
@@ -150,11 +151,11 @@ class _ProfilePageAppBar extends StatelessWidget {
 }
 
 class DecoratingBackground extends StatelessWidget {
-  const DecoratingBackground({Key key}) : super(key: key);
+  const DecoratingBackground({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return const DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           /// This gradient ensures that the toolbar icons are distinct

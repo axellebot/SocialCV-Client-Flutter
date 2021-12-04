@@ -5,7 +5,10 @@ import 'package:social_cv_client_flutter/presentation.dart';
 
 /// [ProfileListEvent] that must be dispatch to [ProfileListBloc]
 abstract class ProfileListEvent extends Equatable {
-  ProfileListEvent([List props = const []]) : super(props);
+  const ProfileListEvent() : super();
+
+  @override
+  List<Object?> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -14,9 +17,9 @@ abstract class ProfileListEvent extends Equatable {
 class ProfileListInitialize extends ProfileListEvent
     with ElementListInitialize<ProfileEntity> {
   ProfileListInitialize({
-    String parentUserId,
-    String ownerId,
-    Cursor cursor,
+    String? parentUserId,
+    String? ownerId,
+    required Cursor cursor,
   })  : assert(
           parentUserId != null && ownerId == null,
           '$ProfileListInitialize must be created with a parentId or an ownerId',
@@ -25,11 +28,14 @@ class ProfileListInitialize extends ProfileListEvent
           parentUserId == null && ownerId != null,
           '$ProfileListInitialize must be created with a parentId or an ownerId',
         ),
-        super([parentUserId, ownerId]) {
-    this.parentId = parentUserId;
+        super() {
+    parentId = parentUserId;
     this.ownerId = ownerId;
     this.cursor = cursor;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([parentId, ownerId, cursor]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -44,11 +50,12 @@ class ProfileListRefresh extends ProfileListEvent
 
 class ProfileListLoadMore extends ProfileListEvent
     with ElementListLoadMore<ProfileEntity> {
-  ProfileListLoadMore({Cursor cursor})
-      : assert(cursor != null),
-        super([cursor]) {
+  ProfileListLoadMore({required Cursor cursor}) : super() {
     this.cursor = cursor;
   }
+
+  @override
+  List<Object?> get props => super.props..addAll([cursor]);
 
   @override
   String toString() => '$runtimeType{ '

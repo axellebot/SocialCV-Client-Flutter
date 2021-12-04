@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
 abstract class PartListState extends Equatable {
-  PartListState([List props = const []]) : super(props);
+  const PartListState() : super();
+
+  @override
+  List<Object> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -15,9 +17,12 @@ class PartListUninitialized extends PartListState
 
 class PartListLoading extends PartListState
     with ElementListLoading<PartEntity> {
-  PartListLoading({int count = 0}) : super([count]) {
+  PartListLoading({int count = 0}) : super() {
     this.count = count;
   }
+
+  @override
+  List<Object> get props => super.props..addAll([count]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -26,9 +31,12 @@ class PartListLoading extends PartListState
 }
 
 class PartListLoaded extends PartListState with ElementListLoaded<PartEntity> {
-  PartListLoaded({@required List<PartEntity> parts}) : super([parts]) {
+  PartListLoaded({required List<PartEntity?> parts}) : super() {
     elements = parts;
   }
+
+  @override
+  List<Object> get props => super.props..addAll([elements]);
 
   @override
   String toString() => '$runtimeType{ '
@@ -38,11 +46,12 @@ class PartListLoaded extends PartListState with ElementListLoaded<PartEntity> {
 
 class PartListFailure extends PartListState
     with ElementListFailure<PartEntity> {
-  PartListFailure({@required dynamic error})
-      : assert(error != null, 'No error given'),
-        super([error]) {
+  PartListFailure({required Object error}) : super() {
     this.error = error;
   }
+
+  @override
+  List<Object> get props => super.props..addAll([error]);
 
   @override
   String toString() => '$runtimeType{ '

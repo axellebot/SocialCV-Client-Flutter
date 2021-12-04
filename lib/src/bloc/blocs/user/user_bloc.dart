@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
@@ -10,7 +9,7 @@ class UserBloc
     extends ElementBloc<UserEntity, UserRepository, UserEvent, UserState> {
   final String _tag = '$UserBloc';
 
-  UserBloc({@required UserRepository repository})
+  UserBloc({required UserRepository repository})
       : super(
           repository: repository,
           initialState: UserUninitialized(),
@@ -18,10 +17,6 @@ class UserBloc
     on<UserInitialize>(_onInitialize);
     on<UserRefresh>(_onRefresh);
   }
-
-  /// [_fallBackId] is used if [element] is never assigned and
-  /// an [UserRefresh] is dispatched
-  String _fallBackId;
 
   /// --------------------------------------------------------------------------
   ///                         All Event map to State
@@ -37,14 +32,12 @@ class UserBloc
       emit(UserLoading());
 
       if (event.elementId != null) {
-        _fallBackId = event.elementId;
-        element = await repository.getById(event.elementId);
+        element = await repository.getById(event.elementId!);
       } else if (event.element != null) {
-        _fallBackId = event.element.id;
         element = event.element;
       }
 
-      emit(UserLoaded(user: element));
+      emit(UserLoaded(user: element!));
     } catch (error) {
       emit(UserFailure(error: error));
     }
@@ -60,13 +53,11 @@ class UserBloc
       emit(UserLoading());
 
       element = await repository.getById(
-        element?.id ?? _fallBackId,
+        element!.id,
         force: true,
       );
 
-      _fallBackId = element.id;
-
-      emit(UserLoaded(user: element));
+      emit(UserLoaded(user: element!));
     } catch (error) {
       emit(UserFailure(error: error));
     }

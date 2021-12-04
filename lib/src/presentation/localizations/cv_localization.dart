@@ -6,7 +6,7 @@ import 'package:social_cv_client_flutter/src/presentation/localizations/cv_local
 import 'package:social_cv_client_flutter/src/presentation/localizations/cv_localization_fr.dart';
 
 abstract class CVLocalizations {
-  static CVLocalizations of(BuildContext context) {
+  static CVLocalizations? of(BuildContext context) {
     return Localizations.of<CVLocalizations>(context, CVLocalizations);
   }
 
@@ -340,7 +340,7 @@ class CVLocalizationsDelegate extends LocalizationsDelegate<CVLocalizations> {
   @override
   Future<CVLocalizations> load(Locale locale) async {
     final String name =
-        (locale.countryCode == null || locale.countryCode.isEmpty)
+        (locale.countryCode == null || locale.countryCode!.isEmpty)
             ? locale.languageCode
             : locale.toString();
     final String localeName = Intl.canonicalizedLocale(name);

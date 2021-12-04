@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
@@ -10,9 +9,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   final CVAuthService cvAuthService;
 
-  RegisterBloc({@required this.cvAuthService})
-      : assert(cvAuthService != null, 'No $CVAuthService given'),
-        super(RegisterInitial()) {
+  RegisterBloc({
+    required this.cvAuthService,
+  }) : super(RegisterInitial()) {
     on<RegistrationEvent>(_mapRegistrationEventToState);
   }
 

@@ -15,17 +15,17 @@ import 'package:social_cv_client_flutter/src/presentation/widgets/sort_list_tile
 /// [SimplePartListProfile] is a dummy widget that use [partIds] or [parts] or
 /// [partBlocs] to create a list of [PartProfileWidget]
 class SimplePartListProfile extends StatelessWidget {
-  final List<String> partIds;
-  final List<PartEntity> parts;
-  final List<PartBloc> partBlocs;
+  final List<String>? partIds;
+  final List<PartEntity>? parts;
+  final List<PartBloc>? partBlocs;
 
   /// List behaviors
   final Axis scrollDirection;
   final bool shrinkWrap;
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
   const SimplePartListProfile({
-    Key key,
+    Key? key,
     this.partIds,
     this.parts,
     this.partBlocs,
@@ -41,21 +41,21 @@ class SimplePartListProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int itemCount;
-    IndexedWidgetBuilder itemBuilder;
+    int? itemCount;
+    late IndexedWidgetBuilder itemBuilder;
 
-    if (partIds != null && partIds.isNotEmpty) {
-      itemCount = partIds.length;
+    if (partIds != null && partIds!.isNotEmpty) {
+      itemCount = partIds!.length;
       itemBuilder = (BuildContext context, int index) =>
-          PartProfileWidget(partId: partIds[index]);
-    } else if (parts != null && parts.isNotEmpty) {
-      itemCount = parts.length;
+          PartProfileWidget(partId: partIds![index]);
+    } else if (parts != null && parts!.isNotEmpty) {
+      itemCount = parts!.length;
       itemBuilder = (BuildContext context, int index) =>
-          PartProfileWidget(part: parts[index]);
-    } else if (partBlocs != null && partBlocs.isNotEmpty) {
-      itemCount = partBlocs.length;
+          PartProfileWidget(part: parts![index]);
+    } else if (partBlocs != null && partBlocs!.isNotEmpty) {
+      itemCount = partBlocs!.length;
       itemBuilder = (BuildContext context, int index) =>
-          PartProfileWidget(partBloc: partBlocs[index]);
+          PartProfileWidget(partBloc: partBlocs![index]);
     }
 
     return ListView.builder(
@@ -77,13 +77,13 @@ class ComplexPartListProfile extends PartListWidget {
   /// List behaviors
   final Axis scrollDirection;
   final bool shrinkWrap;
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
-  ComplexPartListProfile({
-    Key key,
-    String parentProfileId,
-    String ownerId,
-    PartListBloc partListBloc,
+  const ComplexPartListProfile({
+    Key? key,
+    String? parentProfileId,
+    String? ownerId,
+    PartListBloc? partListBloc,
 
     /// Options
     this.showOptions = false,
@@ -119,7 +119,7 @@ class _PartListProfileState
           );
         } else if (state is PartListLoaded) {
           final List<SortListItem> sortItems = <SortListItem>[
-            SortListItem(field: 'name', title: 'Name', value: SortState.NoSort)
+            SortListItem(field: 'name', title: 'Name', value: SortState.noSort)
           ];
 
           final sortRow = Row(
@@ -133,7 +133,7 @@ class _PartListProfileState
                     builder: (BuildContext context) {
                       return SortDialog(
                         title:
-                            Text(CVLocalizations.of(context).partListSorting),
+                            Text(CVLocalizations.of(context)!.partListSorting),
                         sortItems: sortItems,
                       );
                     },
@@ -142,9 +142,9 @@ class _PartListProfileState
               ),
               DropdownButton(
                 value: null,
-                hint: Text(CVLocalizations.of(context).profileListItemPerPage),
+                hint: Text(CVLocalizations.of(context)!.profileListItemPerPage),
                 items: getDropDownMenuElementPerPage(),
-                onChanged: (value) {},
+                onChanged: (dynamic value) {},
               )
             ],
           );
@@ -158,9 +158,9 @@ class _PartListProfileState
               for (var part in state.elements) PartProfileWidget(part: part),
               if (widget.showOptions)
                 Center(
-                  child: FlatButton(
+                  child: TextButton(
                     onPressed: null,
-                    child: Text(CVLocalizations.of(context).partListLoadMore),
+                    child: Text(CVLocalizations.of(context)!.partListLoadMore),
                   ),
                 ),
             ],

@@ -3,6 +3,7 @@ import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
+import 'package:social_cv_client_flutter/src/data/managers/api_interceptor.dart';
 
 class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
   final String _tag = '$ConfigurationBloc';
@@ -12,20 +13,20 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
   }
 
   /// Services
-  FoundationConfigService _foundationConfigService;
-  CVAuthService _cvAuthService;
+  late FoundationConfigService _foundationConfigService;
+  late CVAuthService _cvAuthService;
 
   /// Repositories
-  AuthInfoRepository _authInfoRepository;
-  AppPrefsRepository _appPrefsRepository;
+  late AuthInfoRepository _authInfoRepository;
+  late AppPrefsRepository _appPrefsRepository;
 
   /// Entities Repositories
-  IdentityRepository _identityRepository;
-  UserRepository _userRepository;
-  ProfileRepository _profileRepository;
-  PartRepository _partRepository;
-  GroupRepository _groupRepository;
-  EntryRepository _entryRepository;
+  late IdentityRepository _identityRepository;
+  late UserRepository _userRepository;
+  late ProfileRepository _profileRepository;
+  late PartRepository _partRepository;
+  late GroupRepository _groupRepository;
+  late EntryRepository _entryRepository;
 
   /// -----------------------------------------------------------------------
   ///                       All Event map to State
@@ -43,14 +44,17 @@ class ConfigurationBloc extends Bloc<ConfigurationEvent, ConfigurationState> {
       final AuthInfoDataStore diskAuthInfoDataStore =
           AuthSharedPreferencesManager();
 
-      final apiInterceptor = ApiInterceptor(
+      final oauthInterceptor = OAuthInterceptor(
         accessToken: await diskAuthInfoDataStore.getAccessToken(),
         refreshToken: await diskAuthInfoDataStore.getRefreshToken(),
       );
 
+      final apiInterceptor = ApiInterceptor();
+
       final CVApiManager cvApiManager = CVApiManager(
         apiBaseUrl: await _foundationConfigService.getApiServerUrl(),
-        tokenInterceptor: apiInterceptor,
+        oauthInterceptor: oauthInterceptor,
+        apiInterceptor: apiInterceptor,
       );
 
       _cvAuthService = cvApiManager;

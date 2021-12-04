@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/bloc.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 
 abstract class UserState extends Equatable {
-  UserState([List props = const []]) : super(props);
+  const UserState() : super();
+
+  @override
+  List<Object> get props => [];
 
   @override
   String toString() => '$runtimeType{}';
@@ -16,9 +18,14 @@ class UserUninitialized extends UserState
 class UserLoading extends UserState with ElementLoading<UserEntity> {}
 
 class UserLoaded extends UserState with ElementLoaded<UserEntity> {
-  UserLoaded({UserEntity user}) : super([user]) {
+  UserLoaded({
+    required UserEntity user,
+  }) : super() {
     element = user;
   }
+
+  @override
+  List<Object> get props => super.props..addAll([element]);
 
   @override
   String toString() {
@@ -29,11 +36,14 @@ class UserLoaded extends UserState with ElementLoaded<UserEntity> {
 }
 
 class UserFailure extends UserState with ElementFailure<UserEntity> {
-  UserFailure({@required dynamic error})
-      : assert(error != null, 'No error given'),
-        super([error]) {
+  UserFailure({
+    required Object error,
+  }) : super() {
     this.error = error;
   }
+
+  @override
+  List<Object> get props => super.props..addAll([error]);
 
   @override
   String toString() => '$runtimeType{ '

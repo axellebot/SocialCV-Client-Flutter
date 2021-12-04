@@ -4,7 +4,7 @@ import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
 
 abstract class UserDataStore {
-  FutureOr<UserDataModel> getUser(String userId);
+  FutureOr<UserDataModel?> getUser(String userId);
 
   FutureOr<UserDataModel> setUser(UserDataModel userModel);
 

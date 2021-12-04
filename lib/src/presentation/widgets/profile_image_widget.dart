@@ -4,9 +4,10 @@ import 'package:social_cv_client_flutter/presentation.dart';
 class ProfileImage extends StatelessWidget {
   final String _tag = '$ProfileImage';
 
-  ProfileImage({Key key, @required this.imageUrl})
-      : assert(imageUrl != null),
-        super(key: key);
+  ProfileImage({
+    Key? key,
+    required this.imageUrl,
+  }) : super(key: key);
 
   static const RATIO = 1;
 

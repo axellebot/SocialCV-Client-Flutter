@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
 import 'package:social_cv_client_flutter/data.dart';
 import 'package:social_cv_client_flutter/domain.dart';
 import 'package:social_cv_client_flutter/presentation.dart';
+import 'package:social_cv_client_flutter/src/data/managers/api_interceptor.dart';
 
 /// Default Implementation of [CVApiManager]
 class CVApiManager
@@ -21,7 +21,7 @@ class CVApiManager
 
   final String apiBaseUrl;
 
-  Dio _dio;
+  late Dio _dio;
 
   static const String _pathOauth = '/oauth';
   static const String _pathOauthToken = '$_pathOauth/token';
@@ -33,13 +33,14 @@ class CVApiManager
   static const String _pathGroups = '/groups';
   static const String _pathEntries = '/entries';
 
-  final ApiInterceptor tokenInterceptor;
+  final OAuthInterceptor oauthInterceptor;
+  final ApiInterceptor apiInterceptor;
 
   CVApiManager({
-    @required this.apiBaseUrl,
-    @required this.tokenInterceptor,
-  })  : assert(apiBaseUrl != null, 'Missing api base url'),
-        assert(tokenInterceptor != null, 'No $ApiInterceptor given') {
+    required this.apiBaseUrl,
+    required this.oauthInterceptor,
+    required this.apiInterceptor,
+  }) {
     _dio = Dio(BaseOptions(
       baseUrl: apiBaseUrl,
       connectTimeout: 3000,
@@ -48,12 +49,8 @@ class CVApiManager
     ));
 
     // Add Interceptor
-    _dio.interceptors.add(tokenInterceptor.interceptorsWrapper);
-
-    _dio.interceptors.add(InterceptorsWrapper(
-      onResponse: checkApiResponse,
-      onError: apiErrorCatcher,
-    ));
+    _dio.interceptors.add(oauthInterceptor);
+    _dio.interceptors.add(apiInterceptor);
   }
 
   /// --------------------------------------------------------------------------
@@ -62,34 +59,29 @@ class CVApiManager
 
   @override
   FutureOr<ResponseAuthDataModel> authenticate({
-    @required String email,
-    @required String password,
+    required String email,
+    required String password,
   }) async {
     print('$_tag:authenticate');
 
-    try {
-      final RequestAuthDataModel oauthModel = RequestAuthDataModel(
-        username: email,
-        password: password,
-      );
+    final RequestAuthDataModel oauthModel = RequestAuthDataModel(
+      username: email,
+      password: password,
+    );
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.post<Map<String, dynamic>>(_pathOauthToken,
-              data: oauthModel.toJson());
+    final Response<Map<String, dynamic>> response = await _dio
+        .post<Map<String, dynamic>>(_pathOauthToken, data: oauthModel.toJson());
 
-      final model = ResponseAuthDataModel.fromJson(response.data);
-      return model;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final model = ResponseAuthDataModel.fromJson(response.data!);
+    return model;
   }
 
   @override
   FutureOr<AuthEntity> register({
-    String fName,
-    String lName,
-    String email,
-    String password,
+    required String fName,
+    required String lName,
+    required String email,
+    required String password,
   }) {
     // TODO: implement register
     throw NotImplementedYetError();
@@ -98,7 +90,7 @@ class CVApiManager
   /// Logout
   @override
   FutureOr<void> logout() async {
-    await tokenInterceptor.deleteAuthData();
+    await oauthInterceptor.deleteAuthData();
   }
 
   /// --------------------------------------------------------------------------
@@ -106,50 +98,42 @@ class CVApiManager
   /// --------------------------------------------------------------------------
 
   @override
-  FutureOr<UserDataModel> getIdentity() async {
+  FutureOr<UserDataModel?> getIdentity() async {
     print('$_tag:getIdentity()');
 
-    try {
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_pathMe);
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_pathMe);
 
-      final DataEnvelop<UserDataModel> envelop =
-          DataEnvelop<UserDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final DataEnvelop<UserDataModel> envelop =
+        DataEnvelop<UserDataModel>.fromJson(response.data!);
+
+    return envelop.data;
   }
 
   @override
-  FutureOr<UserDataModel> setIdentity(UserDataModel userModel) {
+  FutureOr<UserDataModel> setIdentity(UserDataModel? userModel) {
     // TODO: implement setIdentity
     throw NotImplementedYetError();
   }
 
-  FutureOr<List<ProfileDataModel>> getProfilesFromIdentity({
+  FutureOr<List<ProfileDataModel>?> getProfilesFromIdentity({
     Cursor cursor = const Cursor(),
   }) async {
     print('$_tag:getProfilesFromIdentity');
 
-    try {
-      const String _path = '$_pathMe$_pathProfiles';
+    const String _path = '$_pathMe$_pathProfiles';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(
-        _path,
-        queryParameters: {
-          'offset': cursor.offset.toString(),
-          'limit': cursor.limit.toString(),
-        },
-      );
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(
+      _path,
+      queryParameters: {
+        'offset': cursor.offset.toString(),
+        'limit': cursor.limit.toString(),
+      },
+    );
 
-      final envelop =
-          DataArrayEnvelop<ProfileDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataArrayEnvelop<ProfileDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   /// --------------------------------------------------------------------------
@@ -160,21 +144,18 @@ class CVApiManager
   FutureOr<UserDataModel> getUser(String userId) async {
     print('$_tag:getUser($userId)');
 
-    try {
-      final String _path = '$_pathUsers/$userId';
+    final String _path = '$_pathUsers/$userId';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path);
-      final envelop = DataEnvelop<UserDataModel>.fromJson(response.data);
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path);
 
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataEnvelop<UserDataModel>.fromJson(response.data!);
+
+    return envelop.data;
   }
 
   @override
-  FutureOr<UserDataModel> setUser(UserDataModel userModel) {
+  FutureOr<UserDataModel> setUser(UserDataModel? userModel) {
     print('$_tag:setUser($userModel)');
     // TODO: implement setUser
     throw NotImplementedYetError();
@@ -186,20 +167,16 @@ class CVApiManager
   }) async {
     print('$_tag:getUsers');
 
-    try {
-      const String _path = _pathUsers;
+    const String _path = _pathUsers;
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-      });
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+    });
 
-      final envelop = DataArrayEnvelop<UserDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataArrayEnvelop<UserDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   /// --------------------------------------------------------------------------
@@ -207,23 +184,19 @@ class CVApiManager
   /// --------------------------------------------------------------------------
 
   @override
-  FutureOr<ProfileDataModel> getProfile(String profileId) async {
+  FutureOr<ProfileDataModel?> getProfile(String? profileId) async {
     print('$_tag:fetchProfile($profileId)');
 
-    try {
-      final String _path = '$_pathProfiles/$profileId';
+    final String _path = '$_pathProfiles/$profileId';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path);
-      final envelop = DataEnvelop<ProfileDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path);
+    final envelop = DataEnvelop<ProfileDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   @override
-  FutureOr<ProfileDataModel> setProfile(ProfileDataModel profileModel) {
+  FutureOr<ProfileDataModel> setProfile(ProfileDataModel? profileModel) {
     print('$_tag:setProfile($profileModel)');
     // TODO: implement setProfile
     throw NotImplementedYetError();
@@ -235,45 +208,35 @@ class CVApiManager
   }) async {
     print('$_tag:getProfiles');
 
-    try {
-      const String _path = _pathProfiles;
+    const String _path = _pathProfiles;
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-      });
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+    });
 
-      final envelop =
-          DataArrayEnvelop<ProfileDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataArrayEnvelop<ProfileDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   @override
   FutureOr<List<ProfileDataModel>> getProfilesFromUser(
-    String userId, {
+    String? userId, {
     Cursor cursor = const Cursor(),
   }) async {
-    print('$_tag:fetchProfilesFromUser');
+    print('$_tag:getProfilesFromUser');
 
-    try {
-      final String _path = '$_pathUsers/$userId$_pathProfiles';
+    final String _path = '$_pathUsers/$userId$_pathProfiles';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-      });
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+    });
 
-      final envelop =
-          DataArrayEnvelop<ProfileDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataArrayEnvelop<ProfileDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   /// --------------------------------------------------------------------------
@@ -281,23 +244,19 @@ class CVApiManager
   /// --------------------------------------------------------------------------
 
   @override
-  FutureOr<PartDataModel> getPart(String partId) async {
-    print('$_tag:fetchPart($partId)');
+  FutureOr<PartDataModel?> getPart(String partId) async {
+    print('$_tag:getPart($partId)');
 
-    try {
-      final String _path = '$_pathParts/$partId';
+    final String _path = '$_pathParts/$partId';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path);
-      final envelop = DataEnvelop<PartDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path);
+    final envelop = DataEnvelop<PartDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   @override
-  FutureOr<PartDataModel> setPart(PartDataModel partModel) {
+  FutureOr<PartDataModel> setPart(PartDataModel? partModel) {
     // TODO: implement setPart
     throw NotImplementedYetError();
   }
@@ -308,44 +267,36 @@ class CVApiManager
   }) async {
     print('$_tag:getParts');
 
-    try {
-      const String _path = _pathParts;
+    const String _path = _pathParts;
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-      });
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+    });
 
-      final envelop = DataArrayEnvelop<PartDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataArrayEnvelop<PartDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   @override
   FutureOr<List<PartDataModel>> getPartsFromProfile(
-    String profileId, {
+    String? profileId, {
     Cursor cursor = const Cursor(),
   }) async {
-    print('$_tag:fetchPartsFromProfile');
+    print('$_tag:getPartsFromProfile');
 
-    try {
-      final String _path = '$_pathProfiles/$profileId$_pathParts';
+    final String _path = '$_pathProfiles/$profileId$_pathParts';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-        'sort': '+order'
-      });
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+      'sort': '+order'
+    });
 
-      final envelop = DataArrayEnvelop<PartDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataArrayEnvelop<PartDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   @override
@@ -355,20 +306,16 @@ class CVApiManager
   }) async {
     print('$_tag:fetchPartsFromUser($userId)');
 
-    try {
-      final String _path = '$_pathUsers/$userId$_pathParts';
+    final String _path = '$_pathUsers/$userId$_pathParts';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-      });
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+    });
 
-      final envelop = DataArrayEnvelop<PartDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataArrayEnvelop<PartDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   /// --------------------------------------------------------------------------
@@ -376,25 +323,21 @@ class CVApiManager
   /// --------------------------------------------------------------------------
 
   @override
-  FutureOr<GroupDataModel> getGroup(String groupId) async {
+  FutureOr<GroupDataModel?> getGroup(String groupId) async {
     print('$_tag:getGroup($groupId)');
 
-    try {
-      final String _path = '$_pathGroups/$groupId';
+    final String _path = '$_pathGroups/$groupId';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path);
-      final envelop = DataEnvelop<GroupDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path);
+    final envelop = DataEnvelop<GroupDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   @override
-  FutureOr<GroupDataModel> setGroup(GroupDataModel groupModel) {
+  FutureOr<GroupDataModel> setGroup(GroupDataModel? groupModel) {
     print('$_tag:setGroup($groupModel)');
-// TODO: implement setGroup
+    // TODO: implement setGroup
     throw NotImplementedYetError();
   }
 
@@ -404,67 +347,55 @@ class CVApiManager
   }) async {
     print('$_tag:getGroups');
 
-    try {
-      const String _path = _pathGroups;
+    const String _path = _pathGroups;
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-      });
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+    });
 
-      final envelop = DataArrayEnvelop<GroupDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataArrayEnvelop<GroupDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   @override
   FutureOr<List<GroupDataModel>> getGroupsFromPart(
-    String partId, {
+    String? partId, {
     Cursor cursor = const Cursor(),
   }) async {
     print('$_tag:getGroupsFromPart($partId)');
 
-    try {
-      final String _path = '$_pathParts/$partId$_pathGroups';
+    final String _path = '$_pathParts/$partId$_pathGroups';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-        'sort': '+order',
-      });
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+      'sort': '+order',
+    });
 
-      final envelop = DataArrayEnvelop<GroupDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataArrayEnvelop<GroupDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   @override
   FutureOr<List<GroupDataModel>> getGroupsFromUser(
-    String userId, {
+    String? userId, {
     Cursor cursor = const Cursor(),
   }) async {
     print('$_tag:getGroupsFromUser($userId)');
 
-    try {
-      final String _path = '$_pathUsers/$userId$_pathGroups';
+    final String _path = '$_pathUsers/$userId$_pathGroups';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-      });
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+    });
 
-      final envelop = DataArrayEnvelop<GroupDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataArrayEnvelop<GroupDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   /// --------------------------------------------------------------------------
@@ -475,16 +406,12 @@ class CVApiManager
   FutureOr<EntryDataModel> getEntry(String entryId) async {
     print('$_tag:getEntry($entryId)');
 
-    try {
-      final String _path = '$_pathEntries/$entryId';
+    final String _path = '$_pathEntries/$entryId';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path);
-      final envelop = DataEnvelop<EntryDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path);
+    final envelop = DataEnvelop<EntryDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   @override
@@ -493,25 +420,21 @@ class CVApiManager
   }) async {
     print('$_tag:getEntries');
 
-    try {
-      const String _path = _pathEntries;
+    const String _path = _pathEntries;
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-      });
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+    });
 
-      final envelop = DataArrayEnvelop<EntryDataModel>.fromJson(response.data);
+    final envelop = DataArrayEnvelop<EntryDataModel>.fromJson(response.data!);
 
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    return envelop.data;
   }
 
   @override
-  FutureOr<EntryDataModel> setEntry(EntryDataModel entryModel) {
+  FutureOr<EntryDataModel> setEntry(EntryDataModel? entryModel) {
     print('$_tag:setEntry($entryModel)');
     // TODO: implement setEntry
     throw NotImplementedYetError();
@@ -519,48 +442,40 @@ class CVApiManager
 
   @override
   FutureOr<List<EntryDataModel>> getEntriesFromGroup(
-    String groupId, {
+    String? groupId, {
     Cursor cursor = const Cursor(),
   }) async {
     print('$_tag:getEntriesFromGroup($groupId)');
 
-    try {
-      final String _path = '$_pathGroups/$groupId$_pathEntries';
+    final String _path = '$_pathGroups/$groupId$_pathEntries';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-        'sort': '+order',
-      });
-      final envelop = DataArrayEnvelop<EntryDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+      'sort': '+order',
+    });
+    final envelop = DataArrayEnvelop<EntryDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   @override
   FutureOr<List<EntryDataModel>> getEntriesFromUser(
-    String userId, {
+    String? userId, {
     Cursor cursor = const Cursor(),
   }) async {
     print('$_tag:getEntriesFromUser($userId)');
 
-    try {
-      final String _path = '$_pathUsers/$userId$_pathEntries';
+    final String _path = '$_pathUsers/$userId$_pathEntries';
 
-      final Response<Map<String, dynamic>> response =
-          await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
-        'offset': cursor.offset.toString(),
-        'limit': cursor.limit.toString(),
-      });
+    final Response<Map<String, dynamic>> response =
+        await _dio.get<Map<String, dynamic>>(_path, queryParameters: {
+      'offset': cursor.offset.toString(),
+      'limit': cursor.limit.toString(),
+    });
 
-      final envelop = DataArrayEnvelop<EntryDataModel>.fromJson(response.data);
-      return envelop.data;
-    } on DioError catch (e) {
-      throw e.error ?? e;
-    }
+    final envelop = DataArrayEnvelop<EntryDataModel>.fromJson(response.data!);
+    return envelop.data;
   }
 
   /// --------------------------------------------------------------------------
